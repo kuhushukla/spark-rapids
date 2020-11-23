@@ -24,7 +24,8 @@ from spark_session import with_spark_session, is_spark_300
 
 _no_nans_float_conf = {'spark.rapids.sql.variableFloatAgg.enabled': 'true',
                        'spark.rapids.sql.hasNans': 'false',
-                       'spark.rapids.sql.castStringToFloat.enabled': 'true'
+                       'spark.rapids.sql.castStringToFloat.enabled': 'true',
+                       'spark.rapids.sql.explain' : 'ALL'
                       }
 
 _no_nans_float_conf_partial = _no_nans_float_conf.copy()
@@ -364,14 +365,14 @@ def test_count_distinct_with_nan_floats(data_gen):
 
 # REDUCTIONS
 
-non_nan_all_basic_gens = [byte_gen, short_gen, int_gen, long_gen,
+non_nan_all_basic_gens = [
+        byte_gen, short_gen, int_gen, long_gen,
         # nans and -0.0 cannot work because of nan support in min/max, -0.0 == 0.0 in cudf for distinct and
         # https://github.com/NVIDIA/spark-rapids/issues/84 in the ordering
         FloatGen(no_nans=True, special_cases=[]), DoubleGen(no_nans=True, special_cases=[]),
         string_gen, boolean_gen, date_gen, timestamp_gen]
 
 
-@pytest.mark.xfail(is_databricks_runtime(), reason='https://github.com/NVIDIA/spark-rapids/issues/898')
 @pytest.mark.parametrize('data_gen', non_nan_all_basic_gens, ids=idfn)
 def test_generic_reductions(data_gen):
     assert_gpu_and_cpu_are_equal_collect(

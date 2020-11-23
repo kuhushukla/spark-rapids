@@ -31,11 +31,11 @@ sudo apt install -y maven
 # this has to match the Databricks init script
 DB_JAR_LOC=/databricks/jars/
 
-rm -rf spark-rapids
-mkdir spark-rapids
-echo  "tar -zxvf $SPARKSRCTGZ -C spark-rapids"
-tar -zxvf $SPARKSRCTGZ -C spark-rapids
-cd spark-rapids
+#rm -rf spark-rapids
+#mkdir spark-rapids
+#echo  "tar -zxvf $SPARKSRCTGZ -C spark-rapids"
+#tar -zxvf $SPARKSRCTGZ -C spark-rapids
+#cd spark-rapids
 export WORKSPACE=`pwd`
 
 SPARK_PLUGIN_JAR_VERSION=`mvn help:evaluate -q -pl dist -Dexpression=project.version -DforceStdout`
