@@ -366,12 +366,11 @@ def test_count_distinct_with_nan_floats(data_gen):
 # REDUCTIONS
 
 non_nan_all_basic_gens = [
-        # byte_gen, short_gen, int_gen, long_gen,
+        byte_gen, short_gen, int_gen, long_gen,
         # nans and -0.0 cannot work because of nan support in min/max, -0.0 == 0.0 in cudf for distinct and
         # https://github.com/NVIDIA/spark-rapids/issues/84 in the ordering
-        # FloatGen(no_nans=True, special_cases=[]), DoubleGen(no_nans=True, special_cases=[]),
-        #string_gen, boolean_gen, date_gen, timestamp_gen]'
-        date_gen]
+        FloatGen(no_nans=True, special_cases=[]), DoubleGen(no_nans=True, special_cases=[]),
+        string_gen, boolean_gen, date_gen, timestamp_gen]
 
 
 @pytest.mark.parametrize('data_gen', non_nan_all_basic_gens, ids=idfn)
@@ -382,7 +381,12 @@ def test_generic_reductions(data_gen):
             lambda spark : binary_op_df(spark, data_gen)\
                     .coalesce(1)\
                     .sortWithinPartitions('b').selectExpr(
-                'count(a)'),
+                'min(a)',
+                'max(a)',
+                'first(a)',
+                'last(a)',
+                'count(a)',
+                'count(1)'),
             conf = _no_nans_float_conf)
 
 @pytest.mark.parametrize('data_gen', non_nan_all_basic_gens, ids=idfn)
