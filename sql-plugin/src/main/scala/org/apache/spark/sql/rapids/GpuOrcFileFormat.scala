@@ -44,6 +44,27 @@ object GpuOrcFileFormat extends Logging {
     cls == classOf[OrcFileFormat] || cls.getCanonicalName.equals(HIVE_IMPL_CLASS)
   }
 
+  def checkForBoolNullsInSpecificType(dataType: DataType): Boolean = {
+    dataType match {
+      case ArrayType(elementType, t) => elementType == BooleanType && t
+      case StructType(fields) =>
+        fields.exists { f =>
+          hasBoolNulls(f.dataType, f.nullable)
+        }
+      case MapType(_, valueType, t) => hasBoolNulls(valueType, t)
+    }
+  }
+
+  private def hasBoolNulls(d: DataType, nulls: Boolean) = {
+    if (nulls && d == BooleanType) {
+      true
+    } else if (DataTypeUtils.isNestedType(d)) {
+      checkForBoolNullsInSpecificType(d)
+    } else {
+      false
+    }
+  }
+
   def tagGpuSupport(meta: RapidsMeta[_, _, _],
                     spark: SparkSession,
                     options: Map[String, String],
@@ -83,6 +104,14 @@ object GpuOrcFileFormat extends Logging {
     // [[org.apache.spark.sql.execution.datasources.DaysWritable]] object
     // which is a subclass of [[org.apache.hadoop.hive.serde2.io.DateWritable]].
     val types = schema.map(_.dataType).toSet
+    val res = schema.forall {
+      field => if (field.dataType == BooleanType && field.nullable)  {
+        true
+      } else if (DataTypeUtils.isNestedType(field.dataType)) {
+        checkForBoolNullsInSpecificType(field.dataType)
+      } else false
+    }
+
     if (types.exists(GpuOverrides.isOrContainsDateOrTimestamp(_))) {
       if (!GpuOverrides.isUTCTimezone()) {
         meta.willNotWorkOnGpu("Only UTC timezone is supported for ORC. " +
@@ -90,7 +119,10 @@ object GpuOrcFileFormat extends Logging {
           s"session: ${SQLConf.get.sessionLocalTimeZone}). ")
       }
     }
-
+    if (res && !meta.conf.isOrcBoolNullTypeEnabled) {
+      meta.willNotWorkOnGpu("Nullable Booleans can not work in certain cases with ORC writer." +
+        "See https://github.com/rapidsai/cudf/issues/6763")
+    }
     FileFormatChecks.tag(meta, schema, OrcFormatType, WriteFileOp)
 
     val sqlConf = spark.sessionState.conf

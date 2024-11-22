@@ -76,6 +76,7 @@ orc_write_gens_list = [orc_write_basic_gens,
         orc_write_struct_gens_sample,
         orc_write_array_gens_sample,
         orc_write_basic_map_gens,
+        # pytest.param([BooleanGen(nullable=True)], marks=pytest.mark.allow_non_gpu(['ExecutedCommandExec', 'DataWritingCommandExec'])),
         pytest.param([date_gen], marks=pytest.mark.xfail(reason='https://github.com/NVIDIA/spark-rapids/issues/139')),
         pytest.param([timestamp_gen], marks=pytest.mark.xfail(reason='https://github.com/NVIDIA/spark-rapids/issues/140'))]
 
