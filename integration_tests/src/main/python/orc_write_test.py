@@ -15,7 +15,7 @@
 import pytest
 
 from asserts import assert_gpu_and_cpu_writes_are_equal_collect, assert_gpu_fallback_write
-from spark_session import is_before_spark_320, is_before_spark_400, is_spark_321cdh, is_spark_cdh, with_cpu_session, with_gpu_session
+from spark_session import is_before_spark_320, is_before_spark_400, is_spark_321cdh, is_spark_cdh, with_gpu_session
 from conftest import is_not_utc
 from datetime import date, datetime, timezone
 from data_gen import *
@@ -76,10 +76,11 @@ orc_write_gens_list = [orc_write_basic_gens,
         orc_write_struct_gens_sample,
         orc_write_array_gens_sample,
         orc_write_basic_map_gens,
-        # pytest.param([BooleanGen(nullable=True)], marks=pytest.mark.allow_non_gpu(['ExecutedCommandExec', 'DataWritingCommandExec'])),
         pytest.param([date_gen], marks=pytest.mark.xfail(reason='https://github.com/NVIDIA/spark-rapids/issues/139')),
         pytest.param([timestamp_gen], marks=pytest.mark.xfail(reason='https://github.com/NVIDIA/spark-rapids/issues/140'))]
 
+nullable_bools_gen = [pytest.param([BooleanGen(nullable=True)],
+                                 marks=pytest.mark.allow_non_gpu('ExecutedCommandExec','DataWritingCommandExec'))]
 @pytest.mark.parametrize('orc_gens', orc_write_gens_list, ids=idfn)
 @pytest.mark.parametrize('orc_impl', ["native", "hive"])
 @allow_non_gpu(*non_utc_allow)
@@ -91,6 +92,18 @@ def test_write_round_trip(spark_tmp_path, orc_gens, orc_impl):
             lambda spark, path: spark.read.orc(path),
             data_path,
             conf={'spark.sql.orc.impl': orc_impl, 'spark.rapids.sql.format.orc.write.enabled': True})
+
+@pytest.mark.parametrize('orc_gens', nullable_bools_gen, ids=idfn)
+@pytest.mark.parametrize('orc_impl', ["native", "hive"])
+@allow_non_gpu('ExecutedCommandExec', 'DataWritingCommandExec', 'WriteFilesExec')
+def test_write_round_trip_null_bool(spark_tmp_path, orc_gens, orc_impl):
+    gen_list = [('_c' + str(i), gen) for i, gen in enumerate(orc_gens)]
+    data_path = spark_tmp_path + '/ORC_DATA'
+    assert_gpu_and_cpu_writes_are_equal_collect(
+        lambda spark, path: gen_df(spark, gen_list).coalesce(1).write.orc(path),
+        lambda spark, path: spark.read.orc(path),
+        data_path,
+        conf={'spark.sql.orc.impl': orc_impl, 'spark.rapids.sql.format.orc.write.enabled': True})
 
 @pytest.mark.parametrize('orc_gen', orc_write_odd_empty_strings_gens_sample, ids=idfn)
 @pytest.mark.parametrize('orc_impl', ["native", "hive"])
@@ -104,7 +117,7 @@ def test_write_round_trip_corner(spark_tmp_path, orc_gen, orc_impl):
             conf={'spark.sql.orc.impl': orc_impl, 'spark.rapids.sql.format.orc.write.enabled': True})
 
 orc_part_write_gens = [
-        byte_gen, short_gen, int_gen, long_gen, boolean_gen,
+        byte_gen, short_gen, int_gen, long_gen, BooleanGen(nullable=False),
         # Some file systems have issues with UTF8 strings so to help the test pass even there
         StringGen('(\\w| ){0,50}'),
         # Once https://github.com/NVIDIA/spark-rapids/issues/139 is fixed replace this with
