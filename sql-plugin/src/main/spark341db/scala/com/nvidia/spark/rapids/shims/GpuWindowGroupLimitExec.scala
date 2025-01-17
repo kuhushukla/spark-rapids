@@ -66,8 +66,8 @@ class GpuWindowGroupLimitExecMeta(limitExec: WindowGroupLimitExec,
       case DenseRank(_) =>
       case Rank(_) =>
       case RowNumber() =>
-      case _ => willNotWorkOnGpu("Only rank, dense_rank and row_number are " +
-                                 "currently supported for window group limits")
+      case m => willNotWorkOnGpu(s"${m}" +
+        " is currently not supported for window group limits")
     }
 
     wrapped.mode match {
