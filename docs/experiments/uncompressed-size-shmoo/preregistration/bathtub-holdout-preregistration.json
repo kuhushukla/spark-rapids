@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "frozen before held-out execution",
+  "selection_evidence_revision": "10b661c18",
+  "objective": "Evaluate the 512-MiB cross-query minimax choice selected on 2009 without retuning on 2010 or 2011.",
+  "policy": {
+    "selected_max_partition_mib": 512,
+    "selection_rule": "minimum worst observed median regret across 2009 common and variable-width queries",
+    "training_worst_regret_percent": 6.8,
+    "heldout_acceptance": "selected candidate regret no greater than 10% relative to the best comparator median in each held-out episode/query cell"
+  },
+  "episodes": {
+    "validation_2010": ["2010-01", "2010-12"],
+    "test_2011": ["2011-01", "2011-12"]
+  },
+  "queries": ["common", "variable_width"],
+  "comparators_mib": [128, 2048, 4096],
+  "design": {
+    "blocks": 5,
+    "order": "seeded randomized complete blocks containing both epochs",
+    "seed": 20260705,
+    "warmup": "one 512-MiB query per episode/query before measured blocks",
+    "concurrent_gpu_tasks_initial": 4,
+    "dynamic_concurrency": true,
+    "batch_target_mib": 1024,
+    "reader_soft_limit_mib": 2048
+  },
+  "primary_analysis": [
+    "For each held-out episode/query, calculate selected-candidate median regret against the best of 128/512/2048/4096 MiB.",
+    "Report paired block log-ratio effects and exact sign-flip p-values versus 512 MiB with Holm correction within each episode/query family.",
+    "Report block-bootstrap median intervals without treating them as simultaneous equivalence bands.",
+    "Do not change the selected candidate after examining validation_2010."
+  ],
+  "safety": [
+    "Stable result hashes within episode/query.",
+    "No retry, split-retry, spill, failed task, or executor loss.",
+    "If a safety event occurs, the transfer criterion fails for that cell."
+  ],
+  "limitations": [
+    "The two held-out epochs belong to the same taxi table and host.",
+    "Variable-width physical representation changes in 2011 and is handled by the existing explicit read/cast adapter.",
+    "Five paired blocks cannot achieve two-sided exact sign-flip p below 0.0625.",
+    "Passing does not validate other codecs, clusters, or query families."
+  ]
+}
