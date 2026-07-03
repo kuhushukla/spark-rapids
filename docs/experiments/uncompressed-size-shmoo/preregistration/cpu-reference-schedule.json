@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "purpose": "CPU correctness references for every episode/query",
+  "runs": [
+    {
+      "run_id": "cpu-reference-train_2009-common",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "train_2009",
+      "start_month": "2009-01",
+      "end_month": "2009-12",
+      "query": "common",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-train_2009-filtered",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "train_2009",
+      "start_month": "2009-01",
+      "end_month": "2009-12",
+      "query": "filtered",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-train_2009-variable_width",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "train_2009",
+      "start_month": "2009-01",
+      "end_month": "2009-12",
+      "query": "variable_width",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-train_2009-schema_evolution",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "train_2009",
+      "start_month": "2009-01",
+      "end_month": "2009-12",
+      "query": "schema_evolution",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-validation_2010-common",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "validation_2010",
+      "start_month": "2010-01",
+      "end_month": "2010-12",
+      "query": "common",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-validation_2010-filtered",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "validation_2010",
+      "start_month": "2010-01",
+      "end_month": "2010-12",
+      "query": "filtered",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-validation_2010-variable_width",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "validation_2010",
+      "start_month": "2010-01",
+      "end_month": "2010-12",
+      "query": "variable_width",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-validation_2010-schema_evolution",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "validation_2010",
+      "start_month": "2010-01",
+      "end_month": "2010-12",
+      "query": "schema_evolution",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-test_2011-common",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "test_2011",
+      "start_month": "2011-01",
+      "end_month": "2011-12",
+      "query": "common",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-test_2011-filtered",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "test_2011",
+      "start_month": "2011-01",
+      "end_month": "2011-12",
+      "query": "filtered",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-test_2011-variable_width",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "test_2011",
+      "start_month": "2011-01",
+      "end_month": "2011-12",
+      "query": "variable_width",
+      "max_partition_mib": 256
+    },
+    {
+      "run_id": "cpu-reference-test_2011-schema_evolution",
+      "phase": "cpu_reference",
+      "block": -1,
+      "repeat": 0,
+      "episode": "test_2011",
+      "start_month": "2011-01",
+      "end_month": "2011-12",
+      "query": "schema_evolution",
+      "max_partition_mib": 256
+    }
+  ]
+}
