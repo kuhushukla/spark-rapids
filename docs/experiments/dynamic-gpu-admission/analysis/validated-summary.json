@@ -3,7 +3,7 @@
   "claim": "With the same initial concurrentGpuTasks=2 input, enabling dynamic estimation increased the observed stage-0 admission maximum above two.",
   "conclusion": "SUPPORTED WITHIN VALIDITY REGION",
   "dynamic": {
-    "application_id": "local-1783081255132",
+    "application_id": "local-1783082193527",
     "stage_0_max_concurrent_gpu_tasks": 8
   },
   "gpu_plan_nodes_required": [
@@ -15,7 +15,7 @@
   "performance_claim": null,
   "performance_note": "A single unrandomized run per mode cannot establish a latency or throughput benefit.",
   "static": {
-    "application_id": "local-1783081270924",
+    "application_id": "local-1783082209263",
     "stage_0_max_concurrent_gpu_tasks": 2
   }
 }

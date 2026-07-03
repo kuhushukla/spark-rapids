@@ -1723,6 +1723,12 @@ This will force full Scala code rebuild in downstream modules.
                         <exclude>**/cudf_log.txt</exclude>
                         <!-- Agent skills package has its own mixed Apache-2.0/CC-BY-4.0 licensing. -->
                         <exclude>skills/**</exclude>
+                        <!-- Immutable experiment evidence cannot carry source-code license headers. -->
+                        <exclude>docs/experiments/**/analysis/**/*.json</exclude>
+                        <exclude>docs/experiments/**/provenance/**/*.txt</exclude>
+                        <exclude>docs/experiments/**/raw/**</exclude>
+                        <exclude>docs/experiments/**/stdout/**/*.txt</exclude>
+                        <exclude>docs/experiments/**/manifest.yaml</exclude>
                         <exclude>thirdparty/parquet-testing/**</exclude>
                     </excludes>
                 </configuration>

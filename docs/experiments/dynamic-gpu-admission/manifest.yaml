@@ -1,5 +1,5 @@
 experiment_id: dynamic-gpu-admission-smoke-2026-07-03
-run_id: 20260703T122500Z
+run_id: 20260703T124000Z
 evidence_state: measured_instrumentation_smoke
 hypothesis: >-
   With concurrentGpuTasks=2 in both modes, dynamic estimation will increase the
@@ -35,7 +35,7 @@ treatment_delta:
   concurrentGpuTasks: 2
 workload:
   query: scripts/smoke_dynamic_admission.py
-  query_sha256: 44d41ce178628b737f0cbf1dcf64d07c6c313f91ea1e6d45c02c5160d37181b5
+  query_sha256: b3db66e2075492e6f038a85a53f7e67ec21ab4b95e55dd18aa31a6b44b11845b
   data_snapshot: deterministic Spark range; no external data
   seed: not applicable
   scale_logical_and_encoded: 100000000 generated rows; 64 input partitions
@@ -65,17 +65,17 @@ procedure:
   command: >-
     SPARK_HOME=/home/roberte/src/spark_3.5.5
     RAPIDS_JAR=dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar
-    RUN_ID=20260703T122500Z
+    RUN_ID=20260703T124000Z
     docs/experiments/dynamic-gpu-admission/run_experiment.sh
 artifacts:
   raw:
-    - raw/dynamic-eventlog.json.gz sha256:7997a7aec192aff1151af692eac1f93f7655ecdaaefce78e96e416f035b95691
-    - raw/static-eventlog.json.gz sha256:5abfda4712ab041949ab5d5d6551ae1d57f6b028607fbf156752b129a534da46
-    - stdout/dynamic.txt sha256:300225d18d05e942a888a04cc2d8307209b07d0a303dfd730f7abfc9de58cf12
-    - stdout/static.txt sha256:5f0389ea04be75072c7eb1a4fd6e7d90afc6786cdcc33ff497ebe68ecca9cde3
+    - raw/dynamic-eventlog.json.gz sha256:aee8b4c0c36a1cab906a62ce8ba071868f3fd8b31b969789a63f4d83585b9b94
+    - raw/static-eventlog.json.gz sha256:e1c31cfbe90d86323f90ad9b5df763ec33e770cbb824bd41775cdbf7c1d01359
+    - stdout/dynamic.txt sha256:5de8d47294f51a849908802aa16698d32d55f4432958688743d6ffe6fff33f2b
+    - stdout/static.txt sha256:c04467cee62f24159fe9066992e133010f0deee35ceba6cda1b769d542c8d411
   derived:
-    - analysis/eventlog-summary.json sha256:58288460ed6911e7adcbba4cd8c4d928c9c4bec4621766ddc648c6dbd6166633
-    - analysis/validated-summary.json sha256:42f03fe5d9eff6e1ac2db7ab405ab504d2b6e15b6f3e88d5af63d6517d300c28
+    - analysis/eventlog-summary.json sha256:38678502b0f84e672f26420b4918c385b9ca50b879e37f263afb99a0b4b59f5b
+    - analysis/validated-summary.json sha256:4901521430cae27f4f4adffda4d7e290f85d609903816e271381a91171c2e3ed
   provenance:
     - provenance/executed-code-sha256.txt
     - provenance/eventlog-sha256.txt
