@@ -91,10 +91,21 @@ def quantiles(values):
     }
 
 
-def accumulator_long(value):
+def accumulator_value(value):
     text = str(value)
     matched = re.search(r"\((\d+) bytes\)$", text)
-    return int(matched.group(1)) if matched else int(text)
+    if matched:
+        return int(matched.group(1))
+    clock = re.fullmatch(r"(\d+):(\d+):(\d+(?:\.\d+)?)", text)
+    if clock:
+        hours, minutes, seconds = clock.groups()
+        return round(
+            (int(hours) * 3600 + int(minutes) * 60 + float(seconds)) * 1_000_000_000
+        )
+    try:
+        return int(text)
+    except ValueError:
+        return float(text)
 
 
 def main():
@@ -132,19 +143,31 @@ def main():
                 metric_ids = executions[run_id]["metric_ids"]
                 values = {}
                 task_gpu_names = {
+                    "gpuTime": "gpu_semaphore_holding_ns",
+                    "gpuSemaphoreWait": "gpu_semaphore_wait_ns",
                     "gpuRetryCount": "gpu_retry_count",
                     "gpuSplitAndRetryCount": "gpu_split_retry_count",
+                    "gpuRetryBlockTime": "gpu_retry_block_ns",
+                    "gpuRetryComputationTime": "gpu_retry_computation_ns",
                     "gpuSpillToHostBytes": "gpu_spill_host_bytes",
                     "gpuSpillToDiskBytes": "gpu_spill_disk_bytes",
+                    "gpuSpillToHostTime": "gpu_spill_host_ns",
+                    "gpuSpillToDiskTime": "gpu_spill_disk_ns",
+                    "gpuReadSpillFromHostTime": "gpu_read_spill_host_ns",
+                    "gpuReadSpillFromDiskTime": "gpu_read_spill_disk_ns",
                     "gpuMaxDeviceMemoryBytes": "gpu_max_device_memory_bytes",
                     "gpuMaxTaskFootprint": "gpu_max_task_footprint",
+                    "gpuOnGpuTasksWaitingGPUAvgCount": "gpu_waiting_tasks_avg",
+                    "gpuOnGpuTasksWaitingGPUMaxCount": "gpu_waiting_tasks_max",
+                    "gpuMaxConcurrentGpuTasks": "gpu_max_concurrent_tasks",
+                    "multithreadReaderMaxParallelism": "multithread_reader_max_parallelism",
                 }
                 for accum in event["Task Info"].get("Accumulables", []):
                     metric_name = metric_ids.get(int(accum["ID"]))
                     if metric_name is None:
                         metric_name = task_gpu_names.get(accum.get("Name"))
                     if metric_name is not None and "Update" in accum:
-                        values[metric_name] = accumulator_long(accum["Update"])
+                        values[metric_name] = accumulator_value(accum["Update"])
                 if "output_batch_bytes" not in values:
                     continue
                 info = event["Task Info"]
@@ -152,6 +175,8 @@ def main():
                 input_metrics = standard.get("Input Metrics", {})
                 values.update({
                     "duration_ms": int(info["Finish Time"]) - int(info["Launch Time"]),
+                    "launch_time_ms": int(info["Launch Time"]),
+                    "finish_time_ms": int(info["Finish Time"]),
                     "input_bytes": int(input_metrics.get("Bytes Read", 0)),
                     "input_records": int(input_metrics.get("Records Read", 0)),
                     "spark_disk_spill_bytes": int(standard.get("Disk Bytes Spilled", 0)),
@@ -167,14 +192,20 @@ def main():
         journal = {
             item["run_id"]: item for item in (json.loads(line) for line in stream)
         }
-    output = {"schema_version": 1, "runs": []}
+    output = {
+        "schema_version": 2,
+        "accumulator_duration_resolution_ns": 1_000_000,
+        "runs": [],
+    }
     for run_id, record in journal.items():
         task_rows = tasks.get(run_id, [])
         if not task_rows:
             raise ValueError("no GPU scan task metrics for " + run_id)
         metric_keys = sorted({
             key for row in task_rows for key in row
-            if key not in {"partition_id", "stage_id", "task_id"}
+            if key not in {
+                "partition_id", "stage_id", "task_id", "launch_time_ms", "finish_time_ms"
+            }
         })
         output["runs"].append({
             "run_id": run_id,
@@ -191,6 +222,10 @@ def main():
             "elapsed_ms": record["elapsed_ms"],
             "result_sha256": record["result_sha256"],
             "scan_task_count": len(task_rows),
+            "scan_task_span_ms": (
+                max(row["finish_time_ms"] for row in task_rows)
+                - min(row["launch_time_ms"] for row in task_rows)
+            ),
             "task_metrics": {
                 key: quantiles([row.get(key, 0) for row in task_rows])
                 for key in metric_keys
