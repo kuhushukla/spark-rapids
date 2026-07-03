@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "status": "frozen before full measured sweep",
+  "objective": "Test whether Spark/footer/history inputs predict decoded GPU scan bytes, and whether decoded bytes, rows, or both predict the local single-GPU performance knee.",
+  "treatments": {
+    "configured_max_partition_mib": [
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024,
+      2048
+    ],
+    "spark_file_open_cost_bytes": 4194304,
+    "min_partition_num": 1,
+    "max_partition_num": "unset",
+    "reader_batch_bytes": 2147483648,
+    "reader_batch_rows": 2147483647,
+    "rapids_batch_target_bytes": 1073741824,
+    "static_gpu_concurrency": 1,
+    "dynamic_gpu_concurrency": false
+  },
+  "episodes": {
+    "train_2009": [
+      "2009-01",
+      "2009-12"
+    ],
+    "validation_2010": [
+      "2010-01",
+      "2010-12"
+    ],
+    "test_2011": [
+      "2011-01",
+      "2011-12"
+    ]
+  },
+  "queries": {
+    "common": "fixed-width passenger_count and trip_distance aggregate",
+    "filtered": "same projection with trip_distance [1,10) and passenger_count > 0",
+    "variable_width": "adds payment_type string length/count",
+    "schema_evolution": "adds PULocationID, including epochs where it is absent and materialized null"
+  },
+  "schedule": {
+    "warmups": "one 256-MiB run per episode/query",
+    "measured_blocks": 3,
+    "seed": 20260703,
+    "order": "seeded complete-block randomization"
+  },
+  "boundaries": {
+    "C_split": "task input compressed bytes as recorded by Spark; actuator-facing",
+    "R_projected": "GPU scan output rows per task",
+    "U_projected": "sum of emitted GPU scan batch footprints per task",
+    "U_projected_batch_max": "largest emitted GPU scan batch footprint per task",
+    "U_survive": "sum of emitted GpuFilter batch footprints per task for filtered query"
+  },
+  "models": [
+    {
+      "id": "M0_footer",
+      "inputs": "projected Parquet footer uncompressed column-chunk bytes",
+      "fit": "none",
+      "prediction": "sum selected chunks"
+    },
+    {
+      "id": "M1_rows_first_principles",
+      "inputs": "footer rows and read schema",
+      "fit": "none for fixed-width columns",
+      "prediction": "rows times fixed widths plus one validity bit per nullable column, rounded to the observed allocator boundary only when documented"
+    },
+    {
+      "id": "M2_chronological_calibration",
+      "inputs": "footer rows/chunks/types/nulls plus 2009 measured per-column residual/variable-width history",
+      "fit": "2009 only",
+      "validation": "2010",
+      "test": "2011"
+    },
+    {
+      "id": "M3_query_feedback",
+      "inputs": "prior exact-key C_split/U_projected ratios",
+      "fit": "past episodes only",
+      "validation": "next episode; never same-query future data"
+    }
+  ],
+  "performance_analysis": {
+    "primary_graphs": [
+      "elapsed time and rows/s versus configured treatment",
+      "GPU decode throughput versus realized U_projected and R_projected",
+      "RMM/task peak and retry/spill versus realized U/R"
+    ],
+    "model_comparison": "chronological prediction error and held-out rank/regret for bytes-only, rows-only, and combined byte+row performance models",
+    "plateau": "descriptive only: candidates within 5% of the best episode/query median; report all three block values and bootstrap interval without making a production recommendation",
+    "selection": "no production recommendation from three local repeats; identify knee hypotheses for a confirmatory run",
+    "zero_survivors": "retain as zero-output evidence; do not fit C/U_survive ratio",
+    "memory_safety": "observed no retry/spill/OOM is bounded test evidence; use RMM task peak upper quantile, not outputBatchBytes, for safety"
+  },
+  "abort_conditions": [
+    "GPU scan absent",
+    "missing required scan metrics",
+    "nonidentical result hashes within an episode/query",
+    "adjacent candidates produce identical scan task count and realized U/R distributions",
+    "failed task, retry, spill, OOM, or executor loss in the primary lane"
+  ],
+  "limitations": [
+    "balanced synthetic physical layout",
+    "one local RTX A6000",
+    "three measured blocks",
+    "OS cache cannot be fully cold-reset",
+    "100 ms GPU utilization sidecar omitted from this initial sweep",
+    "output footprint is not peak residency"
+  ]
+}

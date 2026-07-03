@@ -53,7 +53,11 @@ def build_query(spark, paths, query):
     metrics = [
         F.count(F.lit(1)).alias("rows"),
         F.sum(F.coalesce(F.col("passenger_count"), F.lit(0))).alias("passengers"),
-        F.sum(F.coalesce(F.col("trip_distance"), F.lit(0.0))).alias("distance"),
+        F.count(F.col("trip_distance")).alias("distance_non_null"),
+        F.count(F.when(F.isnan(F.col("trip_distance")), F.lit(1))).alias("distance_nan"),
+        F.count(F.when(F.col("trip_distance") >= F.lit(0.0), F.lit(1))).alias(
+            "distance_nonnegative"
+        ),
     ]
     if query == "variable_width":
         metrics.extend([
