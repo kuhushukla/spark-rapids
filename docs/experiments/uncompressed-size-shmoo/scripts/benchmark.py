@@ -141,7 +141,8 @@ def main():
             journal.write(json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n")
             journal.flush()
             os.fsync(journal.fileno())
-            spark.sparkContext.clearJobGroup()
+            spark.sparkContext.setLocalProperty("spark.jobGroup.id", None)
+            spark.sparkContext.setLocalProperty("spark.job.description", None)
     finally:
         journal.close()
         spark.stop()
