@@ -232,6 +232,11 @@ def main():
             },
             "tasks": sorted(task_rows, key=lambda row: (row["stage_id"], row["partition_id"])),
         })
+        for key in (
+            "study", "layout", "concurrent_gpu_tasks", "dynamic_concurrency", "data_dir"
+        ):
+            if key in record:
+                output["runs"][-1][key] = record[key]
     os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
     with open(args.output, "x", encoding="utf-8") as stream:
         json.dump(output, stream, indent=2, sort_keys=True)

@@ -1,7 +1,8 @@
 # Immutable experiment manifest. Paths are relative to this directory.
 schema_version: 1
 experiment: uncompressed-size-shmoo
-branch: experiment/uncompressed-size-shmoo
+branch: experiment/partition-size-bathtub
+followup_preregistered_revision: ca79472ae
 frozen_base_revision: 273771d3d979ffe5091f8c2e6ae0a69c6cf94a4f
 run_date: 2026-07-03
 host:
@@ -44,6 +45,26 @@ studies:
     attempt: attempts/growth-001
     gpu_runs: 80
     measured_runs: 72
+  - name: bathtub-dynamic-mechanisms
+    schedule: preregistration/bathtub-mechanism-schedule.json
+    attempt: attempts/bathtub-mechanism-001
+    gpu_runs: 82
+    measured_runs: 80
+  - name: bathtub-batch-target
+    schedule: preregistration/bathtub-batch-schedule.json
+    attempt: attempts/bathtub-batch-001
+    gpu_runs: 52
+    measured_runs: 50
+  - name: bathtub-layout-sharded
+    schedule: preregistration/bathtub-layout-sharded-schedule.json
+    attempt: attempts/bathtub-layout-sharded-001
+    gpu_runs: 16
+    measured_runs: 15
+  - name: bathtub-layout-source
+    schedule: preregistration/bathtub-layout-source-schedule.json
+    attempt: attempts/bathtub-layout-source-001
+    gpu_runs: 16
+    measured_runs: 15
   - name: cpu-correctness
     schedule: preregistration/cpu-reference-schedule.json
     attempt: attempts/cpu-reference-001
@@ -57,6 +78,10 @@ replay:
   working_directory: docs/experiments/uncompressed-size-shmoo
   plots:
     - python3 scripts/plot_results.py --experiment-root .
+    - >-
+      python3 scripts/plot_bathtub_followup.py
+      --analysis analysis/bathtub-followup-analysis.json
+      --output /tmp/bathtub-followup.svg
   analysis:
     - >-
       python3 scripts/analyze_shmoo.py
@@ -80,6 +105,19 @@ replay:
       --cpu-journal attempts/cpu-reference-001/raw/journal.jsonl
       --gpu-metrics attempts/full-shmoo-002/analysis/scan-metrics.json
       --output /tmp/cpu-gpu-correctness.json
+    - >-
+      python3 scripts/analyze_bathtub.py
+      --primary-metrics attempts/full-shmoo-002/analysis/scan-metrics.json
+      --extension-metrics attempts/high-size-extension-001/analysis/scan-metrics.json
+      --output /tmp/bathtub-analysis.json --markdown /tmp/bathtub-results.md
+    - >-
+      python3 scripts/analyze_bathtub_followup.py
+      --mechanism-metrics attempts/bathtub-mechanism-001/analysis/scan-metrics.json
+      --batch-metrics attempts/bathtub-batch-001/analysis/scan-metrics.json
+      --sharded-layout-metrics attempts/bathtub-layout-sharded-001/analysis/scan-metrics.json
+      --source-layout-metrics attempts/bathtub-layout-source-001/analysis/scan-metrics.json
+      --output /tmp/bathtub-followup-analysis.json
+      --markdown /tmp/bathtub-followup-results.md
   lifecycle:
     - >-
       python3 scripts/validate_lifecycle.py --require-gpu-scan
@@ -111,6 +149,34 @@ replay:
       --journal attempts/cpu-reference-001/raw/journal.jsonl
       --event-log attempts/cpu-reference-001/raw/eventlog.json.gz
       --output /tmp/cpu-lifecycle.json
+    - >-
+      python3 scripts/validate_lifecycle.py --require-gpu-scan
+      --expected-concurrent-gpu-tasks 4 --expected-dynamic-concurrency true
+      --schedule preregistration/bathtub-mechanism-schedule.json
+      --journal attempts/bathtub-mechanism-001/raw/journal.jsonl
+      --event-log attempts/bathtub-mechanism-001/raw/eventlog.json.gz
+      --output /tmp/bathtub-mechanism-lifecycle.json
+    - >-
+      python3 scripts/validate_lifecycle.py --require-gpu-scan
+      --expected-concurrent-gpu-tasks 4 --expected-dynamic-concurrency true
+      --schedule preregistration/bathtub-batch-schedule.json
+      --journal attempts/bathtub-batch-001/raw/journal.jsonl
+      --event-log attempts/bathtub-batch-001/raw/eventlog.json.gz
+      --output /tmp/bathtub-batch-lifecycle.json
+    - >-
+      python3 scripts/validate_lifecycle.py --require-gpu-scan
+      --expected-concurrent-gpu-tasks 4 --expected-dynamic-concurrency true
+      --schedule preregistration/bathtub-layout-sharded-schedule.json
+      --journal attempts/bathtub-layout-sharded-001/raw/journal.jsonl
+      --event-log attempts/bathtub-layout-sharded-001/raw/eventlog.json.gz
+      --output /tmp/bathtub-layout-sharded-lifecycle.json
+    - >-
+      python3 scripts/validate_lifecycle.py --require-gpu-scan
+      --expected-concurrent-gpu-tasks 4 --expected-dynamic-concurrency true
+      --schedule preregistration/bathtub-layout-source-schedule.json
+      --journal attempts/bathtub-layout-source-001/raw/journal.jsonl
+      --event-log attempts/bathtub-layout-source-001/raw/eventlog.json.gz
+      --output /tmp/bathtub-layout-source-lifecycle.json
   corpus:
     - >-
       spark-submit scripts/validate_row_multisets.py
@@ -118,6 +184,7 @@ replay:
       --output /tmp/row-multiset-validation.json
 limitations:
   - Single executor and single GPU.
-  - Three exploratory repetitions per timed cell; no confirmatory confidence intervals.
+  - Initial cells have three repetitions; follow-up treatment cells have five and defaults ten.
+  - Bootstrap intervals are descriptive and not simultaneous equivalence bands.
   - Derived corpus preserves values but uses a balanced synthetic physical layout.
   - No GPU utilization or SM occupancy samples were collected.

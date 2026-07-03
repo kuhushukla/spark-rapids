@@ -2,7 +2,7 @@
 
 ## Status
 
-**MEASURED LOCALLY — 628 GPU RUNS, 12 CPU REFERENCES, FOUR STUDIES COMPLETE**
+**MEASURED LOCALLY — 794 GPU RUNS, 12 CPU REFERENCES, EIGHT STUDIES COMPLETE**
 
 This experiment asks two separate questions:
 
@@ -20,10 +20,14 @@ workload. It is not itself the modeled answer.
 - Batch-control factorial: 164 GPU runs; 162 measured across partition size, general
   RAPIDS batch target, and reader soft limit.
 - Cumulative growth and mixed-schema study: 80 GPU runs; 72 measured.
+- Dynamic-concurrency mechanism follow-up: 82 GPU runs; 80 measured, including ten
+  128-MiB observations per query.
+- Independent batch-target follow-up: 52 GPU runs; 50 measured.
+- Original-versus-sharded physical-layout contrast: 32 GPU runs; 30 measured.
 - CPU correctness: 12 references, one for every annual episode/query.
-- Every timed study used three seeded randomized complete blocks. Exact schedules,
-  failed attempts, raw event logs, task metrics, analysis, and lifecycle checks are
-  versioned under `attempts/` and `preregistration/`.
+- Initial studies used three seeded randomized blocks; follow-ups used five blocks and
+  ten default observations. Exact schedules, raw event logs, task metrics, analysis,
+  and lifecycle checks are versioned under `attempts/` and `preregistration/`.
 
 All CPU reference hashes match the corresponding GPU hashes. All measured result hashes
 are stable within their episode/query. Lifecycle validation found no failed tasks,
@@ -85,6 +89,48 @@ does not establish that a global default can never be adequate.
 
 ![Annual GPU scan shmoo](analysis/annual-shmoo.svg)
 
+### The objective is a bounded bathtub region, not a point optimum
+
+A replayable reanalysis found an extremely linear small-task ramp under the original
+static-concurrency-one protocol: across the 12 annual cells, the effective incremental
+cost was 31.6–46.0 ms per scan task with minimum R² 0.99975. This is strong evidence
+that task-count-correlated overhead dominates the small side in this testbed, although
+the slope combines setup, scheduling, semaphore cycles, and other correlated effects.
+
+That original protocol could not identify the large-side admission mechanism because
+actual GPU holder concurrency was always one. The preregistered follow-up therefore
+enabled dynamic concurrency, used five randomized blocks, and added ten observations at
+Spark's 128-MiB default for each of two contrasting projections:
+
+| Query | 128 MiB | 512 MiB | 2,048 MiB | 4,096 MiB | 8,192 MiB |
+|---|---:|---:|---:|---:|---:|
+| Fixed-width common | 592 ms | 273 ms | **256 ms** | 284 ms | 389 ms |
+| Variable-width | 732 ms | **349 ms** | 374 ms | 384 ms | 559 ms |
+
+The right wall appeared before a memory failure. As partitions grew, scan tasks fell
+from 87 to 21, 5, 3, and 2; observed maximum simultaneous GPU holders fell from 8 to 8,
+4, 3, and 1. At 8,192 MiB the median task boundary grew, but maximum task footprint was
+only about 3.4 GiB for common and 2.6 GiB for variable-width, with no retry or spill.
+At 16,384/32,768 MiB only one task remained and footprint stopped growing because the
+1-GiB batch boundary chunked the partition. Thus the observed cliff is consistent with
+lost runnable/admitted parallelism and task granularity, not a demonstrated OOM wall.
+
+A post-sweep minimax calculation across these two queries selected 512 MiB: its worst
+observed median regret was 6.8%, versus 7.1% for 2,048 MiB. It also retained a
+three-wave diagnostic proxy and a much smaller footprint. This is the right shape of
+decision—bounded regret rather than noise-fitting a point—but it is not yet a validated
+policy because selection and evaluation used the same two workloads.
+
+The proposed wide 4–16× plateau was not supported at the preregistered 5% threshold:
+the fixed-width cell contained only 2,048 MiB and the variable-width cell only 512 MiB.
+The bootstrap intervals overlap more broadly, so a flat-region conclusion needs more
+paired blocks or a predeclared equivalence test. Ten default observations gave CVs of
+7.39% and 5.28%; with five treatment blocks, a 5% distinction was below the planning
+detectable effect. Exact two-sided sign-flip tests also cannot reach p < 0.0625 with
+five pairs, before multiple-comparison correction.
+
+![Dynamic bathtub follow-up](analysis/bathtub-followup.svg)
+
 ### Batch controls causally change batching and performance in this lane
 
 The full factorial independently varied:
@@ -101,6 +147,15 @@ For the 4,096-MiB common cell, median time was about 367 ms at a 1-GiB general t
 and 2-GiB reader limit, versus 330 ms at a 2-GiB general target and 4-GiB reader limit.
 At the original 1-GiB target, the largest batch was 1,073,643,664 bytes (about
 0.9999 GiB), while cumulative task output was larger and split across batches.
+
+The five-block follow-up fixed the partition treatment at 4,096 MiB and swept the
+general target through 256, 512, 1,024, 2,048, and 4,096 MiB. Maximum emitted batches
+tracked the target until limited by available task output: common times were 391, 337,
+304, 295, and 297 ms; variable-width times were 522, 435, 390, 354, and 355 ms.
+The flat 2–4-GiB result and one-batch task output show that the GPU-fill question belongs
+to the batch actuator, while partition sizing governs how many such tasks and batches
+exist. Larger batch targets also increased observed task footprint, so batch sizing has
+its own memory wall.
 
 This factorial supports batching mediation; it still does not isolate GPU occupancy,
 filesystem cache, scheduling waves, or every reader internal. The application environment
@@ -165,6 +220,22 @@ This is an explicit-schema missing-column study. It is not evidence that Parquet
 automatically up-casts incompatible physical types. The 2011 `payment_type` INT64 epoch
 required an explicit read-as-long then cast-to-string adapter above the scan.
 
+### Physical layout is part of the model key
+
+The follow-up ran the same fixed-width query and partition treatments over the original
+monthly files and the value-preserving sharded rewrite:
+
+| Layout | 128 MiB | 2,048 MiB | 8,192 MiB |
+|---|---:|---:|---:|
+| Sharded: time / scan tasks | 540 ms / 87 | 315 ms / 5 | 417 ms / 2 |
+| Original: time / scan tasks | 1,577 ms / 12 | 560 ms / 3 | 540 ms / 1 |
+
+The knob acted differently because file and row-group layout changed Spark packing,
+reader behavior, task granularity, and available concurrency. A per-table policy cannot
+be keyed only by logical schema or compression ratio. It needs a current file-size and
+row-group census, open-cost/packing configuration, and a drift trigger. The experiment
+does not attribute the entire layout difference to any single one of those mechanisms.
+
 ## Controller blueprint and implementable signals
 
 This is not yet an end-to-end production selector: the variable-width, RMM upper-bound,
@@ -183,11 +254,18 @@ layout:
 6. Predict batches/task from the general RAPIDS target and reader soft limit.
 7. Predict RMM task footprint and reject candidates whose upper bound exceeds the
    per-task budget.
-8. Predict makespan from task count/waves, task rows/bytes, batches/task, and the
-   query-family performance model.
-9. Choose the smallest safe candidate in a measured flat region. If uncertainty or
-   drift is high, retain the fallback and collect a new observation.
-10. Apply feedback only between queries. For a structurally matching record, compute the
+8. Predict makespan by list-scheduling the planned heterogeneous tasks under an
+   admission-concurrency model. The homogeneous approximation
+   `ceil(n / c) * (t_fixed + U / r_eff + t_wait)` is diagnostic only; use Spark's
+   actual planned task count rather than `D / maxPartitionBytes`.
+9. Build a box, not a point estimate. The lower bound amortizes effective per-task cost.
+   The upper bound must satisfy a conservative RMM-footprint bound, retain a predeclared
+   number of task-wave opportunities, and stay inside the footer/history domain.
+10. Within that box, minimize worst-case regret across prediction uncertainty and matching
+    workload families. The follow-up's 512-MiB minimax result is an example calculation,
+    not a validated default. If the box is empty or drift is high, retain the fallback and
+    collect a new observation.
+11. Apply feedback only between queries. For a structurally matching record, compute the
     desired assigned bytes `C_assigned_target = q * U_target` when
     `q = C_split / U_projected`. This is not directly the configuration value: inverse-search
     candidate `maxPartitionBytes` values through the pinned Spark packing simulation,
@@ -203,6 +281,13 @@ The required signals exist; operational ease and cost are not yet demonstrated.
 - `U_survive_task` / `R_survive_task`: cumulative downstream GPU filter output per task.
 - `U_projected_batch_max` / `R_projected_batch_max`: largest emitted scan batch per task.
 - `gpuMaxTaskFootprint`: observed task-level GPU footprint used for safety analysis.
+- `gpuMaxConcurrentGpuTasks`: maximum simultaneous semaphore holders observed by a task;
+  it is not a stage-wide configured/admitted limit.
+- `gpuSemaphoreWait`: task wait duration, serialized in event logs at millisecond
+  display precision.
+- scan task span: first scan-task launch to last scan-task finish; a critical-path proxy,
+  not a complete stage-attribution model.
+- `multithreadReaderMaxParallelism`: observed reader-side parallelism when that path is used.
 
 Boundary footprint is not simultaneous residency, allocation traffic, or physical VRAM.
 
@@ -232,16 +317,20 @@ remains ignored by Git.
 | Exact assigned `C_split` and runtime `C_read_task` | Separated and scored |
 | Primary/high-size shmoo | Complete, three descriptive blocks |
 | General-target × reader-limit mediation | Complete |
+| Dynamic-concurrency bathtub mechanism sweep | Complete; five exploratory blocks |
+| Ten-run default variance screen | Complete for common and variable-width |
+| Original-versus-sharded physical-layout contrast | Complete |
+| Cross-query bounded-regret calculation | Exploratory; held-out validation not done |
 | 1→36-month cumulative growth | Complete |
 | Mixed missing/present column read | Complete with explicit schema |
 | Annual CPU/GPU correctness and all-study lifecycle checks | Complete |
 | M0 projected footer-uncompressed model | Not yet scored |
 | M2 combined type/null/chunk feature model | Not yet fitted |
-| Confirmatory confidence intervals / more repeats | Not done; n=3 is exploratory |
+| Confirmatory equivalence bands / held-out repeats | Not done; bootstrap cell intervals are descriptive |
 | GPU utilization / SM occupancy corroboration | Not measured |
 | Automatic compatible Parquet up-casts | Not isolated |
 | Multi-executor, multi-GPU, and production skew | Not tested |
-| RMM footprint upper-bound model | Metrics captured; predictive model still open |
+| RMM footprint upper-bound model | Metrics captured; natural retry/spill wall remained censored |
 | Universal bytes-vs-rows winner | Not supported |
 
 ## Artifacts
@@ -253,6 +342,10 @@ remains ignored by Git.
 - Annual CPU/GPU correctness: `attempts/cpu-reference-001/analysis/cpu-gpu-correctness.json`
 - Planner census: `analysis/planner-census.json`
 - Row multiset validation: `analysis/row-multiset-validation.json`
-- Generated plots: `analysis/annual-shmoo.svg`, `analysis/batch-mediation.svg`, and
-  `analysis/table-growth.svg`
+- Bathtub reanalysis: `BATHTUB_RESULTS.md`
+- Dynamic follow-up results: `BATHTUB_FOLLOWUP_RESULTS.md`
+- Follow-up execution runbook: `BATHTUB_RUNBOOK.md`
+- Follow-up machine analysis: `analysis/bathtub-followup-analysis.json`
+- Generated plots: `analysis/annual-shmoo.svg`, `analysis/batch-mediation.svg`,
+  `analysis/table-growth.svg`, and `analysis/bathtub-followup.svg`
 - Reproducibility manifest: `manifest.yaml`

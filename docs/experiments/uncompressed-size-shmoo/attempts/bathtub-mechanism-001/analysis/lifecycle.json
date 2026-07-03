@@ -1,0 +1,38 @@
+{
+  "application_end": 1,
+  "application_start": 1,
+  "environment_update": 1,
+  "event_log_sha256": "06cabaa96e3cda30c372c884b4ea30400abddbbdd7168557c567a5a867e28dd0",
+  "executor_removed": 0,
+  "failed_tasks": 0,
+  "gpu_retry_count_all_tasks": 0,
+  "gpu_spill_bytes_all_tasks": 0,
+  "gpu_split_retry_count_all_tasks": 0,
+  "journal_runs": 82,
+  "journal_sha256": "fa700062224fbf4b50fcf5aec1ab4ba004eb2d23b7c818f0a675b0eb7e453a44",
+  "jvm_information": {
+    "Java Home": "/usr/lib/jvm/java-17-openjdk-17.0.19.0.10-1.el8_10.x86_64",
+    "Java Version": "17.0.19 (Red Hat, Inc.)",
+    "Scala Version": "version 2.12.18"
+  },
+  "log_start": 1,
+  "schedule_sha256": "83382a0ef6b310bcbcb6fda87a451cb60ffc6fb24176d62e6659cb4b04b548ae",
+  "scheduled_runs": 82,
+  "schema_version": 1,
+  "spark_properties": {
+    "spark.app.name": "uncompressed-size-shmoo",
+    "spark.master": "local[8]",
+    "spark.plugins": "com.nvidia.spark.SQLPlugin",
+    "spark.rapids.sql.batchSizeBytes": "1073741824",
+    "spark.rapids.sql.concurrentGpuTasks": "4",
+    "spark.rapids.sql.concurrentGpuTasks.dynamic": "true",
+    "spark.rapids.sql.reader.batchSizeBytes": "2147483648",
+    "spark.rapids.sql.reader.batchSizeRows": "2147483647",
+    "spark.sql.files.minPartitionNum": "1",
+    "spark.sql.files.openCostInBytes": "4194304"
+  },
+  "spark_spill_bytes_all_tasks": 0,
+  "spark_version": "3.5.5",
+  "sql_executions": 82,
+  "task_ends": 2162
+}
