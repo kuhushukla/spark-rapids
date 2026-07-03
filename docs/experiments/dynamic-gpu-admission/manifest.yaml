@@ -1,0 +1,92 @@
+experiment_id: dynamic-gpu-admission-smoke-2026-07-03
+run_id: 20260703T122500Z
+evidence_state: measured_instrumentation_smoke
+hypothesis: >-
+  With concurrentGpuTasks=2 in both modes, dynamic estimation will increase the
+  observed successful-task stage-0 admission maximum above two, while the static
+  control remains observed at two.
+objective:
+  primary_metric: maximum gpuMaxConcurrentGpuTasks accumulator value among successful stage-0 task attempts
+  estimand_and_experimental_unit: observed maximum per application; one application per mode
+  aggregation: maximum over successful stage-0 task attempts; failed attempts reported separately
+  confidence_level_and_interval_method: none; single-run instrumentation validation
+  minimum_effect: dynamic > 2 and static == 2
+  sample_size_power_or_precision_rule: not applicable to this non-performance smoke test
+  stopping_and_missing_failed_outlier_policy: both applications must succeed; no exclusions
+safety:
+  abort_conditions:
+    - full canonical result hashes differ
+    - executor loss, failed task attempt, or fatal OOM
+    - missing event log, admission accumulator, or required GPU plan node
+authority:
+  environment_and_actions: user-authorized local GPU execution and repository versioning
+  max_gpu_hours_runtime_dollars: maximum 0.2 GPU-hours and 10 minutes; no external spend
+  credential_reference_or_mechanism_never_secret_value: none
+  sensitive_data_and_log_redaction: synthetic range data; no credentials
+  cleanup_obligations: committed raw logs were reviewed for secrets before versioning
+  git_branch_and_commit: docs/dynamic-gpu-tuning-process; signed follow-up commit
+baseline:
+  mode: static
+  concurrentGpuTasks.dynamic: false
+  concurrentGpuTasks: 2
+treatment_delta:
+  mode: dynamic
+  concurrentGpuTasks.dynamic: true
+  concurrentGpuTasks: 2
+workload:
+  query: scripts/smoke_dynamic_admission.py
+  query_sha256: 44d41ce178628b737f0cbf1dcf64d07c6c313f91ea1e6d45c02c5160d37181b5
+  data_snapshot: deterministic Spark range; no external data
+  seed: not applicable
+  scale_logical_and_encoded: 100000000 generated rows; 64 input partitions
+software:
+  repository_document_parent_revision: 7fdffd418a7025af1e8bdb7e41f377245fbdbd80
+  rapids_jar_revision: 8a8d20d99a88566b1de849a709e2e8e1e65cfa16
+  rapids_jar_sha256: 1735ab9d5baad6a1e3238691e4d39b14c7bf8e9ea58fa3c2b8bbc55c73441a1b
+  rapids_version_and_build_profile: 26.08.0-SNAPSHOT, cuda12
+  rapids_jni_revision: 0935cfac9ff90bee0cd5c08b7ef59a4d09a392d0
+  cudf_revision: 9a2779430fab3d6f695ccebfee43cfabc54e5e2e
+  spark_version: 3.5.5
+  spark_revision: 7c29c664cdc9321205a98a14858aaf8daaa19db2
+  scala_version: 2.12.18
+  java_version: 17.0.19
+hardware:
+  gpu: NVIDIA RTX A6000, 49140 MiB
+  driver_and_reported_cuda_compatibility: 550.163.01, CUDA 12.9
+  execution_topology: Spark local[8], one GPU
+procedure:
+  warmups: 0
+  repetitions: 1 per mode
+  paired_blocking_randomization_and_allocation: dynamic then static; not randomized
+  cache_policy: generated input; no persisted Spark cache
+  schedule_topology_serial_parallel_pipeline_barrier_contention: >-
+    64 parallel scan/partial-aggregate tasks share one GPU admission semaphore;
+    shuffle is a barrier before the final aggregate.
+  command: >-
+    SPARK_HOME=/home/roberte/src/spark_3.5.5
+    RAPIDS_JAR=dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar
+    RUN_ID=20260703T122500Z
+    docs/experiments/dynamic-gpu-admission/run_experiment.sh
+artifacts:
+  raw:
+    - raw/dynamic-eventlog.json.gz sha256:7997a7aec192aff1151af692eac1f93f7655ecdaaefce78e96e416f035b95691
+    - raw/static-eventlog.json.gz sha256:5abfda4712ab041949ab5d5d6551ae1d57f6b028607fbf156752b129a534da46
+    - stdout/dynamic.txt sha256:300225d18d05e942a888a04cc2d8307209b07d0a303dfd730f7abfc9de58cf12
+    - stdout/static.txt sha256:5f0389ea04be75072c7eb1a4fd6e7d90afc6786cdcc33ff497ebe68ecca9cde3
+  derived:
+    - analysis/eventlog-summary.json sha256:58288460ed6911e7adcbba4cd8c4d928c9c4bec4621766ddc648c6dbd6166633
+    - analysis/validated-summary.json sha256:42f03fe5d9eff6e1ac2db7ab405ab504d2b6e15b6f3e88d5af63d6517d300c28
+  provenance:
+    - provenance/executed-code-sha256.txt
+    - provenance/eventlog-sha256.txt
+    - provenance/stdout-sha256.txt
+    - provenance/rapids-jar-sha256.txt
+execution_notes:
+  - >-
+    An earlier, superseded harness attempt failed before application start because
+    its event-log directory did not exist. The versioned runner creates an isolated
+    run directory and refuses reuse.
+limitations:
+  - one workload, one GPU, one run per mode
+  - validates a matched-control actuator response, not latency or throughput benefit
+  - dynamic and static order was not randomized

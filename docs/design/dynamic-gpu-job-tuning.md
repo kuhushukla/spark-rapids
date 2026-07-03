@@ -36,7 +36,7 @@ Every design document, experiment, recommendation, and agent report must label i
 | State | Meaning | Required evidence |
 |---|---|---|
 | **Implemented** | Present in the repository or a named dependency | Symbol, read path, tests, version, and effective lifecycle |
-| **Measured** | Observed in a reproducible experiment | Raw results, manifest, repetitions, variance, and analysis |
+| **Measured** | Observed in a reproducible experiment | Raw results, manifest, and analysis; repetitions and variance for performance/statistical claims. A deterministic instrumentation check may use one mechanically validated run if labeled as such. |
 | **Externally validated** | Supported by authoritative prior work | Primary paper or official documentation, plus limits of analogy |
 | **Hypothesis** | A falsifiable explanation or model | Assumptions, predicted outcome, and falsification experiment |
 | **Proposal** | A possible architecture or actuator not currently available | Required integration work, authority, and validation plan |
@@ -156,6 +156,8 @@ $$
 where $I_A$ is operations per memory byte. The original [Roofline model](https://www.osti.gov/biblio/1407078) is a diagnostic upper-bound model. SQL operators may require integer-operation, instruction, record-throughput, or time-based variants because FLOPs are often not representative.
 
 The [Ridgeline model](https://arxiv.org/abs/2209.01368) adds network intensity to classify compute, memory, and communication limits in distributed workloads. It is useful for generating hypotheses. It does not encode Spark barriers, task granularity, spill, failures, scheduling, or controller latency.
+
+[Hierarchical Roofline analysis](https://arxiv.org/abs/2009.05257) uses measured ceilings at multiple memory levels to localize a kernel's limiting level. Nsight Compute can supply the kernel evidence, but this remains a diagnostic sub-model: it neither predicts a Spark stage schedule nor supplies a controller action by itself. Use it when an operator-level GPU lane dominates the stage model, then connect the kernel finding back to the end-to-end critical path.
 
 ### 3.2 Composition requires a schedule
 
@@ -344,7 +346,7 @@ Full PID control is rarely the right default for discrete, delayed, stage-bounda
 
 The current implementation is executor-local and stage-specific:
 
-1. [`GpuTaskMemoryEstimator`](../../sql-plugin/src/main/scala/com/nvidia/spark/rapids/GpuSemaphore.scala) blends a default estimate with live measured task memory over a 100 ms active-time window; blocked/lost time is excluded.
+1. [`GpuTaskMemoryEstimator`](../../sql-plugin/src/main/scala/com/nvidia/spark/rapids/GpuSemaphore.scala) updates asymmetrically over a 100 ms active-time window: a measured maximum above the prior is adopted immediately, while a lower maximum is blended downward; blocked/lost time is excluded.
 2. `GpuStageMemoryEstimator` stores up to 200 completed values and combines them with active estimates.
 3. `StatEstimator` pads to at least four values using the prior and computes p80.
 4. `GpuSemaphore` converts the estimate into permits of approximately 32 MiB each.
@@ -366,7 +368,7 @@ $$
 \hat M_s=P_{80}(M_{s,\text{completed}}\cup \hat M_{s,\text{active}}\cup M_{\text{prior padding}})
 $$
 
-with a live task estimate blended toward its measured maximum over active time.
+The live estimate jumps immediately when the observed maximum exceeds the prior and blends only downward over active time. With four or fewer combined completed/active observations after prior padding, this percentile implementation's p80 is the maximum of the combined values.
 
 **Actuator:** task admission through memory permits:
 
@@ -386,7 +388,7 @@ The sum of individual task maxima is not the same as the executor’s simultaneo
 
 Permit conversion uses floor division in 32 MiB units and caps one request at the total permit count. Each request can under-account by less than one permit, multiple admitted requests can accumulate quantization slack, and an estimate larger than the RMM pool is capped rather than rejected. The policy therefore does not strictly bound the sum of task estimates. Waiting requests are priority ordered; a large high-priority request can also block smaller requests behind it, so wait behavior is not determined by free permits alone.
 
-An active-task estimate is the maximum observed so far blended away from its prior over 100 ms of active time; it is not a prediction of the task’s future peak. A task whose peak occurs later can temporarily lower the stage estimate before that peak is observed. The controller also does not prove that p80 maximizes throughput, that four prior-padded samples converge quickly enough, or that one estimate represents a skewed stage. Stage estimators are executor-local, retain at most 100 stage IDs, and a retried stage ID can reuse retained state. These are testable design choices.
+An active-task estimate jumps immediately above its prior but blends downward from that prior over 100 ms of active time; it is not a prediction of the task’s future peak. A task whose peak occurs later can temporarily lower the stage estimate before that peak is observed. The controller also does not prove that p80 maximizes throughput, that four prior-padded samples converge quickly enough, or that one estimate represents a skewed stage. Stage estimators are executor-local, retain at most 100 stage IDs, and a retried stage ID can reuse retained state. These are testable design choices.
 
 ### 6.4 Validation plan
 
@@ -405,9 +407,11 @@ Validate at least these properties:
 
 Metrics must distinguish semaphore wait, GPU work, GPU bubble, retry, spill-to-host, spill-to-disk, and read-back. Current “GPU bubble” time is a scheduling proxy based on whether threads are waiting for the semaphore; it is not NVML SM utilization or proof that the device is idle. Several task memory and retry metrics are finalized only on semaphore release or task completion, so event-log accumulators are audit/cross-run sensors rather than a low-latency control bus. A zero fatal-OOM count can hide a controller that performs excessive retry or spill.
 
+A [versioned instrumentation smoke test](../experiments/dynamic-gpu-admission/README.md) is the first local **Measured instrumentation** evidence: with the same `concurrentGpuTasks=2` initial-estimate input in both modes, recorded successful-task updates included values through a stage-0 maximum of eight in dynamic mode, while every recorded static update was two and its maximum was two. These updates are recorded at task end and are not an acquisition-order timeline. The complete canonical result hash matched, required GPU plan nodes were present, and no task attempt failed. Its single unrandomized run validates this actuator response, not a latency or throughput benefit.
+
 ### 6.5 Candidate refinements are hypotheses
 
-Possible refinements include operator/plan features, input-size regression, an upper confidence bound, separate skew regimes, cross-run priors, and explicit reserve accounting. Each adds state and failure modes. Adopt one only when a controlled experiment demonstrates a material failure of the existing estimator and the refinement improves hold-out results.
+Possible refinements include operator/plan features, input-size regression, an upper confidence bound, separate skew regimes, cross-run priors, and explicit reserve accounting. Recursive least squares is one candidate only if residuals demonstrate a stable, approximately linear relationship that must adapt online; it is not the default. Each refinement adds state and failure modes. Adopt one only when a controlled experiment demonstrates a material failure of the existing estimator and the refinement improves hold-out results.
 
 ## 7. Candidate sub-models
 
@@ -437,9 +441,17 @@ C_{\text{target}} \le
 \frac{(\phi M_b-\beta)r}{s_c s_r s_f e A}
 $$
 
-The source report incorrectly divided by $r$. With $r=C/U$, stronger compression means a smaller $r$, so the same encoded bytes expand more and the safe encoded target becomes smaller.
+`REPORT_2.md` incorrectly divided by $r$. With $r=C/U$, stronger compression means a smaller $r$, so the same encoded bytes expand more and the safe encoded target becomes smaller.
 
-This remains a hypothesis because decode can be chunked, buffers have overlapping lifetimes, filters execute at different points, and one task can produce several GPU batches. Collect separate distributions for:
+Memory safety is only the upper bound. A scan also has a possible lower efficiency bound:
+
+$$
+B_{\min,\text{efficient}} \le B_{\text{batch or partition}} \le B_{\max,\text{safe}}
+$$
+
+The lower bound is a **Hypothesis**, not `REPORT_1.md`'s unvalidated SM-count formula. Falsify it with controlled encoded-partition and decoded-batch sweeps at fixed query/data identity: measure rows/s, kernel-launch overhead, GPU work/bubble, admission, peak memory, retry, and spill. Reject a general lower-bound rule if no stable throughput knee appears across hold-out schemas/operators or if another feature explains it. Keep partition and batch knees separate because a task can emit multiple batches.
+
+This remains a hypothesis because decode can be chunked, buffers have overlapping lifetimes, filters execute at different points, and one task can produce several GPU batches. The repository already implements chunked Parquet and ORC reading with a soft memory limit; that fact narrows the model but does not establish Unified Virtual Memory behavior or validate a particular partition target. Collect separate distributions for:
 
 - encoded bytes per file partition;
 - decoded/projected bytes per task;
@@ -507,6 +519,20 @@ $$
 
 If phases overlap, replace the sum with the measured pipeline schedule. Include serialization, copies, disk, network, chunking, and metadata. Compression is not “almost always” beneficial: fast links, incompressible data, small blocks, scarce CPU/GPU capacity, or poor overlap can make it slower.
 
+For CPU compression and decompression that are serial with transfer, define expansion ratio $q=D/D_c>1$, $n$ effective codec cores, and measured per-core rates $C_c$ and $C_d$. The candidate beats plain transfer only if:
+
+$$
+\frac{D}{nC_c}+\frac{D}{qB}+\frac{D}{nC_d}<\frac{D}{B}
+$$
+
+which implies:
+
+$$
+n>\frac{Bq}{q-1}\left(\frac{1}{C_c}+\frac{1}{C_d}\right)
+$$
+
+This assumes linear codec scaling and serial phases. If compression, transfer, and decompression overlap, model the concrete pipeline, finite buffers, fill/drain, and shared-core contention instead.
+
 The current RAPIDS shuffle codec configuration is internal and startup-only. Per-shuffle selection requires a new contract and implementation; cross-run application selection is a nearer-term experiment.
 
 ### 7.5 Spill and tiered movement
@@ -535,6 +561,8 @@ Spark’s ordinary shuffle provides materialization and retry boundaries. A stre
 - observability and accounting.
 
 Evaluate it as a separate execution architecture with a concrete dataflow. Do not model it as toggling a Spark configuration. Theseus is relevant external evidence that accelerator-native engines can exploit specialized asynchronous data movement, but its [published results](https://arxiv.org/abs/2508.05029) do not validate the same change inside Spark.
+
+Use the [`gpu-tuning-model-design`](../../skills/gpu-tuning-model-design/SKILL.md) skill to compare baseline and proposed execution graphs before prioritizing pipelining, background shuffle, MPP-style processing, or another new architecture.
 
 ## 8. Experiment protocol
 
@@ -774,10 +802,21 @@ An agent must stop and ask for information when workload identity, correctness c
 
 The synthesis was checked against:
 
-- current repository code and generated configuration documentation, especially `GpuSemaphore`, `PrioritySemaphore`, `RapidsConf`, task metrics, spill/retry paths, and AQE-related tests;
+- current repository code and generated configuration documentation, especially `GpuSemaphore`, `PrioritySemaphore`, `RapidsConf`, task metrics, spill/retry paths, chunked readers, and AQE-related tests;
 - Apache Spark’s official AQE and configuration documentation;
 - NVIDIA RAPIDS tuning, FAQ, and Auto-Tuner documentation;
-- primary or official descriptions of Roofline, Ridgeline, SQL Server Memory Grant Feedback, OtterTune, and Theseus;
-- the claims, equations, diagrams, slide text, and presenter notes in `REPORT_1.md`, `REPORT_2.md`, `ProductArchitecture.pptx`, and `MoreProductArchitecture.pptx`.
+- the claims, equations, diagrams, slide text, and presenter notes in `REPORT_1.md`, `REPORT_2.md`, `ProductArchitecture.pptx`, and `MoreProductArchitecture.pptx`;
+- the local [dynamic-admission experiment](../experiments/dynamic-gpu-admission/README.md), whose manifest separates instrumentation evidence from performance claims.
 
-No new performance claim in this document is presented as locally measured. The equations are model forms to validate, not benchmark results. Source-deck prototype and customer numbers were intentionally not repeated because the provided artifacts did not include sufficient immutable configuration, revision, raw-run, and repetition evidence to make them reproducible here.
+The external links below were fetched over HTTPS with the web retrieval tool on 2026-07-03. The short excerpts are provenance anchors, not substitutes for reading each source.
+
+| Source | Provenance excerpt (verbatim) | Claim supported / limit |
+|---|---|---|
+| [Roofline (OSTI record)](https://www.osti.gov/biblio/1407078) | “visual performance model” | Kernel performance ceiling/diagnostic; not a Spark controller. |
+| [Hierarchical Roofline](https://arxiv.org/abs/2009.05257) | “Nsight Compute based method” | Empirical multi-level kernel analysis; preprint, not stage scheduling. |
+| [Ridgeline](https://arxiv.org/abs/2209.01368) | “compute, memory, and network limits” | Distributed bottleneck classification; preprint, no Spark lifecycle. |
+| [Theseus](https://arxiv.org/abs/2508.05029) | “Specialized asynchronous control mechanisms” | Accelerator-native asynchronous execution precedent; preprint, not a Spark implementation. |
+| [Microsoft Memory Grant Feedback](https://learn.microsoft.com/en-us/sql/relational-databases/performance/intelligent-query-processing-memory-grant-feedback?view=sql-server-ver17) | “high percentile of past memory grant sizing requirements” | Precedent for persisted percentile feedback; does not justify RAPIDS p80. |
+| [OtterTune primary paper](https://www.cs.cmu.edu/~dvanaken/papers/ottertune-sigmod17.pdf) | “reuse training data gathered from previous sessions” | Cross-session prior reuse; not direct evidence for Spark/GPU policies. |
+
+No local performance benefit is claimed. The equations are model forms to validate, and the smoke test establishes adaptation only. Source-deck prototype and customer numbers were intentionally not repeated because the provided artifacts did not include sufficient immutable configuration, revision, raw-run, and repetition evidence to make them reproducible here.

@@ -81,7 +81,7 @@ Keep:
 
 Never overwrite prior raw runs. Use stable run IDs. If raw data is too large for git, version checksums, schemas, collection commands, and durable immutable locations.
 
-The manifest must include:
+Copy [the bundled manifest template](templates/experiment-manifest.yaml) into the experiment directory and fill every applicable field. The manifest must include:
 
 ```yaml
 experiment_id: "..."

@@ -1,0 +1,38 @@
+experiment_id: ""
+hypothesis: ""
+objective:
+  primary_metric: ""
+  estimand_and_experimental_unit: ""
+  aggregation: ""
+  confidence_level_and_interval_method: ""
+  minimum_effect: ""
+  sample_size_power_or_precision_rule: ""
+  stopping_and_missing_failed_outlier_policy: ""
+safety:
+  abort_conditions: []
+authority:
+  environment_and_actions: ""
+  max_gpu_hours_runtime_dollars: ""
+  credential_reference_or_mechanism_never_secret_value: ""
+  sensitive_data_and_log_redaction: ""
+  cleanup_obligations: ""
+  git_branch_and_commit: ""
+baseline: {}
+treatment_delta: {}
+workload:
+  query_or_hash: ""
+  data_snapshot: ""
+  seed: ""
+  scale_logical_and_encoded: ""
+software:
+  repo_sha_build_profile_spark_rapids_cudf_cuda_jvm: ""
+hardware:
+  gpu_cpu_memory_disk_network_topology: ""
+procedure:
+  warmups: 0
+  repetitions: 0
+  paired_blocking_randomization_and_allocation: ""
+  cache_policy: ""
+  schedule_topology_serial_parallel_pipeline_barrier_contention: ""
+artifacts:
+  raw_locations_and_checksums: []

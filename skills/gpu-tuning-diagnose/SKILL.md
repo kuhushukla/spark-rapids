@@ -15,6 +15,17 @@ Produce an evidence-backed bottleneck diagnosis and a small set of falsifiable h
 
 When working in the spark-rapids repository, consult [the dynamic tuning guide](../../docs/design/dynamic-gpu-job-tuning.md) for deeper context. The workflow below is self-contained when that repository-level document is not installed with the skill.
 
+## Triage mode
+
+For an explicitly read-only quick look, use a bounded triage instead of the full workflow:
+
+1. capture the stated objective, plan/configuration evidence, and highest-signal metrics;
+2. return a preliminary bottleneck statement that separates observations from hypotheses, plus confidence and evidence gaps;
+3. make no configuration-value, architecture, or implementation recommendation;
+4. route any consequential decision to the full workflow below.
+
+Label the output **TRIAGE — NOT A TUNING DECISION**. Triage is not permitted for production changes, benchmark claims, controller promotion, or design prioritization.
+
 ## Workflow
 
 - [ ] Step 1: State the optimization contract and evidence available.
@@ -55,6 +66,8 @@ Capture or report missing:
 Trace a configuration to its consumer before saying it is active. In this repository inspect its `RapidsConf` declaration, startup/runtime metadata, snapshots, read sites, lazy/cached values, executor initialization, AQE stage conversion, tests, and shims.
 
 ## Step 3: Byte and Work Ledger
+
+Start from [the byte-ledger template](templates/byte-ledger.csv) when useful. The bundled [admission extractor](scripts/extract_gpu_admission.py) can recover the per-stage `gpuMaxConcurrentGpuTasks` signal from Spark JSON event logs; inspect and extend it for other metrics rather than changing their semantics.
 
 Use explicit units. Keep these distinct:
 

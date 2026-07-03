@@ -1,0 +1,21 @@
+{
+  "canonical_result_sha256_both_modes": "57a453f33c2fbc19a8109e3bb7cdc08439ce3f7c162f960cbb00fc463ad29080",
+  "claim": "With the same initial concurrentGpuTasks=2 input, enabling dynamic estimation increased the observed stage-0 admission maximum above two.",
+  "conclusion": "SUPPORTED WITHIN VALIDITY REGION",
+  "dynamic": {
+    "application_id": "local-1783081255132",
+    "stage_0_max_concurrent_gpu_tasks": 8
+  },
+  "gpu_plan_nodes_required": [
+    "GpuColumnarExchange",
+    "GpuHashAggregate",
+    "GpuProject",
+    "GpuRange"
+  ],
+  "performance_claim": null,
+  "performance_note": "A single unrandomized run per mode cannot establish a latency or throughput benefit.",
+  "static": {
+    "application_id": "local-1783081270924",
+    "stage_0_max_concurrent_gpu_tasks": 2
+  }
+}

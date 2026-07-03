@@ -1,0 +1,669 @@
+[
+  {
+    "admission_updates_by_stage": {
+      "0": [
+        {
+          "attempt": 0,
+          "task_id": 2,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 7,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 4,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 1,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 0,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 9,
+          "value": 1
+        },
+        {
+          "attempt": 0,
+          "task_id": 8,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 10,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 11,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 13,
+          "value": 6
+        },
+        {
+          "attempt": 0,
+          "task_id": 12,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 15,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 14,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 16,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 17,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 18,
+          "value": 1
+        },
+        {
+          "attempt": 0,
+          "task_id": 19,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 20,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 21,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 23,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 22,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 25,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 27,
+          "value": 6
+        },
+        {
+          "attempt": 0,
+          "task_id": 24,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 26,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 30,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 28,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 29,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 31,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 32,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 33,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 34,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 35,
+          "value": 6
+        },
+        {
+          "attempt": 0,
+          "task_id": 36,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 37,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 38,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 40,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 42,
+          "value": 6
+        },
+        {
+          "attempt": 0,
+          "task_id": 41,
+          "value": 7
+        },
+        {
+          "attempt": 0,
+          "task_id": 39,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 43,
+          "value": 8
+        },
+        {
+          "attempt": 0,
+          "task_id": 44,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 45,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 49,
+          "value": 6
+        },
+        {
+          "attempt": 0,
+          "task_id": 47,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 48,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 46,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 50,
+          "value": 7
+        },
+        {
+          "attempt": 0,
+          "task_id": 51,
+          "value": 7
+        },
+        {
+          "attempt": 0,
+          "task_id": 52,
+          "value": 6
+        },
+        {
+          "attempt": 0,
+          "task_id": 53,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 54,
+          "value": 3
+        },
+        {
+          "attempt": 0,
+          "task_id": 57,
+          "value": 4
+        },
+        {
+          "attempt": 0,
+          "task_id": 55,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 56,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 59,
+          "value": 6
+        },
+        {
+          "attempt": 0,
+          "task_id": 58,
+          "value": 5
+        },
+        {
+          "attempt": 0,
+          "task_id": 60,
+          "value": 7
+        },
+        {
+          "attempt": 0,
+          "task_id": 61,
+          "value": 8
+        },
+        {
+          "attempt": 0,
+          "task_id": 62,
+          "value": 1
+        },
+        {
+          "attempt": 0,
+          "task_id": 63,
+          "value": 2
+        }
+      ],
+      "2": [
+        {
+          "attempt": 0,
+          "task_id": 64,
+          "value": 1
+        }
+      ]
+    },
+    "application_id": "local-1783081255132",
+    "application_name": "dynamic-gpu-admission-smoke-dynamic",
+    "event_log": "/tmp/dynamic-gpu-admission/20260703T122500Z/eventlogs/local-1783081255132",
+    "failed_task_attempts_by_stage": {},
+    "gpu_plan_nodes": [
+      "GpuColumnarExchange",
+      "GpuHashAggregate",
+      "GpuProject",
+      "GpuRange"
+    ],
+    "max_concurrent_gpu_tasks_by_stage": {
+      "0": 8,
+      "2": 1
+    },
+    "successful_task_attempts_by_stage": {
+      "0": 64,
+      "2": 1
+    }
+  },
+  {
+    "admission_updates_by_stage": {
+      "0": [
+        {
+          "attempt": 0,
+          "task_id": 6,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 4,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 0,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 2,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 7,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 1,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 9,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 10,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 11,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 8,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 12,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 13,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 15,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 14,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 16,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 17,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 18,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 19,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 20,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 21,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 22,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 23,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 24,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 25,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 27,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 26,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 28,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 29,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 30,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 31,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 32,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 33,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 34,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 35,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 36,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 37,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 38,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 39,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 40,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 41,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 42,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 43,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 44,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 45,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 46,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 47,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 48,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 49,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 50,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 51,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 52,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 53,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 54,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 55,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 56,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 57,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 58,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 59,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 60,
+          "value": 2
+        },
+        {
+          "attempt": 0,
+          "task_id": 61,
+          "value": 2
+        }
+      ],
+      "2": [
+        {
+          "attempt": 0,
+          "task_id": 64,
+          "value": 1
+        }
+      ]
+    },
+    "application_id": "local-1783081270924",
+    "application_name": "dynamic-gpu-admission-smoke-static",
+    "event_log": "/tmp/dynamic-gpu-admission/20260703T122500Z/eventlogs/local-1783081270924",
+    "failed_task_attempts_by_stage": {},
+    "gpu_plan_nodes": [
+      "GpuColumnarExchange",
+      "GpuHashAggregate",
+      "GpuProject",
+      "GpuRange"
+    ],
+    "max_concurrent_gpu_tasks_by_stage": {
+      "0": 2,
+      "2": 1
+    },
+    "successful_task_attempts_by_stage": {
+      "0": 64,
+      "2": 1
+    }
+  }
+]
