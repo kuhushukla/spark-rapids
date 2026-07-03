@@ -28,6 +28,10 @@ State exactly which edges, buffers, resource consumers, and failure semantics ch
 | Phase | Representation | Operations/rows | Bytes and passes | Resource lane | Evidence/uncertainty |
 |---|---|---:|---:|---|---|
 
+## Treatment distinctness
+
+Map each candidate through configured input → effective rule → physical work. Record indivisible units, equivalent candidates, and compliance evidence.
+
 ## Schedule equations
 
 Use sums for serial phases. Use maxima only for demonstrated overlap. Include pipeline fill/drain, backpressure, task waves, and shared-resource contention.

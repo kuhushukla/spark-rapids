@@ -1,0 +1,8 @@
+{"event":"wrapper_start","run_id":"20260703T131700Z"}
+{"event":"metadata_complete","status":"success"}
+{"event":"cpu_complete","status":"success"}
+{"event":"gpu_complete","status":"success"}
+{"event":"validation_complete","status":"success"}
+{"event":"replay_complete","status":"success"}
+{"event":"packaging_verified","status":"success","timestamp":"2026-07-03T13:19:40Z"}
+{"event":"wrapper_terminal","status":"success","timestamp":"2026-07-03T13:19:40Z"}

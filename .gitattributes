@@ -1,0 +1,3 @@
+# Preserve verbatim experiment evidence; whitespace is part of the captured output.
+docs/experiments/**/stdout/*.txt -whitespace
+docs/experiments/**/provenance/environment.txt -whitespace

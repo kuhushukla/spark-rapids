@@ -1,10 +1,17 @@
 experiment_id: ""
+lifecycle:
+  state: "DRAFT"
+  preregistration_snapshot_and_sha256: ""
+  amendments: []
 hypothesis: ""
 objective:
   primary_metric: ""
   estimand_and_experimental_unit: ""
   aggregation: ""
+  claim_form_superiority_noninferiority_equivalence_or_estimation: ""
   confidence_level_and_interval_method: ""
+  effect_direction_practical_margin_and_decision_rule: ""
+  candidate_family_and_multiplicity_method: ""
   minimum_effect: ""
   sample_size_power_or_precision_rule: ""
   stopping_and_missing_failed_outlier_policy: ""
@@ -35,4 +42,7 @@ procedure:
   cache_policy: ""
   schedule_topology_serial_parallel_pipeline_barrier_contention: ""
 artifacts:
+  schedule_and_sha256: ""
+  append_only_run_journal: ""
+  validator_output_and_command: ""
   raw_locations_and_checksums: []

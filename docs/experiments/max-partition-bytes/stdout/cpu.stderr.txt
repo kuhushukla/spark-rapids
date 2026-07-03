@@ -1,0 +1,331 @@
+26/07/03 13:18:49 INFO SparkContext: Running Spark version 3.5.5
+26/07/03 13:18:49 INFO SparkContext: OS info Linux, 6.8.0-47-generic, amd64
+26/07/03 13:18:49 INFO SparkContext: Java version 17.0.19
+26/07/03 13:18:49 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/03 13:18:49 INFO ResourceUtils: ==============================================================
+26/07/03 13:18:49 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/03 13:18:49 INFO ResourceUtils: ==============================================================
+26/07/03 13:18:49 INFO SparkContext: Submitted application: max-partition-bytes-study-cpu
+26/07/03 13:18:49 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/03 13:18:49 INFO ResourceProfile: Limiting resource is cpu
+26/07/03 13:18:49 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/03 13:18:49 INFO SecurityManager: Changing view acls to: roberte
+26/07/03 13:18:49 INFO SecurityManager: Changing modify acls to: roberte
+26/07/03 13:18:49 INFO SecurityManager: Changing view acls groups to: 
+26/07/03 13:18:49 INFO SecurityManager: Changing modify acls groups to: 
+26/07/03 13:18:49 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: roberte; groups with view permissions: EMPTY; users with modify permissions: roberte; groups with modify permissions: EMPTY
+26/07/03 13:18:49 INFO Utils: Successfully started service 'sparkDriver' on port 33199.
+26/07/03 13:18:49 INFO SparkEnv: Registering MapOutputTracker
+26/07/03 13:18:49 INFO SparkEnv: Registering BlockManagerMaster
+26/07/03 13:18:49 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/03 13:18:49 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/03 13:18:49 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/03 13:18:49 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-0ce2447f-b7c8-4505-8b41-9efdbd5431c8
+26/07/03 13:18:49 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/07/03 13:18:49 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/03 13:18:50 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/03 13:18:50 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/03 13:18:50 INFO Executor: Starting executor ID driver on host 73af63e4647b
+26/07/03 13:18:50 INFO Executor: OS info Linux, 6.8.0-47-generic, amd64
+26/07/03 13:18:50 INFO Executor: Java version 17.0.19
+26/07/03 13:18:50 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/07/03 13:18:50 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@598d389 for default.
+26/07/03 13:18:50 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 41865.
+26/07/03 13:18:50 INFO NettyBlockTransferService: Server created on 73af63e4647b:41865
+26/07/03 13:18:50 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/03 13:18:50 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 73af63e4647b, 41865, None)
+26/07/03 13:18:50 INFO BlockManagerMasterEndpoint: Registering block manager 73af63e4647b:41865 with 434.4 MiB RAM, BlockManagerId(driver, 73af63e4647b, 41865, None)
+26/07/03 13:18:50 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 73af63e4647b, 41865, None)
+26/07/03 13:18:50 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 73af63e4647b, 41865, None)
+26/07/03 13:18:50 INFO SingleEventLogFileWriter: Logging events to file:/tmp/max-partition-bytes-final/20260703T131700Z/eventlogs/cpu/local-1783084730080.inprogress
+26/07/03 13:18:50 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir.
+26/07/03 13:18:50 INFO SharedState: Warehouse path is 'file:/home/roberte/src/rapids-plugin-4-spark/spark-warehouse'.
+26/07/03 13:18:50 INFO InMemoryFileIndex: It took 24 ms to list leaf files for 1 paths.
+26/07/03 13:18:51 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/03 13:18:51 INFO DAGScheduler: Got job 0 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/03 13:18:51 INFO DAGScheduler: Final stage: ResultStage 0 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/03 13:18:51 INFO DAGScheduler: Parents of final stage: List()
+26/07/03 13:18:51 INFO DAGScheduler: Missing parents: List()
+26/07/03 13:18:51 INFO DAGScheduler: Submitting ResultStage 0 (MapPartitionsRDD[1] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/03 13:18:51 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 104.3 KiB, free 434.3 MiB)
+26/07/03 13:18:51 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 37.7 KiB, free 434.3 MiB)
+26/07/03 13:18:51 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 73af63e4647b:41865 (size: 37.7 KiB, free: 434.4 MiB)
+26/07/03 13:18:51 INFO SparkContext: Created broadcast 0 from broadcast at DAGScheduler.scala:1585
+26/07/03 13:18:51 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 0 (MapPartitionsRDD[1] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/03 13:18:51 INFO TaskSchedulerImpl: Adding task set 0.0 with 1 tasks resource profile 0
+26/07/03 13:18:51 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0) (73af63e4647b, executor driver, partition 0, PROCESS_LOCAL, 9170 bytes) 
+26/07/03 13:18:51 INFO Executor: Running task 0.0 in stage 0.0 (TID 0)
+26/07/03 13:18:51 INFO Executor: Finished task 0.0 in stage 0.0 (TID 0). 2478 bytes result sent to driver
+26/07/03 13:18:51 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 228 ms on 73af63e4647b (executor driver) (1/1)
+26/07/03 13:18:51 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
+26/07/03 13:18:51 INFO DAGScheduler: ResultStage 0 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.323 s
+26/07/03 13:18:51 INFO DAGScheduler: Job 0 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/03 13:18:51 INFO TaskSchedulerImpl: Killing all running tasks in stage 0: Stage finished
+26/07/03 13:18:51 INFO DAGScheduler: Job 0 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.347438 s
+26/07/03 13:18:51 INFO BlockManagerInfo: Removed broadcast_0_piece0 on 73af63e4647b:41865 in memory (size: 37.7 KiB, free: 434.4 MiB)
+26/07/03 13:18:52 INFO FileSourceStrategy: Pushed Filters: IsNotNull(trip_distance),GreaterThanOrEqual(trip_distance,0.0),IsNotNull(PULocationID)
+26/07/03 13:18:52 INFO FileSourceStrategy: Post-Scan Filters: isnotnull(trip_distance#4),(trip_distance#4 >= 0.0),isnotnull(PULocationID#7L)
+26/07/03 13:18:52 INFO CodeGenerator: Code generated in 129.947134 ms
+26/07/03 13:18:52 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 203.0 KiB, free 434.2 MiB)
+26/07/03 13:18:52 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 35.5 KiB, free 434.2 MiB)
+26/07/03 13:18:52 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 73af63e4647b:41865 (size: 35.5 KiB, free: 434.4 MiB)
+26/07/03 13:18:52 INFO SparkContext: Created broadcast 1 from javaToPython at NativeMethodAccessorImpl.java:0
+26/07/03 13:18:52 INFO FileSourceScanExec: Planning scan with bin packing, max size: 93562859 bytes, open cost is considered as scanning 1 bytes.
+26/07/03 13:18:52 INFO FileSourceStrategy: Pushed Filters: IsNotNull(trip_distance),GreaterThanOrEqual(trip_distance,0.0),IsNotNull(PULocationID)
+26/07/03 13:18:52 INFO FileSourceStrategy: Post-Scan Filters: isnotnull(trip_distance#4),(trip_distance#4 >= 0.0),isnotnull(PULocationID#7L)
+26/07/03 13:18:52 INFO HashAggregateExec: spark.sql.codegen.aggregate.map.twolevel.enabled is set to true, but current version of codegened fast hashmap does not support this aggregate.
+26/07/03 13:18:52 INFO CodeGenerator: Code generated in 33.251953 ms
+26/07/03 13:18:52 INFO CodeGenerator: Code generated in 47.531019 ms
+26/07/03 13:18:52 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 203.0 KiB, free 434.0 MiB)
+26/07/03 13:18:52 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 35.5 KiB, free 433.9 MiB)
+26/07/03 13:18:52 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 73af63e4647b:41865 (size: 35.5 KiB, free: 434.3 MiB)
+26/07/03 13:18:52 INFO SparkContext: Created broadcast 2 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109
+26/07/03 13:18:52 INFO FileSourceScanExec: Planning scan with bin packing, max size: 93562859 bytes, open cost is considered as scanning 1 bytes.
+26/07/03 13:18:52 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109
+26/07/03 13:18:52 INFO DAGScheduler: Registering RDD 11 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109) as input to shuffle 0
+26/07/03 13:18:52 INFO DAGScheduler: Got job 1 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109) with 32 output partitions
+26/07/03 13:18:52 INFO DAGScheduler: Final stage: ResultStage 2 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109)
+26/07/03 13:18:52 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 1)
+26/07/03 13:18:52 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 1)
+26/07/03 13:18:52 INFO DAGScheduler: Submitting ShuffleMapStage 1 (MapPartitionsRDD[11] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109), which has no missing parents
+26/07/03 13:18:52 INFO MemoryStore: Block broadcast_3 stored as values in memory (estimated size 48.7 KiB, free 433.9 MiB)
+26/07/03 13:18:52 INFO MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 21.0 KiB, free 433.9 MiB)
+26/07/03 13:18:52 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on 73af63e4647b:41865 (size: 21.0 KiB, free: 434.3 MiB)
+26/07/03 13:18:52 INFO SparkContext: Created broadcast 3 from broadcast at DAGScheduler.scala:1585
+26/07/03 13:18:52 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 1 (MapPartitionsRDD[11] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109) (first 15 tasks are for partitions Vector(0))
+26/07/03 13:18:52 INFO TaskSchedulerImpl: Adding task set 1.0 with 1 tasks resource profile 0
+26/07/03 13:18:52 INFO TaskSetManager: Starting task 0.0 in stage 1.0 (TID 1) (73af63e4647b, executor driver, partition 0, PROCESS_LOCAL, 9629 bytes) 
+26/07/03 13:18:52 INFO Executor: Running task 0.0 in stage 1.0 (TID 1)
+26/07/03 13:18:52 INFO CodeGenerator: Code generated in 28.839455 ms
+26/07/03 13:18:52 INFO CodeGenerator: Code generated in 7.378245 ms
+26/07/03 13:18:52 INFO CodeGenerator: Code generated in 3.434315 ms
+26/07/03 13:18:52 INFO CodeGenerator: Code generated in 4.610212 ms
+26/07/03 13:18:52 INFO FileScanRDD: Reading File path: file:///home/roberte/src/rapids-plugin-4-spark/yellow_tripdata_2020-01.parquet, range: 0-93562858, partition values: [empty row]
+26/07/03 13:18:52 INFO FilterCompat: Filtering using predicate: and(and(noteq(trip_distance, null), gteq(trip_distance, 0.0)), noteq(PULocationID, null))
+26/07/03 13:18:52 INFO CodecPool: Got brand-new decompressor [.gz]
+26/07/03 13:18:52 INFO ColumnIndexFilter: No offset index for column trip_distance is available; Unable to do filtering
+26/07/03 13:18:53 INFO Executor: Finished task 0.0 in stage 1.0 (TID 1). 2858 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 0.0 in stage 1.0 (TID 1) in 720 ms on 73af63e4647b (executor driver) (1/1)
+26/07/03 13:18:53 INFO TaskSchedulerImpl: Removed TaskSet 1.0, whose tasks have all completed, from pool 
+26/07/03 13:18:53 INFO DAGScheduler: ShuffleMapStage 1 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109) finished in 0.732 s
+26/07/03 13:18:53 INFO DAGScheduler: looking for newly runnable stages
+26/07/03 13:18:53 INFO DAGScheduler: running: Set()
+26/07/03 13:18:53 INFO DAGScheduler: waiting: Set(ResultStage 2)
+26/07/03 13:18:53 INFO DAGScheduler: failed: Set()
+26/07/03 13:18:53 INFO DAGScheduler: Submitting ResultStage 2 (MapPartitionsRDD[14] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109), which has no missing parents
+26/07/03 13:18:53 INFO MemoryStore: Block broadcast_4 stored as values in memory (estimated size 45.0 KiB, free 433.8 MiB)
+26/07/03 13:18:53 INFO MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 20.6 KiB, free 433.8 MiB)
+26/07/03 13:18:53 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on 73af63e4647b:41865 (size: 20.6 KiB, free: 434.3 MiB)
+26/07/03 13:18:53 INFO SparkContext: Created broadcast 4 from broadcast at DAGScheduler.scala:1585
+26/07/03 13:18:53 INFO DAGScheduler: Submitting 32 missing tasks from ResultStage 2 (MapPartitionsRDD[14] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109) (first 15 tasks are for partitions Vector(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14))
+26/07/03 13:18:53 INFO TaskSchedulerImpl: Adding task set 2.0 with 32 tasks resource profile 0
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 0.0 in stage 2.0 (TID 2) (73af63e4647b, executor driver, partition 0, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 1.0 in stage 2.0 (TID 3) (73af63e4647b, executor driver, partition 1, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 2.0 in stage 2.0 (TID 4) (73af63e4647b, executor driver, partition 2, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 3.0 in stage 2.0 (TID 5) (73af63e4647b, executor driver, partition 3, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 4.0 in stage 2.0 (TID 6) (73af63e4647b, executor driver, partition 4, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 5.0 in stage 2.0 (TID 7) (73af63e4647b, executor driver, partition 5, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 6.0 in stage 2.0 (TID 8) (73af63e4647b, executor driver, partition 6, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 7.0 in stage 2.0 (TID 9) (73af63e4647b, executor driver, partition 7, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 0.0 in stage 2.0 (TID 2)
+26/07/03 13:18:53 INFO Executor: Running task 1.0 in stage 2.0 (TID 3)
+26/07/03 13:18:53 INFO Executor: Running task 2.0 in stage 2.0 (TID 4)
+26/07/03 13:18:53 INFO Executor: Running task 3.0 in stage 2.0 (TID 5)
+26/07/03 13:18:53 INFO Executor: Running task 4.0 in stage 2.0 (TID 6)
+26/07/03 13:18:53 INFO Executor: Running task 5.0 in stage 2.0 (TID 7)
+26/07/03 13:18:53 INFO Executor: Running task 6.0 in stage 2.0 (TID 8)
+26/07/03 13:18:53 INFO Executor: Running task 7.0 in stage 2.0 (TID 9)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (593.0 B) non-empty blocks including 1 (593.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (868.0 B) non-empty blocks including 1 (868.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (593.0 B) non-empty blocks including 1 (593.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (789.0 B) non-empty blocks including 1 (789.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (789.0 B) non-empty blocks including 1 (789.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (789.0 B) non-empty blocks including 1 (789.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (868.0 B) non-empty blocks including 1 (868.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (868.0 B) non-empty blocks including 1 (868.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 7 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 7 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 7 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 7 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 7 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 7 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 7 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 7 ms
+26/07/03 13:18:53 INFO CodeGenerator: Code generated in 10.802621 ms
+26/07/03 13:18:53 INFO Executor: Finished task 7.0 in stage 2.0 (TID 9). 6144 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Finished task 3.0 in stage 2.0 (TID 5). 6090 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 8.0 in stage 2.0 (TID 10) (73af63e4647b, executor driver, partition 8, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 8.0 in stage 2.0 (TID 10)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 7.0 in stage 2.0 (TID 9) in 82 ms on 73af63e4647b (executor driver) (1/32)
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 9.0 in stage 2.0 (TID 11) (73af63e4647b, executor driver, partition 9, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Finished task 2.0 in stage 2.0 (TID 4). 5946 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Finished task 5.0 in stage 2.0 (TID 7). 6086 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Running task 9.0 in stage 2.0 (TID 11)
+26/07/03 13:18:53 INFO Executor: Finished task 4.0 in stage 2.0 (TID 6). 6215 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Finished task 6.0 in stage 2.0 (TID 8). 5904 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 10.0 in stage 2.0 (TID 12) (73af63e4647b, executor driver, partition 10, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Finished task 1.0 in stage 2.0 (TID 3). 6163 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Finished task 0.0 in stage 2.0 (TID 2). 6162 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Running task 10.0 in stage 2.0 (TID 12)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 3.0 in stage 2.0 (TID 5) in 85 ms on 73af63e4647b (executor driver) (2/32)
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 11.0 in stage 2.0 (TID 13) (73af63e4647b, executor driver, partition 11, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 2.0 in stage 2.0 (TID 4) in 86 ms on 73af63e4647b (executor driver) (3/32)
+26/07/03 13:18:53 INFO Executor: Running task 11.0 in stage 2.0 (TID 13)
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 12.0 in stage 2.0 (TID 14) (73af63e4647b, executor driver, partition 12, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 12.0 in stage 2.0 (TID 14)
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 13.0 in stage 2.0 (TID 15) (73af63e4647b, executor driver, partition 13, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 5.0 in stage 2.0 (TID 7) in 86 ms on 73af63e4647b (executor driver) (4/32)
+26/07/03 13:18:53 INFO Executor: Running task 13.0 in stage 2.0 (TID 15)
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 14.0 in stage 2.0 (TID 16) (73af63e4647b, executor driver, partition 14, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 14.0 in stage 2.0 (TID 16)
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 15.0 in stage 2.0 (TID 17) (73af63e4647b, executor driver, partition 15, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 4.0 in stage 2.0 (TID 6) in 87 ms on 73af63e4647b (executor driver) (5/32)
+26/07/03 13:18:53 INFO Executor: Running task 15.0 in stage 2.0 (TID 17)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 6.0 in stage 2.0 (TID 8) in 89 ms on 73af63e4647b (executor driver) (6/32)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 1.0 in stage 2.0 (TID 3) in 92 ms on 73af63e4647b (executor driver) (7/32)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 0.0 in stage 2.0 (TID 2) in 93 ms on 73af63e4647b (executor driver) (8/32)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (717.0 B) non-empty blocks including 1 (717.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (789.0 B) non-empty blocks including 1 (789.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (652.0 B) non-empty blocks including 1 (652.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO Executor: Finished task 8.0 in stage 2.0 (TID 10). 5996 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 16.0 in stage 2.0 (TID 18) (73af63e4647b, executor driver, partition 16, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (490.0 B) non-empty blocks including 1 (490.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO Executor: Running task 16.0 in stage 2.0 (TID 18)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (652.0 B) non-empty blocks including 1 (652.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 8.0 in stage 2.0 (TID 10) in 20 ms on 73af63e4647b (executor driver) (9/32)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO Executor: Finished task 10.0 in stage 2.0 (TID 12). 6099 bytes result sent to driver
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (789.0 B) non-empty blocks including 1 (789.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (868.0 B) non-empty blocks including 1 (868.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 17.0 in stage 2.0 (TID 19) (73af63e4647b, executor driver, partition 17, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 10.0 in stage 2.0 (TID 12) in 20 ms on 73af63e4647b (executor driver) (10/32)
+26/07/03 13:18:53 INFO Executor: Running task 17.0 in stage 2.0 (TID 19)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (789.0 B) non-empty blocks including 1 (789.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO Executor: Finished task 9.0 in stage 2.0 (TID 11). 5970 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 18.0 in stage 2.0 (TID 20) (73af63e4647b, executor driver, partition 18, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 18.0 in stage 2.0 (TID 20)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 9.0 in stage 2.0 (TID 11) in 23 ms on 73af63e4647b (executor driver) (11/32)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (652.0 B) non-empty blocks including 1 (652.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (717.0 B) non-empty blocks including 1 (717.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO Executor: Finished task 15.0 in stage 2.0 (TID 17). 5802 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 19.0 in stage 2.0 (TID 21) (73af63e4647b, executor driver, partition 19, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Finished task 14.0 in stage 2.0 (TID 16). 5927 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Running task 19.0 in stage 2.0 (TID 21)
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 20.0 in stage 2.0 (TID 22) (73af63e4647b, executor driver, partition 20, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 15.0 in stage 2.0 (TID 17) in 22 ms on 73af63e4647b (executor driver) (12/32)
+26/07/03 13:18:53 INFO Executor: Running task 20.0 in stage 2.0 (TID 22)
+26/07/03 13:18:53 INFO Executor: Finished task 13.0 in stage 2.0 (TID 15). 6157 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 14.0 in stage 2.0 (TID 16) in 23 ms on 73af63e4647b (executor driver) (13/32)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (868.0 B) non-empty blocks including 1 (868.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 21.0 in stage 2.0 (TID 23) (73af63e4647b, executor driver, partition 21, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 21.0 in stage 2.0 (TID 23)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 13.0 in stage 2.0 (TID 15) in 25 ms on 73af63e4647b (executor driver) (14/32)
+26/07/03 13:18:53 INFO Executor: Finished task 12.0 in stage 2.0 (TID 14). 6078 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Finished task 16.0 in stage 2.0 (TID 18). 5943 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 22.0 in stage 2.0 (TID 24) (73af63e4647b, executor driver, partition 22, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 22.0 in stage 2.0 (TID 24)
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 23.0 in stage 2.0 (TID 25) (73af63e4647b, executor driver, partition 23, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 23.0 in stage 2.0 (TID 25)
+26/07/03 13:18:53 INFO Executor: Finished task 17.0 in stage 2.0 (TID 19). 5978 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Finished task 11.0 in stage 2.0 (TID 13). 6083 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 12.0 in stage 2.0 (TID 14) in 28 ms on 73af63e4647b (executor driver) (15/32)
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 24.0 in stage 2.0 (TID 26) (73af63e4647b, executor driver, partition 24, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (652.0 B) non-empty blocks including 1 (652.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 16.0 in stage 2.0 (TID 18) in 12 ms on 73af63e4647b (executor driver) (16/32)
+26/07/03 13:18:53 INFO Executor: Running task 24.0 in stage 2.0 (TID 26)
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 25.0 in stage 2.0 (TID 27) (73af63e4647b, executor driver, partition 25, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 25.0 in stage 2.0 (TID 27)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 17.0 in stage 2.0 (TID 19) in 11 ms on 73af63e4647b (executor driver) (17/32)
+26/07/03 13:18:53 INFO Executor: Finished task 18.0 in stage 2.0 (TID 20). 6153 bytes result sent to driver
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (1051.0 B) non-empty blocks including 1 (1051.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 26.0 in stage 2.0 (TID 28) (73af63e4647b, executor driver, partition 26, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 26.0 in stage 2.0 (TID 28)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 11.0 in stage 2.0 (TID 13) in 31 ms on 73af63e4647b (executor driver) (18/32)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 18.0 in stage 2.0 (TID 20) in 12 ms on 73af63e4647b (executor driver) (19/32)
+26/07/03 13:18:53 INFO Executor: Finished task 19.0 in stage 2.0 (TID 21). 5952 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 27.0 in stage 2.0 (TID 29) (73af63e4647b, executor driver, partition 27, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Finished task 20.0 in stage 2.0 (TID 22). 6349 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Running task 27.0 in stage 2.0 (TID 29)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (955.0 B) non-empty blocks including 1 (955.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 28.0 in stage 2.0 (TID 30) (73af63e4647b, executor driver, partition 28, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 28.0 in stage 2.0 (TID 30)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 19.0 in stage 2.0 (TID 21) in 12 ms on 73af63e4647b (executor driver) (20/32)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (652.0 B) non-empty blocks including 1 (652.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 20.0 in stage 2.0 (TID 22) in 11 ms on 73af63e4647b (executor driver) (21/32)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (717.0 B) non-empty blocks including 1 (717.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO Executor: Finished task 21.0 in stage 2.0 (TID 23). 6231 bytes result sent to driver
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (789.0 B) non-empty blocks including 1 (789.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 29.0 in stage 2.0 (TID 31) (73af63e4647b, executor driver, partition 29, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 29.0 in stage 2.0 (TID 31)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (868.0 B) non-empty blocks including 1 (868.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO Executor: Finished task 22.0 in stage 2.0 (TID 24). 5962 bytes result sent to driver
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (868.0 B) non-empty blocks including 1 (868.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (717.0 B) non-empty blocks including 1 (717.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 30.0 in stage 2.0 (TID 32) (73af63e4647b, executor driver, partition 30, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (868.0 B) non-empty blocks including 1 (868.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 21.0 in stage 2.0 (TID 23) in 17 ms on 73af63e4647b (executor driver) (22/32)
+26/07/03 13:18:53 INFO Executor: Running task 30.0 in stage 2.0 (TID 32)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 22.0 in stage 2.0 (TID 24) in 15 ms on 73af63e4647b (executor driver) (23/32)
+26/07/03 13:18:53 INFO Executor: Finished task 23.0 in stage 2.0 (TID 25). 5978 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Starting task 31.0 in stage 2.0 (TID 33) (73af63e4647b, executor driver, partition 31, NODE_LOCAL, 8999 bytes) 
+26/07/03 13:18:53 INFO Executor: Running task 31.0 in stage 2.0 (TID 33)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 23.0 in stage 2.0 (TID 25) in 17 ms on 73af63e4647b (executor driver) (24/32)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (789.0 B) non-empty blocks including 1 (789.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO Executor: Finished task 25.0 in stage 2.0 (TID 27). 6104 bytes result sent to driver
+26/07/03 13:18:53 INFO Executor: Finished task 26.0 in stage 2.0 (TID 28). 6128 bytes result sent to driver
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (868.0 B) non-empty blocks including 1 (868.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 25.0 in stage 2.0 (TID 27) in 17 ms on 73af63e4647b (executor driver) (25/32)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO Executor: Finished task 27.0 in stage 2.0 (TID 29). 5974 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 26.0 in stage 2.0 (TID 28) in 17 ms on 73af63e4647b (executor driver) (26/32)
+26/07/03 13:18:53 INFO Executor: Finished task 28.0 in stage 2.0 (TID 30). 6130 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 27.0 in stage 2.0 (TID 29) in 15 ms on 73af63e4647b (executor driver) (27/32)
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 28.0 in stage 2.0 (TID 30) in 14 ms on 73af63e4647b (executor driver) (28/32)
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Getting 1 (789.0 B) non-empty blocks including 1 (789.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/03 13:18:53 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/03 13:18:53 INFO Executor: Finished task 24.0 in stage 2.0 (TID 26). 6177 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 24.0 in stage 2.0 (TID 26) in 21 ms on 73af63e4647b (executor driver) (29/32)
+26/07/03 13:18:53 INFO Executor: Finished task 29.0 in stage 2.0 (TID 31). 6045 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 29.0 in stage 2.0 (TID 31) in 11 ms on 73af63e4647b (executor driver) (30/32)
+26/07/03 13:18:53 INFO Executor: Finished task 30.0 in stage 2.0 (TID 32). 6146 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 30.0 in stage 2.0 (TID 32) in 11 ms on 73af63e4647b (executor driver) (31/32)
+26/07/03 13:18:53 INFO Executor: Finished task 31.0 in stage 2.0 (TID 33). 6057 bytes result sent to driver
+26/07/03 13:18:53 INFO TaskSetManager: Finished task 31.0 in stage 2.0 (TID 33) in 11 ms on 73af63e4647b (executor driver) (32/32)
+26/07/03 13:18:53 INFO TaskSchedulerImpl: Removed TaskSet 2.0, whose tasks have all completed, from pool 
+26/07/03 13:18:53 INFO DAGScheduler: ResultStage 2 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109) finished in 0.166 s
+26/07/03 13:18:53 INFO DAGScheduler: Job 1 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/03 13:18:53 INFO TaskSchedulerImpl: Killing all running tasks in stage 2: Stage finished
+26/07/03 13:18:53 INFO DAGScheduler: Job 1 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py:109, took 0.927126 s
+26/07/03 13:18:53 INFO SparkContext: SparkContext is stopping with exitCode 0.
+26/07/03 13:18:53 INFO SparkUI: Stopped Spark web UI at http://73af63e4647b:4040
+26/07/03 13:18:53 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+26/07/03 13:18:53 INFO MemoryStore: MemoryStore cleared
+26/07/03 13:18:53 INFO BlockManager: BlockManager stopped
+26/07/03 13:18:53 INFO BlockManagerMaster: BlockManagerMaster stopped
+26/07/03 13:18:53 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+26/07/03 13:18:53 INFO SparkContext: Successfully stopped SparkContext
+26/07/03 13:18:53 INFO ShutdownHookManager: Shutdown hook called
+26/07/03 13:18:53 INFO ShutdownHookManager: Deleting directory /tmp/spark-a19ed5b8-6895-40e7-ab40-c6f25866ae9e/pyspark-f4d253b5-f88b-4b87-a3ec-5595f4aa596a
+26/07/03 13:18:53 INFO ShutdownHookManager: Deleting directory /tmp/spark-a19ed5b8-6895-40e7-ab40-c6f25866ae9e
+26/07/03 13:18:53 INFO ShutdownHookManager: Deleting directory /tmp/spark-a2ab9d5e-21c0-4379-8123-bd58d562b22f

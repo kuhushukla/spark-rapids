@@ -1,0 +1,51 @@
+26/07/03 13:18:46 INFO SparkContext: Running Spark version 3.5.5
+26/07/03 13:18:46 INFO SparkContext: OS info Linux, 6.8.0-47-generic, amd64
+26/07/03 13:18:46 INFO SparkContext: Java version 17.0.19
+26/07/03 13:18:46 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/03 13:18:46 INFO ResourceUtils: ==============================================================
+26/07/03 13:18:46 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/03 13:18:46 INFO ResourceUtils: ==============================================================
+26/07/03 13:18:46 INFO SparkContext: Submitted application: max-partition-bytes-metadata
+26/07/03 13:18:46 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/03 13:18:46 INFO ResourceProfile: Limiting resource is cpu
+26/07/03 13:18:46 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/03 13:18:46 INFO SecurityManager: Changing view acls to: roberte
+26/07/03 13:18:46 INFO SecurityManager: Changing modify acls to: roberte
+26/07/03 13:18:46 INFO SecurityManager: Changing view acls groups to: 
+26/07/03 13:18:46 INFO SecurityManager: Changing modify acls groups to: 
+26/07/03 13:18:46 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: roberte; groups with view permissions: EMPTY; users with modify permissions: roberte; groups with modify permissions: EMPTY
+26/07/03 13:18:46 INFO Utils: Successfully started service 'sparkDriver' on port 36419.
+26/07/03 13:18:46 INFO SparkEnv: Registering MapOutputTracker
+26/07/03 13:18:47 INFO SparkEnv: Registering BlockManagerMaster
+26/07/03 13:18:47 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/03 13:18:47 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/03 13:18:47 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/03 13:18:47 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-daec78ee-5b9d-4fd1-b24a-1e4e467388a9
+26/07/03 13:18:47 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/07/03 13:18:47 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/03 13:18:47 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/03 13:18:47 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/03 13:18:47 INFO Executor: Starting executor ID driver on host 73af63e4647b
+26/07/03 13:18:47 INFO Executor: OS info Linux, 6.8.0-47-generic, amd64
+26/07/03 13:18:47 INFO Executor: Java version 17.0.19
+26/07/03 13:18:47 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/07/03 13:18:47 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@797243f9 for default.
+26/07/03 13:18:47 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 46225.
+26/07/03 13:18:47 INFO NettyBlockTransferService: Server created on 73af63e4647b:46225
+26/07/03 13:18:47 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/03 13:18:47 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 73af63e4647b, 46225, None)
+26/07/03 13:18:47 INFO BlockManagerMasterEndpoint: Registering block manager 73af63e4647b:46225 with 434.4 MiB RAM, BlockManagerId(driver, 73af63e4647b, 46225, None)
+26/07/03 13:18:47 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 73af63e4647b, 46225, None)
+26/07/03 13:18:47 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 73af63e4647b, 46225, None)
+26/07/03 13:18:47 INFO SparkContext: SparkContext is stopping with exitCode 0.
+26/07/03 13:18:47 INFO SparkUI: Stopped Spark web UI at http://73af63e4647b:4040
+26/07/03 13:18:47 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+26/07/03 13:18:47 INFO MemoryStore: MemoryStore cleared
+26/07/03 13:18:47 INFO BlockManager: BlockManager stopped
+26/07/03 13:18:47 INFO BlockManagerMaster: BlockManagerMaster stopped
+26/07/03 13:18:47 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+26/07/03 13:18:47 INFO SparkContext: Successfully stopped SparkContext
+26/07/03 13:18:47 INFO ShutdownHookManager: Shutdown hook called
+26/07/03 13:18:47 INFO ShutdownHookManager: Deleting directory /tmp/spark-6c66b822-7633-4462-9d9d-7c3d7c6cca89
+26/07/03 13:18:47 INFO ShutdownHookManager: Deleting directory /tmp/spark-bbf0c1c1-3c8f-40ee-a132-ea6e10390aff/pyspark-9f253c8d-eecf-4ce7-a3bb-79a349850956
+26/07/03 13:18:47 INFO ShutdownHookManager: Deleting directory /tmp/spark-bbf0c1c1-3c8f-40ee-a132-ea6e10390aff

@@ -35,6 +35,9 @@ Write before examining treatment results:
 
 - one-sentence hypothesis;
 - primary metric, estimand, experimental unit, aggregation, and confidence level/interval method;
+- claim form: superiority, noninferiority, equivalence, or estimation-only;
+- exact statistic/estimand, effect direction, practical margin, one- or two-sided error rate, and decision rule;
+- candidate family and multiplicity/simultaneous-inference method when more than one comparison can support the conclusion;
 - paired/blocking/randomization design and schedule topology: serial phases, parallel task waves/branches, pipelines, barriers, and shared-resource contention;
 - sample-size power or precision rule, stopping rule, and treatment of missing, failed, aborted, and outlier runs;
 - hard constraints and abort thresholds;
@@ -45,6 +48,8 @@ Write before examining treatment results:
 - expected causal chain and secondary metrics;
 - known confounders;
 - allowed environment, cost/runtime budget, credential reference/mechanism (never a secret value), redaction, cleanup, and commit authorization.
+
+Failure to reject superiority is not evidence of noninferiority or equivalence. Those claims require their own pre-registered margins and confidence-bound or test rule.
 
 Discover workload identity and the correctness contract from available code/artifacts. If either remains missing and would change the test, stop and ask before executing. Change one causal factor at a time for attribution. If coupled settings must change together, define the complete candidate as one action and add ablations.
 
@@ -65,6 +70,8 @@ For each metric document producer, scope, cadence, aggregation, units, retries/s
 
 ## Step 3: Versioned Artifacts
 
+Use explicit lifecycle states: `DRAFT`, `PREREGISTERED`, `EXECUTED`, and `VALIDATED` (or `BLOCKED`). Preserve an immutable preregistration snapshot and checksum before treatment results are visible. Record amendments separately with timestamp, reason, changed fields, and whether treatment data had been examined; do not overwrite the preregistration snapshot. Finalization must remove or resolve every `pending` field.
+
 Place experiment-only material outside the final design document. Use the user-specified directory. If none is specified, use a clearly named project-local directory such as `artifacts/tuning/<experiment-id>/` only when repository policy permits it.
 
 Keep:
@@ -75,22 +82,34 @@ Keep:
 ├── manifest.yaml         # immutable identity and pre-registered criteria
 ├── scripts/              # generation, launch, collection, analysis
 ├── queries/              # immutable query text or hashes
+├── schedule.json         # allocation/order frozen before first treatment
+├── attempts/             # harness/instrumentation failures and diagnostics
 ├── raw/                  # raw logs/metrics or durable external references
+│   └── run-journal.jsonl # append-only start/terminal records for every attempt
 └── analysis/             # derived tables/plots and machine-readable summary
 ```
 
 Never overwrite prior raw runs. Use stable run IDs. If raw data is too large for git, version checksums, schemas, collection commands, and durable immutable locations.
 
+Write the allocation schedule durably before the first treatment. Maintain an append-only journal: write and flush a start record before each attempt and a terminal record after it with run ID, phase, treatment/config hash, timestamps, status, artifact references, and error/abort reason. Persist partial results incrementally so interruption cannot erase completed or failed attempts. Keep harness/instrumentation failures in `attempts/`; exclude them from the estimand unless pre-registered, but do not erase them.
+
 Copy [the bundled manifest template](templates/experiment-manifest.yaml) into the experiment directory and fill every applicable field. The manifest must include:
 
 ```yaml
 experiment_id: "..."
+lifecycle:
+  state: "DRAFT"
+  preregistration_snapshot_and_sha256: ""
+  amendments: []
 hypothesis: "..."
 objective:
   primary_metric: "..."
   estimand_and_experimental_unit: "..."
   aggregation: "..."
+  claim_form_superiority_noninferiority_equivalence_or_estimation: "..."
   confidence_level_and_interval_method: "..."
+  effect_direction_practical_margin_and_decision_rule: "..."
+  candidate_family_and_multiplicity_method: "..."
   minimum_effect: "..."
   sample_size_power_or_precision_rule: "..."
   stopping_and_missing_failed_outlier_policy: "..."
@@ -143,7 +162,7 @@ Before performance runs verify:
 - Randomize or counterbalance baseline/treatment ordering.
 - Keep background workload, cache policy, cluster allocation, and data snapshot fixed.
 - Choose repetitions from variance and target effect; three is only a smoke-test minimum.
-- Capture every run, including failures and aborted runs.
+- Capture every warm-up, measured, failed, and aborted attempt through the append-only journal; never rely on an end-of-experiment write for preservation.
 - Apply pre-registered aborts immediately for correctness, fatal OOM, executor loss, runaway retry/spill, cost, or timeout.
 - Do not use normal OOM/retry as an exploration strategy.
 
@@ -163,11 +182,14 @@ Report individual runs and distributions. Include:
 - unexplained residuals;
 - sensitivity to skew/order/scale;
 - hold-out result;
-- multiple-comparison correction when searching many candidates.
+- the pre-registered multiplicity or simultaneous-interval method for every family of candidate comparisons; if it was not pre-registered, label the family-wise conclusion exploratory;
+- for noninferiority/equivalence, the pre-registered bound relative to the practical margin—never infer “no meaningful benefit/difference” only because superiority was not detected.
 
 Separate exploratory findings from pre-registered confirmation. A model fit on a case is not validated on that same case.
 
 ## Step 7: Conclusion
+
+Run a mechanical validator before issuing a verdict. It must verify manifest lifecycle/completeness, immutable identities and checksums, exact schedule/allocation, treatment compliance, expected run/block counts, the declared missing/failed/aborted policy, correctness and safety gates, and the pre-registered statistical decision rule. It writes the machine-readable verdict and exits nonzero on any failed gate. Human summaries must not claim a stronger result than this output.
 
 Use one verdict:
 
@@ -176,6 +198,6 @@ Use one verdict:
 - `INCONCLUSIVE`
 - `EXECUTION BLOCKED`
 
-State the exact validity region and next decision. Do not generalize from a microbenchmark, one query, one GPU, or one scale to Spark workloads broadly.
+State the exact validity region and next decision. Include the validator output and exact replay command in the handoff. Do not generalize from a microbenchmark, one query, one GPU, or one scale to Spark workloads broadly.
 
 If files were changed, list versioned working-tree artifacts separately from large external raw data. Commit only when explicitly authorized; in this repository use `git commit -s` and never bypass hooks. Otherwise leave a complete working-tree handoff.

@@ -1,0 +1,5 @@
+a4b46c992efc5bf80a56ee172ec4d653c70e73d8f7f940ccb4f792da805c51d6  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/run_experiment.sh
+6f34b630a0e27253a3729661120e36d4e77dbcc00bae314c69d16cafb2b16360  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/benchmark.py
+7bd3b4182a45219eb4fe1bcf0865008d3bf7cd31d435121ec510e1429e094d21  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/extract_cpu_sha.py
+a3f0914a7b821d0cb377b1a45e5f9d411c09488d403b783758719f8a3f070131  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/inspect_parquet.py
+4f50b8712c11294f760ae09c89ef0fca0fd0d4ddb56252df8744efc86f3c9e26  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes/scripts/validate_experiment.py

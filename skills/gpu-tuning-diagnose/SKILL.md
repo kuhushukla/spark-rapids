@@ -65,6 +65,13 @@ Capture or report missing:
 
 Trace a configuration to its consumer before saying it is active. In this repository inspect its `RapidsConf` declaration, startup/runtime metadata, snapshots, read sites, lazy/cached values, executor initialization, AQE stage conversion, tests, and shims.
 
+For every candidate control surface, build a configured/effective/physical-work table:
+
+| Configured input | Interacting settings/defaults | Effective value or rule | Consumer and lifecycle | Physical work created | Compliance evidence |
+|---|---|---|---|---|---|
+
+The physical-work column names the actual tasks, partitions, batches, buffers, requests, or other units affected, including indivisible layout or scheduling granularity. Two configured values are not distinct treatments when they resolve to the same effective value or create the same relevant physical work. Mark any unverified transition as a hypothesis.
+
 ## Step 3: Byte and Work Ledger
 
 Start from [the byte-ledger template](templates/byte-ledger.csv) when useful. The bundled [admission extractor](scripts/extract_gpu_admission.py) can recover the per-stage `gpuMaxConcurrentGpuTasks` signal from Spark JSON event logs; inspect and extend it for other metrics rather than changing their semantics.
@@ -146,10 +153,11 @@ Then provide:
 
 1. optimization contract;
 2. evidence inventory and gaps;
-3. critical-path and byte/work ledger;
-4. metric reconciliation;
-5. ranked hypotheses;
-6. next experiment;
-7. claims that remain proposals rather than current capabilities.
+3. configured/effective/physical-work table;
+4. critical-path and byte/work ledger;
+5. metric reconciliation;
+6. ranked hypotheses;
+7. next experiment;
+8. claims that remain proposals rather than current capabilities.
 
 Use exact repository paths/symbols and immutable artifact paths where available.

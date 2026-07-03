@@ -21,6 +21,7 @@ When working in spark-rapids, use the [dynamic tuning guide](../../docs/design/d
 - [ ] Reconstruct the baseline execution graph and critical path.
 - [ ] Draw the candidate execution graph, including ownership and failure semantics.
 - [ ] Build a byte/work ledger and per-resource demand model.
+- [ ] Prove candidate treatments create distinct effective state or useful physical work.
 - [ ] Compose durations according to the actual serial, parallel, or pipelined schedule.
 - [ ] Derive break-even boundaries and sensitivity to uncertain inputs.
 - [ ] Rank the idea and specify the smallest falsification experiment.
@@ -53,7 +54,13 @@ For every phase, identify representation, logical and encoded bytes, passes, ope
 
 Use a defensible capacity ceiling only for a lower bound. Use measured sustainable rates plus uncertainty for a prediction.
 
-## 4. Compose the actual schedule
+## 4. Check treatment distinctness
+
+Before proposing a sweep, map each candidate through configured input → effective rule → physical work. Use metadata, source tracing, or a small compliance probe to identify indivisible units and treatment equivalence.
+
+Do not spend performance runs on candidates that produce the same relevant execution graph, useful-work layout, or actuator state. If the proposed population cannot exercise the modeled mechanism, return **MEASURE** and specify the smallest workload or scale change that makes treatments distinguishable.
+
+## 5. Compose the actual schedule
 
 Serial phases add. Independent parallel branches complete according to their resource-constrained schedule. Fully overlapped phases use a maximum only when traces or an implementation contract demonstrate concurrency.
 
@@ -69,7 +76,7 @@ For a pipeline, include:
 
 A background thread creates overlap only if it executes concurrently, has available CPU/device/network resources, and does not move the bottleneck through contention. MPP-style execution must model aggregate resource limits, data redistribution, skew, stragglers, and coordination—not ideal worker-count scaling.
 
-## 5. Find break-even boundaries
+## 6. Find break-even boundaries
 
 Express the candidate as an inequality against the baseline and solve for the uncertain variable when possible. Sweep plausible ranges rather than hiding them in one point estimate. Report which inputs change the decision, measurement value, confidence, and validity region.
 
@@ -79,7 +86,7 @@ Separate:
 - sufficient conditions under the model;
 - operational constraints that can veto an otherwise favorable estimate.
 
-## 6. Decide the next investment
+## 7. Decide the next investment
 
 Choose one verdict:
 
@@ -93,4 +100,4 @@ Prioritize by expected decision value, not predicted speedup alone: benefit prob
 
 ## Output
 
-Return the completed model card, baseline/candidate graph comparison, equations with units, sensitivity or break-even boundary, evidence gaps, verdict, and next experiment. If a critical lifecycle or correctness input cannot be discovered, keep the idea labeled Proposal and request that evidence rather than assuming it.
+Return the completed model card, baseline/candidate graph comparison, treatment-distinctness/compliance matrix, equations with units, sensitivity or break-even boundary, evidence gaps, verdict, and next experiment. If a critical lifecycle or correctness input cannot be discovered, keep the idea labeled Proposal and request that evidence rather than assuming it.

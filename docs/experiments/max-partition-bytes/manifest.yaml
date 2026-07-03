@@ -1,0 +1,168 @@
+experiment_id: max-partition-bytes-nyc-tlc-2020-01
+run_id: 20260703T131700Z
+evidence_state: measured_exploratory
+protocol_provenance:
+  status: retrospectively_versioned_exploratory_protocol
+  statement: >-
+    The final manifest and protocol were versioned after execution. No immutable
+    pre-run manifest commit or timestamped external registration exists, so this
+    is not claimed as an auditable preregistration.
+  development_drafts: >-
+    Earlier mutable working drafts and two harness-development failures were not
+    preserved as evidence. They are non-auditable development notes and support
+    no result claim.
+split_verdict:
+  empty_task_mechanism: SUPPORTED
+  performance_effect: EXPLORATORY_INCONCLUSIVE
+  bounded_observation: >-
+    No candidate showed an observed median scan-stage improvement of at least 5%
+    versus 128 MiB across seven randomized complete blocks.
+  inference_limit: >-
+    Reported paired bootstrap intervals are exploratory, unadjusted for four
+    comparisons, and are not confirmatory noninferiority or equivalence bounds.
+hypothesis:
+  mechanism: >-
+    For this one-row-group Parquet file, lowering maxPartitionBytes below the
+    row-group span creates additional byte-range tasks but no additional useful
+    scan tasks.
+  exploratory_performance: >-
+    The added empty tasks may affect scan-stage makespan, but direction and
+    magnitude are estimated exploratorily.
+objective:
+  primary_metric: scan-stage makespan in milliseconds from event-log stage timestamps
+  experimental_unit: one query execution within one randomized complete block
+  aggregation: median by candidate plus paired within-block exploratory differences
+  practical_threshold: 5% observed median scan-stage improvement
+  uncertainty: >-
+    Unadjusted exploratory 95% paired bootstrap intervals; four candidate
+    comparisons; no confirmatory coverage claim.
+safety_and_acceptance:
+  required:
+    - canonical GPU aggregate hash equals the separately generated CPU payload hash
+    - GPU scan appears in every warm-up and measured physical plan
+    - exact seeded allocation and all seven blocks are complete
+    - every Task End Reason in every relevant CPU and GPU stage is Success
+    - all journal and plan hashes reconcile
+  abort:
+    - external timeout
+    - result mismatch
+    - CPU fallback
+    - missing or multiple event logs
+    - failed, killed, missing, or extra task end
+    - executor loss or fatal OOM
+authority:
+  environment_and_actions: user-authorized local GPU execution and working-tree versioning
+  runtime_budget: 20 minutes GPU phase, 5 minutes CPU phase, no external spend
+  credentials: none
+  data_policy: public dataset; exact repository-root file remains ignored and untracked
+  commit_status: no staging or commit by sub-agent
+baseline:
+  spark.sql.files.maxPartitionBytes: 128m
+  spark.sql.files.openCostInBytes: 1
+  spark.sql.files.minPartitionNum: 1
+  spark.sql.files.maxPartitionNum: unset
+  spark.rapids.sql.concurrentGpuTasks: 2
+  spark.rapids.sql.concurrentGpuTasks.dynamic: false
+treatments:
+  only_change: spark.sql.files.maxPartitionBytes
+  values_mib: [8, 16, 32, 64, 128]
+workload:
+  dataset_absolute_path: /home/roberte/src/rapids-plugin-4-spark/yellow_tripdata_2020-01.parquet
+  source_url: https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2020-01.parquet
+  source_page: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+  data_dictionary: https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf
+  access_and_license: >-
+    Official NYC TLC immediate public download. TLC says the records were
+    provided by technology providers and disclaims accuracy. The file page does
+    not name a conventional data license; none is inferred here.
+  sha256: 0c32c1d5ef0d37ac3ff1a3f1880f247cc40165edf18626e5a86866296a4a5b93
+  exact_size_bytes: 93562858
+  parquet_layout: >-
+    One row group; 6405008 rows; 93550347 compressed column-chunk bytes;
+    170542631 uncompressed bytes.
+  query: >-
+    Project PULocationID, payment_type, passenger_count, and trip_distance;
+    retain nonnegative trip distances and non-null pickup zones; group by pickup
+    zone and payment type; count rows and sum integral passenger counts.
+software:
+  repository_parent_revision: cc4b1f5dc34c6a4f6bfa15441832aff3834127ac
+  rapids_jar_revision: 8a8d20d99a88566b1de849a709e2e8e1e65cfa16
+  rapids_jar_sha256: 1735ab9d5baad6a1e3238691e4d39b14c7bf8e9ea58fa3c2b8bbc55c73441a1b
+  rapids_version_and_profile: 26.08.0-SNAPSHOT, cuda12
+  rapids_jni_revision: 0935cfac9ff90bee0cd5c08b7ef59a4d09a392d0
+  cudf_revision: 9a2779430fab3d6f695ccebfee43cfabc54e5e2e
+  spark_version_and_revision: 3.5.5, 7c29c664cdc9321205a98a14858aaf8daaa19db2
+  scala_and_java: 2.12.18, 17.0.19
+hardware:
+  gpu: NVIDIA RTX A6000, 49140 MiB, driver 550.163.01
+  cpu_ram_os: preserved verbatim in provenance/environment.txt
+  topology: Spark local[8], one GPU, local container filesystem
+procedure:
+  wrapper: run_experiment.sh
+  CPU_reference: separate CPU Spark application with canonical aggregate payload
+  warmups: one per value; preserved and subject to hash and GPU-plan checks
+  measured_repetitions: seven randomized complete blocks
+  seed: 20260703
+  cache_policy: warm local OS cache after preserved warm-ups; no Spark data cache
+  reader: RAPIDS COALESCING Parquet reader
+  AQE: disabled
+  shuffle_partitions: 32
+  schedule: >-
+    Scan tasks execute as a resource-constrained parallel schedule across eight
+    CPU slots and one GPU. Per-task/footer and per-batch costs occur within those
+    overlapping task/GPU schedules. A shuffle barrier precedes the final aggregate.
+scripts_executed:
+  run_experiment.sh: a4b46c992efc5bf80a56ee172ec4d653c70e73d8f7f940ccb4f792da805c51d6
+  scripts/benchmark.py: 6f34b630a0e27253a3729661120e36d4e77dbcc00bae314c69d16cafb2b16360
+  scripts/validate_experiment.py: 4f50b8712c11294f760ae09c89ef0fca0fd0d4ddb56252df8744efc86f3c9e26
+  scripts/extract_cpu_sha.py: 7bd3b4182a45219eb4fe1bcf0865008d3bf7cd31d435121ec510e1429e094d21
+  scripts/inspect_parquet.py: a3f0914a7b821d0cb377b1a45e5f9d411c09488d403b783758719f8a3f070131
+results:
+  applications:
+    cpu: local-1783084730080
+    gpu: local-1783084736332
+  canonical_cpu_and_gpu_result_sha256: 1504e03111d5a3333a32f1e4fd8ba01d1ab202c988c7f045ac43ea4ba36e7fed
+  validated_analysis_sha256: c510e32c53100299997811e2b91fc3ab1f0563044676588071c014763d48aa66
+  mechanism: >-
+    Every run at every value had one useful scan task. Empty tasks were 0, 1,
+    2, 5, and 11 for 128, 64, 32, 16, and 8 MiB respectively.
+  performance: >-
+    Median scan-stage makespans were 193, 190, 193, 193, and 191 ms for 128,
+    64, 32, 16, and 8 MiB. No >=5% improvement was observed. The performance
+    effect remains exploratory and inconclusive.
+artifacts:
+  checksum_scope: >-
+    provenance/checksums.txt covers the packaged payload and is verified before
+    wrapper success. raw/wrapper-attempts.jsonl is finalized afterward and is
+    intentionally excluded to avoid a circular self-finalization dependency.
+  immutable_run_evidence:
+    - analysis/cpu-reference.json
+    - analysis/cpu-reference.json.plans.json
+    - analysis/gpu-benchmark.json
+    - analysis/gpu-benchmark.json.plans.json
+    - analysis/parquet-metadata.json
+    - analysis/validated-analysis.json
+    - raw/cpu-eventlog.json.gz
+    - raw/gpu-eventlog.json.gz
+    - raw/cpu-journal.jsonl
+    - raw/gpu-journal.jsonl
+    - raw/wrapper-attempts.jsonl
+    - stdout/cpu.stdout.txt
+    - stdout/cpu.stderr.txt
+    - stdout/gpu.stdout.txt
+    - stdout/gpu.stderr.txt
+    - stdout/metadata.stdout.txt
+    - stdout/metadata.stderr.txt
+    - provenance/environment.txt
+    - provenance/executed-code-sha256.txt
+    - provenance/checksums.txt
+limitations:
+  - one file, one row group, one query, one GPU, local warm-cache storage
+  - seven exploratory blocks are not powered confirmatory noninferiority evidence
+  - four unadjusted candidate comparisons
+  - file partitions and GPU batches remain distinct distributions
+  - no evidence here identifies a parallelism knee for multi-row-group data
+next_experiment: >-
+  Use multiple files with at least 8-16 independently useful, uneven row groups,
+  retain the journaled protocol, add a hold-out projection/selectivity, and use
+  an independently versioned confirmatory design if a performance claim is desired.
