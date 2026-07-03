@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "purpose": "instrumentation and treatment-distinctness pilot; not used for performance inference",
+  "frozen_before_execution": true,
+  "runs": [
+    {
+      "run_id": "pilot-warmup-common-2009-256",
+      "phase": "warmup",
+      "query": "common",
+      "start_month": "2009-01",
+      "end_month": "2009-03",
+      "max_partition_mib": 256,
+      "repeat": 0
+    },
+    {
+      "run_id": "pilot-measured-common-2009-128",
+      "phase": "pilot_measure",
+      "query": "common",
+      "start_month": "2009-01",
+      "end_month": "2009-03",
+      "max_partition_mib": 128,
+      "repeat": 0
+    },
+    {
+      "run_id": "pilot-measured-common-2009-256",
+      "phase": "pilot_measure",
+      "query": "common",
+      "start_month": "2009-01",
+      "end_month": "2009-03",
+      "max_partition_mib": 256,
+      "repeat": 0
+    },
+    {
+      "run_id": "pilot-measured-common-2009-512",
+      "phase": "pilot_measure",
+      "query": "common",
+      "start_month": "2009-01",
+      "end_month": "2009-03",
+      "max_partition_mib": 512,
+      "repeat": 0
+    }
+  ]
+}
