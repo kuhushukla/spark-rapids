@@ -2,7 +2,7 @@
 
 ## Status
 
-**MEASURED LOCALLY — 794 GPU RUNS, 12 CPU REFERENCES, EIGHT STUDIES COMPLETE**
+**MEASURED LOCALLY — 878 GPU RUNS, 12 CPU REFERENCES, PROSPECTIVE TRANSFER RERUN COMPLETE**
 
 This experiment asks two separate questions:
 
@@ -24,6 +24,8 @@ workload. It is not itself the modeled answer.
   128-MiB observations per query.
 - Independent batch-target follow-up: 52 GPU runs; 50 measured.
 - Original-versus-sharded physical-layout contrast: 32 GPU runs; 30 measured.
+- Frozen 512-MiB policy prospective transfer rerun: 84 GPU runs; 80 measured across
+  2010/2011 previously studied in the original static-concurrency experiment.
 - CPU correctness: 12 references, one for every annual episode/query.
 - Initial studies used three seeded randomized blocks; follow-ups used five blocks and
   ten default observations. Exact schedules, raw event logs, task metrics, analysis,
@@ -115,11 +117,23 @@ At 16,384/32,768 MiB only one task remained and footprint stopped growing becaus
 1-GiB batch boundary chunked the partition. Thus the observed cliff is consistent with
 lost runnable/admitted parallelism and task granularity, not a demonstrated OOM wall.
 
-A post-sweep minimax calculation across these two queries selected 512 MiB: its worst
-observed median regret was 6.8%, versus 7.1% for 2,048 MiB. It also retained a
-three-wave diagnostic proxy and a much smaller footprint. This is the right shape of
-decision—bounded regret rather than noise-fitting a point—but it is not yet a validated
-policy because selection and evaluation used the same two workloads.
+A post-sweep minimax calculation across these two queries gave 512 MiB 6.8% worst
+observed 2009 point-median regret, versus 7.1% for 2,048 MiB. The 0.3-percentage-point
+difference is far below the observed variation, so 512 MiB is a conservative tie-break—not
+a uniquely identified optimum—because it retained a three-wave diagnostic proxy and a
+much smaller footprint.
+
+The candidate was frozen before an 80-run prospective dynamic-concurrency transfer rerun.
+The 2010/2011 epochs were held out from the new 2009 selection calculation, but they had
+already been studied under the earlier static-concurrency protocol; this is not an untouched
+independent holdout. Against the restricted 128, 512, 2,048, and 4,096-MiB comparator set,
+the 512-MiB point-median regrets were 7.07% and 1.46% for common and 0% for
+variable-width in both epochs. All four cells passed the preregistered descriptive 10%
+point-median criterion, with stable results and no retry/spill. Five blocks do not
+confidence-bound true regret below 10%, so this supports a candidate for further transfer
+testing rather than validating a universal default.
+
+![Prospective bounded-regret transfer rerun](analysis/bathtub-holdout.svg)
 
 The proposed wide 4–16× plateau was not supported at the preregistered 5% threshold:
 the fixed-width cell contained only 2,048 MiB and the variable-width cell only 512 MiB.
@@ -152,10 +166,10 @@ The five-block follow-up fixed the partition treatment at 4,096 MiB and swept th
 general target through 256, 512, 1,024, 2,048, and 4,096 MiB. Maximum emitted batches
 tracked the target until limited by available task output: common times were 391, 337,
 304, 295, and 297 ms; variable-width times were 522, 435, 390, 354, and 355 ms.
-The flat 2–4-GiB result and one-batch task output show that the GPU-fill question belongs
-to the batch actuator, while partition sizing governs how many such tasks and batches
-exist. Larger batch targets also increased observed task footprint, so batch sizing has
-its own memory wall.
+The flat 2–4-GiB result and one-batch task output show that, once a task contains enough
+data, the batch target directly controls emitted batch size. Partition sizing still controls
+available task volume, task count, and how many batches a task can produce. Larger batch
+targets also increased observed task footprint, so batch sizing has its own memory wall.
 
 This factorial supports batching mediation; it still does not isolate GPU occupancy,
 filesystem cache, scheduling waves, or every reader internal. The application environment
@@ -227,8 +241,14 @@ monthly files and the value-preserving sharded rewrite:
 
 | Layout | 128 MiB | 2,048 MiB | 8,192 MiB |
 |---|---:|---:|---:|
-| Sharded: time / scan tasks | 540 ms / 87 | 315 ms / 5 | 417 ms / 2 |
-| Original: time / scan tasks | 1,577 ms / 12 | 560 ms / 3 | 540 ms / 1 |
+| Sharded: time / stage-output-empty tasks | 540 ms / 87-87-0 | 315 ms / 5-5-0 | 417 ms / 2-2-0 |
+| Original: time / stage-output-empty tasks | 1,577 ms / 46-12-34 | 560 ms / 3-3-0 | 540 ms / 1-1-0 |
+
+At 128 MiB the original layout planned and launched 46 scan tasks, but only 12
+produced output; the other 34 still accumulated a median 3,038 ms of GPU-semaphore
+holding time per run in aggregate. They therefore cannot be dropped from the overhead
+model even though output-producing tasks remain the denominator for decoded bytes,
+batches/task, and the data-bearing GPU-wave proxy.
 
 The knob acted differently because file and row-group layout changed Spark packing,
 reader behavior, task granularity, and available concurrency. A per-table policy cannot
@@ -254,10 +274,12 @@ layout:
 6. Predict batches/task from the general RAPIDS target and reader soft limit.
 7. Predict RMM task footprint and reject candidates whose upper bound exceeds the
    per-task budget.
-8. Predict makespan by list-scheduling the planned heterogeneous tasks under an
-   admission-concurrency model. The homogeneous approximation
-   `ceil(n / c) * (t_fixed + U / r_eff + t_wait)` is diagnostic only; use Spark's
-   actual planned task count rather than `D / maxPartitionBytes`.
+8. Predict makespan by list-scheduling planned heterogeneous tasks. Model each task's
+   service time from fixed cost plus byte/row-dependent CPU, I/O, and GPU work, then let
+   resource availability and dynamic admission create queueing. Do not add measured
+   semaphore wait to service time: that double-counts contention. Use wait as a residual
+   validation signal, and use Spark's planned scan-stage task count rather than
+   `D / maxPartitionBytes`.
 9. Build a box, not a point estimate. The lower bound amortizes effective per-task cost.
    The upper bound must satisfy a conservative RMM-footprint bound, retain a predeclared
    number of task-wave opportunities, and stay inside the footer/history domain.
@@ -285,6 +307,12 @@ The required signals exist; operational ease and cost are not yet demonstrated.
   it is not a stage-wide configured/admitted limit.
 - `gpuSemaphoreWait`: task wait duration, serialized in event logs at millisecond
   display precision.
+- planned scan-stage tasks: Spark's `Stage Info.Number of Tasks`; launched scan tasks
+  are counted from all TaskEnd events in that stage. Output-producing scan tasks are the
+  subset with positive GPU scan output; empty tasks remain part of scheduling overhead.
+  Scan-output byte/row/batch distributions use output-producing tasks. Admission, wait,
+  holding, retry/spill, reader, and device-memory metrics use all scan-stage tasks because
+  empty tasks can still acquire the GPU; their holding time is also reported separately.
 - scan task span: first scan-task launch to last scan-task finish; a critical-path proxy,
   not a complete stage-attribution model.
 - `multithreadReaderMaxParallelism`: observed reader-side parallelism when that path is used.
@@ -320,13 +348,13 @@ remains ignored by Git.
 | Dynamic-concurrency bathtub mechanism sweep | Complete; five exploratory blocks |
 | Ten-run default variance screen | Complete for common and variable-width |
 | Original-versus-sharded physical-layout contrast | Complete |
-| Cross-query bounded-regret calculation | Exploratory; held-out validation not done |
+| Cross-query bounded-regret rule | Descriptive point-median criterion passed in prospective 2010/2011 rerun; confidence-bounded regret and other layouts/families open |
 | 1→36-month cumulative growth | Complete |
 | Mixed missing/present column read | Complete with explicit schema |
 | Annual CPU/GPU correctness and all-study lifecycle checks | Complete |
 | M0 projected footer-uncompressed model | Not yet scored |
 | M2 combined type/null/chunk feature model | Not yet fitted |
-| Confirmatory equivalence bands / held-out repeats | Not done; bootstrap cell intervals are descriptive |
+| Confirmatory equivalence bands / untouched independent holdout | Not done; bootstrap cell intervals are descriptive |
 | GPU utilization / SM occupancy corroboration | Not measured |
 | Automatic compatible Parquet up-casts | Not isolated |
 | Multi-executor, multi-GPU, and production skew | Not tested |
@@ -344,8 +372,10 @@ remains ignored by Git.
 - Row multiset validation: `analysis/row-multiset-validation.json`
 - Bathtub reanalysis: `BATHTUB_RESULTS.md`
 - Dynamic follow-up results: `BATHTUB_FOLLOWUP_RESULTS.md`
+- Prospective policy transfer results: `BATHTUB_HOLDOUT_RESULTS.md`
 - Follow-up execution runbook: `BATHTUB_RUNBOOK.md`
 - Follow-up machine analysis: `analysis/bathtub-followup-analysis.json`
 - Generated plots: `analysis/annual-shmoo.svg`, `analysis/batch-mediation.svg`,
-  `analysis/table-growth.svg`, and `analysis/bathtub-followup.svg`
+  `analysis/table-growth.svg`, `analysis/bathtub-followup.svg`, and
+  `analysis/bathtub-holdout.svg`
 - Reproducibility manifest: `manifest.yaml`

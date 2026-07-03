@@ -32,6 +32,22 @@
         303.097648,
         298.98034
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5034578146611342,
       "gpu_capacity_busy_proxy_values": [
         0.4840357598978289,
@@ -115,6 +131,22 @@
         1.6666666666666667,
         1.6666666666666667,
         1.6666666666666667
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -201,6 +233,22 @@
         294.942065,
         274.674778
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.4669421487603306,
       "gpu_capacity_busy_proxy_values": [
         0.4669421487603306,
@@ -284,6 +332,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -370,6 +434,22 @@
         390.983444,
         387.777462
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5302564102564102,
       "gpu_capacity_busy_proxy_values": [
         0.5164319248826291,
@@ -453,6 +533,22 @@
         4.0,
         4.0,
         4.0
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -539,6 +635,22 @@
         285.629172,
         292.25734
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.48840579710144927,
       "gpu_capacity_busy_proxy_values": [
         0.4632768361581921,
@@ -622,6 +734,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -708,6 +836,22 @@
         316.650375,
         336.498154
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5076335877862596,
       "gpu_capacity_busy_proxy_values": [
         0.49523809523809526,
@@ -791,6 +935,22 @@
         2.3333333333333335,
         2.3333333333333335,
         2.3333333333333335
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -877,6 +1037,22 @@
         371.119134,
         376.779962
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5429141716566867,
       "gpu_capacity_busy_proxy_values": [
         0.49486461251167135,
@@ -960,6 +1136,22 @@
         1.6666666666666667,
         1.6666666666666667,
         1.6666666666666667
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -1046,6 +1238,22 @@
         353.831713,
         348.60227
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5244755244755245,
       "gpu_capacity_busy_proxy_values": [
         0.49748237663645517,
@@ -1129,6 +1337,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -1215,6 +1439,22 @@
         520.748018,
         509.171173
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5705838876570584,
       "gpu_capacity_busy_proxy_values": [
         0.5420110192837465,
@@ -1298,6 +1538,22 @@
         5.666666666666667,
         5.666666666666667,
         5.666666666666667
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -1384,6 +1640,22 @@
         334.724424,
         354.81654
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5259515570934256,
       "gpu_capacity_busy_proxy_values": [
         0.4886128364389234,
@@ -1467,6 +1739,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -1553,6 +1841,22 @@
         435.053038,
         416.516585
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5519125683060109,
       "gpu_capacity_busy_proxy_values": [
         0.5270157938487116,
@@ -1636,6 +1940,22 @@
         3.3333333333333335,
         3.3333333333333335,
         3.3333333333333335
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -2113,6 +2433,22 @@
         540.034454,
         602.218842
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.6596736596736597,
       "gpu_capacity_busy_proxy_values": [
         0.6275050100200401,
@@ -2196,6 +2532,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 87,
+      "output_producing_scan_task_count_values": [
+        87,
+        87,
+        87,
+        87,
+        87
+      ],
+      "planned_scan_stage_tasks_median": 87,
+      "planned_scan_stage_tasks_values": [
+        87,
+        87,
+        87,
+        87,
+        87
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -2282,6 +2634,22 @@
         315.216034,
         292.782192
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5329787234042553,
       "gpu_capacity_busy_proxy_values": [
         0.4608208955223881,
@@ -2365,6 +2733,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 5,
+      "output_producing_scan_task_count_values": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "planned_scan_stage_tasks_median": 5,
+      "planned_scan_stage_tasks_values": [
+        5,
+        5,
+        5,
+        5,
+        5
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -2451,6 +2835,22 @@
         412.432353,
         408.742582
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.6495726495726496,
       "gpu_capacity_busy_proxy_values": [
         0.5052631578947369,
@@ -2534,6 +2934,22 @@
         2.0,
         2.0,
         2.0
+      ],
+      "output_producing_scan_task_count_median": 2,
+      "output_producing_scan_task_count_values": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "planned_scan_stage_tasks_median": 2,
+      "planned_scan_stage_tasks_values": [
+        2,
+        2,
+        2,
+        2,
+        2
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -2620,13 +3036,29 @@
         1323.301006,
         1576.801238
       ],
-      "gpu_capacity_busy_proxy_median": 0.6233692106979778,
+      "empty_scan_task_count_median": 34,
+      "empty_scan_task_count_values": [
+        34,
+        34,
+        34,
+        34,
+        34
+      ],
+      "empty_task_gpu_holding_ms_median": 3038.0,
+      "empty_task_gpu_holding_ms_values": [
+        3137.0,
+        2344.0,
+        3125.0,
+        2223.0,
+        3038.0
+      ],
+      "gpu_capacity_busy_proxy_median": 0.8780130293159609,
       "gpu_capacity_busy_proxy_values": [
-        0.6233692106979778,
-        0.6836045706371191,
-        0.656763590391909,
-        0.5802780016116036,
-        0.6102006688963211
+        0.8780130293159609,
+        0.8865131578947368,
+        0.9036820480404552,
+        0.8041901692183723,
+        0.8642140468227425
       ],
       "gpu_max_concurrent_tasks_median": 8,
       "gpu_max_concurrent_tasks_values": [
@@ -2652,13 +3084,13 @@
         589071953,
         589071953
       ],
-      "gpu_semaphore_wait_ms_median": 99.0,
+      "gpu_semaphore_wait_ms_median": 313.0,
       "gpu_semaphore_wait_ms_values": [
-        99.0,
-        68.0,
-        62.0,
-        253.0,
-        379.0
+        312.0,
+        234.0,
+        313.0,
+        1034.0,
+        782.0
       ],
       "key": {
         "layout": "source",
@@ -2704,6 +3136,22 @@
         1.0,
         1.0
       ],
+      "output_producing_scan_task_count_median": 12,
+      "output_producing_scan_task_count_values": [
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "planned_scan_stage_tasks_median": 46,
+      "planned_scan_stage_tasks_values": [
+        46,
+        46,
+        46,
+        46,
+        46
+      ],
       "repetitions": 5,
       "result_hashes": [
         "167806b16df51aa6a485148403a099f4a57971a7602702f25500328e310a1980"
@@ -2718,23 +3166,23 @@
       ],
       "scan_span_share_median": 0.9481220359112884,
       "scan_span_share_values": [
-        0.9184836910797453,
+        0.919681973781741,
         0.9483085500785396,
         0.9536594531258794,
         0.9378062847176586,
         0.9481220359112884
       ],
-      "scan_task_count_median": 12,
+      "scan_task_count_median": 46,
       "scan_task_count_values": [
-        12,
-        12,
-        12,
-        12,
-        12
+        46,
+        46,
+        46,
+        46,
+        46
       ],
       "scan_task_span_ms_median": 1495,
       "scan_task_span_ms_values": [
-        1533,
+        1535,
         1444,
         1582,
         1241,
@@ -2788,6 +3236,22 @@
         586.264054,
         580.174744,
         525.486123
+      ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "gpu_capacity_busy_proxy_median": 0.9055016181229774,
       "gpu_capacity_busy_proxy_values": [
@@ -2872,6 +3336,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -2958,6 +3438,22 @@
         540.07104,
         547.137465
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.906183368869936,
       "gpu_capacity_busy_proxy_values": [
         0.8710359408033826,
@@ -3041,6 +3537,22 @@
         3.0,
         3.0,
         3.0
+      ],
+      "output_producing_scan_task_count_median": 1,
+      "output_producing_scan_task_count_values": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "planned_scan_stage_tasks_median": 1,
+      "planned_scan_stage_tasks_values": [
+        1,
+        1,
+        1,
+        1,
+        1
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -3226,6 +3738,32 @@
         532.12789,
         644.988644
       ],
+      "empty_scan_task_count_median": 0.0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.7385571901852794,
       "gpu_capacity_busy_proxy_values": [
         0.6313485113835376,
@@ -3360,6 +3898,32 @@
         1.0,
         1.0
       ],
+      "output_producing_scan_task_count_median": 87.0,
+      "output_producing_scan_task_count_values": [
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87
+      ],
+      "planned_scan_stage_tasks_median": 87.0,
+      "planned_scan_stage_tasks_values": [
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87
+      ],
       "repetitions": 10,
       "result_hashes": [
         "167806b16df51aa6a485148403a099f4a57971a7602702f25500328e310a1980"
@@ -3475,6 +4039,22 @@
         449.207394,
         447.533719
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5178571428571429,
       "gpu_capacity_busy_proxy_values": [
         0.4951923076923077,
@@ -3558,6 +4138,22 @@
         3.0,
         3.0,
         3.0
+      ],
+      "output_producing_scan_task_count_median": 1,
+      "output_producing_scan_task_count_values": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "planned_scan_stage_tasks_median": 1,
+      "planned_scan_stage_tasks_values": [
+        1,
+        1,
+        1,
+        1,
+        1
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -3644,6 +4240,22 @@
         228.427226,
         229.813087
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5555555555555556,
       "gpu_capacity_busy_proxy_values": [
         0.534375,
@@ -3727,6 +4339,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 5,
+      "output_producing_scan_task_count_values": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "planned_scan_stage_tasks_median": 5,
+      "planned_scan_stage_tasks_values": [
+        5,
+        5,
+        5,
+        5,
+        5
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -3813,6 +4441,22 @@
         443.260686,
         451.183851
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5193798449612403,
       "gpu_capacity_busy_proxy_values": [
         0.5100502512562815,
@@ -3896,6 +4540,22 @@
         3.0,
         3.0,
         3.0
+      ],
+      "output_producing_scan_task_count_median": 1,
+      "output_producing_scan_task_count_values": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "planned_scan_stage_tasks_median": 1,
+      "planned_scan_stage_tasks_values": [
+        1,
+        1,
+        1,
+        1,
+        1
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -3982,6 +4642,22 @@
         283.922074,
         277.107955
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.48099415204678364,
       "gpu_capacity_busy_proxy_values": [
         0.47404371584699456,
@@ -4065,6 +4741,22 @@
         1.6666666666666667,
         1.6666666666666667,
         1.6666666666666667
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -4151,6 +4843,22 @@
         285.410401,
         296.824875
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5633116883116883,
       "gpu_capacity_busy_proxy_values": [
         0.5205223880597015,
@@ -4234,6 +4942,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 21,
+      "output_producing_scan_task_count_values": [
+        21,
+        21,
+        21,
+        21,
+        21
+      ],
+      "planned_scan_stage_tasks_median": 21,
+      "planned_scan_stage_tasks_values": [
+        21,
+        21,
+        21,
+        21,
+        21
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -4320,6 +5044,22 @@
         393.346536,
         382.302591
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.6696969696969697,
       "gpu_capacity_busy_proxy_values": [
         0.6696969696969697,
@@ -4403,6 +5143,22 @@
         2.0,
         2.0,
         2.0
+      ],
+      "output_producing_scan_task_count_median": 2,
+      "output_producing_scan_task_count_values": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "planned_scan_stage_tasks_median": 2,
+      "planned_scan_stage_tasks_values": [
+        2,
+        2,
+        2,
+        2,
+        2
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -4503,6 +5259,32 @@
         732.661233,
         753.208902,
         805.211719
+      ],
+      "empty_scan_task_count_median": 0.0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
       "gpu_capacity_busy_proxy_median": 0.7534652573183727,
       "gpu_capacity_busy_proxy_values": [
@@ -4638,6 +5420,32 @@
         1.0,
         1.0
       ],
+      "output_producing_scan_task_count_median": 87.0,
+      "output_producing_scan_task_count_values": [
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87
+      ],
+      "planned_scan_stage_tasks_median": 87.0,
+      "planned_scan_stage_tasks_values": [
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87,
+        87
+      ],
       "repetitions": 10,
       "result_hashes": [
         "b116cdcc99442c0556829fb627dfdf099d7a94ed487ac7caec47d2ce92a8cb5a"
@@ -4753,6 +5561,22 @@
         680.893859,
         668.761246
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.7116357504215851,
       "gpu_capacity_busy_proxy_values": [
         0.6274787535410765,
@@ -4836,6 +5660,22 @@
         7.0,
         7.0,
         7.0
+      ],
+      "output_producing_scan_task_count_median": 1,
+      "output_producing_scan_task_count_values": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "planned_scan_stage_tasks_median": 1,
+      "planned_scan_stage_tasks_values": [
+        1,
+        1,
+        1,
+        1,
+        1
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -4922,6 +5762,22 @@
         376.016207,
         374.080575
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.571656050955414,
       "gpu_capacity_busy_proxy_values": [
         0.5564516129032258,
@@ -5005,6 +5861,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 5,
+      "output_producing_scan_task_count_values": [
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "planned_scan_stage_tasks_median": 5,
+      "planned_scan_stage_tasks_values": [
+        5,
+        5,
+        5,
+        5,
+        5
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -5091,6 +5963,22 @@
         661.810131,
         656.084695
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.7131011608623549,
       "gpu_capacity_busy_proxy_values": [
         0.6818181818181818,
@@ -5174,6 +6062,22 @@
         7.0,
         7.0,
         7.0
+      ],
+      "output_producing_scan_task_count_median": 1,
+      "output_producing_scan_task_count_values": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "planned_scan_stage_tasks_median": 1,
+      "planned_scan_stage_tasks_values": [
+        1,
+        1,
+        1,
+        1,
+        1
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -5260,6 +6164,22 @@
         361.491337,
         368.555204
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5394144144144144,
       "gpu_capacity_busy_proxy_values": [
         0.48,
@@ -5343,6 +6263,22 @@
         2.3333333333333335,
         2.3333333333333335,
         2.3333333333333335
+      ],
+      "output_producing_scan_task_count_median": 3,
+      "output_producing_scan_task_count_values": [
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "planned_scan_stage_tasks_median": 3,
+      "planned_scan_stage_tasks_values": [
+        3,
+        3,
+        3,
+        3,
+        3
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -5429,6 +6365,22 @@
         349.33958,
         342.402968
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.5945017182130584,
       "gpu_capacity_busy_proxy_values": [
         0.5774221453287197,
@@ -5512,6 +6464,22 @@
         1.0,
         1.0,
         1.0
+      ],
+      "output_producing_scan_task_count_median": 21,
+      "output_producing_scan_task_count_values": [
+        21,
+        21,
+        21,
+        21,
+        21
+      ],
+      "planned_scan_stage_tasks_median": 21,
+      "planned_scan_stage_tasks_values": [
+        21,
+        21,
+        21,
+        21,
+        21
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -5598,6 +6566,22 @@
         549.049323,
         558.773202
       ],
+      "empty_scan_task_count_median": 0,
+      "empty_scan_task_count_values": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "empty_task_gpu_holding_ms_median": 0.0,
+      "empty_task_gpu_holding_ms_values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "gpu_capacity_busy_proxy_median": 0.8436213991769548,
       "gpu_capacity_busy_proxy_values": [
         0.7927756653992395,
@@ -5681,6 +6665,22 @@
         3.0,
         3.0,
         3.0
+      ],
+      "output_producing_scan_task_count_median": 2,
+      "output_producing_scan_task_count_values": [
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "planned_scan_stage_tasks_median": 2,
+      "planned_scan_stage_tasks_values": [
+        2,
+        2,
+        2,
+        2,
+        2
       ],
       "repetitions": 5,
       "result_hashes": [
@@ -5980,29 +6980,95 @@
   ],
   "physical_layout_scan_task_counts": {
     "sharded": {
-      "128": [
-        87
-      ],
-      "2048": [
-        5
-      ],
-      "8192": [
-        2
-      ]
+      "128": {
+        "empty_scan_task_count": [
+          0
+        ],
+        "output_producing_scan_task_count": [
+          87
+        ],
+        "planned_scan_stage_tasks": [
+          87
+        ],
+        "scan_task_count": [
+          87
+        ]
+      },
+      "2048": {
+        "empty_scan_task_count": [
+          0
+        ],
+        "output_producing_scan_task_count": [
+          5
+        ],
+        "planned_scan_stage_tasks": [
+          5
+        ],
+        "scan_task_count": [
+          5
+        ]
+      },
+      "8192": {
+        "empty_scan_task_count": [
+          0
+        ],
+        "output_producing_scan_task_count": [
+          2
+        ],
+        "planned_scan_stage_tasks": [
+          2
+        ],
+        "scan_task_count": [
+          2
+        ]
+      }
     },
     "source": {
-      "128": [
-        12
-      ],
-      "2048": [
-        3
-      ],
-      "8192": [
-        1
-      ]
+      "128": {
+        "empty_scan_task_count": [
+          34
+        ],
+        "output_producing_scan_task_count": [
+          12
+        ],
+        "planned_scan_stage_tasks": [
+          46
+        ],
+        "scan_task_count": [
+          46
+        ]
+      },
+      "2048": {
+        "empty_scan_task_count": [
+          0
+        ],
+        "output_producing_scan_task_count": [
+          3
+        ],
+        "planned_scan_stage_tasks": [
+          3
+        ],
+        "scan_task_count": [
+          3
+        ]
+      },
+      "8192": {
+        "empty_scan_task_count": [
+          0
+        ],
+        "output_producing_scan_task_count": [
+          1
+        ],
+        "planned_scan_stage_tasks": [
+          1
+        ],
+        "scan_task_count": [
+          1
+        ]
+      }
     }
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "validation": {
     "batch_runs": 50,
     "layout_runs": 30,

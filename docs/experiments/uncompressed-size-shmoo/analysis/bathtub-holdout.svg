@@ -1,0 +1,151 @@
+<!--
+ Copyright (c) 2026, NVIDIA CORPORATION.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850">
+<rect width="100%" height="100%" fill="white"/>
+<text x="600.0" y="25.0" font-size="18" text-anchor="middle">Frozen 512-MiB bounded-regret policy on held-out epochs</text>
+<rect x="75" y="75" width="500" height="305" fill="white" stroke="#777"/>
+<line x1="75" y1="380" x2="575" y2="380" stroke="#ddd"/>
+<text x="67.0" y="384.0" font-size="10" text-anchor="end">231</text>
+<line x1="75" y1="303.75" x2="575" y2="303.75" stroke="#ddd"/>
+<text x="67.0" y="307.8" font-size="10" text-anchor="end">328</text>
+<line x1="75" y1="227.5" x2="575" y2="227.5" stroke="#ddd"/>
+<text x="67.0" y="231.5" font-size="10" text-anchor="end">425</text>
+<line x1="75" y1="151.25" x2="575" y2="151.25" stroke="#ddd"/>
+<text x="67.0" y="155.2" font-size="10" text-anchor="end">522</text>
+<line x1="75" y1="75" x2="575" y2="75" stroke="#ddd"/>
+<text x="67.0" y="79.0" font-size="10" text-anchor="end">619</text>
+<line x1="109.48275862068965" y1="75" x2="109.48275862068965" y2="380" stroke="#ddd"/>
+<text x="109.5" y="398.0" font-size="10" text-anchor="middle">0</text>
+<line x1="253.16091954022986" y1="75" x2="253.16091954022986" y2="380" stroke="#ddd"/>
+<text x="253.2" y="398.0" font-size="10" text-anchor="middle">1</text>
+<line x1="396.83908045977006" y1="75" x2="396.83908045977006" y2="380" stroke="#ddd"/>
+<text x="396.8" y="398.0" font-size="10" text-anchor="middle">2</text>
+<line x1="540.5172413793102" y1="75" x2="540.5172413793102" y2="380" stroke="#ddd"/>
+<text x="540.5" y="398.0" font-size="10" text-anchor="middle">3</text>
+<text x="300.0" y="60.0" font-size="15" text-anchor="middle">validation_2010: common</text>
+<text x="300.0" y="422.0" font-size="11" text-anchor="middle">ordered partition candidates (point label: MiB)</text>
+<text x="16.0" y="240.0" font-size="11" text-anchor="middle" transform="rotate(-90 16 240.0)">elapsed (ms)</text>
+<polyline points="109.5,104.5 253.2,335.6 396.8,350.5 540.5,341.8" fill="none" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="109.5" cy="104.5" r="3.5" fill="#1f77b4"/>
+<text x="114.5" y="99.5" font-size="8" text-anchor="start">128</text>
+<circle cx="253.2" cy="335.6" r="3.5" fill="#1f77b4"/>
+<text x="258.2" y="330.6" font-size="8" text-anchor="start">512 selected</text>
+<circle cx="396.8" cy="350.5" r="3.5" fill="#1f77b4"/>
+<text x="401.8" y="345.5" font-size="8" text-anchor="start">2048</text>
+<circle cx="540.5" cy="341.8" r="3.5" fill="#1f77b4"/>
+<text x="545.5" y="336.8" font-size="8" text-anchor="start">4096</text>
+<line x1="460" y1="86" x2="480" y2="86" stroke="#1f77b4" stroke-width="2"/>
+<text x="485.0" y="90.0" font-size="10" text-anchor="start">held out</text>
+<rect x="675" y="75" width="500" height="305" fill="white" stroke="#777"/>
+<line x1="675" y1="380" x2="1175" y2="380" stroke="#ddd"/>
+<text x="667.0" y="384.0" font-size="10" text-anchor="end">298.2</text>
+<line x1="675" y1="303.75" x2="1175" y2="303.75" stroke="#ddd"/>
+<text x="667.0" y="307.8" font-size="10" text-anchor="end">410.2</text>
+<line x1="675" y1="227.5" x2="1175" y2="227.5" stroke="#ddd"/>
+<text x="667.0" y="231.5" font-size="10" text-anchor="end">522.2</text>
+<line x1="675" y1="151.25" x2="1175" y2="151.25" stroke="#ddd"/>
+<text x="667.0" y="155.2" font-size="10" text-anchor="end">634.2</text>
+<line x1="675" y1="75" x2="1175" y2="75" stroke="#ddd"/>
+<text x="667.0" y="79.0" font-size="10" text-anchor="end">746.2</text>
+<line x1="709.4827586206897" y1="75" x2="709.4827586206897" y2="380" stroke="#ddd"/>
+<text x="709.5" y="398.0" font-size="10" text-anchor="middle">0</text>
+<line x1="853.1609195402299" y1="75" x2="853.1609195402299" y2="380" stroke="#ddd"/>
+<text x="853.2" y="398.0" font-size="10" text-anchor="middle">1</text>
+<line x1="996.83908045977" y1="75" x2="996.83908045977" y2="380" stroke="#ddd"/>
+<text x="996.8" y="398.0" font-size="10" text-anchor="middle">2</text>
+<line x1="1140.5172413793102" y1="75" x2="1140.5172413793102" y2="380" stroke="#ddd"/>
+<text x="1140.5" y="398.0" font-size="10" text-anchor="middle">3</text>
+<text x="900.0" y="60.0" font-size="15" text-anchor="middle">validation_2010: variable width</text>
+<text x="900.0" y="422.0" font-size="11" text-anchor="middle">ordered partition candidates (point label: MiB)</text>
+<text x="616.0" y="240.0" font-size="11" text-anchor="middle" transform="rotate(-90 616 240.0)">elapsed (ms)</text>
+<polyline points="709.5,104.5 853.2,350.5 996.8,342.4 1140.5,322.6" fill="none" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="709.5" cy="104.5" r="3.5" fill="#1f77b4"/>
+<text x="714.5" y="99.5" font-size="8" text-anchor="start">128</text>
+<circle cx="853.2" cy="350.5" r="3.5" fill="#1f77b4"/>
+<text x="858.2" y="345.5" font-size="8" text-anchor="start">512 selected</text>
+<circle cx="996.8" cy="342.4" r="3.5" fill="#1f77b4"/>
+<text x="1001.8" y="337.4" font-size="8" text-anchor="start">2048</text>
+<circle cx="1140.5" cy="322.6" r="3.5" fill="#1f77b4"/>
+<text x="1145.5" y="317.6" font-size="8" text-anchor="start">4096</text>
+<line x1="1060" y1="86" x2="1080" y2="86" stroke="#1f77b4" stroke-width="2"/>
+<text x="1085.0" y="90.0" font-size="10" text-anchor="start">held out</text>
+<rect x="75" y="475" width="500" height="305" fill="white" stroke="#777"/>
+<line x1="75" y1="780" x2="575" y2="780" stroke="#ddd"/>
+<text x="67.0" y="784.0" font-size="10" text-anchor="end">258</text>
+<line x1="75" y1="703.75" x2="575" y2="703.75" stroke="#ddd"/>
+<text x="67.0" y="707.8" font-size="10" text-anchor="end">297.2</text>
+<line x1="75" y1="627.5" x2="575" y2="627.5" stroke="#ddd"/>
+<text x="67.0" y="631.5" font-size="10" text-anchor="end">336.3</text>
+<line x1="75" y1="551.25" x2="575" y2="551.25" stroke="#ddd"/>
+<text x="67.0" y="555.2" font-size="10" text-anchor="end">375.4</text>
+<line x1="75" y1="475" x2="575" y2="475" stroke="#ddd"/>
+<text x="67.0" y="479.0" font-size="10" text-anchor="end">414.6</text>
+<line x1="109.48275862068965" y1="475" x2="109.48275862068965" y2="780" stroke="#ddd"/>
+<text x="109.5" y="798.0" font-size="10" text-anchor="middle">0</text>
+<line x1="253.16091954022986" y1="475" x2="253.16091954022986" y2="780" stroke="#ddd"/>
+<text x="253.2" y="798.0" font-size="10" text-anchor="middle">1</text>
+<line x1="396.83908045977006" y1="475" x2="396.83908045977006" y2="780" stroke="#ddd"/>
+<text x="396.8" y="798.0" font-size="10" text-anchor="middle">2</text>
+<line x1="540.5172413793102" y1="475" x2="540.5172413793102" y2="780" stroke="#ddd"/>
+<text x="540.5" y="798.0" font-size="10" text-anchor="middle">3</text>
+<text x="300.0" y="460.0" font-size="15" text-anchor="middle">test_2011: common</text>
+<text x="300.0" y="822.0" font-size="11" text-anchor="middle">ordered partition candidates (point label: MiB)</text>
+<text x="16.0" y="640.0" font-size="11" text-anchor="middle" transform="rotate(-90 16 640.0)">elapsed (ms)</text>
+<polyline points="109.5,504.5 253.2,742.7 396.8,750.5 540.5,587.9" fill="none" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="109.5" cy="504.5" r="3.5" fill="#1f77b4"/>
+<text x="114.5" y="499.5" font-size="8" text-anchor="start">128</text>
+<circle cx="253.2" cy="742.7" r="3.5" fill="#1f77b4"/>
+<text x="258.2" y="737.7" font-size="8" text-anchor="start">512 selected</text>
+<circle cx="396.8" cy="750.5" r="3.5" fill="#1f77b4"/>
+<text x="401.8" y="745.5" font-size="8" text-anchor="start">2048</text>
+<circle cx="540.5" cy="587.9" r="3.5" fill="#1f77b4"/>
+<text x="545.5" y="582.9" font-size="8" text-anchor="start">4096</text>
+<line x1="460" y1="486" x2="480" y2="486" stroke="#1f77b4" stroke-width="2"/>
+<text x="485.0" y="490.0" font-size="10" text-anchor="start">held out</text>
+<rect x="675" y="475" width="500" height="305" fill="white" stroke="#777"/>
+<line x1="675" y1="780" x2="1175" y2="780" stroke="#ddd"/>
+<text x="667.0" y="784.0" font-size="10" text-anchor="end">293.6</text>
+<line x1="675" y1="703.75" x2="1175" y2="703.75" stroke="#ddd"/>
+<text x="667.0" y="707.8" font-size="10" text-anchor="end">335.3</text>
+<line x1="675" y1="627.5" x2="1175" y2="627.5" stroke="#ddd"/>
+<text x="667.0" y="631.5" font-size="10" text-anchor="end">377</text>
+<line x1="675" y1="551.25" x2="1175" y2="551.25" stroke="#ddd"/>
+<text x="667.0" y="555.2" font-size="10" text-anchor="end">418.7</text>
+<line x1="675" y1="475" x2="1175" y2="475" stroke="#ddd"/>
+<text x="667.0" y="479.0" font-size="10" text-anchor="end">460.4</text>
+<line x1="709.4827586206897" y1="475" x2="709.4827586206897" y2="780" stroke="#ddd"/>
+<text x="709.5" y="798.0" font-size="10" text-anchor="middle">0</text>
+<line x1="853.1609195402299" y1="475" x2="853.1609195402299" y2="780" stroke="#ddd"/>
+<text x="853.2" y="798.0" font-size="10" text-anchor="middle">1</text>
+<line x1="996.83908045977" y1="475" x2="996.83908045977" y2="780" stroke="#ddd"/>
+<text x="996.8" y="798.0" font-size="10" text-anchor="middle">2</text>
+<line x1="1140.5172413793102" y1="475" x2="1140.5172413793102" y2="780" stroke="#ddd"/>
+<text x="1140.5" y="798.0" font-size="10" text-anchor="middle">3</text>
+<text x="900.0" y="460.0" font-size="15" text-anchor="middle">test_2011: variable width</text>
+<text x="900.0" y="822.0" font-size="11" text-anchor="middle">ordered partition candidates (point label: MiB)</text>
+<text x="616.0" y="640.0" font-size="11" text-anchor="middle" transform="rotate(-90 616 640.0)">elapsed (ms)</text>
+<polyline points="709.5,563.9 853.2,750.5 996.8,702.3 1140.5,504.5" fill="none" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="709.5" cy="563.9" r="3.5" fill="#1f77b4"/>
+<text x="714.5" y="558.9" font-size="8" text-anchor="start">128</text>
+<circle cx="853.2" cy="750.5" r="3.5" fill="#1f77b4"/>
+<text x="858.2" y="745.5" font-size="8" text-anchor="start">512 selected</text>
+<circle cx="996.8" cy="702.3" r="3.5" fill="#1f77b4"/>
+<text x="1001.8" y="697.3" font-size="8" text-anchor="start">2048</text>
+<circle cx="1140.5" cy="504.5" r="3.5" fill="#1f77b4"/>
+<text x="1145.5" y="499.5" font-size="8" text-anchor="start">4096</text>
+<line x1="1060" y1="486" x2="1080" y2="486" stroke="#1f77b4" stroke-width="2"/>
+<text x="1085.0" y="490.0" font-size="10" text-anchor="start">held out</text>
+</svg>

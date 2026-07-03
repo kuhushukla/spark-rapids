@@ -1,6 +1,6 @@
 # Bathtub follow-up runbook
 
-The follow-up was preregistered in commit `ca79472ae` and executed on 2026-07-03.
+The mechanism follow-up was preregistered in `ca79472ae`; the frozen 512-MiB holdout was preregistered in `179d40a5f`. Both executed on 2026-07-03.
 All paths below are relative to the repository root.
 
 ## Runtime
@@ -39,6 +39,7 @@ The following argument tails were appended to that prefix:
 | bathtub-batch-001 | taxi-data-sharded | preregistration/bathtub-batch-schedule.json | attempts/bathtub-batch-001/journal.jsonl | attempts/bathtub-batch-001/eventlog |
 | bathtub-layout-sharded-001 | taxi-data-sharded | preregistration/bathtub-layout-sharded-schedule.json | attempts/bathtub-layout-sharded-001/journal.jsonl | attempts/bathtub-layout-sharded-001/eventlog |
 | bathtub-layout-source-001 | taxi-data | preregistration/bathtub-layout-source-schedule.json | attempts/bathtub-layout-source-001/journal.jsonl | attempts/bathtub-layout-source-001/eventlog |
+| bathtub-holdout-001 | taxi-data-sharded | preregistration/bathtub-holdout-schedule.json | attempts/bathtub-holdout-001/journal.jsonl | attempts/bathtub-holdout-001/eventlog |
 
 For each row, paths under `preregistration/` and `attempts/` are relative to
 `docs/experiments/uncompressed-size-shmoo`. After execution, journals and deterministic

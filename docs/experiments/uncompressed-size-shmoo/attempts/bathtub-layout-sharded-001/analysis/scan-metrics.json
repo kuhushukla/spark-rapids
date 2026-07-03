@@ -7,11 +7,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 1658.356444,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 2048,
+      "output_producing_scan_task_count": 5,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 5,
+          "max": 934,
+          "min": 922,
+          "p50": 922,
+          "p90": 934,
+          "p95": 934,
+          "sum": 4632
+        },
+        "gpu_decode_ns": {
+          "count": 5,
+          "max": 94157149,
+          "min": 18266166,
+          "p50": 94143884,
+          "p90": 94157149,
+          "p95": 94157149,
+          "sum": 394849656
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 5,
+          "max": 4,
+          "min": 0,
+          "p50": 3,
+          "p90": 4,
+          "p95": 4,
+          "sum": 13
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 5,
+          "max": 1297352507,
+          "min": 0,
+          "p50": 0,
+          "p90": 1297352507,
+          "p95": 1297352507,
+          "sum": 1297352507
+        },
+        "gpu_max_task_footprint": {
+          "count": 5,
+          "max": 1322115870,
+          "min": 1215548826,
+          "p50": 1301523914,
+          "p90": 1322115870,
+          "p95": 1322115870,
+          "sum": 6451326777
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 5,
+          "max": 235000000,
+          "min": 63000000,
+          "p50": 235000000,
+          "p90": 235000000,
+          "p95": 235000000,
+          "sum": 1003000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 5,
+          "max": 240000000,
+          "min": 5000000,
+          "p50": 6000000,
+          "p90": 240000000,
+          "p95": 240000000,
+          "sum": 263000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 5,
+          "max": 69607424,
+          "min": 62152704,
+          "p50": 67575808,
+          "p90": 69607424,
+          "p95": 69607424,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "max_output_batch_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 5,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 5
+        },
+        "output_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 5,
+          "max": 65617125,
+          "min": 60142209,
+          "p50": 64225189,
+          "p90": 65617125,
+          "p95": 65617125,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 5,
+          "max": 729391264,
+          "min": 601803493,
+          "p50": 601836377,
+          "p90": 729391264,
+          "p95": 729391264,
+          "sum": 3136713727
+        },
+        "spark_disk_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "warmup",
+      "planned_scan_stage_tasks": 5,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -339,11 +587,247 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 599.138652,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 8192,
+      "output_producing_scan_task_count": 2,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 2,
+          "max": 475,
+          "min": 158,
+          "p50": 316.5,
+          "p90": 475,
+          "p95": 475,
+          "sum": 633
+        },
+        "gpu_decode_ns": {
+          "count": 2,
+          "max": 74113589,
+          "min": 18108538,
+          "p50": 46111063.5,
+          "p90": 74113589,
+          "p95": 74113589,
+          "sum": 92222127
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 2,
+          "max": 1,
+          "min": 1,
+          "p50": 1.0,
+          "p90": 1,
+          "p95": 1,
+          "sum": 2
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 2,
+          "max": 3562420270,
+          "min": 0,
+          "p50": 1781210135.0,
+          "p90": 3562420270,
+          "p95": 3562420270,
+          "sum": 3562420270
+        },
+        "gpu_max_task_footprint": {
+          "count": 2,
+          "max": 3562420270,
+          "min": 1196930264,
+          "p50": 2379675267.0,
+          "p90": 3562420270,
+          "p95": 3562420270,
+          "sum": 4759350534
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 2,
+          "max": 182000000,
+          "min": 58000000,
+          "p50": 120000000.0,
+          "p90": 182000000,
+          "p95": 182000000,
+          "sum": 240000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 2,
+          "max": 1000000,
+          "min": 0,
+          "p50": 500000.0,
+          "p90": 1000000,
+          "p95": 1000000,
+          "sum": 1000000
+        },
+        "input_bytes": {
+          "count": 2,
+          "max": 272621568,
+          "min": 61157376,
+          "p50": 166889472.0,
+          "p90": 272621568,
+          "p95": 272621568,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 2,
+          "max": 139189301,
+          "min": 31706754,
+          "p50": 85448027.5,
+          "p90": 139189301,
+          "p95": 139189301,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 2,
+          "max": 1073508608,
+          "min": 515234848,
+          "p50": 794371728.0,
+          "p90": 1073508608,
+          "p95": 1073508608,
+          "sum": 1588743456
+        },
+        "max_output_batch_rows": {
+          "count": 2,
+          "max": 66062064,
+          "min": 31706754,
+          "p50": 48884409.0,
+          "p90": 66062064,
+          "p95": 66062064,
+          "sum": 97768818
+        },
+        "output_batch_bytes": {
+          "count": 2,
+          "max": 2261826256,
+          "min": 515234848,
+          "p50": 1388530552.0,
+          "p90": 2261826256,
+          "p95": 2261826256,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 2,
+          "max": 3,
+          "min": 1,
+          "p50": 2.0,
+          "p90": 3,
+          "p95": 3,
+          "sum": 4
+        },
+        "output_rows": {
+          "count": 2,
+          "max": 139189301,
+          "min": 31706754,
+          "p50": 85448027.5,
+          "p90": 139189301,
+          "p95": 139189301,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 2,
+          "max": 259748419,
+          "min": 59221327,
+          "p50": 159484873.0,
+          "p90": 259748419,
+          "p95": 259748419,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 2,
+          "max": 374190632,
+          "min": 104564825,
+          "p50": 239377728.5,
+          "p90": 374190632,
+          "p95": 374190632,
+          "sum": 478755457
+        },
+        "spark_disk_spill_bytes": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 2,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -587,11 +1071,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 379.245407,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 2048,
+      "output_producing_scan_task_count": 5,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 5,
+          "max": 268,
+          "min": 205,
+          "p50": 213,
+          "p90": 268,
+          "p95": 268,
+          "sum": 1104
+        },
+        "gpu_decode_ns": {
+          "count": 5,
+          "max": 74086638,
+          "min": 24022710,
+          "p50": 59686408,
+          "p90": 74086638,
+          "p95": 74086638,
+          "sum": 268702050
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 5,
+          "max": 4,
+          "min": 0,
+          "p50": 2,
+          "p90": 4,
+          "p95": 4,
+          "sum": 11
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 5,
+          "max": 4477231562,
+          "min": 0,
+          "p50": 0,
+          "p90": 4477231562,
+          "p95": 4477231562,
+          "sum": 8848737945
+        },
+        "gpu_max_task_footprint": {
+          "count": 5,
+          "max": 1322115870,
+          "min": 1215548826,
+          "p50": 1301523914,
+          "p90": 1322115870,
+          "p95": 1322115870,
+          "sum": 6451326777
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 5,
+          "max": 117000000,
+          "min": 64000000,
+          "p50": 102000000,
+          "p90": 117000000,
+          "p95": 117000000,
+          "sum": 494000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 5,
+          "max": 90000000,
+          "min": 0,
+          "p50": 1000000,
+          "p90": 90000000,
+          "p95": 90000000,
+          "sum": 93000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 5,
+          "max": 69607424,
+          "min": 62152704,
+          "p50": 67575808,
+          "p90": 69607424,
+          "p95": 69607424,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "max_output_batch_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 5,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 5
+        },
+        "output_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 5,
+          "max": 65617125,
+          "min": 60142209,
+          "p50": 64225189,
+          "p90": 65617125,
+          "p95": 65617125,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 5,
+          "max": 214481776,
+          "min": 140277235,
+          "p50": 162328091,
+          "p90": 214481776,
+          "p95": 214481776,
+          "sum": 827906515
+        },
+        "spark_disk_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 5,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -920,11 +1652,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 603.704715,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 128,
+      "output_producing_scan_task_count": 87,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 87,
+          "max": 96,
+          "min": 29,
+          "p50": 41,
+          "p90": 47,
+          "p95": 64,
+          "sum": 3799
+        },
+        "gpu_decode_ns": {
+          "count": 87,
+          "max": 20491748,
+          "min": 8405757,
+          "p50": 13464810,
+          "p90": 17342037,
+          "p95": 18416380,
+          "sum": 1178162554
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 87,
+          "max": 8,
+          "min": 0,
+          "p50": 6,
+          "p90": 8,
+          "p95": 8,
+          "sum": 484
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 87,
+          "max": 342503403,
+          "min": 0,
+          "p50": 0,
+          "p90": 292247243,
+          "p95": 300097166,
+          "sum": 10477494677
+        },
+        "gpu_max_task_footprint": {
+          "count": 87,
+          "max": 75998797,
+          "min": 55052610,
+          "p50": 74180027,
+          "p90": 75418883,
+          "p95": 75998723,
+          "sum": 6451344821
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 87,
+          "max": 41000000,
+          "min": 20000000,
+          "p50": 28000000,
+          "p90": 34000000,
+          "p95": 35000000,
+          "sum": 2505000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 87,
+          "max": 37000000,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 7000000,
+          "sum": 157000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 87,
+          "max": 3981312,
+          "min": 2789376,
+          "p50": 3850240,
+          "p90": 3981312,
+          "p95": 3981312,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 87,
+          "max": 32714672,
+          "min": 23698112,
+          "p50": 31931792,
+          "p90": 32465040,
+          "p95": 32714640,
+          "sum": 2777066736
+        },
+        "max_output_batch_rows": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 87,
+          "max": 32714672,
+          "min": 23698112,
+          "p50": 31931792,
+          "p90": 32465040,
+          "p95": 32714640,
+          "sum": 2777066736
+        },
+        "output_batches": {
+          "count": 87,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 87
+        },
+        "output_rows": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 87,
+          "max": 3804342,
+          "min": 2725486,
+          "p50": 3661720,
+          "p90": 3729187,
+          "p95": 3796308,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 87,
+          "max": 62528628,
+          "min": 13468257,
+          "p50": 20312668,
+          "p90": 24948331,
+          "p95": 26423272,
+          "sum": 1897681663
+        },
+        "spark_disk_spill_bytes": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 87,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -3343,11 +4323,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 310.555893,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 2048,
+      "output_producing_scan_task_count": 5,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 5,
+          "max": 224,
+          "min": 168,
+          "p50": 177,
+          "p90": 224,
+          "p95": 224,
+          "sum": 923
+        },
+        "gpu_decode_ns": {
+          "count": 5,
+          "max": 72971137,
+          "min": 21056706,
+          "p50": 59646723,
+          "p90": 72971137,
+          "p95": 72971137,
+          "sum": 266993927
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 5,
+          "max": 4,
+          "min": 0,
+          "p50": 3,
+          "p90": 4,
+          "p95": 4,
+          "sum": 13
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 5,
+          "max": 4123229196,
+          "min": 0,
+          "p50": 0,
+          "p90": 4123229196,
+          "p95": 4123229196,
+          "sum": 8240878997
+        },
+        "gpu_max_task_footprint": {
+          "count": 5,
+          "max": 1322115870,
+          "min": 1215548826,
+          "p50": 1301523914,
+          "p90": 1322115870,
+          "p95": 1322115870,
+          "sum": 6451326777
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 5,
+          "max": 113000000,
+          "min": 58000000,
+          "p50": 103000000,
+          "p90": 113000000,
+          "p95": 113000000,
+          "sum": 483000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 5,
+          "max": 85000000,
+          "min": 0,
+          "p50": 0,
+          "p90": 85000000,
+          "p95": 85000000,
+          "sum": 85000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 5,
+          "max": 69607424,
+          "min": 62152704,
+          "p50": 67575808,
+          "p90": 69607424,
+          "p95": 69607424,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "max_output_batch_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 5,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 5
+        },
+        "output_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 5,
+          "max": 65617125,
+          "min": 60142209,
+          "p50": 64225189,
+          "p90": 65617125,
+          "p95": 65617125,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 5,
+          "max": 186263788,
+          "min": 117757951,
+          "p50": 136492212,
+          "p90": 186263788,
+          "p95": 186263788,
+          "sum": 705447993
+        },
+        "spark_disk_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 5,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -3676,11 +4904,235 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 436.115076,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 8192,
+      "output_producing_scan_task_count": 2,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 2,
+          "max": 358,
+          "min": 108,
+          "p50": 233.0,
+          "p90": 358,
+          "p95": 358,
+          "sum": 466
+        },
+        "gpu_decode_ns": {
+          "count": 2,
+          "max": 71848874,
+          "min": 17839479,
+          "p50": 44844176.5,
+          "p90": 71848874,
+          "p95": 71848874,
+          "sum": 89688353
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 2,
+          "max": 1,
+          "min": 1,
+          "p50": 1.0,
+          "p90": 1,
+          "p95": 1,
+          "sum": 2
+        },
+        "gpu_max_task_footprint": {
+          "count": 2,
+          "max": 3562420270,
+          "min": 1196930264,
+          "p50": 2379675267.0,
+          "p90": 3562420270,
+          "p95": 3562420270,
+          "sum": 4759350534
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 2,
+          "max": 173000000,
+          "min": 56000000,
+          "p50": 114500000.0,
+          "p90": 173000000,
+          "p95": 173000000,
+          "sum": 229000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 2,
+          "max": 272621568,
+          "min": 61157376,
+          "p50": 166889472.0,
+          "p90": 272621568,
+          "p95": 272621568,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 2,
+          "max": 139189301,
+          "min": 31706754,
+          "p50": 85448027.5,
+          "p90": 139189301,
+          "p95": 139189301,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 2,
+          "max": 1073508608,
+          "min": 515234848,
+          "p50": 794371728.0,
+          "p90": 1073508608,
+          "p95": 1073508608,
+          "sum": 1588743456
+        },
+        "max_output_batch_rows": {
+          "count": 2,
+          "max": 66062064,
+          "min": 31706754,
+          "p50": 48884409.0,
+          "p90": 66062064,
+          "p95": 66062064,
+          "sum": 97768818
+        },
+        "output_batch_bytes": {
+          "count": 2,
+          "max": 2261826256,
+          "min": 515234848,
+          "p50": 1388530552.0,
+          "p90": 2261826256,
+          "p95": 2261826256,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 2,
+          "max": 3,
+          "min": 1,
+          "p50": 2.0,
+          "p90": 3,
+          "p95": 3,
+          "sum": 4
+        },
+        "output_rows": {
+          "count": 2,
+          "max": 139189301,
+          "min": 31706754,
+          "p50": 85448027.5,
+          "p90": 139189301,
+          "p95": 139189301,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 2,
+          "max": 259748419,
+          "min": 59221327,
+          "p50": 159484873.0,
+          "p90": 259748419,
+          "p95": 259748419,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 2,
+          "max": 273018441,
+          "min": 67958482,
+          "p50": 170488461.5,
+          "p90": 273018441,
+          "p95": 273018441,
+          "sum": 340976923
+        },
+        "spark_disk_spill_bytes": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 2,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -3914,11 +5366,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 525.071996,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 128,
+      "output_producing_scan_task_count": 87,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 87,
+          "max": 87,
+          "min": 24,
+          "p50": 37,
+          "p90": 51,
+          "p95": 67,
+          "sum": 3429
+        },
+        "gpu_decode_ns": {
+          "count": 87,
+          "max": 19344476,
+          "min": 5233954,
+          "p50": 13845059,
+          "p90": 17424344,
+          "p95": 18329897,
+          "sum": 1164355719
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 87,
+          "max": 8,
+          "min": 0,
+          "p50": 6,
+          "p90": 8,
+          "p95": 8,
+          "sum": 473
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 87,
+          "max": 403994153,
+          "min": 0,
+          "p50": 0,
+          "p90": 395698455,
+          "p95": 401187638,
+          "sum": 12249984436
+        },
+        "gpu_max_task_footprint": {
+          "count": 87,
+          "max": 75998797,
+          "min": 55052610,
+          "p50": 74180027,
+          "p90": 75418883,
+          "p95": 75998723,
+          "sum": 6451344821
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 87,
+          "max": 40000000,
+          "min": 16000000,
+          "p50": 26000000,
+          "p90": 33000000,
+          "p95": 36000000,
+          "sum": 2324000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 87,
+          "max": 38000000,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 11000000,
+          "sum": 151000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 87,
+          "max": 3981312,
+          "min": 2789376,
+          "p50": 3850240,
+          "p90": 3981312,
+          "p95": 3981312,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 87,
+          "max": 32714672,
+          "min": 23698112,
+          "p50": 31931792,
+          "p90": 32465040,
+          "p95": 32714640,
+          "sum": 2777066736
+        },
+        "max_output_batch_rows": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 87,
+          "max": 32714672,
+          "min": 23698112,
+          "p50": 31931792,
+          "p90": 32465040,
+          "p95": 32714640,
+          "sum": 2777066736
+        },
+        "output_batches": {
+          "count": 87,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 87
+        },
+        "output_rows": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 87,
+          "max": 3804342,
+          "min": 2725486,
+          "p50": 3661720,
+          "p90": 3729187,
+          "p95": 3796308,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 87,
+          "max": 61881291,
+          "min": 9093909,
+          "p50": 19553772,
+          "p90": 27808744,
+          "p95": 36078142,
+          "sum": 1846474418
+        },
+        "spark_disk_spill_bytes": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 87,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -6336,11 +8036,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 321.454659,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 2048,
+      "output_producing_scan_task_count": 5,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 5,
+          "max": 251,
+          "min": 193,
+          "p50": 194,
+          "p90": 251,
+          "p95": 251,
+          "sum": 1031
+        },
+        "gpu_decode_ns": {
+          "count": 5,
+          "max": 65524235,
+          "min": 24240541,
+          "p50": 62145592,
+          "p90": 65524235,
+          "p95": 65524235,
+          "sum": 268937195
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 5,
+          "max": 4,
+          "min": 0,
+          "p50": 3,
+          "p90": 4,
+          "p95": 4,
+          "sum": 12
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 5,
+          "max": 4902252428,
+          "min": 0,
+          "p50": 1314785660,
+          "p90": 4902252428,
+          "p95": 4902252428,
+          "sum": 11046025892
+        },
+        "gpu_max_task_footprint": {
+          "count": 5,
+          "max": 1322115870,
+          "min": 1215548826,
+          "p50": 1301523914,
+          "p90": 1322115870,
+          "p95": 1322115870,
+          "sum": 6451326777
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 5,
+          "max": 118000000,
+          "min": 63000000,
+          "p50": 109000000,
+          "p90": 118000000,
+          "p95": 118000000,
+          "sum": 500000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 5,
+          "max": 93000000,
+          "min": 0,
+          "p50": 0,
+          "p90": 93000000,
+          "p95": 93000000,
+          "sum": 93000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 5,
+          "max": 69607424,
+          "min": 62152704,
+          "p50": 67575808,
+          "p90": 69607424,
+          "p95": 69607424,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "max_output_batch_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 5,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 5
+        },
+        "output_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 5,
+          "max": 65617125,
+          "min": 60142209,
+          "p50": 64225189,
+          "p90": 65617125,
+          "p95": 65617125,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 5,
+          "max": 214123058,
+          "min": 138711712,
+          "p50": 152569446,
+          "p90": 214123058,
+          "p95": 214123058,
+          "sum": 808601536
+        },
+        "spark_disk_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 5,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -6670,11 +8618,247 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 417.102179,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 8192,
+      "output_producing_scan_task_count": 2,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 2,
+          "max": 349,
+          "min": 100,
+          "p50": 224.5,
+          "p90": 349,
+          "p95": 349,
+          "sum": 449
+        },
+        "gpu_decode_ns": {
+          "count": 2,
+          "max": 72858635,
+          "min": 17582282,
+          "p50": 45220458.5,
+          "p90": 72858635,
+          "p95": 72858635,
+          "sum": 90440917
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 2,
+          "max": 1,
+          "min": 1,
+          "p50": 1.0,
+          "p90": 1,
+          "p95": 1,
+          "sum": 2
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 2,
+          "max": 3562420270,
+          "min": 0,
+          "p50": 1781210135.0,
+          "p90": 3562420270,
+          "p95": 3562420270,
+          "sum": 3562420270
+        },
+        "gpu_max_task_footprint": {
+          "count": 2,
+          "max": 3562420270,
+          "min": 1196930264,
+          "p50": 2379675267.0,
+          "p90": 3562420270,
+          "p95": 3562420270,
+          "sum": 4759350534
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 2,
+          "max": 174000000,
+          "min": 54000000,
+          "p50": 114000000.0,
+          "p90": 174000000,
+          "p95": 174000000,
+          "sum": 228000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 2,
+          "max": 272621568,
+          "min": 61157376,
+          "p50": 166889472.0,
+          "p90": 272621568,
+          "p95": 272621568,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 2,
+          "max": 139189301,
+          "min": 31706754,
+          "p50": 85448027.5,
+          "p90": 139189301,
+          "p95": 139189301,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 2,
+          "max": 1073508608,
+          "min": 515234848,
+          "p50": 794371728.0,
+          "p90": 1073508608,
+          "p95": 1073508608,
+          "sum": 1588743456
+        },
+        "max_output_batch_rows": {
+          "count": 2,
+          "max": 66062064,
+          "min": 31706754,
+          "p50": 48884409.0,
+          "p90": 66062064,
+          "p95": 66062064,
+          "sum": 97768818
+        },
+        "output_batch_bytes": {
+          "count": 2,
+          "max": 2261826256,
+          "min": 515234848,
+          "p50": 1388530552.0,
+          "p90": 2261826256,
+          "p95": 2261826256,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 2,
+          "max": 3,
+          "min": 1,
+          "p50": 2.0,
+          "p90": 3,
+          "p95": 3,
+          "sum": 4
+        },
+        "output_rows": {
+          "count": 2,
+          "max": 139189301,
+          "min": 31706754,
+          "p50": 85448027.5,
+          "p90": 139189301,
+          "p95": 139189301,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 2,
+          "max": 259748419,
+          "min": 59221327,
+          "p50": 159484873.0,
+          "p90": 259748419,
+          "p95": 259748419,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 2,
+          "max": 266394253,
+          "min": 63064412,
+          "p50": 164729332.5,
+          "p90": 266394253,
+          "p95": 266394253,
+          "sum": 329458665
+        },
+        "spark_disk_spill_bytes": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 2,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -6918,11 +9102,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 510.817522,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 128,
+      "output_producing_scan_task_count": 87,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 87,
+          "max": 77,
+          "min": 22,
+          "p50": 36,
+          "p90": 48,
+          "p95": 50,
+          "sum": 3333
+        },
+        "gpu_decode_ns": {
+          "count": 87,
+          "max": 21049423,
+          "min": 5002958,
+          "p50": 12515333,
+          "p90": 15754202,
+          "p95": 16500335,
+          "sum": 1097467032
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 87,
+          "max": 8,
+          "min": 0,
+          "p50": 6,
+          "p90": 8,
+          "p95": 8,
+          "sum": 497
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 87,
+          "max": 371618402,
+          "min": 0,
+          "p50": 0,
+          "p90": 313520395,
+          "p95": 339994784,
+          "sum": 10228870796
+        },
+        "gpu_max_task_footprint": {
+          "count": 87,
+          "max": 75998797,
+          "min": 55052610,
+          "p50": 74180027,
+          "p90": 75418883,
+          "p95": 75998723,
+          "sum": 6451344821
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 87,
+          "max": 38000000,
+          "min": 14000000,
+          "p50": 25000000,
+          "p90": 32000000,
+          "p95": 34000000,
+          "sum": 2264000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 87,
+          "max": 33000000,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 9000000,
+          "sum": 136000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 87,
+          "max": 3981312,
+          "min": 2789376,
+          "p50": 3850240,
+          "p90": 3981312,
+          "p95": 3981312,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 87,
+          "max": 32714672,
+          "min": 23698112,
+          "p50": 31931792,
+          "p90": 32465040,
+          "p95": 32714640,
+          "sum": 2777066736
+        },
+        "max_output_batch_rows": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 87,
+          "max": 32714672,
+          "min": 23698112,
+          "p50": 31931792,
+          "p90": 32465040,
+          "p95": 32714640,
+          "sum": 2777066736
+        },
+        "output_batches": {
+          "count": 87,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 87
+        },
+        "output_rows": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 87,
+          "max": 3804342,
+          "min": 2725486,
+          "p50": 3661720,
+          "p90": 3729187,
+          "p95": 3796308,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 87,
+          "max": 55633066,
+          "min": 9806199,
+          "p50": 18302204,
+          "p90": 23905328,
+          "p95": 29765669,
+          "sum": 1749257495
+        },
+        "spark_disk_spill_bytes": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 87,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -9339,11 +11771,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 315.216034,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 2048,
+      "output_producing_scan_task_count": 5,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 5,
+          "max": 249,
+          "min": 186,
+          "p50": 193,
+          "p90": 249,
+          "p95": 249,
+          "sum": 1015
+        },
+        "gpu_decode_ns": {
+          "count": 5,
+          "max": 100838653,
+          "min": 23745155,
+          "p50": 73937637,
+          "p90": 100838653,
+          "p95": 100838653,
+          "sum": 349425701
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 5,
+          "max": 4,
+          "min": 0,
+          "p50": 2,
+          "p90": 4,
+          "p95": 4,
+          "sum": 11
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 5,
+          "max": 4680774764,
+          "min": 0,
+          "p50": 4406186170,
+          "p90": 4680774764,
+          "p95": 4680774764,
+          "sum": 14949696474
+        },
+        "gpu_max_task_footprint": {
+          "count": 5,
+          "max": 1322115870,
+          "min": 1215548826,
+          "p50": 1301523914,
+          "p90": 1322115870,
+          "p95": 1322115870,
+          "sum": 6451326777
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 5,
+          "max": 133000000,
+          "min": 65000000,
+          "p50": 108000000,
+          "p90": 133000000,
+          "p95": 133000000,
+          "sum": 535000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 5,
+          "max": 93000000,
+          "min": 0,
+          "p50": 0,
+          "p90": 93000000,
+          "p95": 93000000,
+          "sum": 93000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 5,
+          "max": 69607424,
+          "min": 62152704,
+          "p50": 67575808,
+          "p90": 69607424,
+          "p95": 69607424,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "max_output_batch_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 5,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 5
+        },
+        "output_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 5,
+          "max": 65617125,
+          "min": 60142209,
+          "p50": 64225189,
+          "p90": 65617125,
+          "p95": 65617125,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 5,
+          "max": 210617566,
+          "min": 148093308,
+          "p50": 161435204,
+          "p90": 210617566,
+          "p95": 210617566,
+          "sum": 841066085
+        },
+        "spark_disk_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 5,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -9674,11 +12354,235 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 412.432353,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 8192,
+      "output_producing_scan_task_count": 2,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 2,
+          "max": 349,
+          "min": 112,
+          "p50": 230.5,
+          "p90": 349,
+          "p95": 349,
+          "sum": 461
+        },
+        "gpu_decode_ns": {
+          "count": 2,
+          "max": 71812415,
+          "min": 17816946,
+          "p50": 44814680.5,
+          "p90": 71812415,
+          "p95": 71812415,
+          "sum": 89629361
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 2,
+          "max": 1,
+          "min": 1,
+          "p50": 1.0,
+          "p90": 1,
+          "p95": 1,
+          "sum": 2
+        },
+        "gpu_max_task_footprint": {
+          "count": 2,
+          "max": 3562420270,
+          "min": 1196930264,
+          "p50": 2379675267.0,
+          "p90": 3562420270,
+          "p95": 3562420270,
+          "sum": 4759350534
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 2,
+          "max": 174000000,
+          "min": 54000000,
+          "p50": 114000000.0,
+          "p90": 174000000,
+          "p95": 174000000,
+          "sum": 228000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 2,
+          "max": 272621568,
+          "min": 61157376,
+          "p50": 166889472.0,
+          "p90": 272621568,
+          "p95": 272621568,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 2,
+          "max": 139189301,
+          "min": 31706754,
+          "p50": 85448027.5,
+          "p90": 139189301,
+          "p95": 139189301,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 2,
+          "max": 1073508608,
+          "min": 515234848,
+          "p50": 794371728.0,
+          "p90": 1073508608,
+          "p95": 1073508608,
+          "sum": 1588743456
+        },
+        "max_output_batch_rows": {
+          "count": 2,
+          "max": 66062064,
+          "min": 31706754,
+          "p50": 48884409.0,
+          "p90": 66062064,
+          "p95": 66062064,
+          "sum": 97768818
+        },
+        "output_batch_bytes": {
+          "count": 2,
+          "max": 2261826256,
+          "min": 515234848,
+          "p50": 1388530552.0,
+          "p90": 2261826256,
+          "p95": 2261826256,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 2,
+          "max": 3,
+          "min": 1,
+          "p50": 2.0,
+          "p90": 3,
+          "p95": 3,
+          "sum": 4
+        },
+        "output_rows": {
+          "count": 2,
+          "max": 139189301,
+          "min": 31706754,
+          "p50": 85448027.5,
+          "p90": 139189301,
+          "p95": 139189301,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 2,
+          "max": 259748419,
+          "min": 59221327,
+          "p50": 159484873.0,
+          "p90": 259748419,
+          "p95": 259748419,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 2,
+          "max": 267347039,
+          "min": 76106302,
+          "p50": 171726670.5,
+          "p90": 267347039,
+          "p95": 267347039,
+          "sum": 343453341
+        },
+        "spark_disk_spill_bytes": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 2,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -9912,11 +12816,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 540.034454,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 128,
+      "output_producing_scan_task_count": 87,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 87,
+          "max": 86,
+          "min": 32,
+          "p50": 40,
+          "p90": 51,
+          "p95": 52,
+          "sum": 3640
+        },
+        "gpu_decode_ns": {
+          "count": 87,
+          "max": 22909944,
+          "min": 7657742,
+          "p50": 16298433,
+          "p90": 19885591,
+          "p95": 20311998,
+          "sum": 1392296180
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 87,
+          "max": 8,
+          "min": 0,
+          "p50": 6,
+          "p90": 8,
+          "p95": 8,
+          "sum": 484
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 87,
+          "max": 429847877,
+          "min": 0,
+          "p50": 0,
+          "p90": 396150000,
+          "p95": 404226357,
+          "sum": 11461680937
+        },
+        "gpu_max_task_footprint": {
+          "count": 87,
+          "max": 75998797,
+          "min": 55052610,
+          "p50": 74180027,
+          "p90": 75418883,
+          "p95": 75998723,
+          "sum": 6451344821
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 87,
+          "max": 43000000,
+          "min": 21000000,
+          "p50": 30000000,
+          "p90": 36000000,
+          "p95": 39000000,
+          "sum": 2677000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 87,
+          "max": 37000000,
+          "min": 0,
+          "p50": 0,
+          "p90": 1000000,
+          "p95": 14000000,
+          "sum": 146000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 87,
+          "max": 3981312,
+          "min": 2789376,
+          "p50": 3850240,
+          "p90": 3981312,
+          "p95": 3981312,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 87,
+          "max": 32714672,
+          "min": 23698112,
+          "p50": 31931792,
+          "p90": 32465040,
+          "p95": 32714640,
+          "sum": 2777066736
+        },
+        "max_output_batch_rows": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 87,
+          "max": 32714672,
+          "min": 23698112,
+          "p50": 31931792,
+          "p90": 32465040,
+          "p95": 32714640,
+          "sum": 2777066736
+        },
+        "output_batches": {
+          "count": 87,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 87
+        },
+        "output_rows": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 87,
+          "max": 3804342,
+          "min": 2725486,
+          "p50": 3661720,
+          "p90": 3729187,
+          "p95": 3796308,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 87,
+          "max": 60789346,
+          "min": 12229503,
+          "p50": 21864697,
+          "p90": 27777736,
+          "p95": 33727025,
+          "sum": 2030101341
+        },
+        "spark_disk_spill_bytes": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 87,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -12332,11 +15484,247 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 408.742582,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 8192,
+      "output_producing_scan_task_count": 2,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 2,
+          "max": 351,
+          "min": 101,
+          "p50": 226.0,
+          "p90": 351,
+          "p95": 351,
+          "sum": 452
+        },
+        "gpu_decode_ns": {
+          "count": 2,
+          "max": 72693313,
+          "min": 17906415,
+          "p50": 45299864.0,
+          "p90": 72693313,
+          "p95": 72693313,
+          "sum": 90599728
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 2,
+          "max": 1,
+          "min": 1,
+          "p50": 1.0,
+          "p90": 1,
+          "p95": 1,
+          "sum": 2
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 2,
+          "max": 1196930264,
+          "min": 0,
+          "p50": 598465132.0,
+          "p90": 1196930264,
+          "p95": 1196930264,
+          "sum": 1196930264
+        },
+        "gpu_max_task_footprint": {
+          "count": 2,
+          "max": 3562420270,
+          "min": 1196930264,
+          "p50": 2379675267.0,
+          "p90": 3562420270,
+          "p95": 3562420270,
+          "sum": 4759350534
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 2,
+          "max": 173000000,
+          "min": 55000000,
+          "p50": 114000000.0,
+          "p90": 173000000,
+          "p95": 173000000,
+          "sum": 228000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 2,
+          "max": 272621568,
+          "min": 61157376,
+          "p50": 166889472.0,
+          "p90": 272621568,
+          "p95": 272621568,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 2,
+          "max": 139189301,
+          "min": 31706754,
+          "p50": 85448027.5,
+          "p90": 139189301,
+          "p95": 139189301,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 2,
+          "max": 1073508608,
+          "min": 515234848,
+          "p50": 794371728.0,
+          "p90": 1073508608,
+          "p95": 1073508608,
+          "sum": 1588743456
+        },
+        "max_output_batch_rows": {
+          "count": 2,
+          "max": 66062064,
+          "min": 31706754,
+          "p50": 48884409.0,
+          "p90": 66062064,
+          "p95": 66062064,
+          "sum": 97768818
+        },
+        "output_batch_bytes": {
+          "count": 2,
+          "max": 2261826256,
+          "min": 515234848,
+          "p50": 1388530552.0,
+          "p90": 2261826256,
+          "p95": 2261826256,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 2,
+          "max": 3,
+          "min": 1,
+          "p50": 2.0,
+          "p90": 3,
+          "p95": 3,
+          "sum": 4
+        },
+        "output_rows": {
+          "count": 2,
+          "max": 139189301,
+          "min": 31706754,
+          "p50": 85448027.5,
+          "p90": 139189301,
+          "p95": 139189301,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 2,
+          "max": 259748419,
+          "min": 59221327,
+          "p50": 159484873.0,
+          "p90": 259748419,
+          "p95": 259748419,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 2,
+          "max": 268441540,
+          "min": 64648909,
+          "p50": 166545224.5,
+          "p90": 268441540,
+          "p95": 268441540,
+          "sum": 333090449
+        },
+        "spark_disk_spill_bytes": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 2,
+          "max": 0,
+          "min": 0,
+          "p50": 0.0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 2,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -12580,11 +15968,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 292.782192,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 2048,
+      "output_producing_scan_task_count": 5,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 5,
+          "max": 234,
+          "min": 173,
+          "p50": 178,
+          "p90": 234,
+          "p95": 234,
+          "sum": 941
+        },
+        "gpu_decode_ns": {
+          "count": 5,
+          "max": 73762255,
+          "min": 28284785,
+          "p50": 67742945,
+          "p90": 73762255,
+          "p95": 73762255,
+          "sum": 295929868
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 5,
+          "max": 4,
+          "min": 0,
+          "p50": 3,
+          "p90": 4,
+          "p95": 4,
+          "sum": 13
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 5,
+          "max": 4535460649,
+          "min": 0,
+          "p50": 4466154425,
+          "p90": 4535460649,
+          "p95": 4535460649,
+          "sum": 14765122006
+        },
+        "gpu_max_task_footprint": {
+          "count": 5,
+          "max": 1322115870,
+          "min": 1215548826,
+          "p50": 1301523914,
+          "p90": 1322115870,
+          "p95": 1322115870,
+          "sum": 6451326777
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 5,
+          "max": 114000000,
+          "min": 66000000,
+          "p50": 107000000,
+          "p90": 114000000,
+          "p95": 114000000,
+          "sum": 501000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 5,
+          "max": 85000000,
+          "min": 0,
+          "p50": 0,
+          "p90": 85000000,
+          "p95": 85000000,
+          "sum": 85000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 5,
+          "max": 69607424,
+          "min": 62152704,
+          "p50": 67575808,
+          "p90": 69607424,
+          "p95": 69607424,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "max_output_batch_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 5,
+          "max": 569122688,
+          "min": 523249472,
+          "p50": 560258624,
+          "p90": 569122688,
+          "p95": 569122688,
+          "sum": 2777061104
+        },
+        "output_batches": {
+          "count": 5,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 5
+        },
+        "output_rows": {
+          "count": 5,
+          "max": 35022928,
+          "min": 32199964,
+          "p50": 34477452,
+          "p90": 35022928,
+          "p95": 35022928,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 5,
+          "max": 65617125,
+          "min": 60142209,
+          "p50": 64225189,
+          "p90": 65617125,
+          "p95": 65617125,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 5,
+          "max": 198050755,
+          "min": 124980640,
+          "p50": 141681715,
+          "p90": 198050755,
+          "p95": 198050755,
+          "sum": 744443015
+        },
+        "spark_disk_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 5,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 5,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -12915,11 +16551,259 @@
       "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
       "dynamic_concurrency": true,
       "elapsed_ms": 602.218842,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        }
+      },
       "end_month": "2009-12",
       "episode": "train_2009",
+      "journal_result_rdd_partitions": 1,
       "layout": "sharded",
       "max_partition_mib": 128,
+      "output_producing_scan_task_count": 87,
+      "output_task_metrics": {
+        "duration_ms": {
+          "count": 87,
+          "max": 111,
+          "min": 29,
+          "p50": 43,
+          "p90": 60,
+          "p95": 67,
+          "sum": 4059
+        },
+        "gpu_decode_ns": {
+          "count": 87,
+          "max": 26053082,
+          "min": 5581893,
+          "p50": 18582566,
+          "p90": 22127113,
+          "p95": 24126066,
+          "sum": 1578476174
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 87,
+          "max": 8,
+          "min": 0,
+          "p50": 6,
+          "p90": 8,
+          "p95": 8,
+          "sum": 465
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 87,
+          "max": 467066906,
+          "min": 0,
+          "p50": 0,
+          "p90": 394441294,
+          "p95": 451306385,
+          "sum": 11843148302
+        },
+        "gpu_max_task_footprint": {
+          "count": 87,
+          "max": 75998797,
+          "min": 55052610,
+          "p50": 74180027,
+          "p90": 75418883,
+          "p95": 75998723,
+          "sum": 6451344821
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 87,
+          "max": 53000000,
+          "min": 20000000,
+          "p50": 34000000,
+          "p90": 43000000,
+          "p95": 47000000,
+          "sum": 3017000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 87,
+          "max": 52000000,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 191000000
+        },
+        "gpu_waiting_tasks_avg": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 87,
+          "max": 3981312,
+          "min": 2789376,
+          "p50": 3850240,
+          "p90": 3981312,
+          "p95": 3981312,
+          "sum": 333778944
+        },
+        "input_records": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "max_output_batch_bytes": {
+          "count": 87,
+          "max": 32714672,
+          "min": 23698112,
+          "p50": 31931792,
+          "p90": 32465040,
+          "p95": 32714640,
+          "sum": 2777066736
+        },
+        "max_output_batch_rows": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "output_batch_bytes": {
+          "count": 87,
+          "max": 32714672,
+          "min": 23698112,
+          "p50": 31931792,
+          "p90": 32465040,
+          "p95": 32714640,
+          "sum": 2777066736
+        },
+        "output_batches": {
+          "count": 87,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 87
+        },
+        "output_rows": {
+          "count": 87,
+          "max": 2013203,
+          "min": 1458340,
+          "p50": 1965033,
+          "p90": 1997841,
+          "p95": 2013201,
+          "sum": 170896055
+        },
+        "read_buffer_bytes": {
+          "count": 87,
+          "max": 3804342,
+          "min": 2725486,
+          "p50": 3661720,
+          "p90": 3729187,
+          "p95": 3796308,
+          "sum": 318969746
+        },
+        "scan_ns": {
+          "count": 87,
+          "max": 82018480,
+          "min": 9890807,
+          "p50": 24783531,
+          "p90": 30225137,
+          "p95": 36270126,
+          "sum": 2286612474
+        },
+        "spark_disk_spill_bytes": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 87,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
       "phase": "measure",
+      "planned_scan_stage_tasks": 87,
       "query": "common",
       "rapids_batch_mib": null,
       "reader_batch_mib": null,
@@ -15326,5 +19210,5 @@
       ]
     }
   ],
-  "schema_version": 2
+  "schema_version": 3
 }

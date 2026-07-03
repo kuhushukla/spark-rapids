@@ -3,6 +3,7 @@ schema_version: 1
 experiment: uncompressed-size-shmoo
 branch: experiment/partition-size-bathtub
 followup_preregistered_revision: ca79472ae
+holdout_preregistered_revision: 179d40a5f
 frozen_base_revision: 273771d3d979ffe5091f8c2e6ae0a69c6cf94a4f
 run_date: 2026-07-03
 host:
@@ -65,6 +66,11 @@ studies:
     attempt: attempts/bathtub-layout-source-001
     gpu_runs: 16
     measured_runs: 15
+  - name: bathtub-prospective-transfer-rerun
+    schedule: preregistration/bathtub-holdout-schedule.json
+    attempt: attempts/bathtub-holdout-001
+    gpu_runs: 84
+    measured_runs: 80
   - name: cpu-correctness
     schedule: preregistration/cpu-reference-schedule.json
     attempt: attempts/cpu-reference-001
@@ -76,12 +82,42 @@ validation:
   cpu_gpu: attempts/cpu-reference-001/analysis/cpu-gpu-correctness.json
 replay:
   working_directory: docs/experiments/uncompressed-size-shmoo
+  extraction:
+    - >-
+      python3 scripts/extract_scan_metrics.py
+      --event-log attempts/bathtub-mechanism-001/raw/eventlog.json.gz
+      --journal attempts/bathtub-mechanism-001/raw/journal.jsonl
+      --output /tmp/bathtub-mechanism-scan-metrics.json
+    - >-
+      python3 scripts/extract_scan_metrics.py
+      --event-log attempts/bathtub-batch-001/raw/eventlog.json.gz
+      --journal attempts/bathtub-batch-001/raw/journal.jsonl
+      --output /tmp/bathtub-batch-scan-metrics.json
+    - >-
+      python3 scripts/extract_scan_metrics.py
+      --event-log attempts/bathtub-layout-sharded-001/raw/eventlog.json.gz
+      --journal attempts/bathtub-layout-sharded-001/raw/journal.jsonl
+      --output /tmp/bathtub-layout-sharded-scan-metrics.json
+    - >-
+      python3 scripts/extract_scan_metrics.py
+      --event-log attempts/bathtub-layout-source-001/raw/eventlog.json.gz
+      --journal attempts/bathtub-layout-source-001/raw/journal.jsonl
+      --output /tmp/bathtub-layout-source-scan-metrics.json
+    - >-
+      python3 scripts/extract_scan_metrics.py
+      --event-log attempts/bathtub-holdout-001/raw/eventlog.json.gz
+      --journal attempts/bathtub-holdout-001/raw/journal.jsonl
+      --output /tmp/bathtub-holdout-scan-metrics.json
   plots:
     - python3 scripts/plot_results.py --experiment-root .
     - >-
       python3 scripts/plot_bathtub_followup.py
       --analysis analysis/bathtub-followup-analysis.json
       --output /tmp/bathtub-followup.svg
+    - >-
+      python3 scripts/plot_bathtub_holdout.py
+      --analysis analysis/bathtub-holdout-analysis.json
+      --output /tmp/bathtub-holdout.svg
   analysis:
     - >-
       python3 scripts/analyze_shmoo.py
@@ -118,6 +154,12 @@ replay:
       --source-layout-metrics attempts/bathtub-layout-source-001/analysis/scan-metrics.json
       --output /tmp/bathtub-followup-analysis.json
       --markdown /tmp/bathtub-followup-results.md
+    - >-
+      python3 scripts/analyze_bathtub_holdout.py
+      --metrics attempts/bathtub-holdout-001/analysis/scan-metrics.json
+      --lifecycle attempts/bathtub-holdout-001/analysis/lifecycle.json
+      --output /tmp/bathtub-holdout-analysis.json
+      --markdown /tmp/bathtub-holdout-results.md
   lifecycle:
     - >-
       python3 scripts/validate_lifecycle.py --require-gpu-scan
@@ -177,6 +219,13 @@ replay:
       --journal attempts/bathtub-layout-source-001/raw/journal.jsonl
       --event-log attempts/bathtub-layout-source-001/raw/eventlog.json.gz
       --output /tmp/bathtub-layout-source-lifecycle.json
+    - >-
+      python3 scripts/validate_lifecycle.py --require-gpu-scan
+      --expected-concurrent-gpu-tasks 4 --expected-dynamic-concurrency true
+      --schedule preregistration/bathtub-holdout-schedule.json
+      --journal attempts/bathtub-holdout-001/raw/journal.jsonl
+      --event-log attempts/bathtub-holdout-001/raw/eventlog.json.gz
+      --output /tmp/bathtub-holdout-lifecycle.json
   corpus:
     - >-
       spark-submit scripts/validate_row_multisets.py

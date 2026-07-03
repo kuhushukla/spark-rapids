@@ -119,7 +119,8 @@ def main():
 
     executions = {}
     stage_to_run = {}
-    tasks = {}
+    stage_planned_tasks = {}
+    task_events = {}
     with open_log(args.event_log) as stream:
         for line in stream:
             event = json.loads(line)
@@ -135,6 +136,11 @@ def main():
                 if run_id:
                     for stage_id in event.get("Stage IDs", []):
                         stage_to_run[int(stage_id)] = run_id
+            elif kind == "SparkListenerStageSubmitted":
+                stage_info = event["Stage Info"]
+                stage_planned_tasks[int(stage_info["Stage ID"])] = int(
+                    stage_info["Number of Tasks"]
+                )
             elif kind == "SparkListenerTaskEnd":
                 stage_id = int(event["Stage ID"])
                 run_id = stage_to_run.get(stage_id)
@@ -168,8 +174,7 @@ def main():
                         metric_name = task_gpu_names.get(accum.get("Name"))
                     if metric_name is not None and "Update" in accum:
                         values[metric_name] = accumulator_value(accum["Update"])
-                if "output_batch_bytes" not in values:
-                    continue
+                has_scan_metric = "output_batch_bytes" in values
                 info = event["Task Info"]
                 standard = event.get("Task Metrics", {})
                 input_metrics = standard.get("Input Metrics", {})
@@ -185,22 +190,57 @@ def main():
                     "partition_id": int(info["Partition ID"]),
                     "stage_id": stage_id,
                     "task_id": int(info["Task ID"]),
+                    "_has_scan_metric": has_scan_metric,
                 })
-                tasks.setdefault(run_id, []).append(values)
+                task_events.setdefault(run_id, []).append(values)
+
+    tasks = {}
+    output_tasks = {}
+    empty_tasks = {}
+    for run_id, rows in task_events.items():
+        scan_stage_ids = {
+            row["stage_id"] for row in rows if row["_has_scan_metric"]
+        }
+        if len(scan_stage_ids) != 1:
+            raise ValueError(
+                "expected one metric-bearing scan stage for {}, found {}".format(
+                    run_id, sorted(scan_stage_ids)
+                )
+            )
+        scan_stage_id = next(iter(scan_stage_ids))
+        scan_rows = []
+        for row in rows:
+            if row["stage_id"] != scan_stage_id:
+                continue
+            row.pop("_has_scan_metric")
+            for name in executions[run_id]["metric_ids"].values():
+                row.setdefault(name, 0)
+            scan_rows.append(row)
+        tasks[run_id] = scan_rows
+        output_tasks[run_id] = [
+            row for row in scan_rows if row.get("output_batch_bytes", 0) > 0
+        ]
+        empty_tasks[run_id] = [
+            row for row in scan_rows if row.get("output_batch_bytes", 0) == 0
+        ]
 
     with open(args.journal, encoding="utf-8") as stream:
         journal = {
             item["run_id"]: item for item in (json.loads(line) for line in stream)
         }
     output = {
-        "schema_version": 2,
+        "schema_version": 3,
         "accumulator_duration_resolution_ns": 1_000_000,
         "runs": [],
     }
     for run_id, record in journal.items():
         task_rows = tasks.get(run_id, [])
         if not task_rows:
-            raise ValueError("no GPU scan task metrics for " + run_id)
+            raise ValueError("no GPU scan-stage tasks for " + run_id)
+        output_task_rows = output_tasks.get(run_id, [])
+        empty_task_rows = empty_tasks.get(run_id, [])
+        if not output_task_rows:
+            raise ValueError("no output-producing GPU scan tasks for " + run_id)
         metric_keys = sorted({
             key for row in task_rows for key in row
             if key not in {
@@ -221,13 +261,26 @@ def main():
             "reader_batch_mib": record.get("reader_batch_mib"),
             "elapsed_ms": record["elapsed_ms"],
             "result_sha256": record["result_sha256"],
+            # benchmark.py recorded the final result RDD partition count, not scan planning.
+            "journal_result_rdd_partitions": record.get("planned_input_partitions"),
+            "planned_scan_stage_tasks": stage_planned_tasks[task_rows[0]["stage_id"]],
             "scan_task_count": len(task_rows),
+            "output_producing_scan_task_count": len(output_task_rows),
+            "empty_scan_task_count": len(task_rows) - len(output_task_rows),
             "scan_task_span_ms": (
                 max(row["finish_time_ms"] for row in task_rows)
                 - min(row["launch_time_ms"] for row in task_rows)
             ),
             "task_metrics": {
                 key: quantiles([row.get(key, 0) for row in task_rows])
+                for key in metric_keys
+            },
+            "output_task_metrics": {
+                key: quantiles([row.get(key, 0) for row in output_task_rows])
+                for key in metric_keys
+            },
+            "empty_task_metrics": {
+                key: quantiles([row.get(key, 0) for row in empty_task_rows])
                 for key in metric_keys
             },
             "tasks": sorted(task_rows, key=lambda row: (row["stage_id"], row["partition_id"])),

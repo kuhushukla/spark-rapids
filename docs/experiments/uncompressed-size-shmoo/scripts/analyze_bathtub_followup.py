@@ -32,8 +32,24 @@ def load(path):
         return json.load(stream)
 
 
+OUTPUT_ONLY_METRICS = {
+    "output_batch_bytes",
+    "max_output_batch_bytes",
+    "max_output_batch_rows",
+    "output_rows",
+    "output_batches",
+    "gpu_decode_ns",
+    "scan_ns",
+    "read_buffer_bytes",
+}
+
+
 def metric(run, name, field, default=0):
-    return run.get("task_metrics", {}).get(name, {}).get(field, default)
+    if name in OUTPUT_ONLY_METRICS:
+        metrics = run.get("output_task_metrics") or run.get("task_metrics", {})
+    else:
+        metrics = run.get("task_metrics", {})
+    return metrics.get(name, {}).get(field, default)
 
 
 def median(values):
@@ -65,25 +81,38 @@ def bootstrap_median_ci(rows, seed):
 def run_features(run):
     concurrency = max(1, int(metric(run, "gpu_max_concurrent_tasks", "max", 1)))
     tasks = run["scan_task_count"]
+    output_tasks = run.get("output_producing_scan_task_count", tasks)
     holding_ms = metric(run, "gpu_semaphore_holding_ns", "sum") / 1_000_000
     span_ms = run["scan_task_span_ms"]
-    remainder = tasks % concurrency
+    remainder = output_tasks % concurrency
+    empty_metrics = run.get("empty_task_metrics", {})
+    empty_holding_ms = (
+        empty_metrics.get("gpu_semaphore_holding_ns", {}).get("sum", 0) / 1_000_000
+    )
     return {
         "run_id": run["run_id"],
         "block": run.get("block"),
         "repeat": run.get("repeat"),
         "query": run["query"],
+        "episode": run.get("episode"),
         "study": run.get("study"),
         "layout": run.get("layout"),
         "max_partition_mib": run["max_partition_mib"],
         "rapids_batch_mib": run.get("rapids_batch_mib", 1024),
         "reader_batch_mib": run.get("reader_batch_mib", 2048),
         "elapsed_ms": run["elapsed_ms"],
+        "planned_scan_stage_tasks": run.get("planned_scan_stage_tasks"),
         "scan_task_count": tasks,
+        "output_producing_scan_task_count": run.get(
+            "output_producing_scan_task_count", tasks
+        ),
+        "empty_scan_task_count": run.get("empty_scan_task_count", 0),
         "scan_task_span_ms": span_ms,
         "scan_span_share": span_ms / run["elapsed_ms"],
         "gpu_max_concurrent_tasks": concurrency,
-        "max_concurrency_wave_proxy": math.ceil(tasks / concurrency),
+        # This is a data-bearing GPU-wave proxy. Empty tasks can still acquire the
+        # semaphore briefly, so their holding time is tracked separately.
+        "max_concurrency_wave_proxy": math.ceil(output_tasks / concurrency),
         "last_wave_occupancy_proxy": remainder / concurrency if remainder else 1.0,
         "gpu_capacity_busy_proxy": (
             holding_ms / (span_ms * concurrency) if span_ms else None
@@ -91,7 +120,10 @@ def run_features(run):
         "gpu_semaphore_wait_ms": (
             metric(run, "gpu_semaphore_wait_ns", "sum") / 1_000_000
         ),
-        "output_batches_per_task": metric(run, "output_batches", "sum") / tasks,
+        "empty_task_gpu_holding_ms": empty_holding_ms,
+        "output_batches_per_task": (
+            metric(run, "output_batches", "sum") / output_tasks
+        ),
         "decoded_task_bytes_p50": metric(run, "output_batch_bytes", "p50"),
         "decoded_task_rows_p50": metric(run, "output_rows", "p50"),
         "max_emitted_batch_bytes": metric(run, "max_output_batch_bytes", "max"),
@@ -120,10 +152,13 @@ def measured(document):
 
 def summarize(rows, seed):
     keys = [
-        "elapsed_ms", "scan_task_count", "scan_task_span_ms", "scan_span_share",
+        "elapsed_ms", "planned_scan_stage_tasks", "scan_task_count",
+        "output_producing_scan_task_count", "empty_scan_task_count",
+        "scan_task_span_ms", "scan_span_share",
         "gpu_max_concurrent_tasks", "max_concurrency_wave_proxy",
         "last_wave_occupancy_proxy", "gpu_capacity_busy_proxy",
-        "gpu_semaphore_wait_ms", "output_batches_per_task",
+        "gpu_semaphore_wait_ms", "empty_task_gpu_holding_ms",
+        "output_batches_per_task",
         "decoded_task_bytes_p50", "decoded_task_rows_p50",
         "max_emitted_batch_bytes", "gpu_max_task_footprint",
         "gpu_max_device_memory_bytes", "multithread_reader_max_parallelism",
@@ -362,7 +397,7 @@ def main():
         + list(batch_cells.values()) + list(layout_cells.values())
     )
     result = {
-        "schema_version": 1,
+        "schema_version": 2,
         "validation": {
             "runs": len(all_rows),
             "mechanism_runs": len(mechanism),
@@ -386,20 +421,22 @@ def main():
         "cross_query_bounded_regret": bounded_regret,
         "exploratory_minimax_candidate": maximin_candidate,
         "physical_layout_scan_task_counts": {
-            "sharded": {
-                str(candidate): sorted({
-                    row["scan_task_count"] for row in sharded
-                    if row["max_partition_mib"] == candidate
-                })
+            layout_name: {
+                str(candidate): {
+                    name: sorted({
+                        row[name] for row in layout_rows
+                        if row["max_partition_mib"] == candidate
+                    })
+                    for name in (
+                        "planned_scan_stage_tasks",
+                        "scan_task_count",
+                        "output_producing_scan_task_count",
+                        "empty_scan_task_count",
+                    )
+                }
                 for candidate in (128, 2048, 8192)
-            },
-            "source": {
-                str(candidate): sorted({
-                    row["scan_task_count"] for row in source
-                    if row["max_partition_mib"] == candidate
-                })
-                for candidate in (128, 2048, 8192)
-            },
+            }
+            for layout_name, layout_rows in (("sharded", sharded), ("source", source))
         },
         "interpretation_limits": [
             "Five paired blocks give a minimum two-sided exact sign-flip p-value of 0.0625.",
@@ -450,8 +487,9 @@ def main():
         "",
         "## Partition mechanism sweep",
         "",
-        "| Query | Partition MiB | Median ms [block bootstrap 95%] | Tasks | Max c | "
-        "Wave proxy | Last-wave proxy | Decoded task MiB | Max batch MiB | "
+        "| Query | Partition MiB | Median ms [block bootstrap 95%] | "
+        "Stage/output/empty tasks | Max c | Output-task wave proxy | "
+        "Last-wave proxy | Decoded output-task MiB | Max batch MiB | "
         "Max footprint MiB | Wait ms |",
         "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
     ])
@@ -465,7 +503,9 @@ def main():
             lines.append(
                 f"| {query} | {candidate} | {summary['elapsed_ms_median']:.1f} "
                 f"[{ci[0]:.1f}, {ci[1]:.1f}] | "
-                f"{summary['scan_task_count_median']:.0f} | "
+                f"{summary['scan_task_count_median']:.0f}/"
+                f"{summary['output_producing_scan_task_count_median']:.0f}/"
+                f"{summary['empty_scan_task_count_median']:.0f} | "
                 f"{summary['gpu_max_concurrent_tasks_median']:.1f} | "
                 f"{summary['max_concurrency_wave_proxy_median']:.1f} | "
                 f"{summary['last_wave_occupancy_proxy_median']:.2f} | "
@@ -516,11 +556,12 @@ def main():
         )
     lines.extend([
         "",
-        f"The exploratory minimax choice over these two queries is "
-        f"{maximin_candidate['max_partition_mib']} MiB with "
-        f"{maximin_candidate['worst_query_regret_percent']:.1f}% worst observed median "
-        "regret. This is a post-sweep diagnostic, not a validated policy. It must be "
-        "evaluated on held-out epochs/layouts before use.",
+        f"The exploratory point-median minimax calculation gives "
+        f"{maximin_candidate['max_partition_mib']} MiB "
+        f"{maximin_candidate['worst_query_regret_percent']:.1f}% worst observed regret. "
+        "Its 0.3-percentage-point advantage over 2,048 MiB is far below observed "
+        "variation; 512 MiB is a conservative footprint/wave tie-break, not a uniquely "
+        "identified optimum. This is a post-sweep diagnostic, not a validated policy.",
         "",
         "## Batch-size sweep at fixed 4096-MiB partition treatment",
         "",
@@ -564,9 +605,10 @@ def main():
         "",
         "## Physical-layout contrast",
         "",
-        "| Layout | Partition MiB | Median ms [block bootstrap 95%] | Tasks | Max c | "
+        "| Layout | Partition MiB | Median ms [block bootstrap 95%] | "
+        "Planned/stage/output/empty tasks | Empty-task GPU hold ms | Max c | "
         "Max batch MiB |",
-        "|---|---:|---:|---:|---:|---:|",
+        "|---|---:|---:|---:|---:|---:|---:|",
     ])
     for layout_name in ("sharded", "source"):
         for candidate in (128, 2048, 8192):
@@ -575,7 +617,11 @@ def main():
             lines.append(
                 f"| {layout_name} | {candidate} | {summary['elapsed_ms_median']:.1f} "
                 f"[{ci[0]:.1f}, {ci[1]:.1f}] | "
-                f"{summary['scan_task_count_median']:.0f} | "
+                f"{summary['planned_scan_stage_tasks_median']:.0f}/"
+                f"{summary['scan_task_count_median']:.0f}/"
+                f"{summary['output_producing_scan_task_count_median']:.0f}/"
+                f"{summary['empty_scan_task_count_median']:.0f} | "
+                f"{summary['empty_task_gpu_holding_ms_median']:.1f} | "
                 f"{summary['gpu_max_concurrent_tasks_median']:.1f} | "
                 f"{summary['max_emitted_batch_bytes_median'] / 1024**2:.1f} |"
             )
@@ -583,15 +629,16 @@ def main():
         "",
         "## Interpretation",
         "",
-        "- Partition and batch sizing are separate actuators; the batch sweep moves the "
-        "GPU boundary while partition layout stays fixed.",
+        "- Partition and batch sizing are coupled but distinct actuators. Once a task "
+        "contains enough data, the batch target directly moves the emitted GPU boundary; "
+        "partition sizing controls available task volume, task count, and batches/task.",
         "- Dynamic admission is observable, but its task maximum is not a constant stage-wide "
         "concurrency and must not be substituted blindly into a wave equation.",
         "- Physical file and row-group layout determines whether maxPartitionBytes can move "
         "actual task granularity.",
         "- No retry/spill cliff was reached. The upper safety wall remains censored.",
         "- These runs identify mechanisms and a candidate region; they do not validate a "
-        "production bounded-box policy on held-out workloads.",
+        "production bounded-box policy on untouched independent workloads.",
         "",
     ])
     with open(args.markdown, "x", encoding="utf-8") as stream:

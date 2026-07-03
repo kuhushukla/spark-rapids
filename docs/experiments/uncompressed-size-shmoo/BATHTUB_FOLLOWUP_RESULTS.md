@@ -18,22 +18,22 @@ Five paired blocks imply a minimum two-sided exact sign-flip p-value of 0.0625, 
 
 ## Partition mechanism sweep
 
-| Query | Partition MiB | Median ms [block bootstrap 95%] | Tasks | Max c | Wave proxy | Last-wave proxy | Decoded task MiB | Max batch MiB | Max footprint MiB | Wait ms |
+| Query | Partition MiB | Median ms [block bootstrap 95%] | Stage/output/empty tasks | Max c | Output-task wave proxy | Last-wave proxy | Decoded output-task MiB | Max batch MiB | Max footprint MiB | Wait ms |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| common | 128 | 591.8 [558.6, 602.6] | 87 | 8.0 | 11.0 | 0.88 | 30.5 | 31.2 | 72.5 | 161.5 |
-| common | 512 | 273.3 [263.6, 296.8] | 21 | 8.0 | 3.0 | 0.62 | 129.4 | 135.6 | 315.0 | 168.0 |
-| common | 2048 | 255.9 [228.4, 312.9] | 5 | 4.0 | 2.0 | 0.25 | 534.3 | 542.8 | 1260.9 | 62.0 |
-| common | 4096 | 283.9 [271.4, 309.8] | 3 | 3.0 | 1.0 | 1.00 | 1072.3 | 1023.9 | 2431.6 | 0.0 |
-| common | 8192 | 389.1 [382.3, 393.3] | 2 | 1.0 | 2.0 | 1.00 | 1324.2 | 1023.8 | 3397.4 | 0.0 |
-| common | 16384 | 447.5 [435.9, 480.6] | 1 | 1.0 | 1.0 | 1.00 | 2648.4 | 1023.8 | 3397.4 | 0.0 |
-| common | 32768 | 451.2 [443.1, 457.4] | 1 | 1.0 | 1.0 | 1.00 | 2648.4 | 1023.8 | 3397.4 | 0.0 |
-| variable_width | 128 | 731.8 [711.2, 753.2] | 87 | 8.0 | 11.0 | 0.88 | 46.7 | 47.7 | 110.3 | 181.0 |
-| variable_width | 512 | 349.3 [336.0, 362.8] | 21 | 8.0 | 3.0 | 0.62 | 198.4 | 208.4 | 480.7 | 201.0 |
-| variable_width | 2048 | 374.1 [349.2, 384.8] | 5 | 4.0 | 2.0 | 0.25 | 819.1 | 831.2 | 1920.9 | 133.0 |
-| variable_width | 4096 | 383.9 [361.5, 474.9] | 3 | 3.0 | 1.0 | 1.00 | 1644.7 | 1023.8 | 2599.8 | 0.0 |
-| variable_width | 8192 | 559.1 [549.0, 614.7] | 2 | 1.0 | 2.0 | 1.00 | 2030.5 | 1023.8 | 2600.1 | 0.0 |
-| variable_width | 16384 | 677.4 [655.1, 799.8] | 1 | 1.0 | 1.0 | 1.00 | 4060.9 | 1023.8 | 2600.1 | 0.0 |
-| variable_width | 32768 | 664.0 [656.1, 687.8] | 1 | 1.0 | 1.0 | 1.00 | 4060.9 | 1023.8 | 2600.1 | 0.0 |
+| common | 128 | 591.8 [558.6, 602.6] | 87/87/0 | 8.0 | 11.0 | 0.88 | 30.5 | 31.2 | 72.5 | 161.5 |
+| common | 512 | 273.3 [263.6, 296.8] | 21/21/0 | 8.0 | 3.0 | 0.62 | 129.4 | 135.6 | 315.0 | 168.0 |
+| common | 2048 | 255.9 [228.4, 312.9] | 5/5/0 | 4.0 | 2.0 | 0.25 | 534.3 | 542.8 | 1260.9 | 62.0 |
+| common | 4096 | 283.9 [271.4, 309.8] | 3/3/0 | 3.0 | 1.0 | 1.00 | 1072.3 | 1023.9 | 2431.6 | 0.0 |
+| common | 8192 | 389.1 [382.3, 393.3] | 2/2/0 | 1.0 | 2.0 | 1.00 | 1324.2 | 1023.8 | 3397.4 | 0.0 |
+| common | 16384 | 447.5 [435.9, 480.6] | 1/1/0 | 1.0 | 1.0 | 1.00 | 2648.4 | 1023.8 | 3397.4 | 0.0 |
+| common | 32768 | 451.2 [443.1, 457.4] | 1/1/0 | 1.0 | 1.0 | 1.00 | 2648.4 | 1023.8 | 3397.4 | 0.0 |
+| variable_width | 128 | 731.8 [711.2, 753.2] | 87/87/0 | 8.0 | 11.0 | 0.88 | 46.7 | 47.7 | 110.3 | 181.0 |
+| variable_width | 512 | 349.3 [336.0, 362.8] | 21/21/0 | 8.0 | 3.0 | 0.62 | 198.4 | 208.4 | 480.7 | 201.0 |
+| variable_width | 2048 | 374.1 [349.2, 384.8] | 5/5/0 | 4.0 | 2.0 | 0.25 | 819.1 | 831.2 | 1920.9 | 133.0 |
+| variable_width | 4096 | 383.9 [361.5, 474.9] | 3/3/0 | 3.0 | 1.0 | 1.00 | 1644.7 | 1023.8 | 2599.8 | 0.0 |
+| variable_width | 8192 | 559.1 [549.0, 614.7] | 2/2/0 | 1.0 | 2.0 | 1.00 | 2030.5 | 1023.8 | 2600.1 | 0.0 |
+| variable_width | 16384 | 677.4 [655.1, 799.8] | 1/1/0 | 1.0 | 1.0 | 1.00 | 4060.9 | 1023.8 | 2600.1 | 0.0 |
+| variable_width | 32768 | 664.0 [656.1, 687.8] | 1/1/0 | 1.0 | 1.0 | 1.00 | 4060.9 | 1023.8 | 2600.1 | 0.0 |
 
 Descriptive 5% regions:
 - common: best 2048 MiB; within 5% [2048].
@@ -68,7 +68,7 @@ Paired block effects versus 128 MiB (negative is faster):
 | 16384 | 74.9% | 93.9% | 93.9% | 1.0 | 3397.4 |
 | 32768 | 76.3% | 90.1% | 90.1% | 1.0 | 3397.4 |
 
-The exploratory minimax choice over these two queries is 512 MiB with 6.8% worst observed median regret. This is a post-sweep diagnostic, not a validated policy. It must be evaluated on held-out epochs/layouts before use.
+The exploratory point-median minimax calculation gives 512 MiB 6.8% worst observed regret. Its 0.3-percentage-point advantage over 2,048 MiB is far below observed variation; 512 MiB is a conservative footprint/wave tie-break, not a uniquely identified optimum. This is a post-sweep diagnostic, not a validated policy.
 
 ## Batch-size sweep at fixed 4096-MiB partition treatment
 
@@ -100,19 +100,19 @@ Paired block effects versus the 1024-MiB batch target (negative is faster):
 
 ## Physical-layout contrast
 
-| Layout | Partition MiB | Median ms [block bootstrap 95%] | Tasks | Max c | Max batch MiB |
-|---|---:|---:|---:|---:|---:|
-| sharded | 128 | 540.0 [510.8, 603.7] | 87 | 8.0 | 31.2 |
-| sharded | 2048 | 315.2 [292.8, 379.2] | 5 | 4.0 | 542.8 |
-| sharded | 8192 | 417.1 [408.7, 599.1] | 2 | 1.0 | 1023.8 |
-| source | 128 | 1576.8 [1323.3, 1669.1] | 12 | 8.0 | 241.8 |
-| source | 2048 | 559.7 [473.4, 586.3] | 3 | 3.0 | 920.1 |
-| source | 8192 | 540.1 [525.8, 552.4] | 1 | 1.0 | 1017.6 |
+| Layout | Partition MiB | Median ms [block bootstrap 95%] | Planned/stage/output/empty tasks | Empty-task GPU hold ms | Max c | Max batch MiB |
+|---|---:|---:|---:|---:|---:|---:|
+| sharded | 128 | 540.0 [510.8, 603.7] | 87/87/87/0 | 0.0 | 8.0 | 31.2 |
+| sharded | 2048 | 315.2 [292.8, 379.2] | 5/5/5/0 | 0.0 | 4.0 | 542.8 |
+| sharded | 8192 | 417.1 [408.7, 599.1] | 2/2/2/0 | 0.0 | 1.0 | 1023.8 |
+| source | 128 | 1576.8 [1323.3, 1669.1] | 46/46/12/34 | 3038.0 | 8.0 | 241.8 |
+| source | 2048 | 559.7 [473.4, 586.3] | 3/3/3/0 | 0.0 | 3.0 | 920.1 |
+| source | 8192 | 540.1 [525.8, 552.4] | 1/1/1/0 | 0.0 | 1.0 | 1017.6 |
 
 ## Interpretation
 
-- Partition and batch sizing are separate actuators; the batch sweep moves the GPU boundary while partition layout stays fixed.
+- Partition and batch sizing are coupled but distinct actuators. Once a task contains enough data, the batch target directly moves the emitted GPU boundary; partition sizing controls available task volume, task count, and batches/task.
 - Dynamic admission is observable, but its task maximum is not a constant stage-wide concurrency and must not be substituted blindly into a wave equation.
 - Physical file and row-group layout determines whether maxPartitionBytes can move actual task granularity.
 - No retry/spill cliff was reached. The upper safety wall remains censored.
-- These runs identify mechanisms and a candidate region; they do not validate a production bounded-box policy on held-out workloads.
+- These runs identify mechanisms and a candidate region; they do not validate a production bounded-box policy on untouched independent workloads.
