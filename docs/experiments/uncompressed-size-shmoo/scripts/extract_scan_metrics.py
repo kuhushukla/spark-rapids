@@ -186,6 +186,8 @@ def main():
             "end_month": record.get("end_month"),
             "query": record["query"],
             "max_partition_mib": record["max_partition_mib"],
+            "rapids_batch_mib": record.get("rapids_batch_mib"),
+            "reader_batch_mib": record.get("reader_batch_mib"),
             "elapsed_ms": record["elapsed_ms"],
             "result_sha256": record["result_sha256"],
             "scan_task_count": len(task_rows),

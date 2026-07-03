@@ -1,0 +1,610 @@
+{
+  "cells": [
+    {
+      "decoded_task_bytes_p50": 560258624,
+      "decoded_task_bytes_p95": 569122688,
+      "decoded_task_rows_p50": 34477452,
+      "elapsed_ms_median": 410.31428,
+      "elapsed_ms_values": [
+        417.568751,
+        410.31428,
+        398.115881
+      ],
+      "end_month": "2009-12",
+      "episode": "growth_12m",
+      "gpu_task_footprint_p95": 1322115870,
+      "max_emitted_batch_bytes": 569122688,
+      "max_partition_mib": 2048,
+      "output_batches_p50": 1,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 1124430448,
+      "decoded_task_bytes_p95": 1129381312,
+      "decoded_task_rows_p50": 69195711,
+      "elapsed_ms_median": 366.215326,
+      "elapsed_ms_values": [
+        373.79323,
+        364.565844,
+        366.215326
+      ],
+      "end_month": "2009-12",
+      "episode": "growth_12m",
+      "gpu_task_footprint_p95": 2549715838,
+      "max_emitted_batch_bytes": 1073643664,
+      "max_partition_mib": 4096,
+      "output_batches_p50": 2,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 3,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 1388530552.0,
+      "decoded_task_bytes_p95": 2261826256,
+      "decoded_task_rows_p50": 85448027.5,
+      "elapsed_ms_median": 388.464764,
+      "elapsed_ms_values": [
+        387.0415,
+        396.644045,
+        388.464764
+      ],
+      "end_month": "2009-12",
+      "episode": "growth_12m",
+      "gpu_task_footprint_p95": 3562420270,
+      "max_emitted_batch_bytes": 1073508608,
+      "max_partition_mib": 8192,
+      "output_batches_p50": 2.0,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 2,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 229001808,
+      "decoded_task_bytes_p95": 229001808,
+      "decoded_task_rows_p50": 14092413,
+      "elapsed_ms_median": 121.266601,
+      "elapsed_ms_values": [
+        126.183465,
+        115.796249,
+        121.266601
+      ],
+      "end_month": "2009-01",
+      "episode": "growth_1m",
+      "gpu_task_footprint_p95": 531988895,
+      "max_emitted_batch_bytes": 229001808,
+      "max_partition_mib": 2048,
+      "output_batches_p50": 1,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 1,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 229001808,
+      "decoded_task_bytes_p95": 229001808,
+      "decoded_task_rows_p50": 14092413,
+      "elapsed_ms_median": 119.23376,
+      "elapsed_ms_values": [
+        118.469037,
+        119.23376,
+        119.284808
+      ],
+      "end_month": "2009-01",
+      "episode": "growth_1m",
+      "gpu_task_footprint_p95": 531988895,
+      "max_emitted_batch_bytes": 229001808,
+      "max_partition_mib": 4096,
+      "output_batches_p50": 1,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 1,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 229001808,
+      "decoded_task_bytes_p95": 229001808,
+      "decoded_task_rows_p50": 14092413,
+      "elapsed_ms_median": 116.130607,
+      "elapsed_ms_values": [
+        128.61074,
+        114.549057,
+        116.130607
+      ],
+      "end_month": "2009-01",
+      "episode": "growth_1m",
+      "gpu_task_footprint_p95": 531988895,
+      "max_emitted_batch_bytes": 229001808,
+      "max_partition_mib": 8192,
+      "output_batches_p50": 1,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 1,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 564478824.0,
+      "decoded_task_bytes_p95": 572474736,
+      "decoded_task_rows_p50": 34737154.5,
+      "elapsed_ms_median": 2568.354171,
+      "elapsed_ms_values": [
+        2586.324529,
+        2568.354171,
+        2564.487525
+      ],
+      "end_month": "2010-12",
+      "episode": "growth_24m",
+      "gpu_task_footprint_p95": 1314670062,
+      "max_emitted_batch_bytes": 565917568,
+      "max_partition_mib": 2048,
+      "output_batches_p50": 2.5,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 10,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 1125331776,
+      "decoded_task_bytes_p95": 1135910960,
+      "decoded_task_rows_p50": 69251148,
+      "elapsed_ms_median": 2435.214277,
+      "elapsed_ms_values": [
+        2454.897171,
+        2435.214277,
+        2431.809374
+      ],
+      "end_month": "2010-12",
+      "episode": "growth_24m",
+      "gpu_task_footprint_p95": 2359577845,
+      "max_emitted_batch_bytes": 1015712304,
+      "max_partition_mib": 4096,
+      "output_batches_p50": 8,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 2250248304,
+      "decoded_task_bytes_p95": 2265166512,
+      "decoded_task_rows_p50": 138476511,
+      "elapsed_ms_median": 2383.322447,
+      "elapsed_ms_values": [
+        2429.358919,
+        2383.322447,
+        2361.825161
+      ],
+      "end_month": "2010-12",
+      "episode": "growth_24m",
+      "gpu_task_footprint_p95": 2685289871,
+      "max_emitted_batch_bytes": 1073428048,
+      "max_partition_mib": 8192,
+      "output_batches_p50": 12,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 3,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 567246144.0,
+      "decoded_task_bytes_p95": 1325628016,
+      "decoded_task_rows_p50": 34907444.0,
+      "elapsed_ms_median": 2785.612592,
+      "elapsed_ms_values": [
+        2843.854072,
+        2785.612592,
+        2775.815753
+      ],
+      "end_month": "2011-12",
+      "episode": "growth_36m",
+      "gpu_task_footprint_p95": 2746234424,
+      "max_emitted_batch_bytes": 1073714080,
+      "max_partition_mib": 2048,
+      "output_batches_p50": 2.5,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 12,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 1136580424.0,
+      "decoded_task_bytes_p95": 2279884624,
+      "decoded_task_rows_p50": 69943300.5,
+      "elapsed_ms_median": 2712.644016,
+      "elapsed_ms_values": [
+        2716.039916,
+        2712.644016,
+        2686.843259
+      ],
+      "end_month": "2011-12",
+      "episode": "growth_36m",
+      "gpu_task_footprint_p95": 3554009592,
+      "max_emitted_batch_bytes": 1073714080,
+      "max_partition_mib": 4096,
+      "output_batches_p50": 7.5,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 6,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 2272059776,
+      "decoded_task_bytes_p95": 3906074480,
+      "decoded_task_rows_p50": 139818808,
+      "elapsed_ms_median": 2691.040341,
+      "elapsed_ms_values": [
+        2707.804963,
+        2690.352229,
+        2691.040341
+      ],
+      "end_month": "2011-12",
+      "episode": "growth_36m",
+      "gpu_task_footprint_p95": 3554009592,
+      "max_emitted_batch_bytes": 1073714080,
+      "max_partition_mib": 8192,
+      "output_batches_p50": 27,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 3,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 340111824.0,
+      "decoded_task_bytes_p95": 567483664,
+      "decoded_task_rows_p50": 20929953.0,
+      "elapsed_ms_median": 171.980896,
+      "elapsed_ms_values": [
+        183.467516,
+        171.980896,
+        165.596082
+      ],
+      "end_month": "2009-03",
+      "episode": "growth_3m",
+      "gpu_task_footprint_p95": 1318308291,
+      "max_emitted_batch_bytes": 567483664,
+      "max_partition_mib": 2048,
+      "output_batches_p50": 1.0,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 2,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 680223520,
+      "decoded_task_bytes_p95": 680223520,
+      "decoded_task_rows_p50": 41859906,
+      "elapsed_ms_median": 173.103257,
+      "elapsed_ms_values": [
+        173.103257,
+        173.470837,
+        171.662677
+      ],
+      "end_month": "2009-03",
+      "episode": "growth_3m",
+      "gpu_task_footprint_p95": 1580211608,
+      "max_emitted_batch_bytes": 680223520,
+      "max_partition_mib": 4096,
+      "output_batches_p50": 1,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 1,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 680223520,
+      "decoded_task_bytes_p95": 680223520,
+      "decoded_task_rows_p50": 41859906,
+      "elapsed_ms_median": 173.721069,
+      "elapsed_ms_values": [
+        189.86569,
+        173.721069,
+        170.817038
+      ],
+      "end_month": "2009-03",
+      "episode": "growth_3m",
+      "gpu_task_footprint_p95": 1580211608,
+      "max_emitted_batch_bytes": 680223520,
+      "max_partition_mib": 8192,
+      "output_batches_p50": 1,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 1,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 559717552,
+      "decoded_task_bytes_p95": 567397872,
+      "decoded_task_rows_p50": 34444155,
+      "elapsed_ms_median": 238.826418,
+      "elapsed_ms_values": [
+        262.027897,
+        238.826418,
+        237.367142
+      ],
+      "end_month": "2009-06",
+      "episode": "growth_6m",
+      "gpu_task_footprint_p95": 1318108929,
+      "max_emitted_batch_bytes": 567397872,
+      "max_partition_mib": 2048,
+      "output_batches_p50": 1,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 3,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 691723992.0,
+      "decoded_task_bytes_p95": 1135063584,
+      "decoded_task_rows_p50": 42567625.5,
+      "elapsed_ms_median": 246.349285,
+      "elapsed_ms_values": [
+        246.349285,
+        250.538847,
+        242.830564
+      ],
+      "end_month": "2009-06",
+      "episode": "growth_6m",
+      "gpu_task_footprint_p95": 2555629635,
+      "max_emitted_batch_bytes": 1073683600,
+      "max_partition_mib": 4096,
+      "output_batches_p50": 1.5,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 2,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 1383447984,
+      "decoded_task_bytes_p95": 1383447984,
+      "decoded_task_rows_p50": 85135251,
+      "elapsed_ms_median": 278.022192,
+      "elapsed_ms_values": [
+        293.189578,
+        278.022192,
+        270.405879
+      ],
+      "end_month": "2009-06",
+      "episode": "growth_6m",
+      "gpu_task_footprint_p95": 2804014035,
+      "max_emitted_batch_bytes": 1073683600,
+      "max_partition_mib": 8192,
+      "output_batches_p50": 2,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 1,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 846718236.0,
+      "decoded_task_bytes_p95": 858712104,
+      "decoded_task_rows_p50": 34737154.5,
+      "elapsed_ms_median": 2762.010365,
+      "elapsed_ms_values": [
+        2804.622677,
+        2762.010365,
+        2750.949583
+      ],
+      "end_month": "2010-12",
+      "episode": "mixed_evolution_24m",
+      "gpu_task_footprint_p95": 1597628846,
+      "max_emitted_batch_bytes": 848876352,
+      "max_partition_mib": 2048,
+      "output_batches_p50": 2.5,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 10,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 1687997664,
+      "decoded_task_bytes_p95": 1703866440,
+      "decoded_task_rows_p50": 69251148,
+      "elapsed_ms_median": 2610.131436,
+      "elapsed_ms_values": [
+        2597.131313,
+        2610.131436,
+        2615.521208
+      ],
+      "end_month": "2010-12",
+      "episode": "mixed_evolution_24m",
+      "gpu_task_footprint_p95": 2867433997,
+      "max_emitted_batch_bytes": 1523568456,
+      "max_partition_mib": 4096,
+      "output_batches_p50": 8,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 3375372456,
+      "decoded_task_bytes_p95": 3397749768,
+      "decoded_task_rows_p50": 138476511,
+      "elapsed_ms_median": 2546.637595,
+      "elapsed_ms_values": [
+        2543.536995,
+        2546.637595,
+        2564.60959
+      ],
+      "end_month": "2010-12",
+      "episode": "mixed_evolution_24m",
+      "gpu_task_footprint_p95": 3317820767,
+      "max_emitted_batch_bytes": 1610142072,
+      "max_partition_mib": 8192,
+      "output_batches_p50": 12,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 3,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 850869216.0,
+      "decoded_task_bytes_p95": 1988441832,
+      "decoded_task_rows_p50": 34907444.0,
+      "elapsed_ms_median": 3837.650741,
+      "elapsed_ms_values": [
+        3837.650741,
+        3826.589448,
+        3840.540191
+      ],
+      "end_month": "2011-12",
+      "episode": "mixed_evolution_36m",
+      "gpu_task_footprint_p95": 2935397675,
+      "max_emitted_batch_bytes": 1073583576,
+      "max_partition_mib": 2048,
+      "output_batches_p50": 6.5,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 12,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 1704870636.0,
+      "decoded_task_bytes_p95": 3419828088,
+      "decoded_task_rows_p50": 69943300.5,
+      "elapsed_ms_median": 3721.659547,
+      "elapsed_ms_values": [
+        3736.999299,
+        3721.659547,
+        3676.686983
+      ],
+      "end_month": "2011-12",
+      "episode": "mixed_evolution_36m",
+      "gpu_task_footprint_p95": 3072484772,
+      "max_emitted_batch_bytes": 1610287824,
+      "max_partition_mib": 4096,
+      "output_batches_p50": 13.5,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 6,
+      "spill_bytes": 0
+    },
+    {
+      "decoded_task_bytes_p50": 3408089664,
+      "decoded_task_bytes_p95": 5859113640,
+      "decoded_task_rows_p50": 139818808,
+      "elapsed_ms_median": 3686.863167,
+      "elapsed_ms_values": [
+        3661.808387,
+        3686.863167,
+        3695.572818
+      ],
+      "end_month": "2011-12",
+      "episode": "mixed_evolution_36m",
+      "gpu_task_footprint_p95": 3559322986,
+      "max_emitted_batch_bytes": 1610536224,
+      "max_partition_mib": 8192,
+      "output_batches_p50": 55,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 3,
+      "spill_bytes": 0
+    }
+  ],
+  "schema_version": 1,
+  "validation": {
+    "complete_cells": 24,
+    "measured_runs": 72,
+    "result_hashes_stable": true,
+    "retry_count": 0,
+    "runs": 80,
+    "spill_bytes": 0
+  },
+  "windows": [
+    {
+      "best_observed_mib": 4096,
+      "end_month": "2009-12",
+      "episode": "growth_12m",
+      "query": "common",
+      "smallest_within_5_percent_mib": 4096,
+      "within_5_percent_mib": [
+        4096
+      ]
+    },
+    {
+      "best_observed_mib": 8192,
+      "end_month": "2009-01",
+      "episode": "growth_1m",
+      "query": "common",
+      "smallest_within_5_percent_mib": 2048,
+      "within_5_percent_mib": [
+        2048,
+        4096,
+        8192
+      ]
+    },
+    {
+      "best_observed_mib": 8192,
+      "end_month": "2010-12",
+      "episode": "growth_24m",
+      "query": "common",
+      "smallest_within_5_percent_mib": 4096,
+      "within_5_percent_mib": [
+        4096,
+        8192
+      ]
+    },
+    {
+      "best_observed_mib": 8192,
+      "end_month": "2011-12",
+      "episode": "growth_36m",
+      "query": "common",
+      "smallest_within_5_percent_mib": 2048,
+      "within_5_percent_mib": [
+        2048,
+        4096,
+        8192
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "end_month": "2009-03",
+      "episode": "growth_3m",
+      "query": "common",
+      "smallest_within_5_percent_mib": 2048,
+      "within_5_percent_mib": [
+        2048,
+        4096,
+        8192
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "end_month": "2009-06",
+      "episode": "growth_6m",
+      "query": "common",
+      "smallest_within_5_percent_mib": 2048,
+      "within_5_percent_mib": [
+        2048,
+        4096
+      ]
+    },
+    {
+      "best_observed_mib": 8192,
+      "end_month": "2010-12",
+      "episode": "mixed_evolution_24m",
+      "query": "schema_evolution",
+      "smallest_within_5_percent_mib": 4096,
+      "within_5_percent_mib": [
+        4096,
+        8192
+      ]
+    },
+    {
+      "best_observed_mib": 8192,
+      "end_month": "2011-12",
+      "episode": "mixed_evolution_36m",
+      "query": "schema_evolution",
+      "smallest_within_5_percent_mib": 2048,
+      "within_5_percent_mib": [
+        2048,
+        4096,
+        8192
+      ]
+    }
+  ]
+}

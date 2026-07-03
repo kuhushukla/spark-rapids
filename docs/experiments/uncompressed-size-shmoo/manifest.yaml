@@ -1,0 +1,123 @@
+# Immutable experiment manifest. Paths are relative to this directory.
+schema_version: 1
+experiment: uncompressed-size-shmoo
+branch: experiment/uncompressed-size-shmoo
+frozen_base_revision: 273771d3d979ffe5091f8c2e6ae0a69c6cf94a4f
+run_date: 2026-07-03
+host:
+  gpu: NVIDIA RTX A6000
+  gpu_memory_mib: 49140
+  driver: 550.163.01
+  java: OpenJDK 17.0.19
+runtime:
+  spark: 3.5.5
+  scala_binary: "2.12"
+  rapids_jar: ../../../dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar
+  rapids_jar_embedded_revision: 4c66f7214
+  rapids_jar_sha256: 9ca72145dd8e7d19bf8338a2a5646eb7ca2a66541d2ee590be9beff5831d5441
+corpus:
+  source: taxi-data
+  derived: taxi-data-sharded
+  source_months: 36
+  years: [2009, 2010, 2011]
+  derived_files: 825
+  rows: 516784476
+  note: Data directories are intentionally ignored; census and multiset evidence are versioned.
+studies:
+  - name: primary
+    schedule: preregistration/full-schedule.json
+    attempt: attempts/full-shmoo-002
+    gpu_runs: 264
+    measured_runs: 252
+  - name: high-size-extension
+    schedule: preregistration/extension-schedule.json
+    attempt: attempts/high-size-extension-001
+    gpu_runs: 120
+    measured_runs: 108
+  - name: batch-mediation
+    schedule: preregistration/mediation-schedule.json
+    attempt: attempts/batch-mediation-001
+    gpu_runs: 164
+    measured_runs: 162
+  - name: cumulative-growth
+    schedule: preregistration/growth-schedule.json
+    attempt: attempts/growth-001
+    gpu_runs: 80
+    measured_runs: 72
+  - name: cpu-correctness
+    schedule: preregistration/cpu-reference-schedule.json
+    attempt: attempts/cpu-reference-001
+    cpu_runs: 12
+validation:
+  lifecycle: Each attempt's analysis/lifecycle.json binds schedule, journal, and raw event-log SHA-256.
+  corpus: analysis/row-multiset-validation.json
+  planner: analysis/planner-census.json
+  cpu_gpu: attempts/cpu-reference-001/analysis/cpu-gpu-correctness.json
+replay:
+  working_directory: docs/experiments/uncompressed-size-shmoo
+  plots:
+    - python3 scripts/plot_results.py --experiment-root .
+  analysis:
+    - >-
+      python3 scripts/analyze_shmoo.py
+      --metrics attempts/full-shmoo-002/analysis/scan-metrics.json
+      --planner-census analysis/planner-census.json
+      --output /tmp/validated-analysis.json --markdown /tmp/primary-results.md
+    - >-
+      python3 scripts/analyze_extension.py
+      --metrics attempts/high-size-extension-001/analysis/scan-metrics.json
+      --output /tmp/validated-extension.json --markdown /tmp/extension-results.md
+    - >-
+      python3 scripts/analyze_mediation.py
+      --metrics attempts/batch-mediation-001/analysis/scan-metrics.json
+      --output /tmp/validated-mediation.json --markdown /tmp/mediation-results.md
+    - >-
+      python3 scripts/analyze_growth.py
+      --metrics attempts/growth-001/analysis/scan-metrics.json
+      --output /tmp/validated-growth.json --markdown /tmp/growth-results.md
+    - >-
+      python3 scripts/validate_cpu_reference.py
+      --cpu-journal attempts/cpu-reference-001/raw/journal.jsonl
+      --gpu-metrics attempts/full-shmoo-002/analysis/scan-metrics.json
+      --output /tmp/cpu-gpu-correctness.json
+  lifecycle:
+    - >-
+      python3 scripts/validate_lifecycle.py --require-gpu-scan
+      --schedule preregistration/full-schedule.json
+      --journal attempts/full-shmoo-002/raw/journal.jsonl
+      --event-log attempts/full-shmoo-002/raw/eventlog.json.gz
+      --output /tmp/full-lifecycle.json
+    - >-
+      python3 scripts/validate_lifecycle.py --require-gpu-scan
+      --schedule preregistration/extension-schedule.json
+      --journal attempts/high-size-extension-001/raw/journal.jsonl
+      --event-log attempts/high-size-extension-001/raw/eventlog.json.gz
+      --output /tmp/extension-lifecycle.json
+    - >-
+      python3 scripts/validate_lifecycle.py --require-gpu-scan
+      --schedule preregistration/mediation-schedule.json
+      --journal attempts/batch-mediation-001/raw/journal.jsonl
+      --event-log attempts/batch-mediation-001/raw/eventlog.json.gz
+      --output /tmp/mediation-lifecycle.json
+    - >-
+      python3 scripts/validate_lifecycle.py --require-gpu-scan
+      --schedule preregistration/growth-schedule.json
+      --journal attempts/growth-001/raw/journal.jsonl
+      --event-log attempts/growth-001/raw/eventlog.json.gz
+      --output /tmp/growth-lifecycle.json
+    - >-
+      python3 scripts/validate_lifecycle.py
+      --schedule preregistration/cpu-reference-schedule.json
+      --journal attempts/cpu-reference-001/raw/journal.jsonl
+      --event-log attempts/cpu-reference-001/raw/eventlog.json.gz
+      --output /tmp/cpu-lifecycle.json
+  corpus:
+    - >-
+      spark-submit scripts/validate_row_multisets.py
+      --source-dir ../../../taxi-data --derived-dir ../../../taxi-data-sharded
+      --output /tmp/row-multiset-validation.json
+limitations:
+  - Single executor and single GPU.
+  - Three exploratory repetitions per timed cell; no confirmatory confidence intervals.
+  - Derived corpus preserves values but uses a balanced synthetic physical layout.
+  - No GPU utilization or SM occupancy samples were collected.

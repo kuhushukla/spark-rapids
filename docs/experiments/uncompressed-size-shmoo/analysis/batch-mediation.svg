@@ -1,0 +1,95 @@
+<!--
+ Copyright (c) 2026, NVIDIA CORPORATION.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500">
+<rect width="100%" height="100%" fill="white"/>
+<text x="600.0" y="25.0" font-size="18" text-anchor="middle">Batch-ceiling mediation at maxPartitionBytes=4096 MiB</text>
+<rect x="75" y="75" width="500" height="315" fill="white" stroke="#777"/>
+<line x1="75" y1="390" x2="575" y2="390" stroke="#ddd"/>
+<text x="67.0" y="394.0" font-size="10" text-anchor="end">320.1</text>
+<line x1="75" y1="311.25" x2="575" y2="311.25" stroke="#ddd"/>
+<text x="67.0" y="315.2" font-size="10" text-anchor="end">344.7</text>
+<line x1="75" y1="232.5" x2="575" y2="232.5" stroke="#ddd"/>
+<text x="67.0" y="236.5" font-size="10" text-anchor="end">369.4</text>
+<line x1="75" y1="153.75" x2="575" y2="153.75" stroke="#ddd"/>
+<text x="67.0" y="157.8" font-size="10" text-anchor="end">394</text>
+<line x1="75" y1="75" x2="575" y2="75" stroke="#ddd"/>
+<text x="67.0" y="79.0" font-size="10" text-anchor="end">418.7</text>
+<line x1="109.48275862068965" y1="75" x2="109.48275862068965" y2="390" stroke="#ddd"/>
+<text x="109.5" y="408.0" font-size="10" text-anchor="middle">1024</text>
+<line x1="253.16091954022986" y1="75" x2="253.16091954022986" y2="390" stroke="#ddd"/>
+<text x="253.2" y="408.0" font-size="10" text-anchor="middle">2048</text>
+<line x1="540.5172413793102" y1="75" x2="540.5172413793102" y2="390" stroke="#ddd"/>
+<text x="540.5" y="408.0" font-size="10" text-anchor="middle">4096</text>
+<text x="300.0" y="60.0" font-size="15" text-anchor="middle">common</text>
+<text x="300.0" y="432.0" font-size="11" text-anchor="middle">Parquet reader soft limit (MiB)</text>
+<text x="16.0" y="245.0" font-size="11" text-anchor="middle" transform="rotate(-90 16 245.0)">elapsed (ms)</text>
+<polyline points="109.5,105.5 253.2,121.5 540.5,127.9" fill="none" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="109.5" cy="105.5" r="3.5" fill="#1f77b4"/>
+<circle cx="253.2" cy="121.5" r="3.5" fill="#1f77b4"/>
+<circle cx="540.5" cy="127.9" r="3.5" fill="#1f77b4"/>
+<line x1="460" y1="86" x2="480" y2="86" stroke="#1f77b4" stroke-width="2"/>
+<text x="485.0" y="90.0" font-size="10" text-anchor="start">target=512 MiB</text>
+<polyline points="109.5,183.3 253.2,240.3 540.5,245.5" fill="none" stroke="#d62728" stroke-width="2"/>
+<circle cx="109.5" cy="183.3" r="3.5" fill="#d62728"/>
+<circle cx="253.2" cy="240.3" r="3.5" fill="#d62728"/>
+<circle cx="540.5" cy="245.5" r="3.5" fill="#d62728"/>
+<line x1="460" y1="103" x2="480" y2="103" stroke="#d62728" stroke-width="2"/>
+<text x="485.0" y="107.0" font-size="10" text-anchor="start">target=1024 MiB</text>
+<polyline points="109.5,222.2 253.2,340.9 540.5,359.5" fill="none" stroke="#2ca02c" stroke-width="2"/>
+<circle cx="109.5" cy="222.2" r="3.5" fill="#2ca02c"/>
+<circle cx="253.2" cy="340.9" r="3.5" fill="#2ca02c"/>
+<circle cx="540.5" cy="359.5" r="3.5" fill="#2ca02c"/>
+<line x1="460" y1="120" x2="480" y2="120" stroke="#2ca02c" stroke-width="2"/>
+<text x="485.0" y="124.0" font-size="10" text-anchor="start">target=2048 MiB</text>
+<rect x="675" y="75" width="500" height="315" fill="white" stroke="#777"/>
+<line x1="675" y1="390" x2="1175" y2="390" stroke="#ddd"/>
+<text x="667.0" y="394.0" font-size="10" text-anchor="end">449.6</text>
+<line x1="675" y1="311.25" x2="1175" y2="311.25" stroke="#ddd"/>
+<text x="667.0" y="315.2" font-size="10" text-anchor="end">482</text>
+<line x1="675" y1="232.5" x2="1175" y2="232.5" stroke="#ddd"/>
+<text x="667.0" y="236.5" font-size="10" text-anchor="end">514.4</text>
+<line x1="675" y1="153.75" x2="1175" y2="153.75" stroke="#ddd"/>
+<text x="667.0" y="157.8" font-size="10" text-anchor="end">546.8</text>
+<line x1="675" y1="75" x2="1175" y2="75" stroke="#ddd"/>
+<text x="667.0" y="79.0" font-size="10" text-anchor="end">579.1</text>
+<line x1="709.4827586206897" y1="75" x2="709.4827586206897" y2="390" stroke="#ddd"/>
+<text x="709.5" y="408.0" font-size="10" text-anchor="middle">1024</text>
+<line x1="853.1609195402299" y1="75" x2="853.1609195402299" y2="390" stroke="#ddd"/>
+<text x="853.2" y="408.0" font-size="10" text-anchor="middle">2048</text>
+<line x1="1140.5172413793102" y1="75" x2="1140.5172413793102" y2="390" stroke="#ddd"/>
+<text x="1140.5" y="408.0" font-size="10" text-anchor="middle">4096</text>
+<text x="900.0" y="60.0" font-size="15" text-anchor="middle">filtered</text>
+<text x="900.0" y="432.0" font-size="11" text-anchor="middle">Parquet reader soft limit (MiB)</text>
+<text x="616.0" y="245.0" font-size="11" text-anchor="middle" transform="rotate(-90 616 245.0)">elapsed (ms)</text>
+<polyline points="709.5,105.5 853.2,131.8 1140.5,134.3" fill="none" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="709.5" cy="105.5" r="3.5" fill="#1f77b4"/>
+<circle cx="853.2" cy="131.8" r="3.5" fill="#1f77b4"/>
+<circle cx="1140.5" cy="134.3" r="3.5" fill="#1f77b4"/>
+<line x1="1060" y1="86" x2="1080" y2="86" stroke="#1f77b4" stroke-width="2"/>
+<text x="1085.0" y="90.0" font-size="10" text-anchor="start">target=512 MiB</text>
+<polyline points="709.5,269.6 853.2,272.8 1140.5,281.1" fill="none" stroke="#d62728" stroke-width="2"/>
+<circle cx="709.5" cy="269.6" r="3.5" fill="#d62728"/>
+<circle cx="853.2" cy="272.8" r="3.5" fill="#d62728"/>
+<circle cx="1140.5" cy="281.1" r="3.5" fill="#d62728"/>
+<line x1="1060" y1="103" x2="1080" y2="103" stroke="#d62728" stroke-width="2"/>
+<text x="1085.0" y="107.0" font-size="10" text-anchor="start">target=1024 MiB</text>
+<polyline points="709.5,249.7 853.2,359.5 1140.5,350.8" fill="none" stroke="#2ca02c" stroke-width="2"/>
+<circle cx="709.5" cy="249.7" r="3.5" fill="#2ca02c"/>
+<circle cx="853.2" cy="359.5" r="3.5" fill="#2ca02c"/>
+<circle cx="1140.5" cy="350.8" r="3.5" fill="#2ca02c"/>
+<line x1="1060" y1="120" x2="1080" y2="120" stroke="#2ca02c" stroke-width="2"/>
+<text x="1085.0" y="124.0" font-size="10" text-anchor="start">target=2048 MiB</text>
+</svg>
