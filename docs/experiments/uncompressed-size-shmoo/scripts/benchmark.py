@@ -80,11 +80,18 @@ def canonical(rows):
 def month_paths(data_dir, start_month, end_month):
     names = sorted(
         name for name in os.listdir(data_dir)
-        if name.startswith("yellow_tripdata_") and os.path.isdir(os.path.join(data_dir, name))
+        if name.startswith("yellow_tripdata_")
+        and (
+            os.path.isdir(os.path.join(data_dir, name))
+            or (os.path.isfile(os.path.join(data_dir, name)) and name.endswith(".parquet"))
+        )
     )
+    def month_key(name):
+        key = name.removeprefix("yellow_tripdata_")
+        return key.removesuffix(".parquet")
     selected = [
         os.path.join(data_dir, name) for name in names
-        if start_month <= name.removeprefix("yellow_tripdata_") <= end_month
+        if start_month <= month_key(name) <= end_month
     ]
     if not selected:
         raise ValueError("no derived months selected")
@@ -97,7 +104,13 @@ def main():
     parser.add_argument("--schedule", required=True)
     parser.add_argument("--journal", required=True)
     parser.add_argument("--event-log-dir", required=True)
+    parser.add_argument("--concurrent-gpu-tasks", type=int, default=1)
+    parser.add_argument(
+        "--dynamic-concurrency", choices=("true", "false"), default="false"
+    )
     args = parser.parse_args()
+    if args.concurrent_gpu_tasks < 1:
+        raise ValueError("--concurrent-gpu-tasks must be positive")
 
     if os.path.exists(args.journal):
         raise FileExistsError("refusing to overwrite " + args.journal)
@@ -112,8 +125,12 @@ def main():
         .config("spark.sql.files.minPartitionNum", "1")
         .config("spark.sql.files.openCostInBytes", str(4 * MIB))
         .config("spark.rapids.sql.metrics.level", "DEBUG")
-        .config("spark.rapids.sql.concurrentGpuTasks", "1")
-        .config("spark.rapids.sql.concurrentGpuTasks.dynamic", "false")
+        .config(
+            "spark.rapids.sql.concurrentGpuTasks", str(args.concurrent_gpu_tasks)
+        )
+        .config(
+            "spark.rapids.sql.concurrentGpuTasks.dynamic", args.dynamic_concurrency
+        )
         .config("spark.rapids.sql.batchSizeBytes", str(1024 * MIB))
         .config("spark.rapids.sql.reader.batchSizeBytes", str(2048 * MIB))
         .config("spark.rapids.sql.reader.batchSizeRows", str(2147483647))
@@ -151,6 +168,9 @@ def main():
                 "gpu_scan_in_plan": "Gpu" in plan and "Scan" in plan,
                 "plan": plan,
                 "planned_input_partitions": query.rdd.getNumPartitions(),
+                "concurrent_gpu_tasks": args.concurrent_gpu_tasks,
+                "dynamic_concurrency": args.dynamic_concurrency == "true",
+                "data_dir": os.path.abspath(args.data_dir),
                 "result": values,
                 "result_sha256": result_sha,
             })

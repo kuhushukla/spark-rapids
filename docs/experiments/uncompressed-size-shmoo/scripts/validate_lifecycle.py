@@ -49,6 +49,10 @@ def main():
     parser.add_argument("--journal", required=True)
     parser.add_argument("--event-log", required=True)
     parser.add_argument("--require-gpu-scan", action="store_true")
+    parser.add_argument("--expected-concurrent-gpu-tasks", type=int, default=1)
+    parser.add_argument(
+        "--expected-dynamic-concurrency", choices=("true", "false"), default="false"
+    )
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
     if os.path.exists(args.output):
@@ -143,8 +147,12 @@ def main():
         "spark.rapids.sql.batchSizeBytes": "1073741824",
         "spark.rapids.sql.reader.batchSizeBytes": "2147483648",
         "spark.rapids.sql.reader.batchSizeRows": "2147483647",
-        "spark.rapids.sql.concurrentGpuTasks": "1",
-        "spark.rapids.sql.concurrentGpuTasks.dynamic": "false",
+        "spark.rapids.sql.concurrentGpuTasks": str(
+            args.expected_concurrent_gpu_tasks
+        ),
+        "spark.rapids.sql.concurrentGpuTasks.dynamic": (
+            args.expected_dynamic_concurrency
+        ),
         "spark.sql.files.minPartitionNum": "1",
         "spark.sql.files.openCostInBytes": "4194304",
     }

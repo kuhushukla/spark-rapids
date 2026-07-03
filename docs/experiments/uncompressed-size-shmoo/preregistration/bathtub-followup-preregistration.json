@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "status": "frozen before follow-up execution",
+  "date": "2026-07-03",
+  "objective": "Test a bounded plateau model by separating small-task overhead, batch filling, physical-layout response, and dynamic GPU admission. Do not estimate or recommend a point optimum.",
+  "contract": {
+    "primary_objective": "whole-query elapsed time",
+    "secondary_objectives": [
+      "scan task span as a fraction of query elapsed time",
+      "GPU semaphore-holding share of scan span",
+      "task count and batches per task",
+      "decoded rows and bytes per task",
+      "dynamic admitted concurrency",
+      "task footprint, retry, split-retry, and spill"
+    ],
+    "descriptive_plateau": "candidate median no more than 5% slower than the best observed median",
+    "minimum_actionable_effect_percent": 5,
+    "safety": "no retry, split-retry, spill, executor loss, or result mismatch"
+  },
+  "testbed": {
+    "episode": "2009 full year",
+    "queries": {
+      "common": "two nullable fixed-width columns",
+      "variable_width": "same numeric columns plus payment_type string"
+    },
+    "layouts": {
+      "sharded": "825 small one-row-group files across the full corpus",
+      "source": "original monthly files with one large row group per file"
+    },
+    "codec": "Snappy only; codec contrast remains future work",
+    "gpu": "single RTX A6000",
+    "spark": "3.5.5 local[8]"
+  },
+  "studies": {
+    "partition_mechanisms": {
+      "data": "sharded",
+      "max_partition_mib": [128, 512, 2048, 4096, 8192, 16384, 32768],
+      "repetitions": 5,
+      "default_128_mib_repetitions": 10,
+      "concurrent_gpu_tasks_initial": 4,
+      "dynamic_concurrency": true,
+      "batch_target_mib": 1024,
+      "reader_soft_limit_mib": 2048
+    },
+    "batch_fill": {
+      "data": "sharded",
+      "max_partition_mib": 4096,
+      "batch_target_mib": [256, 512, 1024, 2048, 4096],
+      "reader_soft_limit_mib": 4096,
+      "repetitions": 5,
+      "concurrent_gpu_tasks_initial": 4,
+      "dynamic_concurrency": true
+    },
+    "physical_layout": {
+      "data": ["sharded", "source"],
+      "max_partition_mib": [128, 2048, 8192],
+      "query": "common",
+      "repetitions": 5,
+      "concurrent_gpu_tasks_initial": 4,
+      "dynamic_concurrency": true
+    }
+  },
+  "analysis": {
+    "variance": "Report all ten default values, CV, and a planning MDE. Do not reuse the planning estimate as confirmatory evidence.",
+    "mechanisms": [
+      "Fit effective incremental task cost against actual scan-task count on the small side.",
+      "Measure batch filling separately at fixed partition size.",
+      "Use gpuMaxConcurrentGpuTasks and semaphore wait to test whether c(P) changes.",
+      "Treat maxPartitionBytes as an input to Spark packing, not realized task bytes.",
+      "Treat no observed retry/spill as a censored upper wall, not proof of safety."
+    ],
+    "layout": "Compare whether changing maxPartitionBytes changes actual scan task count and elapsed time in each physical layout.",
+    "validation": "The follow-up is exploratory mechanism evidence. A later held-out run must validate any plateau rule."
+  },
+  "pre_registered_invariants": [
+    "All result hashes are stable within query/layout.",
+    "The 128-MiB setting produces at least as many scan tasks as every larger treatment in the sharded layout.",
+    "Changing batch target at fixed partition layout changes emitted batch size before it is interpreted as a performance mechanism.",
+    "Dynamic concurrency values are treated as ranges/invariants, never exact reproducibility targets.",
+    "If no retry/spill/split event occurs, the memory cliff remains unobserved."
+  ],
+  "limitations": [
+    "Single host and GPU.",
+    "Warm filesystem cache is not reset.",
+    "No Zstandard corpus.",
+    "No SM occupancy/utilization sampling.",
+    "Source and sharded layouts preserve rows but not production file locality.",
+    "The experiment does not intentionally force an OOM beyond the natural sweep."
+  ]
+}
