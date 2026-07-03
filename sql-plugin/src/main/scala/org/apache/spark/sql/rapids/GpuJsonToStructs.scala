@@ -49,7 +49,10 @@ case class GpuJsonToStructs(
   override protected def doColumnar(input: GpuColumnVector): cudf.ColumnVector = {
     NvtxRegistry.JSON_TO_STRUCTS {
       schema match {
-        case _: MapType => JSONUtils.extractRawMapFromJsonString(input.getBase, cudfOptions)
+        case _: MapType =>
+          (JSONUtils.extractRawMapFromJsonString(input.getBase, cudfOptions):
+            @scala.annotation.nowarn(
+              "msg=method extractRawMapFromJsonString in class JSONUtils is deprecated"))
         case struct: StructType =>
           val parsedStructs = JSONUtils.fromJSONToStructs(input.getBase, makeSchema(struct),
             cudfOptions, parsedOptions.locale == Locale.US)

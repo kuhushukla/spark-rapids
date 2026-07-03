@@ -1199,12 +1199,28 @@ object GpuFilter {
       numOutputRows: GpuMetric,
       numOutputBatches: GpuMetric,
       filterTime: GpuMetric): Iterator[ColumnarBatch] = {
+    filterAndClose(
+      batch, boundCondition, numOutputRows, numOutputBatches,
+      NoopMetric, NoopMetric, NoopMetric, filterTime)
+  }
+
+  def filterAndClose(batch: ColumnarBatch,
+      boundCondition: GpuTieredProject,
+      numOutputRows: GpuMetric,
+      numOutputBatches: GpuMetric,
+      outputBatchBytes: GpuMetric,
+      maxOutputBatchBytes: GpuMetric,
+      maxOutputBatchRows: GpuMetric,
+      filterTime: GpuMetric): Iterator[ColumnarBatch] = {
     if (boundCondition.areAllRetryable) {
       val sb = SpillableColumnarBatch(batch, SpillPriorities.ACTIVE_ON_DECK_PRIORITY)
-      filterAndCloseWithRetry(sb, boundCondition, numOutputRows, numOutputBatches, filterTime)
+      filterAndCloseWithRetry(
+        sb, boundCondition, numOutputRows, numOutputBatches,
+        outputBatchBytes, maxOutputBatchBytes, maxOutputBatchRows, filterTime)
     } else {
-      filterAndCloseNoRetry(batch, boundCondition, numOutputRows, numOutputBatches,
-        filterTime)
+      filterAndCloseNoRetry(
+        batch, boundCondition, numOutputRows, numOutputBatches,
+        outputBatchBytes, maxOutputBatchBytes, maxOutputBatchRows, filterTime)
     }
   }
 
@@ -1212,14 +1228,19 @@ object GpuFilter {
       boundCondition: GpuTieredProject,
       numOutputRows: GpuMetric,
       numOutputBatches: GpuMetric,
+      outputBatchBytes: GpuMetric,
+      maxOutputBatchBytes: GpuMetric,
+      maxOutputBatchRows: GpuMetric,
       filterTime: GpuMetric): Iterator[ColumnarBatch] = {
     NvtxIdWithMetrics(NvtxRegistry.FILTER_BATCH, filterTime) {
       val filteredBatch = withResource(batch) { batch =>
         GpuFilter(batch, boundCondition)
       }
-      numOutputBatches += 1
-      numOutputRows += filteredBatch.numRows()
-      Seq(filteredBatch).toIterator
+      closeOnExcept(filteredBatch) { batch =>
+        recordOutputBatch(batch, numOutputRows, numOutputBatches,
+          outputBatchBytes, maxOutputBatchBytes, maxOutputBatchRows)
+        Seq(batch).toIterator
+      }
     }
   }
 
@@ -1227,6 +1248,9 @@ object GpuFilter {
       boundCondition: GpuTieredProject,
       numOutputRows: GpuMetric,
       numOutputBatches: GpuMetric,
+      outputBatchBytes: GpuMetric,
+      maxOutputBatchBytes: GpuMetric,
+      maxOutputBatchRows: GpuMetric,
       opTime: GpuMetric): Iterator[ColumnarBatch] = {
     boundCondition.retryables.foreach(_.checkpoint())
     val ret = withRetry(input, splitSpillableInHalfByRows) { sb =>
@@ -1239,10 +1263,30 @@ object GpuFilter {
       }
     }
     ret.map { cb =>
-      numOutputRows += cb.numRows()
-      numOutputBatches += 1
-      cb
+      closeOnExcept(cb) { batch =>
+        recordOutputBatch(batch, numOutputRows, numOutputBatches,
+          outputBatchBytes, maxOutputBatchBytes, maxOutputBatchRows)
+      }
     }
+  }
+
+  private def recordOutputBatch(
+      batch: ColumnarBatch,
+      numOutputRows: GpuMetric,
+      numOutputBatches: GpuMetric,
+      outputBatchBytes: GpuMetric,
+      maxOutputBatchBytes: GpuMetric,
+      maxOutputBatchRows: GpuMetric): ColumnarBatch = {
+    val rows = batch.numRows()
+    numOutputRows += rows
+    numOutputBatches += 1
+    maxOutputBatchRows.set(math.max(maxOutputBatchRows.value, rows))
+    if ((outputBatchBytes ne NoopMetric) || (maxOutputBatchBytes ne NoopMetric)) {
+      val bytes = GpuColumnVector.getTotalDeviceMemoryUsed(batch)
+      outputBatchBytes += bytes
+      maxOutputBatchBytes.set(math.max(maxOutputBatchBytes.value, bytes))
+    }
+    batch
   }
 
   private def allEntriesAreTrue(mask: GpuColumnVector): Boolean = {
@@ -1349,7 +1393,11 @@ case class GpuFilterExec(
     CPU_BRIDGE_PROCESSING_TIME -> createNanoTimingMetric(DEBUG_LEVEL, 
       DESCRIPTION_CPU_BRIDGE_PROCESSING_TIME),
     CPU_BRIDGE_WAIT_TIME -> createNanoTimingMetric(DEBUG_LEVEL, 
-      DESCRIPTION_CPU_BRIDGE_WAIT_TIME))
+      DESCRIPTION_CPU_BRIDGE_WAIT_TIME),
+    OUTPUT_BATCH_BYTES -> createSizeMetric(DEBUG_LEVEL, DESCRIPTION_OUTPUT_BATCH_BYTES),
+    MAX_OUTPUT_BATCH_BYTES ->
+      createSizeMetric(DEBUG_LEVEL, DESCRIPTION_MAX_OUTPUT_BATCH_BYTES),
+    MAX_OUTPUT_BATCH_ROWS -> createMetric(DEBUG_LEVEL, DESCRIPTION_MAX_OUTPUT_BATCH_ROWS))
 
   // Split out all the IsNotNulls from condition.
   private val (notNullPreds, _) = splitConjunctivePredicates(condition).partition {
@@ -1383,6 +1431,9 @@ case class GpuFilterExec(
   override def internalDoExecuteColumnar(): RDD[ColumnarBatch] = {
     val numOutputRows = gpuLongMetric(NUM_OUTPUT_ROWS)
     val numOutputBatches = gpuLongMetric(NUM_OUTPUT_BATCHES)
+    val outputBatchBytes = gpuLongMetric(OUTPUT_BATCH_BYTES)
+    val maxOutputBatchBytes = gpuLongMetric(MAX_OUTPUT_BATCH_BYTES)
+    val maxOutputBatchRows = gpuLongMetric(MAX_OUTPUT_BATCH_ROWS)
     val opTime = gpuLongMetric(OP_TIME_LEGACY)
     val rdd = child.executeColumnar()
     val boundCondition = GpuBindReferences.bindGpuReferencesTiered(Seq(condition), child.output,
@@ -1396,8 +1447,9 @@ case class GpuFilterExec(
     rdd.mapPartitionsWithIndex { (partIndex, iter) =>
       GpuNondeterministic.initializeAll(boundCondition.exprTiers.flatten, partIndex)
       iter.flatMap { batch =>
-        GpuFilter.filterAndClose(batch, boundCondition, numOutputRows,
-          numOutputBatches, opTime)
+        GpuFilter.filterAndClose(
+          batch, boundCondition, numOutputRows, numOutputBatches,
+          outputBatchBytes, maxOutputBatchBytes, maxOutputBatchRows, opTime)
       }
     }
   }
