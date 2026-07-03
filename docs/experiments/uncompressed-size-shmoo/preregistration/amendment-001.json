@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "amendment": "001",
+  "trigger": "full-shmoo-001 aborted in warm-up on 2011 payment_type INT64 read as string",
+  "evidence": "analysis/derived-logical-schemas.json",
+  "change": "For variable_width, read payment_type as its episode physical type (string in 2009/2010; long in 2011) and cast to canonical string above the scan before length/count aggregation.",
+  "unchanged": [
+    "candidate treatments",
+    "seeded schedule and order",
+    "episode boundaries",
+    "reader/batch/concurrency controls",
+    "model and analysis contract"
+  ],
+  "bias_assessment": "Required correctness repair discovered before any measured treatment; retains schema epoch/type as a predictor.",
+  "applies_to": "full-shmoo-002 and later"
+}

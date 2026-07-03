@@ -28,13 +28,14 @@ from pyspark.sql.types import DoubleType, LongType, StringType, StructField, Str
 MIB = 1024 * 1024
 
 
-def schema_for(query):
+def schema_for(query, end_month):
     fields = [
         StructField("passenger_count", LongType(), True),
         StructField("trip_distance", DoubleType(), True),
     ]
     if query == "variable_width":
-        fields.append(StructField("payment_type", StringType(), True))
+        payment_type = LongType() if end_month.startswith("2011-") else StringType()
+        fields.append(StructField("payment_type", payment_type, True))
     elif query == "schema_evolution":
         fields.append(StructField("PULocationID", LongType(), True))
     elif query not in ("common", "filtered"):
@@ -42,8 +43,8 @@ def schema_for(query):
     return StructType(fields)
 
 
-def build_query(spark, paths, query):
-    source = spark.read.schema(schema_for(query)).parquet(*paths)
+def build_query(spark, paths, query, end_month):
+    source = spark.read.schema(schema_for(query, end_month)).parquet(*paths)
     if query == "filtered":
         source = source.filter(
             (F.col("trip_distance") >= F.lit(1.0))
@@ -60,9 +61,10 @@ def build_query(spark, paths, query):
         ),
     ]
     if query == "variable_width":
+        payment_as_string = F.col("payment_type").cast("string")
         metrics.extend([
             F.count(F.col("payment_type")).alias("payment_non_null"),
-            F.sum(F.length(F.col("payment_type"))).alias("payment_chars"),
+            F.sum(F.length(payment_as_string)).alias("payment_chars"),
         ])
     elif query == "schema_evolution":
         metrics.append(F.count(F.col("PULocationID")).alias("location_non_null"))
@@ -125,7 +127,7 @@ def main():
                 str(int(item["max_partition_mib"]) * MIB),
             )
             paths = month_paths(args.data_dir, item["start_month"], item["end_month"])
-            query = build_query(spark, paths, item["query"])
+            query = build_query(spark, paths, item["query"], item["end_month"])
             plan = query._jdf.queryExecution().executedPlan().toString()
             run_id = item["run_id"]
             spark.sparkContext.setJobGroup(run_id, run_id, interruptOnCancel=True)
