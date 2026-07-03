@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "status": "frozen before extension",
+  "trigger": "All 12 primary episode/query curves had their unique best and only within-5% candidate at 2048 MiB; median decoded task size was about 560 MiB for the fixed-width lane, so the knee was not bracketed.",
+  "candidates_mib": [
+    2048,
+    4096,
+    8192
+  ],
+  "controls": "identical to primary sweep, including 2 GiB reader cap, 1 GiB RAPIDS batch target, and static concurrency one",
+  "schedule": "12 warm-ups at 4096 MiB, then three seeded complete randomized blocks over all 36 episode/query/candidate treatments",
+  "decision": "Bracket the throughput plateau or report it remains beyond the tested range. Treat changes in output_batches/max batch as evidence of reader/general-batch mediation.",
+  "safety": "Abort on fatal OOM or executor loss; retain retry/spill as measured outcomes rather than excluding the high-size lane.",
+  "inference": "Exploratory sequential extension; do not combine its p-values or intervals with the primary as though candidates were jointly preregistered."
+}
