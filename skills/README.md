@@ -1,11 +1,18 @@
 # Project Aether Agent Skills
 
-Aether Agent is a set of skills to convert Apache Spark User-Defined Functions (UDFs) for GPU acceleration with the [RAPIDS Accelerator for Apache Spark](https://github.com/NVIDIA/spark-rapids). It provides:
+This repository contains independent skill suites for the [RAPIDS Accelerator for Apache Spark](https://github.com/NVIDIA/spark-rapids). Aether Agent converts Apache Spark User-Defined Functions (UDFs) for GPU acceleration. It provides:
 
 1. **Test generation** -- Create unit tests and test data for existing UDFs.
 2. **Conversion** -- Convert a UDF to a GPU-compatible implementation (SQL, cuDF RapidsUDF, or native CUDA RapidsUDF).
 3. **Benchmarking** -- Generate synthetic data and benchmark the original UDF against the GPU implementation.
 4. **Optimization** -- Iteratively profile and optimize a cuDF RapidsUDF for GPU performance.
+
+This repository also provides an evidence-driven workflow for dynamic GPU Spark tuning:
+
+1. **[gpu-tuning-diagnose](gpu-tuning-diagnose/SKILL.md)** -- Reconstruct the critical path and produce falsifiable bottleneck hypotheses.
+2. **[gpu-tuning-experiment](gpu-tuning-experiment/SKILL.md)** -- Design, version, run, and analyze controlled tuning experiments.
+3. **[gpu-tuning-implement](gpu-tuning-implement/SKILL.md)** -- Implement an authorized, validated controller change with observability, safety, shim coverage, and tests.
+4. **[gpu-tuning-controller-review](gpu-tuning-controller-review/SKILL.md)** -- Independently audit actuator feasibility, model validity, controller safety, implementation, and evidence before promotion.
 
 <details open>
 <summary><strong>Table of Contents</strong></summary>
@@ -15,14 +22,15 @@ Aether Agent is a set of skills to convert Apache Spark User-Defined Functions (
 - [Prerequisites](#prerequisites)
 - [Selecting an LLM](#selecting-an-llm)
 - [Quick Start](#quick-start)
-  - [Using Skills](#using-skills)
-  - [Try the Workflow](#try-the-workflow)
+  - [Dynamic GPU Tuning](#dynamic-gpu-tuning)
+  - [UDF Conversion](#udf-conversion)
+  - [Try the UDF Workflow](#try-the-udf-workflow)
 
 </details>
 
 ## Installation
 
-Install via the [skills CLI](https://github.com/vercel-labs/skills). Installing all skills is recommended, as they are designed to work together.
+Install via the [skills CLI](https://github.com/vercel-labs/skills). Install the UDF-conversion suite, the dynamic-tuning suite, or all skills according to the task; the two suites are independent.
 
 ```bash
 npx skills add NVIDIA/spark-rapids --skill '*' [--agent <agent>]
@@ -41,11 +49,13 @@ npx skills add NVIDIA/spark-rapids --skill '*' [--agent <agent>]
 
 ## Prerequisites
 
+For the UDF conversion workflow:
+
 - **[Maven](https://maven.apache.org/install.html)** is required to build/compile UDFs.
 - **[JDK](https://docs.oracle.com/en/java/javase/index.html)** must be installed on the system.
-- **Local GPU** with [CUDA toolkit](https://developer.nvidia.com/cuda/toolkit) is required (see [Spark RAPIDS compatibility](https://nvidia.github.io/cudf-spark/docs/download.html) for version requirements).
+- **Local GPU** with [CUDA toolkit](https://developer.nvidia.com/cuda/toolkit) is required for GPU validation and benchmarking (see [Spark RAPIDS compatibility](https://nvidia.github.io/cudf-spark/docs/download.html) for version requirements). A compatible remote GPU environment can be used instead.
 
-If a local GPU is not available, another option is to run Aether Agent from a cloud instance, such as AWS EC2.
+For dynamic tuning, source code and saved plans/logs are enough for diagnosis and review. GPU or cluster access is required only to execute experiments or GPU integration tests, and those actions also require environment/cost authority.
 
 ## Selecting an LLM
 
@@ -55,9 +65,20 @@ For best results, we recommend the latest reasoning models from OpenAI, Anthropi
 
 Skills require any IDE or LLM that supports the [agent skills spec](https://agentskills.io) (e.g., Cursor, Codex, Claude Code).
 
-### Using Skills
+### Dynamic GPU Tuning
 
-Skills follow a multi-step workflow:
+Use the tuning skills as evidence gates:
+
+1. **[gpu-tuning-diagnose](gpu-tuning-diagnose/SKILL.md)** -- define the objective, reconstruct the scheduled critical path, and rank falsifiable hypotheses.
+2. **[gpu-tuning-experiment](gpu-tuning-experiment/SKILL.md)** -- pre-register and run an authorized, reproducible experiment.
+3. **[gpu-tuning-implement](gpu-tuning-implement/SKILL.md)** -- implement the smallest justified controller change.
+4. **[gpu-tuning-controller-review](gpu-tuning-controller-review/SKILL.md)** -- independently audit it before promotion.
+
+Within this repository, see the [model-driven tuning guide](../docs/design/dynamic-gpu-job-tuning.md). Each skill remains self-contained when installed separately.
+
+### UDF Conversion
+
+The UDF skills follow a multi-step workflow:
 
 1. **[udf-gen-test](udf-gen-test/SKILL.md)** -- Generate a unit test for the UDF
 2. **[udf-convert-to-cudf](udf-convert-to-cudf/SKILL.md)**, **[udf-convert-to-cuda](udf-convert-to-cuda/SKILL.md)**, or **[udf-convert-to-sql](udf-convert-to-sql/SKILL.md)** -- Convert the UDF to a GPU-compatible implementation
@@ -83,7 +104,7 @@ You can invoke multiple steps in a single prompt:
 ❯ Generate a unit test for @FormatPhoneUDF.java, then convert it to cuDF, native CUDA, or SQL and benchmark
 ```
 
-### Try the Workflow
+### Try the UDF Workflow
 
 Once you've installed the skills, try the workflow with one of the provided example UDFs:
 - Java: [FormatPhoneUDF.java](examples/FormatPhoneUDF.java)
