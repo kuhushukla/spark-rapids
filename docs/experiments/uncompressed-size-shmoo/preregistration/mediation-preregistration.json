@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "frozen before mediation run",
+  "trigger": "The high-size extension showed max emitted batches near one GiB and a task transition from one to multiple batches near observed median turnover.",
+  "factors": {
+    "max_partition_mib": [
+      2048,
+      4096,
+      8192
+    ],
+    "rapids_general_batch_target_mib": [
+      512,
+      1024,
+      2048
+    ],
+    "reader_soft_limit_mib": [
+      1024,
+      2048,
+      4096
+    ],
+    "queries": [
+      "common",
+      "filtered"
+    ],
+    "episode": "2009 full year"
+  },
+  "design": "full 3x3x3 factorial per query, three seeded randomized complete blocks after one warmup/query",
+  "primary_tests": [
+    "Does max emitted batch track the general RAPIDS target while MPB is held fixed?",
+    "Does reader soft limit independently alter batch count/size or query time?",
+    "Does the preferred MPB change with either batch control?"
+  ],
+  "interpretation": "Factor interactions and within-cell medians are exploratory with n=3. Evidence of target response supports mediation; it does not isolate all scheduling and I/O paths.",
+  "abort_conditions": [
+    "result hash mismatch",
+    "GPU scan/filter boundary missing",
+    "fatal OOM or executor loss"
+  ]
+}

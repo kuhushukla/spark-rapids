@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "status": "frozen before growth run",
+  "objective": "Test whether the observed high-size performance region remains stable as the same table grows cumulatively from one to 36 months, and whether a single explicit read schema works across mixed absent/present PULocationID epochs.",
+  "windows": [
+    "1,3,6,12,24,36 cumulative months for common projection",
+    "24 and 36 cumulative months for schema_evolution projection"
+  ],
+  "candidates_mib": [
+    2048,
+    4096,
+    8192
+  ],
+  "design": "three seeded randomized complete blocks after one warmup/window",
+  "responses": [
+    "elapsed query time",
+    "task count",
+    "decoded bytes and rows per task",
+    "batches per task",
+    "RMM task footprint",
+    "retry/spill"
+  ],
+  "interpretation": "Growth changes task waves and tail effects while the per-task target is held by the candidate. Mixed schema uses explicit requested Long PULocationID; absent older values materialize null. This is not an automatic Parquet upcast test."
+}

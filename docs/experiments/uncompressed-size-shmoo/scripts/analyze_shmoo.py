@@ -97,6 +97,7 @@ def score_ols(rows, features, coefficients):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--metrics", required=True)
+    parser.add_argument("--planner-census", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--markdown", required=True)
     args = parser.parse_args()
@@ -105,6 +106,12 @@ def main():
 
     with open(args.metrics, encoding="utf-8") as stream:
         runs = json.load(stream)["runs"]
+    with open(args.planner_census, encoding="utf-8") as stream:
+        planner = json.load(stream)
+    planner_layouts = {
+        (item["episode"], int(item["max_partition_mib"])): item
+        for item in planner["layouts"]
+    }
     if len(runs) != 264:
         raise ValueError("expected 264 runs, found {}".format(len(runs)))
     measured = [run for run in runs if run["phase"] == "measure"]
@@ -121,6 +128,21 @@ def main():
         raise ValueError("cross-treatment result mismatch: " + json.dumps(bad_hashes))
     if len(groups) != 84 or any(len(value) != 3 for value in groups.values()):
         raise ValueError("incomplete episode/query/candidate blocking")
+
+    for run in measured:
+        layout = planner_layouts[(run["episode"], int(run["max_partition_mib"]))]
+        if run["scan_task_count"] != layout["task_count"]:
+            raise ValueError("runtime/planner task-count mismatch for " + run["run_id"])
+        planned_ids = {task["partition_id"] for task in layout["tasks"]}
+        runtime_ids = {task["partition_id"] for task in run["tasks"]}
+        if runtime_ids != planned_ids:
+            raise ValueError("runtime/planner partition-id mismatch for " + run["run_id"])
+        planned_by_id = {task["partition_id"]: task for task in layout["tasks"]}
+        for task in run["tasks"]:
+            planned = planned_by_id[task["partition_id"]]
+            task["planned_assigned_range_bytes"] = planned["assigned_range_bytes"]
+            task["planned_footer_rows"] = planned["footer_rows"]
+            task["planned_fixed_gpu_bytes"] = planned["predicted_fixed_gpu_bytes"]
 
     shmoo = []
     for episode in EPISODES:
@@ -160,6 +182,14 @@ def main():
                         "p95": percentile([task["output_rows"] for task in tasks], 0.95),
                         "max": max(task["output_rows"] for task in tasks),
                     },
+                    "surviving_task_bytes_p50": (
+                        statistics.median(task["filter_output_batch_bytes"] for task in tasks)
+                        if query == "filtered" else None
+                    ),
+                    "surviving_task_rows_p50": (
+                        statistics.median(task["filter_output_rows"] for task in tasks)
+                        if query == "filtered" else None
+                    ),
                     "max_emitted_batch_bytes": max(
                         task["max_output_batch_bytes"] for task in tasks
                     ),
@@ -178,15 +208,21 @@ def main():
                 )
 
     fixed_pairs = []
+    fixed_row_errors = []
     fixed_total = 0
+    unique_fixed_layouts = set()
     for run in measured:
         if run["query"] in ("common", "filtered"):
             for task in run["tasks"]:
                 fixed_total += 1
+                fixed_row_errors.append(task["output_rows"] - task["planned_footer_rows"])
                 if task["output_batches"] == 1:
                     fixed_pairs.append((
                         task["output_batch_bytes"],
-                        fixed_width_prediction(task["output_rows"]),
+                        task["planned_fixed_gpu_bytes"],
+                    ))
+                    unique_fixed_layouts.add((
+                        run["episode"], run["max_partition_mib"], task["partition_id"]
                     ))
 
     train_tasks = [
@@ -222,10 +258,18 @@ def main():
         bpr = statistics.median(
             task["output_batch_bytes"] / task["output_rows"] for task in train
         )
-        q = statistics.median(
+        read_ratio = statistics.median(
             task["input_bytes"] / task["output_batch_bytes"] for task in train
         )
-        calibration[query] = {"train_bytes_per_row": bpr, "train_compressed_over_gpu": q}
+        split_ratio = statistics.median(
+            task["planned_assigned_range_bytes"] / task["output_batch_bytes"]
+            for task in train
+        )
+        calibration[query] = {
+            "train_bytes_per_row": bpr,
+            "train_runtime_read_over_gpu": read_ratio,
+            "train_assigned_split_over_gpu": split_ratio,
+        }
         for episode in ("validation_2010", "test_2011"):
             evaluation = [
                 task for run in measured
@@ -237,11 +281,74 @@ def main():
                     (task["output_batch_bytes"], task["output_rows"] * bpr)
                     for task in evaluation
                 ]),
-                "feedback_ratio_mape_percent": mape([
-                    (task["output_batch_bytes"], task["input_bytes"] / q)
+                "runtime_read_ratio_mape_percent": mape([
+                    (task["output_batch_bytes"], task["input_bytes"] / read_ratio)
+                    for task in evaluation
+                ]),
+                "assigned_split_ratio_mape_percent": mape([
+                    (
+                        task["output_batch_bytes"],
+                        task["planned_assigned_range_bytes"] / split_ratio,
+                    )
                     for task in evaluation
                 ]),
             }
+
+    survivor_train = [
+        task for run in measured
+        if run["episode"] == "train_2009" and run["query"] == "filtered"
+        for task in run["tasks"] if task.get("filter_output_rows", 0) > 0
+    ]
+    survivor_bytes_per_row = statistics.median(
+        task["filter_output_batch_bytes"] / task["filter_output_rows"]
+        for task in survivor_train
+    )
+    survivor_selectivity = statistics.median(
+        task["filter_output_rows"] / task["output_rows"] for task in survivor_train
+    )
+    survivor_split_ratio = statistics.median(
+        task["planned_assigned_range_bytes"] / task["filter_output_batch_bytes"]
+        for task in survivor_train
+    )
+    survivor_calibration = {
+        "train_surviving_bytes_per_row": survivor_bytes_per_row,
+        "train_row_selectivity": survivor_selectivity,
+        "train_assigned_split_over_surviving_gpu": survivor_split_ratio,
+        "zero_survivor_tasks": 0,
+    }
+    for episode in ("validation_2010", "test_2011"):
+        evaluation = [
+            task for run in measured
+            if run["episode"] == episode and run["query"] == "filtered"
+            for task in run["tasks"]
+        ]
+        survivor_calibration["zero_survivor_tasks"] += sum(
+            1 for task in evaluation if task.get("filter_output_rows", 0) == 0
+        )
+        nonzero = [task for task in evaluation if task.get("filter_output_rows", 0) > 0]
+        survivor_calibration[episode] = {
+            "surviving_rows_mape_percent": mape([
+                (
+                    task["filter_output_rows"],
+                    task["output_rows"] * survivor_selectivity,
+                )
+                for task in nonzero
+            ]),
+            "surviving_bytes_mape_percent": mape([
+                (
+                    task["filter_output_batch_bytes"],
+                    task["output_rows"] * survivor_selectivity * survivor_bytes_per_row,
+                )
+                for task in nonzero
+            ]),
+            "assigned_split_ratio_mape_percent": mape([
+                (
+                    task["filter_output_batch_bytes"],
+                    task["planned_assigned_range_bytes"] / survivor_split_ratio,
+                )
+                for task in nonzero
+            ]),
+        }
 
     knees = []
     for episode in EPISODES:
@@ -281,14 +388,17 @@ def main():
         },
         "first_principles_fixed_width": {
             "formula": "2*align64(8*rows)+2*align64(ceil(rows/8))",
-            "one_batch_task_coverage": len(fixed_pairs),
-            "eligible_tasks": fixed_total,
+            "one_batch_task_observations": len(fixed_pairs),
+            "total_task_observations": fixed_total,
+            "unique_one_batch_task_layouts": len(unique_fixed_layouts),
+            "footer_row_max_absolute_error": max(abs(value) for value in fixed_row_errors),
             "mape_percent": mape(fixed_pairs),
             "max_absolute_error_bytes": max(
                 abs(actual - predicted) for actual, predicted in fixed_pairs
             ),
         },
         "chronological_calibration": calibration,
+        "survivor_calibration": survivor_calibration,
         "decode_time_models": model_scores,
         "knees": knees,
         "shmoo": shmoo,
@@ -316,9 +426,12 @@ def main():
         "For the two-nullable-fixed-width scan, {} predicted one-batch task".format(
             first["formula"]
         ),
-        "footprint with {:.6f}% MAPE and {} bytes maximum absolute error over {}/{} eligible tasks.".format(
+        "footprint with {:.6f}% MAPE and {} bytes maximum absolute error over {}/{} task observations.".format(
             first["mape_percent"], first["max_absolute_error_bytes"],
-            first["one_batch_task_coverage"], first["eligible_tasks"]
+            first["one_batch_task_observations"], first["total_task_observations"]
+        ),
+        "These observations represent {} unique planned one-batch task layouts; footer-row prediction max error was {} rows.".format(
+            first["unique_one_batch_task_layouts"], first["footer_row_max_absolute_error"]
         ),
         "",
         "## Exploratory knees",
@@ -342,17 +455,34 @@ def main():
         "",
         "## Chronological transfer",
         "",
-        "| Query | 2010 row MAPE | 2010 ratio MAPE | 2011 row MAPE | 2011 ratio MAPE |",
-        "|---|---:|---:|---:|---:|",
+        "| Query | 2010 row MAPE | 2010 C_split MAPE | 2010 read MAPE | 2011 row MAPE | 2011 C_split MAPE | 2011 read MAPE |",
+        "|---|---:|---:|---:|---:|---:|---:|",
     ])
     for query in QUERIES:
         item = calibration[query]
-        lines.append("| {} | {:.2f}% | {:.2f}% | {:.2f}% | {:.2f}% |".format(
+        lines.append("| {} | {:.2f}% | {:.2f}% | {:.2f}% | {:.2f}% | {:.2f}% | {:.2f}% |".format(
             query,
             item["validation_2010"]["rows_only_mape_percent"],
-            item["validation_2010"]["feedback_ratio_mape_percent"],
+            item["validation_2010"]["assigned_split_ratio_mape_percent"],
+            item["validation_2010"]["runtime_read_ratio_mape_percent"],
             item["test_2011"]["rows_only_mape_percent"],
-            item["test_2011"]["feedback_ratio_mape_percent"],
+            item["test_2011"]["assigned_split_ratio_mape_percent"],
+            item["test_2011"]["runtime_read_ratio_mape_percent"],
+        ))
+    lines.extend([
+        "",
+        "## Post-filter survivor transfer",
+        "",
+        "| Episode | surviving rows MAPE | surviving bytes MAPE | C_split/U_survive MAPE |",
+        "|---|---:|---:|---:|",
+    ])
+    for episode in ("validation_2010", "test_2011"):
+        item = survivor_calibration[episode]
+        lines.append("| {} | {:.2f}% | {:.2f}% | {:.2f}% |".format(
+            episode,
+            item["surviving_rows_mape_percent"],
+            item["surviving_bytes_mape_percent"],
+            item["assigned_split_ratio_mape_percent"],
         ))
     lines.extend([
         "",

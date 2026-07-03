@@ -42,23 +42,36 @@ def open_log(path):
 
 
 def scan_metrics(plan):
-    found = []
+    scans = []
+    filters = []
     def visit(node):
-        if node.get("nodeName", "").startswith("GpuScan"):
-            found.append({
+        name = node.get("nodeName", "")
+        if name.startswith("GpuScan"):
+            scans.append({
                 int(metric["accumulatorId"]): METRIC_NAMES[metric["name"]]
+                for metric in node.get("metrics", [])
+                if metric.get("name") in METRIC_NAMES
+            })
+        elif name.startswith("GpuFilter"):
+            filters.append({
+                int(metric["accumulatorId"]): "filter_" + METRIC_NAMES[metric["name"]]
                 for metric in node.get("metrics", [])
                 if metric.get("name") in METRIC_NAMES
             })
         for child in node.get("children", []):
             visit(child)
     visit(plan)
-    if len(found) != 1:
-        raise ValueError("expected exactly one GPU scan node, found {}".format(len(found)))
-    missing = set(METRIC_NAMES.values()) - set(found[0].values())
+    if len(scans) != 1:
+        raise ValueError("expected exactly one GPU scan node, found {}".format(len(scans)))
+    if len(filters) > 1:
+        raise ValueError("expected at most one GPU filter node")
+    missing = set(METRIC_NAMES.values()) - set(scans[0].values())
     if missing:
         raise ValueError("GPU scan lacks required metrics: " + ",".join(sorted(missing)))
-    return found[0]
+    result = dict(scans[0])
+    if filters:
+        result.update(filters[0])
+    return result
 
 
 def quantiles(values):

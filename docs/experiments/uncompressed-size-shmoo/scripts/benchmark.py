@@ -126,6 +126,16 @@ def main():
                 "spark.sql.files.maxPartitionBytes",
                 str(int(item["max_partition_mib"]) * MIB),
             )
+            if "rapids_batch_mib" in item:
+                spark.conf.set(
+                    "spark.rapids.sql.batchSizeBytes",
+                    str(int(item["rapids_batch_mib"]) * MIB),
+                )
+            if "reader_batch_mib" in item:
+                spark.conf.set(
+                    "spark.rapids.sql.reader.batchSizeBytes",
+                    str(int(item["reader_batch_mib"]) * MIB),
+                )
             paths = month_paths(args.data_dir, item["start_month"], item["end_month"])
             query = build_query(spark, paths, item["query"], item["end_month"])
             plan = query._jdf.queryExecution().executedPlan().toString()
