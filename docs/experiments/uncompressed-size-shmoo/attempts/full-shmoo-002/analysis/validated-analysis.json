@@ -1,0 +1,2863 @@
+{
+  "chronological_calibration": {
+    "common": {
+      "test_2011": {
+        "feedback_ratio_mape_percent": 1.7593855425762077,
+        "rows_only_mape_percent": 0.00030520346290804017
+      },
+      "train_bytes_per_row": 16.250077958191405,
+      "train_compressed_over_gpu": 0.12027803859801786,
+      "validation_2010": {
+        "feedback_ratio_mape_percent": 1.1372627624989615,
+        "rows_only_mape_percent": 0.0004065453540532798
+      }
+    },
+    "filtered": {
+      "test_2011": {
+        "feedback_ratio_mape_percent": 1.7593855425762077,
+        "rows_only_mape_percent": 0.00030520346290804017
+      },
+      "train_bytes_per_row": 16.250077958191405,
+      "train_compressed_over_gpu": 0.12027803859801786,
+      "validation_2010": {
+        "feedback_ratio_mape_percent": 1.1372627624989615,
+        "rows_only_mape_percent": 0.0004065453540532798
+      }
+    },
+    "schema_evolution": {
+      "test_2011": {
+        "feedback_ratio_mape_percent": 54.68044245832498,
+        "rows_only_mape_percent": 0.000305203484581454
+      },
+      "train_bytes_per_row": 24.37511693728711,
+      "train_compressed_over_gpu": 0.08018535906534524,
+      "validation_2010": {
+        "feedback_ratio_mape_percent": 1.1372627624989604,
+        "rows_only_mape_percent": 0.0004065453540496859
+      }
+    },
+    "variable_width": {
+      "test_2011": {
+        "feedback_ratio_mape_percent": 10.16676105704533,
+        "rows_only_mape_percent": 2.2463777363733555
+      },
+      "train_bytes_per_row": 24.92259972282203,
+      "train_compressed_over_gpu": 0.09480669585606508,
+      "validation_2010": {
+        "feedback_ratio_mape_percent": 5.316456026630525,
+        "rows_only_mape_percent": 6.620010664796546
+      }
+    }
+  },
+  "decode_time_models": {
+    "bytes_and_rows": {
+      "coefficients": [
+        11.478507770715076,
+        0.18203737336270587,
+        0.06365915052818795
+      ],
+      "features": [
+        "output_batch_bytes",
+        "output_rows"
+      ],
+      "test_2011": {
+        "count": 3336,
+        "log_rmse": 0.24982725073954856,
+        "mape_percent": 13.215108328520744
+      },
+      "train_2009": {
+        "count": 8232,
+        "log_rmse": 0.15591484646431678,
+        "mape_percent": 10.839722196400297
+      },
+      "validation_2010": {
+        "count": 8124,
+        "log_rmse": 0.15571489186970103,
+        "mape_percent": 10.683801399405937
+      }
+    },
+    "bytes_only": {
+      "coefficients": [
+        11.344585882526319,
+        0.24230432626750795
+      ],
+      "features": [
+        "output_batch_bytes"
+      ],
+      "test_2011": {
+        "count": 3336,
+        "log_rmse": 0.25188804261509723,
+        "mape_percent": 13.19328569754411
+      },
+      "train_2009": {
+        "count": 8232,
+        "log_rmse": 0.1564481789839743,
+        "mape_percent": 10.800779724525244
+      },
+      "validation_2010": {
+        "count": 8124,
+        "log_rmse": 0.1566000728820741,
+        "mape_percent": 10.637238610117642
+      }
+    },
+    "rows_only": {
+      "coefficients": [
+        12.023970771118197,
+        0.24569516689054155
+      ],
+      "features": [
+        "output_rows"
+      ],
+      "test_2011": {
+        "count": 3336,
+        "log_rmse": 0.25373514493742005,
+        "mape_percent": 13.554537685870235
+      },
+      "train_2009": {
+        "count": 8232,
+        "log_rmse": 0.16046294131869018,
+        "mape_percent": 11.29713314594495
+      },
+      "validation_2010": {
+        "count": 8124,
+        "log_rmse": 0.15861563992205913,
+        "mape_percent": 11.118343027200252
+      }
+    }
+  },
+  "first_principles_fixed_width": {
+    "eligible_tasks": 9846,
+    "formula": "2*align64(8*rows)+2*align64(ceil(rows/8))",
+    "mape_percent": 0.0004391405158190237,
+    "max_absolute_error_bytes": 112,
+    "one_batch_task_coverage": 9834
+  },
+  "knees": [
+    {
+      "best_observed_mib": 2048,
+      "episode": "train_2009",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "common",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "train_2009",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "filtered",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "train_2009",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "variable_width",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "train_2009",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "schema_evolution",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "validation_2010",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "common",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "validation_2010",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "filtered",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "validation_2010",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "variable_width",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "validation_2010",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "schema_evolution",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "test_2011",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "common",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "test_2011",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "filtered",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "test_2011",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "variable_width",
+      "within_5_percent_mib": [
+        2048
+      ]
+    },
+    {
+      "best_observed_mib": 2048,
+      "episode": "test_2011",
+      "exploratory_smallest_within_5_percent_mib": 2048,
+      "query": "schema_evolution",
+      "within_5_percent_mib": [
+        2048
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "shmoo": [
+    {
+      "decoded_task_bytes": {
+        "max": 8178768,
+        "p50": 7999184,
+        "p95": 8178752
+      },
+      "decoded_task_rows": {
+        "max": 503301,
+        "p50": 492253,
+        "p95": 503300
+      },
+      "elapsed_ms": {
+        "max": 11278.889935,
+        "median": 11253.140813,
+        "min": 11219.777166,
+        "values": [
+          11278.889935,
+          11253.140813,
+          11219.777166
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 18999970,
+      "max_emitted_batch_bytes": 8178768,
+      "max_partition_mib": 32,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 347,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 16357408,
+        "p50": 15977120.0,
+        "p95": 16357392
+      },
+      "decoded_task_rows": {
+        "max": 1006602,
+        "p50": 983202.0,
+        "p95": 1006601
+      },
+      "elapsed_ms": {
+        "max": 5869.029161,
+        "median": 5828.513675,
+        "min": 5810.815561,
+        "values": [
+          5869.029161,
+          5810.815561,
+          5828.513675
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 37999579,
+      "max_emitted_batch_bytes": 16357408,
+      "max_partition_mib": 64,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 174,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 32714672,
+        "p50": 31931792,
+        "p95": 32714640
+      },
+      "decoded_task_rows": {
+        "max": 2013203,
+        "p50": 1965033,
+        "p95": 2013201
+      },
+      "elapsed_ms": {
+        "max": 3086.549156,
+        "median": 2963.112108,
+        "min": 2959.784246,
+        "values": [
+          3086.549156,
+          2959.784246,
+          2963.112108
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 75998723,
+      "max_emitted_batch_bytes": 32714672,
+      "max_partition_mib": 128,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 87,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 72000480,
+        "p50": 64399792.0,
+        "p95": 71778528
+      },
+      "decoded_task_rows": {
+        "max": 4430798,
+        "p50": 3963063.0,
+        "p95": 4417134
+      },
+      "elapsed_ms": {
+        "max": 1647.813005,
+        "median": 1601.778748,
+        "min": 1581.623568,
+        "values": [
+          1647.813005,
+          1581.623568,
+          1601.778748
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 166747124,
+      "max_emitted_batch_bytes": 72000480,
+      "max_partition_mib": 256,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 42,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 142188192,
+        "p50": 135674832,
+        "p95": 139036864
+      },
+      "decoded_task_rows": {
+        "max": 8750042,
+        "p50": 8349213,
+        "p95": 8556108
+      },
+      "elapsed_ms": {
+        "max": 922.110802,
+        "median": 916.684448,
+        "min": 908.687356,
+        "values": [
+          908.687356,
+          916.684448,
+          922.110802
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 322993418,
+      "max_emitted_batch_bytes": 142188192,
+      "max_partition_mib": 512,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 21,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 284734512,
+        "p50": 279150744.0,
+        "p95": 284734512
+      },
+      "decoded_task_rows": {
+        "max": 17522123,
+        "p50": 17178501.5,
+        "p95": 17522123
+      },
+      "elapsed_ms": {
+        "max": 575.089908,
+        "median": 569.84658,
+        "min": 564.328699,
+        "values": [
+          564.328699,
+          575.089908,
+          569.84658
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 661460197,
+      "max_emitted_batch_bytes": 284734512,
+      "max_partition_mib": 1024,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 10,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 569122688,
+        "p50": 560258624,
+        "p95": 569122688
+      },
+      "decoded_task_rows": {
+        "max": 35022928,
+        "p50": 34477452,
+        "p95": 35022928
+      },
+      "elapsed_ms": {
+        "max": 414.052293,
+        "median": 388.356326,
+        "min": 386.484679,
+        "values": [
+          414.052293,
+          388.356326,
+          386.484679
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 1322115870,
+      "max_emitted_batch_bytes": 569122688,
+      "max_partition_mib": 2048,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 8178768,
+        "p50": 7999184,
+        "p95": 8178752
+      },
+      "decoded_task_rows": {
+        "max": 503301,
+        "p50": 492253,
+        "p95": 503300
+      },
+      "elapsed_ms": {
+        "max": 16257.857669,
+        "median": 16167.863477,
+        "min": 16157.398784,
+        "values": [
+          16257.857669,
+          16157.398784,
+          16167.863477
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 16572425,
+      "max_emitted_batch_bytes": 8178768,
+      "max_partition_mib": 32,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 347,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 16357408,
+        "p50": 15977120.0,
+        "p95": 16357392
+      },
+      "decoded_task_rows": {
+        "max": 1006602,
+        "p50": 983202.0,
+        "p95": 1006601
+      },
+      "elapsed_ms": {
+        "max": 8397.638602,
+        "median": 8310.497408,
+        "min": 8262.749391,
+        "values": [
+          8397.638602,
+          8310.497408,
+          8262.749391
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 33143538,
+      "max_emitted_batch_bytes": 16357408,
+      "max_partition_mib": 64,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 174,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 32714672,
+        "p50": 31931792,
+        "p95": 32714640
+      },
+      "decoded_task_rows": {
+        "max": 2013203,
+        "p50": 1965033,
+        "p95": 2013201
+      },
+      "elapsed_ms": {
+        "max": 4373.724491,
+        "median": 4305.830719,
+        "min": 4277.120267,
+        "values": [
+          4373.724491,
+          4305.830719,
+          4277.120267
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 66291546,
+      "max_emitted_batch_bytes": 32714672,
+      "max_partition_mib": 128,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 87,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 72000480,
+        "p50": 64399792.0,
+        "p95": 71778528
+      },
+      "decoded_task_rows": {
+        "max": 4430798,
+        "p50": 3963063.0,
+        "p95": 4417134
+      },
+      "elapsed_ms": {
+        "max": 2297.477017,
+        "median": 2247.035582,
+        "min": 2228.486867,
+        "values": [
+          2247.035582,
+          2228.486867,
+          2297.477017
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 146656700,
+      "max_emitted_batch_bytes": 72000480,
+      "max_partition_mib": 256,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 42,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 142188192,
+        "p50": 135674832,
+        "p95": 139036864
+      },
+      "decoded_task_rows": {
+        "max": 8750042,
+        "p50": 8349213,
+        "p95": 8556108
+      },
+      "elapsed_ms": {
+        "max": 1229.187101,
+        "median": 1218.061197,
+        "min": 1210.697876,
+        "values": [
+          1218.061197,
+          1229.187101,
+          1210.697876
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 281770332,
+      "max_emitted_batch_bytes": 142188192,
+      "max_partition_mib": 512,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 21,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 284734512,
+        "p50": 279150744.0,
+        "p95": 284734512
+      },
+      "decoded_task_rows": {
+        "max": 17522123,
+        "p50": 17178501.5,
+        "p95": 17522123
+      },
+      "elapsed_ms": {
+        "max": 727.390645,
+        "median": 689.613958,
+        "min": 679.790804,
+        "values": [
+          727.390645,
+          689.613958,
+          679.790804
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 578164295,
+      "max_emitted_batch_bytes": 284734512,
+      "max_partition_mib": 1024,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 10,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 569122688,
+        "p50": 560258624,
+        "p95": 569122688
+      },
+      "decoded_task_rows": {
+        "max": 35022928,
+        "p50": 34477452,
+        "p95": 35022928
+      },
+      "elapsed_ms": {
+        "max": 542.812985,
+        "median": 540.754583,
+        "min": 532.085558,
+        "values": [
+          542.812985,
+          532.085558,
+          540.754583
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 1157818352,
+      "max_emitted_batch_bytes": 569122688,
+      "max_partition_mib": 2048,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 12493485,
+        "p50": 12263879,
+        "p95": 12492025
+      },
+      "decoded_task_rows": {
+        "max": 503301,
+        "p50": 492253,
+        "p95": 503300
+      },
+      "elapsed_ms": {
+        "max": 14686.572474,
+        "median": 14569.155157,
+        "min": 14226.857934,
+        "values": [
+          14686.572474,
+          14569.155157,
+          14226.857934
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 28912505,
+      "max_emitted_batch_bytes": 12493485,
+      "max_partition_mib": 32,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 347,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 24985534,
+        "p50": 24495493.5,
+        "p95": 24984037
+      },
+      "decoded_task_rows": {
+        "max": 1006602,
+        "p50": 983202.0,
+        "p95": 1006601
+      },
+      "elapsed_ms": {
+        "max": 7467.760919,
+        "median": 7403.004449,
+        "min": 7394.689535,
+        "values": [
+          7467.760919,
+          7403.004449,
+          7394.689535
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 57824739,
+      "max_emitted_batch_bytes": 24985534,
+      "max_partition_mib": 64,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 174,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 49970248,
+        "p50": 48973084,
+        "p95": 49967908
+      },
+      "decoded_task_rows": {
+        "max": 2013203,
+        "p50": 1965033,
+        "p95": 2013201
+      },
+      "elapsed_ms": {
+        "max": 3898.246732,
+        "median": 3891.669583,
+        "min": 3859.166138,
+        "values": [
+          3898.246732,
+          3859.166138,
+          3891.669583
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 115648964,
+      "max_emitted_batch_bytes": 49970248,
+      "max_partition_mib": 128,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 87,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 110347461,
+        "p50": 98622238.5,
+        "p95": 110121888
+      },
+      "decoded_task_rows": {
+        "max": 4430798,
+        "p50": 3963063.0,
+        "p95": 4417134
+      },
+      "elapsed_ms": {
+        "max": 2028.46431,
+        "median": 2019.153206,
+        "min": 2011.060614,
+        "values": [
+          2019.153206,
+          2028.46431,
+          2011.060614
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 254231136,
+      "max_emitted_batch_bytes": 110347461,
+      "max_partition_mib": 256,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 42,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 218530688,
+        "p50": 208088756,
+        "p95": 212364644
+      },
+      "decoded_task_rows": {
+        "max": 8750042,
+        "p50": 8349213,
+        "p95": 8556108
+      },
+      "elapsed_ms": {
+        "max": 1188.298102,
+        "median": 1180.033618,
+        "min": 1153.272941,
+        "values": [
+          1188.298102,
+          1180.033618,
+          1153.272941
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 491507940,
+      "max_emitted_batch_bytes": 218530688,
+      "max_partition_mib": 512,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 21,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 435260856,
+        "p50": 428056875.0,
+        "p95": 435260856
+      },
+      "decoded_task_rows": {
+        "max": 17522123,
+        "p50": 17178501.5,
+        "p95": 17522123
+      },
+      "elapsed_ms": {
+        "max": 746.970884,
+        "median": 735.812664,
+        "min": 733.178406,
+        "values": [
+          735.812664,
+          733.178406,
+          746.970884
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 1006920152,
+      "max_emitted_batch_bytes": 435260856,
+      "max_partition_mib": 1024,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 10,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 871551633,
+        "p50": 858889394,
+        "p95": 871551633
+      },
+      "decoded_task_rows": {
+        "max": 35022928,
+        "p50": 34477452,
+        "p95": 35022928
+      },
+      "elapsed_ms": {
+        "max": 531.643825,
+        "median": 522.670787,
+        "min": 510.828359,
+        "values": [
+          531.643825,
+          522.670787,
+          510.828359
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 2014174929,
+      "max_emitted_batch_bytes": 871551633,
+      "max_partition_mib": 2048,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 12268152,
+        "p50": 11998776,
+        "p95": 12268128
+      },
+      "decoded_task_rows": {
+        "max": 503301,
+        "p50": 492253,
+        "p95": 503300
+      },
+      "elapsed_ms": {
+        "max": 12444.412164,
+        "median": 12437.318973,
+        "min": 12390.510661,
+        "values": [
+          12437.318973,
+          12444.412164,
+          12390.510661
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 23089346,
+      "max_emitted_batch_bytes": 12268152,
+      "max_partition_mib": 32,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 347,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 24536112,
+        "p50": 23965680.0,
+        "p95": 24536088
+      },
+      "decoded_task_rows": {
+        "max": 1006602,
+        "p50": 983202.0,
+        "p95": 1006601
+      },
+      "elapsed_ms": {
+        "max": 6445.728883,
+        "median": 6442.511116,
+        "min": 6415.826398,
+        "values": [
+          6442.511116,
+          6445.728883,
+          6415.826398
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 46178275,
+      "max_emitted_batch_bytes": 24536112,
+      "max_partition_mib": 64,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 174,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 49072008,
+        "p50": 47897688,
+        "p95": 49071960
+      },
+      "decoded_task_rows": {
+        "max": 2013203,
+        "p50": 1965033,
+        "p95": 2013201
+      },
+      "elapsed_ms": {
+        "max": 3381.350935,
+        "median": 3380.856807,
+        "min": 3288.122613,
+        "values": [
+          3380.856807,
+          3381.350935,
+          3288.122613
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 92356043,
+      "max_emitted_batch_bytes": 49072008,
+      "max_partition_mib": 128,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 87,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 108000720,
+        "p50": 96599688.0,
+        "p95": 107667792
+      },
+      "decoded_task_rows": {
+        "max": 4430798,
+        "p50": 3963063.0,
+        "p95": 4417134
+      },
+      "elapsed_ms": {
+        "max": 1766.103845,
+        "median": 1757.092227,
+        "min": 1736.971714,
+        "values": [
+          1757.092227,
+          1766.103845,
+          1736.971714
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 202636388,
+      "max_emitted_batch_bytes": 108000720,
+      "max_partition_mib": 256,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 42,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 213282288,
+        "p50": 203512248,
+        "p95": 208555296
+      },
+      "decoded_task_rows": {
+        "max": 8750042,
+        "p50": 8349213,
+        "p95": 8556108
+      },
+      "elapsed_ms": {
+        "max": 1034.65535,
+        "median": 1005.358126,
+        "min": 977.873222,
+        "values": [
+          1005.358126,
+          1034.65535,
+          977.873222
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 392511850,
+      "max_emitted_batch_bytes": 213282288,
+      "max_partition_mib": 512,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 21,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 427101768,
+        "p50": 418726116.0,
+        "p95": 427101768
+      },
+      "decoded_task_rows": {
+        "max": 17522123,
+        "p50": 17178501.5,
+        "p95": 17522123
+      },
+      "elapsed_ms": {
+        "max": 601.574673,
+        "median": 595.292339,
+        "min": 570.876165,
+        "values": [
+          595.292339,
+          570.876165,
+          601.574673
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 803827453,
+      "max_emitted_batch_bytes": 427101768,
+      "max_partition_mib": 1024,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 10,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 853684032,
+        "p50": 840387936,
+        "p95": 853684032
+      },
+      "decoded_task_rows": {
+        "max": 35022928,
+        "p50": 34477452,
+        "p95": 35022928
+      },
+      "elapsed_ms": {
+        "max": 416.070238,
+        "median": 412.159679,
+        "min": 403.843165,
+        "values": [
+          416.070238,
+          403.843165,
+          412.159679
+        ]
+      },
+      "episode": "train_2009",
+      "gpu_task_footprint_p95": 1606677214,
+      "max_emitted_batch_bytes": 853684032,
+      "max_partition_mib": 2048,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 8482688,
+        "p50": 7956768,
+        "p95": 8482672
+      },
+      "decoded_task_rows": {
+        "max": 522008,
+        "p50": 489642,
+        "p95": 522007
+      },
+      "elapsed_ms": {
+        "max": 11346.989813,
+        "median": 11093.699167,
+        "min": 11084.815969,
+        "values": [
+          11346.989813,
+          11093.699167,
+          11084.815969
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 19705953,
+      "max_emitted_batch_bytes": 8482688,
+      "max_partition_mib": 32,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 343,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 16965376,
+        "p50": 15913392.0,
+        "p95": 16965344
+      },
+      "decoded_task_rows": {
+        "max": 1044016,
+        "p50": 979283.0,
+        "p95": 1044014
+      },
+      "elapsed_ms": {
+        "max": 5779.065758,
+        "median": 5766.783716,
+        "min": 5754.669969,
+        "values": [
+          5766.783716,
+          5779.065758,
+          5754.669969
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 39411892,
+      "max_emitted_batch_bytes": 16965376,
+      "max_partition_mib": 64,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 172,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 33930592,
+        "p50": 31826784.0,
+        "p95": 33930560
+      },
+      "decoded_task_rows": {
+        "max": 2088030,
+        "p50": 1958566.0,
+        "p95": 2088028
+      },
+      "elapsed_ms": {
+        "max": 3043.907863,
+        "median": 3031.714189,
+        "min": 3003.378896,
+        "values": [
+          3031.714189,
+          3043.907863,
+          3003.378896
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 78823386,
+      "max_emitted_batch_bytes": 33930592,
+      "max_partition_mib": 128,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 86,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 72935968,
+        "p50": 68610624,
+        "p95": 71610096
+      },
+      "decoded_task_rows": {
+        "max": 4488362,
+        "p50": 4222188,
+        "p95": 4406775
+      },
+      "elapsed_ms": {
+        "max": 1595.751247,
+        "median": 1564.601597,
+        "min": 1551.821257,
+        "values": [
+          1595.751247,
+          1551.821257,
+          1564.601597
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 166355777,
+      "max_emitted_batch_bytes": 72935968,
+      "max_partition_mib": 256,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 41,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 144735504,
+        "p50": 139512424.0,
+        "p95": 143954416
+      },
+      "decoded_task_rows": {
+        "max": 8906793,
+        "p50": 8585378.5,
+        "p95": 8858727
+      },
+      "elapsed_ms": {
+        "max": 901.088589,
+        "median": 897.36629,
+        "min": 877.058185,
+        "values": [
+          897.36629,
+          877.058185,
+          901.088589
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 334417265,
+      "max_emitted_batch_bytes": 144735504,
+      "max_partition_mib": 512,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 20,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 289900544,
+        "p50": 283070976.0,
+        "p95": 289900544
+      },
+      "decoded_task_rows": {
+        "max": 17840032,
+        "p50": 17419748.0,
+        "p95": 17840032
+      },
+      "elapsed_ms": {
+        "max": 617.461464,
+        "median": 579.123674,
+        "min": 545.643962,
+        "values": [
+          617.461464,
+          545.643962,
+          579.123674
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 673461294,
+      "max_emitted_batch_bytes": 289900544,
+      "max_partition_mib": 1024,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 10,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 575186016,
+        "p50": 565051152,
+        "p95": 575186016
+      },
+      "decoded_task_rows": {
+        "max": 35396062,
+        "p50": 34772377,
+        "p95": 35396062
+      },
+      "elapsed_ms": {
+        "max": 392.440414,
+        "median": 385.183813,
+        "min": 380.446973,
+        "values": [
+          380.446973,
+          385.183813,
+          392.440414
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 1336201380,
+      "max_emitted_batch_bytes": 575186016,
+      "max_partition_mib": 2048,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 8482688,
+        "p50": 7956768,
+        "p95": 8482672
+      },
+      "decoded_task_rows": {
+        "max": 522008,
+        "p50": 489642,
+        "p95": 522007
+      },
+      "elapsed_ms": {
+        "max": 16224.390645,
+        "median": 15986.882662,
+        "min": 15861.869569,
+        "values": [
+          16224.390645,
+          15986.882662,
+          15861.869569
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 17385187,
+      "max_emitted_batch_bytes": 8482688,
+      "max_partition_mib": 32,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 343,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 16965376,
+        "p50": 15913392.0,
+        "p95": 16965344
+      },
+      "decoded_task_rows": {
+        "max": 1044016,
+        "p50": 979283.0,
+        "p95": 1044014
+      },
+      "elapsed_ms": {
+        "max": 8281.095353,
+        "median": 8166.051406,
+        "min": 8142.669293,
+        "values": [
+          8281.095353,
+          8166.051406,
+          8142.669293
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 34769702,
+      "max_emitted_batch_bytes": 16965376,
+      "max_partition_mib": 64,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 172,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 33930592,
+        "p50": 31826784.0,
+        "p95": 33930560
+      },
+      "decoded_task_rows": {
+        "max": 2088030,
+        "p50": 1958566.0,
+        "p95": 2088028
+      },
+      "elapsed_ms": {
+        "max": 4319.621769,
+        "median": 4308.046579,
+        "min": 4201.303081,
+        "values": [
+          4319.621769,
+          4308.046579,
+          4201.303081
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 69542812,
+      "max_emitted_batch_bytes": 33930592,
+      "max_partition_mib": 128,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 86,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 72935968,
+        "p50": 68610624,
+        "p95": 71610096
+      },
+      "decoded_task_rows": {
+        "max": 4488362,
+        "p50": 4222188,
+        "p95": 4406775
+      },
+      "elapsed_ms": {
+        "max": 2225.177283,
+        "median": 2187.677918,
+        "min": 2150.863594,
+        "values": [
+          2187.677918,
+          2225.177283,
+          2150.863594
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 146853033,
+      "max_emitted_batch_bytes": 72935968,
+      "max_partition_mib": 256,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 41,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 144735504,
+        "p50": 139512424.0,
+        "p95": 143954416
+      },
+      "decoded_task_rows": {
+        "max": 8906793,
+        "p50": 8585378.5,
+        "p95": 8858727
+      },
+      "elapsed_ms": {
+        "max": 1208.543503,
+        "median": 1173.988937,
+        "min": 1152.802673,
+        "values": [
+          1173.988937,
+          1208.543503,
+          1152.802673
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 294986051,
+      "max_emitted_batch_bytes": 144735504,
+      "max_partition_mib": 512,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 20,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 289900544,
+        "p50": 283070976.0,
+        "p95": 289900544
+      },
+      "decoded_task_rows": {
+        "max": 17840032,
+        "p50": 17419748.0,
+        "p95": 17840032
+      },
+      "elapsed_ms": {
+        "max": 696.584216,
+        "median": 685.894482,
+        "min": 677.152621,
+        "values": [
+          696.584216,
+          677.152621,
+          685.894482
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 590234048,
+      "max_emitted_batch_bytes": 289900544,
+      "max_partition_mib": 1024,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 10,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 575186016,
+        "p50": 565051152,
+        "p95": 575186016
+      },
+      "decoded_task_rows": {
+        "max": 35396062,
+        "p50": 34772377,
+        "p95": 35396062
+      },
+      "elapsed_ms": {
+        "max": 535.264927,
+        "median": 516.157478,
+        "min": 515.607428,
+        "values": [
+          515.607428,
+          535.264927,
+          516.157478
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 1173529686,
+      "max_emitted_batch_bytes": 575186016,
+      "max_partition_mib": 2048,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 12202028,
+        "p50": 11445514,
+        "p95": 12202005
+      },
+      "decoded_task_rows": {
+        "max": 522008,
+        "p50": 489642,
+        "p95": 522007
+      },
+      "elapsed_ms": {
+        "max": 14491.38101,
+        "median": 14256.620801,
+        "min": 14133.65576,
+        "values": [
+          14491.38101,
+          14256.620801,
+          14133.65576
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 29232629,
+      "max_emitted_batch_bytes": 12202028,
+      "max_partition_mib": 32,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 343,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 24404052,
+        "p50": 22890809.0,
+        "p95": 24404006
+      },
+      "decoded_task_rows": {
+        "max": 1044016,
+        "p50": 979283.0,
+        "p95": 1044014
+      },
+      "elapsed_ms": {
+        "max": 7441.272342,
+        "median": 7400.895432,
+        "min": 7328.261441,
+        "values": [
+          7441.272342,
+          7400.895432,
+          7328.261441
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 58465254,
+      "max_emitted_batch_bytes": 24404052,
+      "max_partition_mib": 64,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 172,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 48807862,
+        "p50": 45781614.0,
+        "p95": 48807816
+      },
+      "decoded_task_rows": {
+        "max": 2088030,
+        "p50": 1958566.0,
+        "p95": 2088028
+      },
+      "elapsed_ms": {
+        "max": 3890.783128,
+        "median": 3871.183688,
+        "min": 3827.493525,
+        "values": [
+          3890.783128,
+          3871.183688,
+          3827.493525
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 116929992,
+      "max_emitted_batch_bytes": 48807862,
+      "max_partition_mib": 128,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 86,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 104915594,
+        "p50": 98693752,
+        "p95": 103008373
+      },
+      "decoded_task_rows": {
+        "max": 4488362,
+        "p50": 4222188,
+        "p95": 4406775
+      },
+      "elapsed_ms": {
+        "max": 1992.228019,
+        "median": 1987.929941,
+        "min": 1983.478875,
+        "values": [
+          1992.228019,
+          1983.478875,
+          1987.929941
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 246779413,
+      "max_emitted_batch_bytes": 104915594,
+      "max_partition_mib": 256,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 41,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 208196467,
+        "p50": 200683261.5,
+        "p95": 207072901
+      },
+      "decoded_task_rows": {
+        "max": 8906793,
+        "p50": 8585378.5,
+        "p95": 8858727
+      },
+      "elapsed_ms": {
+        "max": 1154.811444,
+        "median": 1132.175239,
+        "min": 1129.078586,
+        "values": [
+          1129.078586,
+          1154.811444,
+          1132.175239
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 496089125,
+      "max_emitted_batch_bytes": 208196467,
+      "max_partition_mib": 512,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 20,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 417010788,
+        "p50": 407186720.0,
+        "p95": 417010788
+      },
+      "decoded_task_rows": {
+        "max": 17840032,
+        "p50": 17419748.0,
+        "p95": 17840032
+      },
+      "elapsed_ms": {
+        "max": 757.775619,
+        "median": 745.787868,
+        "min": 744.448952,
+        "values": [
+          745.787868,
+          744.448952,
+          757.775619
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 999041892,
+      "max_emitted_batch_bytes": 417010788,
+      "max_partition_mib": 1024,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 10,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 827382966,
+        "p50": 812804355,
+        "p95": 827382966
+      },
+      "decoded_task_rows": {
+        "max": 35396062,
+        "p50": 34772377,
+        "p95": 35396062
+      },
+      "elapsed_ms": {
+        "max": 515.639048,
+        "median": 515.506494,
+        "min": 504.128299,
+        "values": [
+          515.639048,
+          504.128299,
+          515.506494
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 1982179510,
+      "max_emitted_batch_bytes": 827382966,
+      "max_partition_mib": 2048,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 12724032,
+        "p50": 11935152,
+        "p95": 12724008
+      },
+      "decoded_task_rows": {
+        "max": 522008,
+        "p50": 489642,
+        "p95": 522007
+      },
+      "elapsed_ms": {
+        "max": 12449.789385,
+        "median": 12329.017659,
+        "min": 12195.196422,
+        "values": [
+          12449.789385,
+          12329.017659,
+          12195.196422
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 23947289,
+      "max_emitted_batch_bytes": 12724032,
+      "max_partition_mib": 32,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 343,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 25448064,
+        "p50": 23870088.0,
+        "p95": 25448016
+      },
+      "decoded_task_rows": {
+        "max": 1044016,
+        "p50": 979283.0,
+        "p95": 1044014
+      },
+      "elapsed_ms": {
+        "max": 6430.442441,
+        "median": 6398.663631,
+        "min": 6296.418844,
+        "values": [
+          6430.442441,
+          6398.663631,
+          6296.418844
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 47894564,
+      "max_emitted_batch_bytes": 25448064,
+      "max_partition_mib": 64,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 172,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 50895888,
+        "p50": 47740176.0,
+        "p95": 50895840
+      },
+      "decoded_task_rows": {
+        "max": 2088030,
+        "p50": 1958566.0,
+        "p95": 2088028
+      },
+      "elapsed_ms": {
+        "max": 3354.447256,
+        "median": 3310.075902,
+        "min": 3294.37048,
+        "values": [
+          3294.37048,
+          3354.447256,
+          3310.075902
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 95788666,
+      "max_emitted_batch_bytes": 50895888,
+      "max_partition_mib": 128,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 86,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 109403952,
+        "p50": 102915936,
+        "p95": 107415144
+      },
+      "decoded_task_rows": {
+        "max": 4488362,
+        "p50": 4222188,
+        "p95": 4406775
+      },
+      "elapsed_ms": {
+        "max": 1724.275384,
+        "median": 1708.630159,
+        "min": 1704.987313,
+        "values": [
+          1724.275384,
+          1708.630159,
+          1704.987313
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 202160825,
+      "max_emitted_batch_bytes": 109403952,
+      "max_partition_mib": 256,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 41,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 217103256,
+        "p50": 209268636.0,
+        "p95": 215931624
+      },
+      "decoded_task_rows": {
+        "max": 8906793,
+        "p50": 8585378.5,
+        "p95": 8858727
+      },
+      "elapsed_ms": {
+        "max": 966.540229,
+        "median": 962.097796,
+        "min": 958.413453,
+        "values": [
+          962.097796,
+          966.540229,
+          958.413453
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 406394473,
+      "max_emitted_batch_bytes": 217103256,
+      "max_partition_mib": 512,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 20,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 434850816,
+        "p50": 424606464.0,
+        "p95": 434850816
+      },
+      "decoded_task_rows": {
+        "max": 17840032,
+        "p50": 17419748.0,
+        "p95": 17840032
+      },
+      "elapsed_ms": {
+        "max": 620.593228,
+        "median": 616.847994,
+        "min": 549.624018,
+        "values": [
+          620.593228,
+          616.847994,
+          549.624018
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 818411566,
+      "max_emitted_batch_bytes": 434850816,
+      "max_partition_mib": 1024,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 10,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 862779024,
+        "p50": 847576728,
+        "p95": 862779024
+      },
+      "decoded_task_rows": {
+        "max": 35396062,
+        "p50": 34772377,
+        "p95": 35396062
+      },
+      "elapsed_ms": {
+        "max": 423.327814,
+        "median": 403.007065,
+        "min": 395.384149,
+        "values": [
+          423.327814,
+          395.384149,
+          403.007065
+        ]
+      },
+      "episode": "validation_2010",
+      "gpu_task_footprint_p95": 1623794388,
+      "max_emitted_batch_bytes": 862779024,
+      "max_partition_mib": 2048,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 21880640,
+        "p50": 21458768,
+        "p95": 21880640
+      },
+      "decoded_task_rows": {
+        "max": 1346500,
+        "p50": 1320533,
+        "p95": 1346500
+      },
+      "elapsed_ms": {
+        "max": 4624.687687,
+        "median": 4608.100935,
+        "min": 4536.505303,
+        "values": [
+          4624.687687,
+          4536.505303,
+          4608.100935
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 50830434,
+      "max_emitted_batch_bytes": 21880640,
+      "max_partition_mib": 32,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 135,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 43761280,
+        "p50": 42963800.0,
+        "p95": 43659456
+      },
+      "decoded_task_rows": {
+        "max": 2693000,
+        "p50": 2643921.5,
+        "p95": 2686732
+      },
+      "elapsed_ms": {
+        "max": 2498.606276,
+        "median": 2448.302689,
+        "min": 2446.135261,
+        "values": [
+          2448.302689,
+          2498.606276,
+          2446.135261
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 101424330,
+      "max_emitted_batch_bytes": 43761280,
+      "max_partition_mib": 64,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 68,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 86262224,
+        "p50": 80849152,
+        "p95": 86113168
+      },
+      "decoded_task_rows": {
+        "max": 5308437,
+        "p50": 4975328,
+        "p95": 5299265
+      },
+      "elapsed_ms": {
+        "max": 1600.045002,
+        "median": 1587.728098,
+        "min": 1572.542857,
+        "values": [
+          1572.542857,
+          1600.045002,
+          1587.728098
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 200047603,
+      "max_emitted_batch_bytes": 86262224,
+      "max_partition_mib": 128,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 39,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 169285344,
+        "p50": 152245792,
+        "p95": 168511104
+      },
+      "decoded_task_rows": {
+        "max": 10417558,
+        "p50": 9368970,
+        "p95": 10369912
+      },
+      "elapsed_ms": {
+        "max": 892.317833,
+        "median": 890.746813,
+        "min": 880.427279,
+        "values": [
+          880.427279,
+          890.746813,
+          892.317833
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 391464294,
+      "max_emitted_batch_bytes": 169285344,
+      "max_partition_mib": 256,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 19,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 336527536,
+        "p50": 325848576,
+        "p95": 336527536
+      },
+      "decoded_task_rows": {
+        "max": 20709379,
+        "p50": 20052216,
+        "p95": 20709379
+      },
+      "elapsed_ms": {
+        "max": 592.929859,
+        "median": 579.422506,
+        "min": 574.836756,
+        "values": [
+          574.836756,
+          592.929859,
+          579.422506
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 781779453,
+      "max_emitted_batch_bytes": 336527536,
+      "max_partition_mib": 512,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 9,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 671965888,
+        "p50": 661596016,
+        "p95": 671965888
+      },
+      "decoded_task_rows": {
+        "max": 41351740,
+        "p50": 40713599,
+        "p95": 41351740
+      },
+      "elapsed_ms": {
+        "max": 408.771572,
+        "median": 403.072462,
+        "min": 402.081367,
+        "values": [
+          408.771572,
+          403.072462,
+          402.081367
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 1561028538,
+      "max_emitted_batch_bytes": 671965888,
+      "max_partition_mib": 1024,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 1326455248,
+        "p50": 1325628016,
+        "p95": 1326455248
+      },
+      "decoded_task_rows": {
+        "max": 81628013,
+        "p50": 81577095,
+        "p95": 81628013
+      },
+      "elapsed_ms": {
+        "max": 348.273512,
+        "median": 348.265388,
+        "min": 335.076601,
+        "values": [
+          348.273512,
+          348.265388,
+          335.076601
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 2746881198,
+      "max_emitted_batch_bytes": 1073714080,
+      "max_partition_mib": 2048,
+      "query": "common",
+      "retry_count": 0,
+      "scan_tasks_median": 3,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 21880640,
+        "p50": 21458768,
+        "p95": 21880640
+      },
+      "decoded_task_rows": {
+        "max": 1346500,
+        "p50": 1320533,
+        "p95": 1346500
+      },
+      "elapsed_ms": {
+        "max": 6530.293321,
+        "median": 6493.313558,
+        "min": 6486.342798,
+        "values": [
+          6530.293321,
+          6486.342798,
+          6493.313558
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 44493997,
+      "max_emitted_batch_bytes": 21880640,
+      "max_partition_mib": 32,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 135,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 43761280,
+        "p50": 42963800.0,
+        "p95": 43659456
+      },
+      "decoded_task_rows": {
+        "max": 2693000,
+        "p50": 2643921.5,
+        "p95": 2686732
+      },
+      "elapsed_ms": {
+        "max": 3499.129439,
+        "median": 3479.327089,
+        "min": 3436.362758,
+        "values": [
+          3479.327089,
+          3499.129439,
+          3436.362758
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 88857395,
+      "max_emitted_batch_bytes": 43761280,
+      "max_partition_mib": 64,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 68,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 86262224,
+        "p50": 80849152,
+        "p95": 86113168
+      },
+      "decoded_task_rows": {
+        "max": 5308437,
+        "p50": 4975328,
+        "p95": 5299265
+      },
+      "elapsed_ms": {
+        "max": 2112.867875,
+        "median": 2089.400899,
+        "min": 2068.514831,
+        "values": [
+          2112.867875,
+          2068.514831,
+          2089.400899
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 175567477,
+      "max_emitted_batch_bytes": 86262224,
+      "max_partition_mib": 128,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 39,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 169285344,
+        "p50": 152245792,
+        "p95": 168511104
+      },
+      "decoded_task_rows": {
+        "max": 10417558,
+        "p50": 9368970,
+        "p95": 10369912
+      },
+      "elapsed_ms": {
+        "max": 1178.399665,
+        "median": 1152.004492,
+        "min": 1141.389953,
+        "values": [
+          1178.399665,
+          1152.004492,
+          1141.389953
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 342855816,
+      "max_emitted_batch_bytes": 169285344,
+      "max_partition_mib": 256,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 19,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 336527536,
+        "p50": 325848576,
+        "p95": 336527536
+      },
+      "decoded_task_rows": {
+        "max": 20709379,
+        "p50": 20052216,
+        "p95": 20709379
+      },
+      "elapsed_ms": {
+        "max": 759.125683,
+        "median": 726.266346,
+        "min": 698.181136,
+        "values": [
+          726.266346,
+          759.125683,
+          698.181136
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 682816463,
+      "max_emitted_batch_bytes": 336527536,
+      "max_partition_mib": 512,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 9,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 671965888,
+        "p50": 661596016,
+        "p95": 671965888
+      },
+      "decoded_task_rows": {
+        "max": 41351740,
+        "p50": 40713599,
+        "p95": 41351740
+      },
+      "elapsed_ms": {
+        "max": 471.698386,
+        "median": 468.03975,
+        "min": 459.76808,
+        "values": [
+          459.76808,
+          471.698386,
+          468.03975
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 1364989884,
+      "max_emitted_batch_bytes": 671965888,
+      "max_partition_mib": 1024,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 1326455248,
+        "p50": 1325628016,
+        "p95": 1326455248
+      },
+      "decoded_task_rows": {
+        "max": 81628013,
+        "p50": 81577095,
+        "p95": 81628013
+      },
+      "elapsed_ms": {
+        "max": 424.298926,
+        "median": 424.048257,
+        "min": 412.830906,
+        "values": [
+          424.048257,
+          412.830906,
+          424.298926
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 2436425360,
+      "max_emitted_batch_bytes": 1073714080,
+      "max_partition_mib": 2048,
+      "query": "filtered",
+      "retry_count": 0,
+      "scan_tasks_median": 3,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 32820960,
+        "p50": 32188152,
+        "p95": 32820960
+      },
+      "decoded_task_rows": {
+        "max": 1346500,
+        "p50": 1320533,
+        "p95": 1346500
+      },
+      "elapsed_ms": {
+        "max": 6067.685241,
+        "median": 6028.234765,
+        "min": 6019.780006,
+        "values": [
+          6028.234765,
+          6067.685241,
+          6019.780006
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 76750560,
+      "max_emitted_batch_bytes": 32820960,
+      "max_partition_mib": 32,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 135,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 65641920,
+        "p50": 64445700.0,
+        "p95": 65489184
+      },
+      "decoded_task_rows": {
+        "max": 2693000,
+        "p50": 2643921.5,
+        "p95": 2686732
+      },
+      "elapsed_ms": {
+        "max": 3218.01876,
+        "median": 3195.666468,
+        "min": 3168.435989,
+        "values": [
+          3195.666468,
+          3168.435989,
+          3218.01876
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 153143968,
+      "max_emitted_batch_bytes": 65641920,
+      "max_partition_mib": 64,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 68,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 129393336,
+        "p50": 121273728,
+        "p95": 129169752
+      },
+      "decoded_task_rows": {
+        "max": 5308437,
+        "p50": 4975328,
+        "p95": 5299265
+      },
+      "elapsed_ms": {
+        "max": 1963.409781,
+        "median": 1963.019209,
+        "min": 1953.293891,
+        "values": [
+          1963.409781,
+          1953.293891,
+          1963.019209
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 302058552,
+      "max_emitted_batch_bytes": 129393336,
+      "max_partition_mib": 128,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 39,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 253928016,
+        "p50": 228368688,
+        "p95": 252766656
+      },
+      "decoded_task_rows": {
+        "max": 10417558,
+        "p50": 9368970,
+        "p95": 10369912
+      },
+      "elapsed_ms": {
+        "max": 1160.314885,
+        "median": 1125.914918,
+        "min": 1106.403269,
+        "values": [
+          1160.314885,
+          1125.914918,
+          1106.403269
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 591085120,
+      "max_emitted_batch_bytes": 253928016,
+      "max_partition_mib": 256,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 19,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 504791304,
+        "p50": 488772864,
+        "p95": 504791304
+      },
+      "decoded_task_rows": {
+        "max": 20709379,
+        "p50": 20052216,
+        "p95": 20709379
+      },
+      "elapsed_ms": {
+        "max": 738.476772,
+        "median": 731.236622,
+        "min": 709.525927,
+        "values": [
+          738.476772,
+          731.236622,
+          709.525927
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 1180435112,
+      "max_emitted_batch_bytes": 504791304,
+      "max_partition_mib": 512,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 9,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 1007948832,
+        "p50": 992394024,
+        "p95": 1007948832
+      },
+      "decoded_task_rows": {
+        "max": 41351740,
+        "p50": 40713599,
+        "p95": 41351740
+      },
+      "elapsed_ms": {
+        "max": 523.856784,
+        "median": 504.009908,
+        "min": 496.660895,
+        "values": [
+          504.009908,
+          523.856784,
+          496.660895
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 2357049632,
+      "max_emitted_batch_bytes": 1007948832,
+      "max_partition_mib": 1024,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 1989683064,
+        "p50": 1988441832,
+        "p95": 1989683064
+      },
+      "decoded_task_rows": {
+        "max": 81628013,
+        "p50": 81577095,
+        "p95": 81628013
+      },
+      "elapsed_ms": {
+        "max": 438.061804,
+        "median": 434.782575,
+        "min": 432.232266,
+        "values": [
+          434.782575,
+          438.061804,
+          432.232266
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 3426686488,
+      "max_emitted_batch_bytes": 1073623224,
+      "max_partition_mib": 2048,
+      "query": "variable_width",
+      "retry_count": 0,
+      "scan_tasks_median": 3,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 32820960,
+        "p50": 32188152,
+        "p95": 32820960
+      },
+      "decoded_task_rows": {
+        "max": 1346500,
+        "p50": 1320533,
+        "p95": 1346500
+      },
+      "elapsed_ms": {
+        "max": 5139.46473,
+        "median": 5098.850241,
+        "min": 5047.292008,
+        "values": [
+          5139.46473,
+          5098.850241,
+          5047.292008
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 61770754,
+      "max_emitted_batch_bytes": 32820960,
+      "max_partition_mib": 32,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 135,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 65641920,
+        "p50": 64445700.0,
+        "p95": 65489184
+      },
+      "decoded_task_rows": {
+        "max": 2693000,
+        "p50": 2643921.5,
+        "p95": 2686732
+      },
+      "elapsed_ms": {
+        "max": 2760.48179,
+        "median": 2727.055603,
+        "min": 2718.06837,
+        "values": [
+          2760.48179,
+          2718.06837,
+          2727.055603
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 123254058,
+      "max_emitted_batch_bytes": 65641920,
+      "max_partition_mib": 64,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 68,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 129393336,
+        "p50": 121273728,
+        "p95": 129169752
+      },
+      "decoded_task_rows": {
+        "max": 5308437,
+        "p50": 4975328,
+        "p95": 5299265
+      },
+      "elapsed_ms": {
+        "max": 1757.451691,
+        "median": 1723.177704,
+        "min": 1681.39877,
+        "values": [
+          1757.451691,
+          1681.39877,
+          1723.177704
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 243104187,
+      "max_emitted_batch_bytes": 129393336,
+      "max_partition_mib": 128,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 39,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 253928016,
+        "p50": 228368688,
+        "p95": 252766656
+      },
+      "decoded_task_rows": {
+        "max": 10417558,
+        "p50": 9368970,
+        "p95": 10369912
+      },
+      "elapsed_ms": {
+        "max": 996.867579,
+        "median": 995.266975,
+        "min": 952.931616,
+        "values": [
+          995.266975,
+          996.867579,
+          952.931616
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 475719846,
+      "max_emitted_batch_bytes": 253928016,
+      "max_partition_mib": 256,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 19,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 504791304,
+        "p50": 488772864,
+        "p95": 504791304
+      },
+      "decoded_task_rows": {
+        "max": 20709379,
+        "p50": 20052216,
+        "p95": 20709379
+      },
+      "elapsed_ms": {
+        "max": 684.395582,
+        "median": 676.536026,
+        "min": 668.278444,
+        "values": [
+          676.536026,
+          684.395582,
+          668.278444
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 950043221,
+      "max_emitted_batch_bytes": 504791304,
+      "max_partition_mib": 512,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 9,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 1007948832,
+        "p50": 992394024,
+        "p95": 1007948832
+      },
+      "decoded_task_rows": {
+        "max": 41351740,
+        "p50": 40713599,
+        "p95": 41351740
+      },
+      "elapsed_ms": {
+        "max": 502.831306,
+        "median": 497.94417,
+        "min": 484.008811,
+        "values": [
+          502.831306,
+          497.94417,
+          484.008811
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 1897011482,
+      "max_emitted_batch_bytes": 1007948832,
+      "max_partition_mib": 1024,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 5,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    },
+    {
+      "decoded_task_bytes": {
+        "max": 1989683064,
+        "p50": 1988441832,
+        "p95": 1989683064
+      },
+      "decoded_task_rows": {
+        "max": 81628013,
+        "p50": 81577095,
+        "p95": 81628013
+      },
+      "elapsed_ms": {
+        "max": 439.555538,
+        "median": 432.0851,
+        "min": 422.559463,
+        "values": [
+          422.559463,
+          439.555538,
+          432.0851
+        ]
+      },
+      "episode": "test_2011",
+      "gpu_task_footprint_p95": 2936673863,
+      "max_emitted_batch_bytes": 1073623224,
+      "max_partition_mib": 2048,
+      "query": "schema_evolution",
+      "retry_count": 0,
+      "scan_tasks_median": 3,
+      "spill_bytes": 0,
+      "split_retry_count": 0
+    }
+  ],
+  "validation": {
+    "all_candidate_task_counts_distinct": true,
+    "all_result_hashes_stable": true,
+    "complete_cells": 84,
+    "measured_runs": 252,
+    "result_hash_groups": 12,
+    "runs": 264,
+    "total_retry_count": 0,
+    "total_spill_bytes": 0,
+    "total_split_retry_count": 0
+  }
+}

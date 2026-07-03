@@ -19,6 +19,7 @@ import argparse
 import gzip
 import json
 import os
+import re
 import statistics
 
 
@@ -77,6 +78,12 @@ def quantiles(values):
     }
 
 
+def accumulator_long(value):
+    text = str(value)
+    matched = re.search(r"\((\d+) bytes\)$", text)
+    return int(matched.group(1)) if matched else int(text)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--event-log", required=True)
@@ -111,11 +118,21 @@ def main():
                     continue
                 metric_ids = executions[run_id]["metric_ids"]
                 values = {}
+                task_gpu_names = {
+                    "gpuRetryCount": "gpu_retry_count",
+                    "gpuSplitAndRetryCount": "gpu_split_retry_count",
+                    "gpuSpillToHostBytes": "gpu_spill_host_bytes",
+                    "gpuSpillToDiskBytes": "gpu_spill_disk_bytes",
+                    "gpuMaxDeviceMemoryBytes": "gpu_max_device_memory_bytes",
+                    "gpuMaxTaskFootprint": "gpu_max_task_footprint",
+                }
                 for accum in event["Task Info"].get("Accumulables", []):
                     metric_name = metric_ids.get(int(accum["ID"]))
+                    if metric_name is None:
+                        metric_name = task_gpu_names.get(accum.get("Name"))
                     if metric_name is not None and "Update" in accum:
-                        values[metric_name] = int(accum["Update"])
-                if not values:
+                        values[metric_name] = accumulator_long(accum["Update"])
+                if "output_batch_bytes" not in values:
                     continue
                 info = event["Task Info"]
                 standard = event.get("Task Metrics", {})
@@ -124,6 +141,9 @@ def main():
                     "duration_ms": int(info["Finish Time"]) - int(info["Launch Time"]),
                     "input_bytes": int(input_metrics.get("Bytes Read", 0)),
                     "input_records": int(input_metrics.get("Records Read", 0)),
+                    "spark_disk_spill_bytes": int(standard.get("Disk Bytes Spilled", 0)),
+                    "spark_memory_spill_bytes": int(standard.get("Memory Bytes Spilled", 0)),
+                    "spark_peak_execution_memory": int(standard.get("Peak Execution Memory", 0)),
                     "partition_id": int(info["Partition ID"]),
                     "stage_id": stage_id,
                     "task_id": int(info["Task ID"]),
@@ -146,6 +166,11 @@ def main():
         output["runs"].append({
             "run_id": run_id,
             "phase": record["phase"],
+            "block": record.get("block"),
+            "repeat": record.get("repeat"),
+            "episode": record.get("episode"),
+            "start_month": record.get("start_month"),
+            "end_month": record.get("end_month"),
             "query": record["query"],
             "max_partition_mib": record["max_partition_mib"],
             "elapsed_ms": record["elapsed_ms"],
