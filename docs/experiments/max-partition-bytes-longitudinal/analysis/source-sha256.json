@@ -1,0 +1,187 @@
+{
+  "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data",
+  "file_count": 36,
+  "files": [
+    {
+      "bytes": 469759995,
+      "file": "yellow_tripdata_2009-01.parquet",
+      "sha256": "cb53301e6b350779a6f396da7c149034bd89e261e1c7b1b8550831ddf65ebede"
+    },
+    {
+      "bytes": 443434087,
+      "file": "yellow_tripdata_2009-02.parquet",
+      "sha256": "f94594fb3d1900cd173a02eee43fc38f2d763e05c460f0fe62291d76d2e3f6f6"
+    },
+    {
+      "bytes": 482592227,
+      "file": "yellow_tripdata_2009-03.parquet",
+      "sha256": "28cf320c9438f1d7f6491ce8182ee4c576133eb7eceb271e600e7da45ddcb545"
+    },
+    {
+      "bytes": 478134464,
+      "file": "yellow_tripdata_2009-04.parquet",
+      "sha256": "a66ab349e8e3d77902d4aef9a25e0ab8f0bd8ee4dd1b20361da4e06336a40dda"
+    },
+    {
+      "bytes": 495321625,
+      "file": "yellow_tripdata_2009-05.parquet",
+      "sha256": "18744ac5d5a6706533a908e59f578e5f578fa5946ff3445fd3be8891680db4d8"
+    },
+    {
+      "bytes": 473587848,
+      "file": "yellow_tripdata_2009-06.parquet",
+      "sha256": "3f0ec58a6137769e5b05856c5934e384f2e653434fe955ca26936af821887ee5"
+    },
+    {
+      "bytes": 454608768,
+      "file": "yellow_tripdata_2009-07.parquet",
+      "sha256": "3bc26d7e0e1a7fd83eeaf66d6e8d64d01480cbd984a383ffafdb48ac9a5fa9d9"
+    },
+    {
+      "bytes": 458271722,
+      "file": "yellow_tripdata_2009-08.parquet",
+      "sha256": "9afde8d6be45dde17ab5292ddd75ef31cde716085e76087c4c738aa9029323ad"
+    },
+    {
+      "bytes": 468346719,
+      "file": "yellow_tripdata_2009-09.parquet",
+      "sha256": "02c6959c9c70776fb79b6213a59a856d6f70fdc1a4d8abd09b178454630e0685"
+    },
+    {
+      "bytes": 527529176,
+      "file": "yellow_tripdata_2009-10.parquet",
+      "sha256": "b9fc7e48c04c0fccf16677f06104290598fe3503d3427764bce470f77b36fdf6"
+    },
+    {
+      "bytes": 478304085,
+      "file": "yellow_tripdata_2009-11.parquet",
+      "sha256": "5bbc1b1e2edb0ecf4955257d1390e287ae7e9f83d127445d373a184a6c07fdb4"
+    },
+    {
+      "bytes": 487584891,
+      "file": "yellow_tripdata_2009-12.parquet",
+      "sha256": "ffaab8baededd6c880b5101afbd45c1b24c978fdf656e2f2aade2e5ab3d59dce"
+    },
+    {
+      "bytes": 515402953,
+      "file": "yellow_tripdata_2010-01.parquet",
+      "sha256": "8ce0046912d268ab6306dafeca7af6d03fa632ee4c6ad83ec3fa1583a1cc54bf"
+    },
+    {
+      "bytes": 358719659,
+      "file": "yellow_tripdata_2010-02.parquet",
+      "sha256": "654343434a1548ca605ef26d5c69b17c28437ba8afa86deeb900e9958e29c4fc"
+    },
+    {
+      "bytes": 408716092,
+      "file": "yellow_tripdata_2010-03.parquet",
+      "sha256": "89637c07e9885b1d2536719873958a0d656aeb48e7b77fe1fd87b29be9679c44"
+    },
+    {
+      "bytes": 528303971,
+      "file": "yellow_tripdata_2010-04.parquet",
+      "sha256": "2af1f2da3063808546f84a39da92a9d3fb9c8400724e089ba4391a8c38ba3628"
+    },
+    {
+      "bytes": 541788582,
+      "file": "yellow_tripdata_2010-05.parquet",
+      "sha256": "80404ed45e60266b10f2e04404a8d0b71fd2a1578e9d1b8449e7c6e226be55a9"
+    },
+    {
+      "bytes": 517519630,
+      "file": "yellow_tripdata_2010-06.parquet",
+      "sha256": "0f712e1931f1942e5db65c1f6f03ee191f5637202f82003b6083f1bc229305a6"
+    },
+    {
+      "bytes": 510991218,
+      "file": "yellow_tripdata_2010-07.parquet",
+      "sha256": "84763d7136b45834000370521a840de024c203a5dfebac05870db7617d1e5782"
+    },
+    {
+      "bytes": 397142288,
+      "file": "yellow_tripdata_2010-08.parquet",
+      "sha256": "b8b72193c128cb2cc1dace4a021969d7d910874bc81f4ae7aca9f3cfc1bedb0c"
+    },
+    {
+      "bytes": 508197930,
+      "file": "yellow_tripdata_2010-09.parquet",
+      "sha256": "e7fe492228b4be40d8f991aff36f7e3c040d95cd177da6351b5a433b961ed071"
+    },
+    {
+      "bytes": 474631312,
+      "file": "yellow_tripdata_2010-10.parquet",
+      "sha256": "da408e48d0ca60f1ec54b90cda30f348e889eeecf2e356d89df5671ad6b9cfec"
+    },
+    {
+      "bytes": 448400565,
+      "file": "yellow_tripdata_2010-11.parquet",
+      "sha256": "958269ff19a50cce2170689ee535a04702344030a51ee98ca3d09d2e03c946f8"
+    },
+    {
+      "bytes": 444704733,
+      "file": "yellow_tripdata_2010-12.parquet",
+      "sha256": "478633e4907c8038db9c2bd72ad055d48fb40427fb1eb3af269822d05af5844b"
+    },
+    {
+      "bytes": 167179830,
+      "file": "yellow_tripdata_2011-01.parquet",
+      "sha256": "d112a66ceb2164c32452d199ce094a88ab61b3528b1999bb67f0f1ead1593b41"
+    },
+    {
+      "bytes": 175980833,
+      "file": "yellow_tripdata_2011-02.parquet",
+      "sha256": "b6bc9a0a26764d6ce61bf875b49be28330763e4caa8cef13f56f84cec09b9db7"
+    },
+    {
+      "bytes": 199932870,
+      "file": "yellow_tripdata_2011-03.parquet",
+      "sha256": "e2ed88ae38a75e098b5ceb81a535aea8bedc6edded09ea59cf150f6bd95a53be"
+    },
+    {
+      "bytes": 184195235,
+      "file": "yellow_tripdata_2011-04.parquet",
+      "sha256": "c08c609dd3c458ca6891625f4b3af8e644e1c1914108c010c02ce4707f958368"
+    },
+    {
+      "bytes": 193432650,
+      "file": "yellow_tripdata_2011-05.parquet",
+      "sha256": "251fbf1edb8c259c899c400da7286295e0d4534808a097f5905196c9fc67ccf4"
+    },
+    {
+      "bytes": 189119923,
+      "file": "yellow_tripdata_2011-06.parquet",
+      "sha256": "bd166caa999ee8eea10746b9e980e932c09e12e4212a88b2fd77bfe133cffaaa"
+    },
+    {
+      "bytes": 184027650,
+      "file": "yellow_tripdata_2011-07.parquet",
+      "sha256": "cd3c5e129b78290d9a3b40f6ae8f36f306216decf449033152bf75c578ed5727"
+    },
+    {
+      "bytes": 166214848,
+      "file": "yellow_tripdata_2011-08.parquet",
+      "sha256": "f7b15e6c750bf56482139644b96f5205fb9149ab54d3b3d858131d6ca96a8e59"
+    },
+    {
+      "bytes": 183493192,
+      "file": "yellow_tripdata_2011-09.parquet",
+      "sha256": "dd674a0fee0d47d685a46053da5c846a595d91bf277dcbd4d07a8c641f2cbcfe"
+    },
+    {
+      "bytes": 196273077,
+      "file": "yellow_tripdata_2011-10.parquet",
+      "sha256": "b73e20bea2b2e1b250ef8cf4de09a4fa478c3131486f05aecb37aaeedeef2485"
+    },
+    {
+      "bytes": 181862379,
+      "file": "yellow_tripdata_2011-11.parquet",
+      "sha256": "7ce036984f8139ae0afe5f987680aac384294ee5b8745796271a64cffcadee06"
+    },
+    {
+      "bytes": 186508736,
+      "file": "yellow_tripdata_2011-12.parquet",
+      "sha256": "d4e3aac5b7b85cbb68406db016d5f8f3b9f0c5f0bd6a2e13585b701461208b61"
+    }
+  ],
+  "total_bytes": 13580215763
+}

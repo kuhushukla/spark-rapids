@@ -1,0 +1,200 @@
+experiment_id: max-partition-bytes-longitudinal-feasibility
+branch: experiment/max-partition-bytes-longitudinal
+lifecycle:
+  state: STAGE_1_NOT_EXECUTED
+  stage_0: COMPLETE
+  stage_1: NOT_EXECUTED
+  snapshot: preregistration/preregistration.json
+  statement: >-
+    Generate the immutable snapshot only after this documentation is final.
+    No Stage 1 treatment may execute before committed-snapshot verification succeeds.
+authority:
+  local_gpu_experimentation: authorized
+  working_tree_versioning: authorized
+  external_spend: prohibited
+  production_or_deployment_change: prohibited
+  maximum_wrapper_seconds: 1800
+  maximum_gpu_phase_seconds: 1230
+  maximum_local_gpu_hours: 0.35
+objective:
+  claim_form: estimation-only exploratory feasibility
+  primary: >-
+    Validate schema-aware planned/useful/empty physical work and the exact
+    metadata-dominance action for every accepted Stage 1 run.
+  performance_output: >-
+    Raw timings, medians, and paired within-block descriptive differences for
+    frozen dominance pairs only.
+  performance_inference: none
+stage_0:
+  status: COMPLETE
+  evidence:
+    census: analysis/stage0-census.json
+    planning_compliance: analysis/stage0-planning-compliance.json
+    gpu_planning_compliance: analysis/stage0-gpu-planning-compliance.json
+    verdict: analysis/stage0-verdict.json
+    source_hashes: analysis/source-sha256.json
+  corpus:
+    file_count: 36
+    exact_bytes: 13580215763
+    exact_rows: 516784476
+    schema_fingerprints: 6
+    row_groups_per_file: 1
+  metadata_elapsed_ms: 917.145066
+  candidates_mib: [64, 128, 256, 512, 1024, 2048]
+  registered_episodes:
+    - fixed_2009_first_3
+    - fixed_2009_all_12
+    - variable_2010_first_3
+    - variable_2010_all_12
+    - evolution_before_2011
+    - evolution_through_2011
+  exact_planning_matches:
+    cpu_matched: 36
+    gpu_matched: 36
+    total_per_planner: 36
+    gpu_scan_class: GpuFileSourceScanExec
+    fields:
+      - planned_tasks
+      - planned_ranges
+      - useful_tasks
+      - empty_tasks
+      - empty_ranges
+      - physical_layout_sha256
+      - useful_layout_sha256
+  bounded_conclusion: >-
+    Metadata collection and physical-work prediction are supported only within
+    the registered corpus. This is not performance evidence.
+decision_time_features:
+  - file count, encoded bytes, and row-group rows/bytes
+  - selected-column chunk metadata
+  - physical schema fingerprints and schema-evolution features
+  - normalized query and minimal explicit read-schema identity
+  - configured/effective split inputs
+  - planned task/range, useful task, and empty task/range counts
+  - physical and useful layout hashes
+  - pinned software, GPU, CPU/cpuset, and total-memory identity
+schema_evolution:
+  role: first-class decision-time model feature
+  observed_auto_merge_failures:
+    - INT/DOUBLE
+    - STRING/BIGINT
+  implementable_read_path: preregistered minimal explicit read schema
+  missing_column:
+    name: PULocationID
+    row_values: recorded by episode and candidate
+    materialized_bytes: UNMODELED
+  abstain_on: ambiguous or unsupported required-field coercion
+metadata_dominance_policy:
+  same_useful_grouping: useful_layout_sha256 equality
+  no_better_conditions:
+    - planned_tasks greater than or equal to comparator
+    - empty_tasks greater than or equal to comparator
+    - planned_ranges greater than or equal to comparator
+    - empty_ranges greater than or equal to comparator
+  strict_condition: at least one no-better count is strictly greater
+  physical_equivalence: physical_layout_sha256 equality
+  action:
+    one_survivor: SELECT
+    zero_or_multiple_survivors: ABSTAIN
+    fallback_mib: 128
+  timing_feedback_changes_action: false
+stage_1:
+  status: NOT_EXECUTED
+  registry: preregistration/episode-registry.json
+  schedule: preregistration/schedule.json
+  episodes:
+    fixed_2009_all_12: [128, 256, 512]
+    variable_2010_all_12: [128, 256, 512, 1024]
+    evolution_through_2011: [128, 256, 512, 1024]
+  cpu_references: 3
+  gpu_warmups: 11
+  randomized_complete_blocks: 2
+  gpu_measured_executions: 22
+  whole_wrapper_timeout_seconds: 1800
+  gpu_phase_budget_seconds: 1230
+  per_query_timeout: no_claim
+  per_run_layout_revalidation: >-
+    Reconstruct immediately before every run and require exact configured value,
+    planned task/range, useful task, and empty task/range counts, physical layout hash, and useful
+    layout hash against the frozen registry.
+correctness_and_safety:
+  required:
+    - canonical GPU output equals its CPU reference
+    - intended GPU scan in every warm-up and measured plan
+    - exact registry, schedule, plan, journal, identity, and checksum agreement
+    - one start, result, and successful terminal for each accepted attempt
+    - all relevant stages/tasks/applications complete successfully
+    - no executor removal, fatal OOM, standard spill, or RAPIDS retry/spill
+    - validator replay is byte-for-byte identical
+    - wrapper and GPU budgets pass
+  sparse_rapids_metric_semantics: >-
+    Missing retry/spill accumulator updates count as zero only under the pinned
+    producer semantics. Any observed nonzero update is rejected.
+  standard_spark_spill: checked separately and required to be zero
+analysis_contract:
+  fitted_regression_or_ablation: none
+  policy: exact metadata dominance only
+  outputs:
+    - dominated and surviving candidates by episode
+    - SELECT only for one survivor; otherwise ABSTAIN with 128 MiB fallback
+    - raw and median scan/query durations
+    - paired within-block descriptive differences for dominance pairs
+    - mechanism prediction coverage and errors
+    - missing PULocationID row values
+    - missing-column materialized bytes UNMODELED
+  performance_effect: EXPLORATORY_INCONCLUSIVE
+preregistration_freeze:
+  snapshot: preregistration/preregistration.json
+  verifier: scripts/verify_preregistration.py
+  pinned:
+    - Stage 0 census, source hashes, planning evidence, and verdict
+    - episode registry and schedule
+    - README, model card, and manifest
+    - runner and all preparation, freeze, verification, benchmark, validation,
+      and wrapper-validation code
+    - sorted filename/SHA-256 manifest for every Spark 3.5.5 dist/jars JAR
+    - RAPIDS assembly JAR path and SHA-256
+    - repository HEAD
+    - JVM identity
+    - GPU model, memory, and driver identity
+    - stable CPU topology, process/cgroup CPU affinity, and total host memory
+wrapper_finalization:
+  journal: raw/wrapper-attempts.jsonl
+  verdict: analysis/wrapper-verdict.json
+  requirements:
+    - finalized journal contains budget check and successful terminal
+    - validate_wrapper.py emits the wrapper verdict
+    - finalized wrapper journal and verdict are checksummed
+split_verdicts:
+  stage_0_sensor_physical_mechanism: SUPPORTED_WITHIN_REGISTERED_CORPUS
+  stage_1_correctness_mechanism: pending
+  schema_aware_estimation: EXPLORATORY_MISSING_COLUMN_BYTES_UNMODELED
+  metadata_dominance_action: pending
+  performance_effect: EXPLORATORY_INCONCLUSIVE
+artifacts:
+  current:
+    - README.md
+    - model-card.md
+    - manifest.yaml
+    - run_experiment.sh
+    - analysis/source-sha256.json
+    - analysis/stage0-census.json
+    - analysis/stage0-planning-compliance.json
+    - analysis/stage0-gpu-planning-compliance.json
+    - analysis/stage0-verdict.json
+    - preregistration/episode-registry.json
+    - preregistration/schedule.json
+    - scripts/benchmark.py
+    - scripts/census.py
+    - scripts/freeze_preregistration.py
+    - scripts/hash_sources.py
+    - scripts/prepare_schedule.py
+    - scripts/validate_experiment.py
+    - scripts/validate_planning.py
+    - scripts/validate_stage0.py
+    - scripts/validate_wrapper.py
+    - scripts/verify_preregistration.py
+  produced_by_freeze_or_stage_1:
+    - preregistration/preregistration.json
+    - frozen snapshot verification output
+    - Stage 1 journals, logs, plans, results, replay, wrapper verdict, and checksums

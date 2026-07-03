@@ -1,0 +1,1280 @@
+{
+  "all_match": true,
+  "census_sha256": "7ef2b4ca5041ba4bdf15e7df5f11882c6c4bb58171b88186e57003bc51f1e0cd",
+  "record_count": 36,
+  "records": [
+    {
+      "actual": {
+        "empty_ranges": 157,
+        "empty_tasks": 150,
+        "physical_layout_sha256": "ed64b09595ce120383a81a6eca8f3692f198bcb4fd2bf6d0afc3f9ef25e441fb",
+        "planned_ranges": 181,
+        "planned_tasks": 174,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 157,
+        "empty_tasks": 150,
+        "physical_layout_sha256": "ed64b09595ce120383a81a6eca8f3692f198bcb4fd2bf6d0afc3f9ef25e441fb",
+        "planned_ranges": 181,
+        "planned_tasks": 174,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "match": true,
+      "plan_sha256": "9cbca1b310c4e372d697f3531d5a3b6d69dfc790cddbd51b21f6193382343fc8",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 71,
+        "empty_tasks": 66,
+        "physical_layout_sha256": "4011032c351d39bd479c4b38ebb10fe8755041b058a59c6e90c73e808ea05e19",
+        "planned_ranges": 95,
+        "planned_tasks": 90,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 71,
+        "empty_tasks": 66,
+        "physical_layout_sha256": "4011032c351d39bd479c4b38ebb10fe8755041b058a59c6e90c73e808ea05e19",
+        "planned_ranges": 95,
+        "planned_tasks": 90,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "match": true,
+      "plan_sha256": "5f37ff2bd5fc89e284b2bbced4c605faf4dc1a8a818392cd4bc42b1619a78a5c",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 25,
+        "empty_tasks": 23,
+        "physical_layout_sha256": "20db61c057e4f80ae678122ad2f8370785ada2fc13539dd2d98b81be26f8fcfe",
+        "planned_ranges": 49,
+        "planned_tasks": 47,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 25,
+        "empty_tasks": 23,
+        "physical_layout_sha256": "20db61c057e4f80ae678122ad2f8370785ada2fc13539dd2d98b81be26f8fcfe",
+        "planned_ranges": 49,
+        "planned_tasks": 47,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "match": true,
+      "plan_sha256": "2014f8eaa9f18a500ebcf3189402dcac60b7783512a36928e9c2abde9e4c8d26",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "49aad2d7f5b6cae35474d3c721c21474450cd416fd21ef2d17712ee3b8c2467e",
+        "planned_ranges": 25,
+        "planned_tasks": 24,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "49aad2d7f5b6cae35474d3c721c21474450cd416fd21ef2d17712ee3b8c2467e",
+        "planned_ranges": 25,
+        "planned_tasks": 24,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "match": true,
+      "plan_sha256": "315e34ba3e20acca3daf9ed51e7d01cd98042fdd0722099c45abc20ad1b4bea2",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "de8f6adb8d82e2bd6adb8d78886b7446e75d0d5671f5d63ada066542fd35f9b0",
+        "planned_ranges": 24,
+        "planned_tasks": 13,
+        "useful_layout_sha256": "11a0737b708aee612627d51a8434f3c00f0e8d4e9fb3bf9582cd106b517c02b5",
+        "useful_tasks": 13
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "de8f6adb8d82e2bd6adb8d78886b7446e75d0d5671f5d63ada066542fd35f9b0",
+        "planned_ranges": 24,
+        "planned_tasks": 13,
+        "useful_layout_sha256": "11a0737b708aee612627d51a8434f3c00f0e8d4e9fb3bf9582cd106b517c02b5",
+        "useful_tasks": 13
+      },
+      "match": true,
+      "plan_sha256": "5e0c2d44638176708b33b152e45fd92cad478e40c521e75b2a2578eef5ff2a93",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "3ae43b13987b675b82e1df02bba58329c90f28c93abbac163abd27c293771d0e",
+        "planned_ranges": 24,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "dd748a230bcbac8122cc62e0e5262579bc812f1d3d927c39c218c4c45cf68471",
+        "useful_tasks": 10
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "3ae43b13987b675b82e1df02bba58329c90f28c93abbac163abd27c293771d0e",
+        "planned_ranges": 24,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "dd748a230bcbac8122cc62e0e5262579bc812f1d3d927c39c218c4c45cf68471",
+        "useful_tasks": 10
+      },
+      "match": true,
+      "plan_sha256": "fb17dbf494da8d02f026b208040cc269a9925c85b9976edb2b9bd3a5957b493e",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 181,
+        "empty_tasks": 173,
+        "physical_layout_sha256": "f62477bed185de0fbd9ce56d2f84b62d76579a8da50f186dd1f4a2cccb84d731",
+        "planned_ranges": 217,
+        "planned_tasks": 209,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 181,
+        "empty_tasks": 173,
+        "physical_layout_sha256": "f62477bed185de0fbd9ce56d2f84b62d76579a8da50f186dd1f4a2cccb84d731",
+        "planned_ranges": 217,
+        "planned_tasks": 209,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "match": true,
+      "plan_sha256": "d44ce49892e506e5fca773c424dfd2c238cc8765e30a404ca726cbba1b2dc0e0",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 83,
+        "empty_tasks": 72,
+        "physical_layout_sha256": "161b893887e0f8a5e1d572f7207dcb85264d1d8bc883a09e03a547cc2ed9c1fa",
+        "planned_ranges": 119,
+        "planned_tasks": 108,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 83,
+        "empty_tasks": 72,
+        "physical_layout_sha256": "161b893887e0f8a5e1d572f7207dcb85264d1d8bc883a09e03a547cc2ed9c1fa",
+        "planned_ranges": 119,
+        "planned_tasks": 108,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "match": true,
+      "plan_sha256": "f533ec9bb8cc01ac415421112d71ad37c4a4e85dacb0835b13c1d818d27d4624",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 25,
+        "empty_tasks": 23,
+        "physical_layout_sha256": "6255caf1cfafecdfe9b09187dde9f7b7e7441752fac73994479c2eac067c481e",
+        "planned_ranges": 61,
+        "planned_tasks": 59,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 25,
+        "empty_tasks": 23,
+        "physical_layout_sha256": "6255caf1cfafecdfe9b09187dde9f7b7e7441752fac73994479c2eac067c481e",
+        "planned_ranges": 61,
+        "planned_tasks": 59,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "match": true,
+      "plan_sha256": "3d6c49daab3dc419838869be72bd28c2e4c40ada26c698bb5ccbdda3ac992e9c",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "7f5f9b07e20cca1ad225e3fbbd15c019b93877dee5b0fe7aaf204411230aed16",
+        "planned_ranges": 37,
+        "planned_tasks": 30,
+        "useful_layout_sha256": "c75a7b790f2a07cf24a36a139ab6522ff1842e165344fba28a38aa96f1e59dba",
+        "useful_tasks": 30
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "7f5f9b07e20cca1ad225e3fbbd15c019b93877dee5b0fe7aaf204411230aed16",
+        "planned_ranges": 37,
+        "planned_tasks": 30,
+        "useful_layout_sha256": "c75a7b790f2a07cf24a36a139ab6522ff1842e165344fba28a38aa96f1e59dba",
+        "useful_tasks": 30
+      },
+      "match": true,
+      "plan_sha256": "7b605d785cae411b7d1a86dd62b6e80691791181c76523a5d3ade28a63be3fcd",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "38453b3276b66aff52ab1a8e19d728c775fa279eb4e4c94f560d02dc800ae13b",
+        "planned_ranges": 36,
+        "planned_tasks": 15,
+        "useful_layout_sha256": "158c0950e952dff3b069b6e2b19545de4cf308b105b261ef4f608d3e253433b3",
+        "useful_tasks": 15
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "38453b3276b66aff52ab1a8e19d728c775fa279eb4e4c94f560d02dc800ae13b",
+        "planned_ranges": 36,
+        "planned_tasks": 15,
+        "useful_layout_sha256": "158c0950e952dff3b069b6e2b19545de4cf308b105b261ef4f608d3e253433b3",
+        "useful_tasks": 15
+      },
+      "match": true,
+      "plan_sha256": "fa999b87751d40140c14d1174c67d6d38356cc213eee238b0fd7a15bf56841ba",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "32968d768f9996db0b0b1a6adbcad91aec4603983aaebd56e99e93dc4f6e539b",
+        "planned_ranges": 36,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "8d61cdca558b6c6ac9aae13a0f9beb1c8b628eb5540ae975b9a6767634dc00d9",
+        "useful_tasks": 10
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "32968d768f9996db0b0b1a6adbcad91aec4603983aaebd56e99e93dc4f6e539b",
+        "planned_ranges": 36,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "8d61cdca558b6c6ac9aae13a0f9beb1c8b628eb5540ae975b9a6767634dc00d9",
+        "useful_tasks": 10
+      },
+      "match": true,
+      "plan_sha256": "d658f6628dd0414509fcbe0d76ef478991c34bea1a8ec3ab1bf03c00b502209d",
+      "query": "missing_location",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 79,
+        "empty_tasks": 75,
+        "physical_layout_sha256": "866a868650e3f989ed7f272cc168b353d70a034defaf2273bc3dbbe52e9cc99f",
+        "planned_ranges": 91,
+        "planned_tasks": 87,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 79,
+        "empty_tasks": 75,
+        "physical_layout_sha256": "866a868650e3f989ed7f272cc168b353d70a034defaf2273bc3dbbe52e9cc99f",
+        "planned_ranges": 91,
+        "planned_tasks": 87,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "ec4bd1aa6adfa392e4d4388daef6a608e9d92558535e2f16e3d576fdfc2c7773",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 36,
+        "empty_tasks": 34,
+        "physical_layout_sha256": "29615f7feae3c80fc271dd2343e5bfe3a9bdd58ab6b0bb587942a6990d68ebbf",
+        "planned_ranges": 48,
+        "planned_tasks": 46,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 36,
+        "empty_tasks": 34,
+        "physical_layout_sha256": "29615f7feae3c80fc271dd2343e5bfe3a9bdd58ab6b0bb587942a6990d68ebbf",
+        "planned_ranges": 48,
+        "planned_tasks": 46,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "b46a321821f3b7dd1928cadac84437b695812b8a95aa2973d57bf6081ab24174",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 12,
+        "empty_tasks": 12,
+        "physical_layout_sha256": "764520069fd4c99a0cb0c04341563e744e68b498a4cb94fa217ddf06a149be78",
+        "planned_ranges": 24,
+        "planned_tasks": 24,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 12,
+        "empty_tasks": 12,
+        "physical_layout_sha256": "764520069fd4c99a0cb0c04341563e744e68b498a4cb94fa217ddf06a149be78",
+        "planned_ranges": 24,
+        "planned_tasks": 24,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "cd5c6f89d075be9705e59e1720c29f80f2838c196480bab4765f557d6087b1f9",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "ff1c6575560a4031d210aa0e100e8e05aba61fd950f7953889786e6b60449f4e",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "076cde2bd3d6a99a9c1fee72de1ec2f6363acfba20e623f6a49d17739a194597",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "1306f77923443b38bfc7eba2a32e957461d9a63444f355d1a62a77cbc8f69329",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 19,
+        "empty_tasks": 18,
+        "physical_layout_sha256": "5336f01c2dc9618c0a085494fe24a2d2ab6851fde74547d5bb0a3ce6ff8a1269",
+        "planned_ranges": 22,
+        "planned_tasks": 21,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 19,
+        "empty_tasks": 18,
+        "physical_layout_sha256": "5336f01c2dc9618c0a085494fe24a2d2ab6851fde74547d5bb0a3ce6ff8a1269",
+        "planned_ranges": 22,
+        "planned_tasks": 21,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "9be680b02e2af330c5a2f1f8054b168f1e90402a8073d9d8546b30fe7f9131f6",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 9,
+        "empty_tasks": 8,
+        "physical_layout_sha256": "a9593dcf35f17eccbd3b224b7411c714ca37416de0d6e67ea83fdd82c76c1a58",
+        "planned_ranges": 12,
+        "planned_tasks": 11,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 9,
+        "empty_tasks": 8,
+        "physical_layout_sha256": "a9593dcf35f17eccbd3b224b7411c714ca37416de0d6e67ea83fdd82c76c1a58",
+        "planned_ranges": 12,
+        "planned_tasks": 11,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "be006bb7bcf05fb11bb083e22c3f22c671428ca013dec49caefb65f1f5f48835",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "05526be9f81150f6b07807ace373c183740b773e23b3313c2eea8b300090ad3c",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "e98d104fbc9a9f2f5992cd0ab17779409d9e69e5dac71049dd0c5a9b1e1e5071",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "26dde54fe7b628237373599ad21317350f012be6d08fadec56e805bd73b84fa2",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "c66e0eb3ee9c6fa8e0ddc032ea80cb1d902a10fa02a8307a2d85b87edfd59d49",
+      "query": "common",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 78,
+        "empty_tasks": 75,
+        "physical_layout_sha256": "4dfe823d23fc947a2a8864de4d09c1793de31594e0d9aa7166e0dacc44d6547d",
+        "planned_ranges": 90,
+        "planned_tasks": 87,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 78,
+        "empty_tasks": 75,
+        "physical_layout_sha256": "4dfe823d23fc947a2a8864de4d09c1793de31594e0d9aa7166e0dacc44d6547d",
+        "planned_ranges": 90,
+        "planned_tasks": 87,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "bd5d2b35cd0e519b1a444f5ffde6e7abf06328ecd433644824c4483ac8ad92e8",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 35,
+        "empty_tasks": 32,
+        "physical_layout_sha256": "ac1807349dbc6aa45f059f66b900c8d565d14cbf7538c1f45e7fad107ddca7a7",
+        "planned_ranges": 47,
+        "planned_tasks": 44,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 35,
+        "empty_tasks": 32,
+        "physical_layout_sha256": "ac1807349dbc6aa45f059f66b900c8d565d14cbf7538c1f45e7fad107ddca7a7",
+        "planned_ranges": 47,
+        "planned_tasks": 44,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "1752723c73d2543c4da1c20ea1764be1fb8d9804c07d786de5f8c6d8e373ddbc",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 13,
+        "empty_tasks": 11,
+        "physical_layout_sha256": "b7c10bd8da28c0b43ff9c39bd1573286b97d5b56a96426b05a1948ccdb13843c",
+        "planned_ranges": 25,
+        "planned_tasks": 23,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 13,
+        "empty_tasks": 11,
+        "physical_layout_sha256": "b7c10bd8da28c0b43ff9c39bd1573286b97d5b56a96426b05a1948ccdb13843c",
+        "planned_ranges": 25,
+        "planned_tasks": 23,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "149971f883cacb4d04235710dd7b6820b8e3732706f2f9684d49e039587bab5c",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "1508f3b47f80efb972e8fef6763d4c60bafdf45c85925589dcf4165f17a16bdc",
+        "planned_ranges": 13,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "1508f3b47f80efb972e8fef6763d4c60bafdf45c85925589dcf4165f17a16bdc",
+        "planned_ranges": 13,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "0d9ca507ca784ee3f4df6581d86b10250318209f72d8994fd1f4cd040ec3495d",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "acfb3b7351a6e1bb407d7b43660d68b399c2199171477ce1503aab1380161067",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "acfb3b7351a6e1bb407d7b43660d68b399c2199171477ce1503aab1380161067",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "40f20cae9fb962f11cdbfd03adfb23818d707479827bcc5c72d49eb34372ff02",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "acfb3b7351a6e1bb407d7b43660d68b399c2199171477ce1503aab1380161067",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "acfb3b7351a6e1bb407d7b43660d68b399c2199171477ce1503aab1380161067",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "8126cbbd10cef4be5d14656c18f05956ab93fbc50e3775e6548312e3f41ee5c0",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 18,
+        "empty_tasks": 17,
+        "physical_layout_sha256": "16c066b2aa01441540f12b22edd0925fd6a43fb2c56ebee321dd2bd8dfb8dd0a",
+        "planned_ranges": 21,
+        "planned_tasks": 20,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 18,
+        "empty_tasks": 17,
+        "physical_layout_sha256": "16c066b2aa01441540f12b22edd0925fd6a43fb2c56ebee321dd2bd8dfb8dd0a",
+        "planned_ranges": 21,
+        "planned_tasks": 20,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "4d4d57eaa32c98e22dc6f47f679dde863939b18280e62ebb821155fbaf541298",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 8,
+        "empty_tasks": 7,
+        "physical_layout_sha256": "838b8934487a6fb6f52a55b04e86bceb28e22b142dc86fbacdef173c060dc23d",
+        "planned_ranges": 11,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 8,
+        "empty_tasks": 7,
+        "physical_layout_sha256": "838b8934487a6fb6f52a55b04e86bceb28e22b142dc86fbacdef173c060dc23d",
+        "planned_ranges": 11,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "2959e91b3bb237f040dd429d3f402c36163e67cc17dc05b08d424673bab1f49f",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "434806b649f02a1e7cc2d60ab011768c703bfe30425b3ef8a3bf621f36ed6829",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "655e3d8b52a0a5dec3bee66ee64c981289c90ee5c2053decc009867b9bc1b050",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "7539b1fbd823edde08d16b931068e041e0bcb4e29ab32a86a7272288b082883b",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "72d614bc90cfb315e90d84dc560a4784bea60316f0620929806c70b9b72761fc",
+      "query": "variable_width",
+      "scan_class": "GpuFileSourceScanExec"
+    }
+  ],
+  "required_gpu_scan": true,
+  "scan_classes": [
+    "GpuFileSourceScanExec"
+  ],
+  "validated_fields": [
+    "planned_tasks",
+    "planned_ranges",
+    "useful_tasks",
+    "empty_tasks",
+    "empty_ranges",
+    "physical_layout_sha256",
+    "useful_layout_sha256"
+  ]
+}

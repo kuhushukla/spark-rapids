@@ -1,0 +1,362 @@
+{
+  "census_sha256": "7ef2b4ca5041ba4bdf15e7df5f11882c6c4bb58171b88186e57003bc51f1e0cd",
+  "data_dir": "/home/roberte/src/rapids-plugin-4-spark/taxi-data",
+  "episode_count": 3,
+  "episodes": [
+    {
+      "candidate_layouts": [
+        {
+          "absent_columns": [],
+          "configured_mib": 128,
+          "dominated_by_mib": [
+            256,
+            512
+          ],
+          "effective_bytes": 134217728,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 0,
+          "physical_layout_sha256": "29615f7feae3c80fc271dd2343e5bfe3a9bdd58ab6b0bb587942a6990d68ebbf",
+          "planned_ranges": 48,
+          "planned_tasks": 46,
+          "predicted_empty_ranges": 36,
+          "predicted_empty_tasks": 34,
+          "predicted_useful_tasks": 12,
+          "present_columns": [
+            "passenger_count",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8"
+        },
+        {
+          "absent_columns": [],
+          "configured_mib": 256,
+          "dominated_by_mib": [
+            512
+          ],
+          "effective_bytes": 268435456,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 0,
+          "physical_layout_sha256": "764520069fd4c99a0cb0c04341563e744e68b498a4cb94fa217ddf06a149be78",
+          "planned_ranges": 24,
+          "planned_tasks": 24,
+          "predicted_empty_ranges": 12,
+          "predicted_empty_tasks": 12,
+          "predicted_useful_tasks": 12,
+          "present_columns": [
+            "passenger_count",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8"
+        },
+        {
+          "absent_columns": [],
+          "configured_mib": 512,
+          "dominated_by_mib": [],
+          "effective_bytes": 536870912,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 0,
+          "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+          "planned_ranges": 12,
+          "planned_tasks": 12,
+          "predicted_empty_ranges": 0,
+          "predicted_empty_tasks": 0,
+          "predicted_useful_tasks": 12,
+          "present_columns": [
+            "passenger_count",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8"
+        }
+      ],
+      "candidates_mib": [
+        128,
+        256,
+        512
+      ],
+      "episode": "fixed_2009_all_12",
+      "file_count": 12,
+      "files": [
+        "yellow_tripdata_2009-01.parquet",
+        "yellow_tripdata_2009-02.parquet",
+        "yellow_tripdata_2009-03.parquet",
+        "yellow_tripdata_2009-04.parquet",
+        "yellow_tripdata_2009-05.parquet",
+        "yellow_tripdata_2009-06.parquet",
+        "yellow_tripdata_2009-07.parquet",
+        "yellow_tripdata_2009-08.parquet",
+        "yellow_tripdata_2009-09.parquet",
+        "yellow_tripdata_2009-10.parquet",
+        "yellow_tripdata_2009-11.parquet",
+        "yellow_tripdata_2009-12.parquet"
+      ],
+      "query": "common",
+      "total_file_bytes": 5717475607,
+      "total_rows": 170896055
+    },
+    {
+      "candidate_layouts": [
+        {
+          "absent_columns": [],
+          "configured_mib": 128,
+          "dominated_by_mib": [
+            256,
+            512,
+            1024
+          ],
+          "effective_bytes": 134217728,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 0,
+          "physical_layout_sha256": "ac1807349dbc6aa45f059f66b900c8d565d14cbf7538c1f45e7fad107ddca7a7",
+          "planned_ranges": 47,
+          "planned_tasks": 44,
+          "predicted_empty_ranges": 35,
+          "predicted_empty_tasks": 32,
+          "predicted_useful_tasks": 12,
+          "present_columns": [
+            "passenger_count",
+            "payment_type",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6"
+        },
+        {
+          "absent_columns": [],
+          "configured_mib": 256,
+          "dominated_by_mib": [
+            512,
+            1024
+          ],
+          "effective_bytes": 268435456,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 0,
+          "physical_layout_sha256": "b7c10bd8da28c0b43ff9c39bd1573286b97d5b56a96426b05a1948ccdb13843c",
+          "planned_ranges": 25,
+          "planned_tasks": 23,
+          "predicted_empty_ranges": 13,
+          "predicted_empty_tasks": 11,
+          "predicted_useful_tasks": 12,
+          "present_columns": [
+            "passenger_count",
+            "payment_type",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6"
+        },
+        {
+          "absent_columns": [],
+          "configured_mib": 512,
+          "dominated_by_mib": [
+            1024
+          ],
+          "effective_bytes": 536870912,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 0,
+          "physical_layout_sha256": "1508f3b47f80efb972e8fef6763d4c60bafdf45c85925589dcf4165f17a16bdc",
+          "planned_ranges": 13,
+          "planned_tasks": 12,
+          "predicted_empty_ranges": 1,
+          "predicted_empty_tasks": 0,
+          "predicted_useful_tasks": 12,
+          "present_columns": [
+            "passenger_count",
+            "payment_type",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6"
+        },
+        {
+          "absent_columns": [],
+          "configured_mib": 1024,
+          "dominated_by_mib": [],
+          "effective_bytes": 713106322,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 0,
+          "physical_layout_sha256": "acfb3b7351a6e1bb407d7b43660d68b399c2199171477ce1503aab1380161067",
+          "planned_ranges": 12,
+          "planned_tasks": 12,
+          "predicted_empty_ranges": 0,
+          "predicted_empty_tasks": 0,
+          "predicted_useful_tasks": 12,
+          "present_columns": [
+            "passenger_count",
+            "payment_type",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6"
+        }
+      ],
+      "candidates_mib": [
+        128,
+        256,
+        512,
+        1024
+      ],
+      "episode": "variable_2010_all_12",
+      "file_count": 12,
+      "files": [
+        "yellow_tripdata_2010-01.parquet",
+        "yellow_tripdata_2010-02.parquet",
+        "yellow_tripdata_2010-03.parquet",
+        "yellow_tripdata_2010-04.parquet",
+        "yellow_tripdata_2010-05.parquet",
+        "yellow_tripdata_2010-06.parquet",
+        "yellow_tripdata_2010-07.parquet",
+        "yellow_tripdata_2010-08.parquet",
+        "yellow_tripdata_2010-09.parquet",
+        "yellow_tripdata_2010-10.parquet",
+        "yellow_tripdata_2010-11.parquet",
+        "yellow_tripdata_2010-12.parquet"
+      ],
+      "query": "variable_width",
+      "total_file_bytes": 5654518933,
+      "total_rows": 169001162
+    },
+    {
+      "candidate_layouts": [
+        {
+          "absent_columns": [
+            "pulocationid"
+          ],
+          "configured_mib": 128,
+          "dominated_by_mib": [
+            256
+          ],
+          "effective_bytes": 134217728,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 339897217,
+          "physical_layout_sha256": "161b893887e0f8a5e1d572f7207dcb85264d1d8bc883a09e03a547cc2ed9c1fa",
+          "planned_ranges": 119,
+          "planned_tasks": 108,
+          "predicted_empty_ranges": 83,
+          "predicted_empty_tasks": 72,
+          "predicted_useful_tasks": 36,
+          "present_columns": [
+            "passenger_count",
+            "pulocationid",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730"
+        },
+        {
+          "absent_columns": [
+            "pulocationid"
+          ],
+          "configured_mib": 256,
+          "dominated_by_mib": [],
+          "effective_bytes": 268435456,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 339897217,
+          "physical_layout_sha256": "6255caf1cfafecdfe9b09187dde9f7b7e7441752fac73994479c2eac067c481e",
+          "planned_ranges": 61,
+          "planned_tasks": 59,
+          "predicted_empty_ranges": 25,
+          "predicted_empty_tasks": 23,
+          "predicted_useful_tasks": 36,
+          "present_columns": [
+            "passenger_count",
+            "pulocationid",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730"
+        },
+        {
+          "absent_columns": [
+            "pulocationid"
+          ],
+          "configured_mib": 512,
+          "dominated_by_mib": [],
+          "effective_bytes": 536870912,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 339897217,
+          "physical_layout_sha256": "7f5f9b07e20cca1ad225e3fbbd15c019b93877dee5b0fe7aaf204411230aed16",
+          "planned_ranges": 37,
+          "planned_tasks": 30,
+          "predicted_empty_ranges": 1,
+          "predicted_empty_tasks": 0,
+          "predicted_useful_tasks": 30,
+          "present_columns": [
+            "passenger_count",
+            "pulocationid",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "c75a7b790f2a07cf24a36a139ab6522ff1842e165344fba28a38aa96f1e59dba"
+        },
+        {
+          "absent_columns": [
+            "pulocationid"
+          ],
+          "configured_mib": 1024,
+          "dominated_by_mib": [],
+          "effective_bytes": 1073741824,
+          "missing_column_materialized_bytes_status": "UNMODELED",
+          "missing_column_row_values": 339897217,
+          "physical_layout_sha256": "38453b3276b66aff52ab1a8e19d728c775fa279eb4e4c94f560d02dc800ae13b",
+          "planned_ranges": 36,
+          "planned_tasks": 15,
+          "predicted_empty_ranges": 0,
+          "predicted_empty_tasks": 0,
+          "predicted_useful_tasks": 15,
+          "present_columns": [
+            "passenger_count",
+            "pulocationid",
+            "trip_distance"
+          ],
+          "useful_layout_sha256": "158c0950e952dff3b069b6e2b19545de4cf308b105b261ef4f608d3e253433b3"
+        }
+      ],
+      "candidates_mib": [
+        128,
+        256,
+        512,
+        1024
+      ],
+      "episode": "evolution_through_2011",
+      "file_count": 36,
+      "files": [
+        "yellow_tripdata_2009-01.parquet",
+        "yellow_tripdata_2009-02.parquet",
+        "yellow_tripdata_2009-03.parquet",
+        "yellow_tripdata_2009-04.parquet",
+        "yellow_tripdata_2009-05.parquet",
+        "yellow_tripdata_2009-06.parquet",
+        "yellow_tripdata_2009-07.parquet",
+        "yellow_tripdata_2009-08.parquet",
+        "yellow_tripdata_2009-09.parquet",
+        "yellow_tripdata_2009-10.parquet",
+        "yellow_tripdata_2009-11.parquet",
+        "yellow_tripdata_2009-12.parquet",
+        "yellow_tripdata_2010-01.parquet",
+        "yellow_tripdata_2010-02.parquet",
+        "yellow_tripdata_2010-03.parquet",
+        "yellow_tripdata_2010-04.parquet",
+        "yellow_tripdata_2010-05.parquet",
+        "yellow_tripdata_2010-06.parquet",
+        "yellow_tripdata_2010-07.parquet",
+        "yellow_tripdata_2010-08.parquet",
+        "yellow_tripdata_2010-09.parquet",
+        "yellow_tripdata_2010-10.parquet",
+        "yellow_tripdata_2010-11.parquet",
+        "yellow_tripdata_2010-12.parquet",
+        "yellow_tripdata_2011-01.parquet",
+        "yellow_tripdata_2011-02.parquet",
+        "yellow_tripdata_2011-03.parquet",
+        "yellow_tripdata_2011-04.parquet",
+        "yellow_tripdata_2011-05.parquet",
+        "yellow_tripdata_2011-06.parquet",
+        "yellow_tripdata_2011-07.parquet",
+        "yellow_tripdata_2011-08.parquet",
+        "yellow_tripdata_2011-09.parquet",
+        "yellow_tripdata_2011-10.parquet",
+        "yellow_tripdata_2011-11.parquet",
+        "yellow_tripdata_2011-12.parquet"
+      ],
+      "query": "missing_location",
+      "total_file_bytes": 13580215763,
+      "total_rows": 516784476
+    }
+  ],
+  "min_partitions": 8,
+  "open_cost_bytes": 4194304,
+  "schema_version": 1,
+  "treatment_count": 11
+}

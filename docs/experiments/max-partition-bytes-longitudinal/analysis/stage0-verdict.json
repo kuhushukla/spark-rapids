@@ -1,0 +1,37 @@
+{
+  "census_sha256": "7ef2b4ca5041ba4bdf15e7df5f11882c6c4bb58171b88186e57003bc51f1e0cd",
+  "cpu_planning_comparisons": 36,
+  "cpu_planning_exact_match_count": 36,
+  "cpu_planning_sha256": "c543b09c5918eda7f984640b7493bd9b6bf7cf9152372125047055b9124869c4",
+  "cpu_scan_class": "FileSourceScanExec",
+  "distinct_physical_layout_count": {
+    "evolution_before_2011": 6,
+    "evolution_through_2011": 6,
+    "fixed_2009_all_12": 4,
+    "fixed_2009_first_3": 3,
+    "variable_2010_all_12": 5,
+    "variable_2010_first_3": 3
+  },
+  "file_count": 36,
+  "gpu_planning_comparisons": 36,
+  "gpu_planning_exact_match_count": 36,
+  "gpu_planning_sha256": "3ce7aab4ea5ec5d597f918008147f66a1e6787594d3c92cd335193f05c018182",
+  "gpu_scan_class": "GpuFileSourceScanExec",
+  "metadata_budget_ms": 120000,
+  "metadata_elapsed_ms": 917.145066,
+  "planning_validated_fields": [
+    "empty_ranges",
+    "empty_tasks",
+    "physical_layout_sha256",
+    "planned_ranges",
+    "planned_tasks",
+    "useful_layout_sha256",
+    "useful_tasks"
+  ],
+  "schema_fingerprint_count": 6,
+  "sensor_feasibility": "SUPPORTED",
+  "source_hashes_sha256": "e3bfeff2f53090fd7705b0a8b12043420d2608d962f7ccf663d5c0c0b7be6905",
+  "total_file_bytes": 13580215763,
+  "total_rows": 516784476,
+  "treatment_distinctness": "SUPPORTED"
+}

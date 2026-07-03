@@ -1,0 +1,1280 @@
+{
+  "all_match": true,
+  "census_sha256": "7ef2b4ca5041ba4bdf15e7df5f11882c6c4bb58171b88186e57003bc51f1e0cd",
+  "record_count": 36,
+  "records": [
+    {
+      "actual": {
+        "empty_ranges": 157,
+        "empty_tasks": 150,
+        "physical_layout_sha256": "ed64b09595ce120383a81a6eca8f3692f198bcb4fd2bf6d0afc3f9ef25e441fb",
+        "planned_ranges": 181,
+        "planned_tasks": 174,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 157,
+        "empty_tasks": 150,
+        "physical_layout_sha256": "ed64b09595ce120383a81a6eca8f3692f198bcb4fd2bf6d0afc3f9ef25e441fb",
+        "planned_ranges": 181,
+        "planned_tasks": 174,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "match": true,
+      "plan_sha256": "ef4f5f3913bac3d95d4e01862b20fc84f7b916fd042c95c0d09298743188515f",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 71,
+        "empty_tasks": 66,
+        "physical_layout_sha256": "4011032c351d39bd479c4b38ebb10fe8755041b058a59c6e90c73e808ea05e19",
+        "planned_ranges": 95,
+        "planned_tasks": 90,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 71,
+        "empty_tasks": 66,
+        "physical_layout_sha256": "4011032c351d39bd479c4b38ebb10fe8755041b058a59c6e90c73e808ea05e19",
+        "planned_ranges": 95,
+        "planned_tasks": 90,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "match": true,
+      "plan_sha256": "a3f9e6304d319c72a752d1d7925783e5b8f8edd97c2a9be033a6e8d79dbd7c4a",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 25,
+        "empty_tasks": 23,
+        "physical_layout_sha256": "20db61c057e4f80ae678122ad2f8370785ada2fc13539dd2d98b81be26f8fcfe",
+        "planned_ranges": 49,
+        "planned_tasks": 47,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 25,
+        "empty_tasks": 23,
+        "physical_layout_sha256": "20db61c057e4f80ae678122ad2f8370785ada2fc13539dd2d98b81be26f8fcfe",
+        "planned_ranges": 49,
+        "planned_tasks": 47,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "match": true,
+      "plan_sha256": "22b4796eac4ef54bff2cbb39e6c194fc4be7f15da81d1e6a887c00226a3640a6",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "49aad2d7f5b6cae35474d3c721c21474450cd416fd21ef2d17712ee3b8c2467e",
+        "planned_ranges": 25,
+        "planned_tasks": 24,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "49aad2d7f5b6cae35474d3c721c21474450cd416fd21ef2d17712ee3b8c2467e",
+        "planned_ranges": 25,
+        "planned_tasks": 24,
+        "useful_layout_sha256": "df6398474e0902686a8287750dc2458ce906a00ebc48ac1cec5862128e5145f8",
+        "useful_tasks": 24
+      },
+      "match": true,
+      "plan_sha256": "b643a34dbedbf9acdaf84c71170fee9eb97b056cc4c4681c3517fe3f8d448ece",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "de8f6adb8d82e2bd6adb8d78886b7446e75d0d5671f5d63ada066542fd35f9b0",
+        "planned_ranges": 24,
+        "planned_tasks": 13,
+        "useful_layout_sha256": "11a0737b708aee612627d51a8434f3c00f0e8d4e9fb3bf9582cd106b517c02b5",
+        "useful_tasks": 13
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "de8f6adb8d82e2bd6adb8d78886b7446e75d0d5671f5d63ada066542fd35f9b0",
+        "planned_ranges": 24,
+        "planned_tasks": 13,
+        "useful_layout_sha256": "11a0737b708aee612627d51a8434f3c00f0e8d4e9fb3bf9582cd106b517c02b5",
+        "useful_tasks": 13
+      },
+      "match": true,
+      "plan_sha256": "d0220122f1615e1fed6c6cf2b7d60231bd40211863d606e4c7e461558848581a",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "3ae43b13987b675b82e1df02bba58329c90f28c93abbac163abd27c293771d0e",
+        "planned_ranges": 24,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "dd748a230bcbac8122cc62e0e5262579bc812f1d3d927c39c218c4c45cf68471",
+        "useful_tasks": 10
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "evolution_before_2011",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "3ae43b13987b675b82e1df02bba58329c90f28c93abbac163abd27c293771d0e",
+        "planned_ranges": 24,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "dd748a230bcbac8122cc62e0e5262579bc812f1d3d927c39c218c4c45cf68471",
+        "useful_tasks": 10
+      },
+      "match": true,
+      "plan_sha256": "ec128bc28109462258f9ec622d772b7db456f96dcf69a8f5e0682eb4d93e9098",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 181,
+        "empty_tasks": 173,
+        "physical_layout_sha256": "f62477bed185de0fbd9ce56d2f84b62d76579a8da50f186dd1f4a2cccb84d731",
+        "planned_ranges": 217,
+        "planned_tasks": 209,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 181,
+        "empty_tasks": 173,
+        "physical_layout_sha256": "f62477bed185de0fbd9ce56d2f84b62d76579a8da50f186dd1f4a2cccb84d731",
+        "planned_ranges": 217,
+        "planned_tasks": 209,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "match": true,
+      "plan_sha256": "8f513d6a14d890c3cbc52cc08c505ced895099befc18ee0bad48a274aacafb16",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 83,
+        "empty_tasks": 72,
+        "physical_layout_sha256": "161b893887e0f8a5e1d572f7207dcb85264d1d8bc883a09e03a547cc2ed9c1fa",
+        "planned_ranges": 119,
+        "planned_tasks": 108,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 83,
+        "empty_tasks": 72,
+        "physical_layout_sha256": "161b893887e0f8a5e1d572f7207dcb85264d1d8bc883a09e03a547cc2ed9c1fa",
+        "planned_ranges": 119,
+        "planned_tasks": 108,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "match": true,
+      "plan_sha256": "89e8bbe9f27af20ee7042516c5f5e62f18138231d89f78fa466959de86d60095",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 25,
+        "empty_tasks": 23,
+        "physical_layout_sha256": "6255caf1cfafecdfe9b09187dde9f7b7e7441752fac73994479c2eac067c481e",
+        "planned_ranges": 61,
+        "planned_tasks": 59,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 25,
+        "empty_tasks": 23,
+        "physical_layout_sha256": "6255caf1cfafecdfe9b09187dde9f7b7e7441752fac73994479c2eac067c481e",
+        "planned_ranges": 61,
+        "planned_tasks": 59,
+        "useful_layout_sha256": "94178a8f6bc929e29102485738b2bdf8c657e1653dd693cdd450f8931b16f730",
+        "useful_tasks": 36
+      },
+      "match": true,
+      "plan_sha256": "92504506e92c88d3d4ab85aa98ffd08539b5233266a4a80e4a9ba6f389d8e528",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "7f5f9b07e20cca1ad225e3fbbd15c019b93877dee5b0fe7aaf204411230aed16",
+        "planned_ranges": 37,
+        "planned_tasks": 30,
+        "useful_layout_sha256": "c75a7b790f2a07cf24a36a139ab6522ff1842e165344fba28a38aa96f1e59dba",
+        "useful_tasks": 30
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "7f5f9b07e20cca1ad225e3fbbd15c019b93877dee5b0fe7aaf204411230aed16",
+        "planned_ranges": 37,
+        "planned_tasks": 30,
+        "useful_layout_sha256": "c75a7b790f2a07cf24a36a139ab6522ff1842e165344fba28a38aa96f1e59dba",
+        "useful_tasks": 30
+      },
+      "match": true,
+      "plan_sha256": "fe50fbdf98a93ca581ebe159d243797cfcbed52865e649f49ffdf12b369e8f02",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "38453b3276b66aff52ab1a8e19d728c775fa279eb4e4c94f560d02dc800ae13b",
+        "planned_ranges": 36,
+        "planned_tasks": 15,
+        "useful_layout_sha256": "158c0950e952dff3b069b6e2b19545de4cf308b105b261ef4f608d3e253433b3",
+        "useful_tasks": 15
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "38453b3276b66aff52ab1a8e19d728c775fa279eb4e4c94f560d02dc800ae13b",
+        "planned_ranges": 36,
+        "planned_tasks": 15,
+        "useful_layout_sha256": "158c0950e952dff3b069b6e2b19545de4cf308b105b261ef4f608d3e253433b3",
+        "useful_tasks": 15
+      },
+      "match": true,
+      "plan_sha256": "3d5eefd3d531f955d9f7799c49d1805dfdad4cffa00741f74942690e37f3737f",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "32968d768f9996db0b0b1a6adbcad91aec4603983aaebd56e99e93dc4f6e539b",
+        "planned_ranges": 36,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "8d61cdca558b6c6ac9aae13a0f9beb1c8b628eb5540ae975b9a6767634dc00d9",
+        "useful_tasks": 10
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "evolution_through_2011",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "32968d768f9996db0b0b1a6adbcad91aec4603983aaebd56e99e93dc4f6e539b",
+        "planned_ranges": 36,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "8d61cdca558b6c6ac9aae13a0f9beb1c8b628eb5540ae975b9a6767634dc00d9",
+        "useful_tasks": 10
+      },
+      "match": true,
+      "plan_sha256": "569e0670a66d372053807e80f521ecca394f35dd55cf48a1bb4f6ed7a32fc0c1",
+      "query": "missing_location",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 79,
+        "empty_tasks": 75,
+        "physical_layout_sha256": "866a868650e3f989ed7f272cc168b353d70a034defaf2273bc3dbbe52e9cc99f",
+        "planned_ranges": 91,
+        "planned_tasks": 87,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 79,
+        "empty_tasks": 75,
+        "physical_layout_sha256": "866a868650e3f989ed7f272cc168b353d70a034defaf2273bc3dbbe52e9cc99f",
+        "planned_ranges": 91,
+        "planned_tasks": 87,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "ddf6d325ddd44a229528d46f05ccd0b0ad81d7efd5c2bcd532c48fd71b9296f9",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 36,
+        "empty_tasks": 34,
+        "physical_layout_sha256": "29615f7feae3c80fc271dd2343e5bfe3a9bdd58ab6b0bb587942a6990d68ebbf",
+        "planned_ranges": 48,
+        "planned_tasks": 46,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 36,
+        "empty_tasks": 34,
+        "physical_layout_sha256": "29615f7feae3c80fc271dd2343e5bfe3a9bdd58ab6b0bb587942a6990d68ebbf",
+        "planned_ranges": 48,
+        "planned_tasks": 46,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "b1272397014b99dfb7a42f707dcb858af71a6d77fd8c7ef2f11ba2e9cbcb0360",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 12,
+        "empty_tasks": 12,
+        "physical_layout_sha256": "764520069fd4c99a0cb0c04341563e744e68b498a4cb94fa217ddf06a149be78",
+        "planned_ranges": 24,
+        "planned_tasks": 24,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 12,
+        "empty_tasks": 12,
+        "physical_layout_sha256": "764520069fd4c99a0cb0c04341563e744e68b498a4cb94fa217ddf06a149be78",
+        "planned_ranges": 24,
+        "planned_tasks": 24,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "82beaaf5f805ceac1d0254989899fc36e712d8031a21c769672e722ca8da8bb7",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "2dadb777c5c4aa9e0a578279784ef2d2bdc2fa15b628d4003aa1cbd735e26d92",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "b863057994ac4488f314d5713dfdb898680ac5021c0721c288d42bd00bc52a73",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "fixed_2009_all_12",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "d2b45f0e2ede1e09dfe3a098239a6b68ec61795635cc800bbe7b8fa76a06232b",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "1b6b1451bd9231a98ccb8686bc5ac8f27c189d1493342a0e890eb42ac926d9e8",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "30b5a200c7a33acc1234ac962a055524c8b3bfb5d3e33e20d007add3de0de451",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 19,
+        "empty_tasks": 18,
+        "physical_layout_sha256": "5336f01c2dc9618c0a085494fe24a2d2ab6851fde74547d5bb0a3ce6ff8a1269",
+        "planned_ranges": 22,
+        "planned_tasks": 21,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 19,
+        "empty_tasks": 18,
+        "physical_layout_sha256": "5336f01c2dc9618c0a085494fe24a2d2ab6851fde74547d5bb0a3ce6ff8a1269",
+        "planned_ranges": 22,
+        "planned_tasks": 21,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "e71efa3491d64a54829ddecf63a7e8dc7ef715b78ee2864a95eb9b74bd5dec87",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 9,
+        "empty_tasks": 8,
+        "physical_layout_sha256": "a9593dcf35f17eccbd3b224b7411c714ca37416de0d6e67ea83fdd82c76c1a58",
+        "planned_ranges": 12,
+        "planned_tasks": 11,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 9,
+        "empty_tasks": 8,
+        "physical_layout_sha256": "a9593dcf35f17eccbd3b224b7411c714ca37416de0d6e67ea83fdd82c76c1a58",
+        "planned_ranges": 12,
+        "planned_tasks": 11,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "dfd4468d906a513e1395248e985f9f8968d2ebfc0d7098d7dcfdc275a77d6d39",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "29868d526ebd2231f12e234551d4afdc4b74a42f3063f6a02f0d9c2b5f36a7c6",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "2ba42024408bdd48b93e3be614d3beaa96134856e1b16adbfacb3ff1c6224e8f",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "bd67e850b5ff187f16e46ca6b4744071f308a662d37d3caa309c85329045fb41",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "fixed_2009_first_3",
+      "expected": {
+        "empty_ranges": 6,
+        "empty_tasks": 6,
+        "physical_layout_sha256": "6dce0131a0e466edea9787666b31b59dbf0d7a23fd0809c5f346537240b17c94",
+        "planned_ranges": 9,
+        "planned_tasks": 9,
+        "useful_layout_sha256": "024575e2a32e2ec10def00358ef9d2275ead9c7bb1d031c7c2185759383d30e1",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "8ffc6472061543efd8d3096ab9606c31906befbef4fe5a1d5e493d3e15bb36c8",
+      "query": "common",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 78,
+        "empty_tasks": 75,
+        "physical_layout_sha256": "4dfe823d23fc947a2a8864de4d09c1793de31594e0d9aa7166e0dacc44d6547d",
+        "planned_ranges": 90,
+        "planned_tasks": 87,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 78,
+        "empty_tasks": 75,
+        "physical_layout_sha256": "4dfe823d23fc947a2a8864de4d09c1793de31594e0d9aa7166e0dacc44d6547d",
+        "planned_ranges": 90,
+        "planned_tasks": 87,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "1de5b810e30bbc0562df2315706817d1639a34263171438a348143ca4a9b23d0",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 35,
+        "empty_tasks": 32,
+        "physical_layout_sha256": "ac1807349dbc6aa45f059f66b900c8d565d14cbf7538c1f45e7fad107ddca7a7",
+        "planned_ranges": 47,
+        "planned_tasks": 44,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 35,
+        "empty_tasks": 32,
+        "physical_layout_sha256": "ac1807349dbc6aa45f059f66b900c8d565d14cbf7538c1f45e7fad107ddca7a7",
+        "planned_ranges": 47,
+        "planned_tasks": 44,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "48f665e69f018a0c801638fc0911298f6f0d020ccf3fab825c1027d478c0685f",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 13,
+        "empty_tasks": 11,
+        "physical_layout_sha256": "b7c10bd8da28c0b43ff9c39bd1573286b97d5b56a96426b05a1948ccdb13843c",
+        "planned_ranges": 25,
+        "planned_tasks": 23,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 13,
+        "empty_tasks": 11,
+        "physical_layout_sha256": "b7c10bd8da28c0b43ff9c39bd1573286b97d5b56a96426b05a1948ccdb13843c",
+        "planned_ranges": 25,
+        "planned_tasks": 23,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "d28d9b8859c649e1e24ebf57ee81b0f9ce069bea4587ba4a384fdbebe661452b",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "1508f3b47f80efb972e8fef6763d4c60bafdf45c85925589dcf4165f17a16bdc",
+        "planned_ranges": 13,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 1,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "1508f3b47f80efb972e8fef6763d4c60bafdf45c85925589dcf4165f17a16bdc",
+        "planned_ranges": 13,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "2cf426d213d83eb349b9705c006192faaac13ba967be33f3c1d2d7b7fa6118e1",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "acfb3b7351a6e1bb407d7b43660d68b399c2199171477ce1503aab1380161067",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "acfb3b7351a6e1bb407d7b43660d68b399c2199171477ce1503aab1380161067",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "4f1e211299cd85d17546a4e03f86f7068337b6efb639556997054cbc5f5bf9a3",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "acfb3b7351a6e1bb407d7b43660d68b399c2199171477ce1503aab1380161067",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "variable_2010_all_12",
+      "expected": {
+        "empty_ranges": 0,
+        "empty_tasks": 0,
+        "physical_layout_sha256": "acfb3b7351a6e1bb407d7b43660d68b399c2199171477ce1503aab1380161067",
+        "planned_ranges": 12,
+        "planned_tasks": 12,
+        "useful_layout_sha256": "744372fe824f2d2e57e00f36dffcf3c4081bd743be9bf91464ad5e89dc13ecb6",
+        "useful_tasks": 12
+      },
+      "match": true,
+      "plan_sha256": "61eb9aba5afe076c530c8960aaf53d2c5554be6f11c04dfed25c21bef4b4416f",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 18,
+        "empty_tasks": 17,
+        "physical_layout_sha256": "16c066b2aa01441540f12b22edd0925fd6a43fb2c56ebee321dd2bd8dfb8dd0a",
+        "planned_ranges": 21,
+        "planned_tasks": 20,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 64,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 18,
+        "empty_tasks": 17,
+        "physical_layout_sha256": "16c066b2aa01441540f12b22edd0925fd6a43fb2c56ebee321dd2bd8dfb8dd0a",
+        "planned_ranges": 21,
+        "planned_tasks": 20,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "3b2c7bb5bd6e53edbd4c741f10fbec431ac2c7d5a2800a028d999021cb77b38b",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 8,
+        "empty_tasks": 7,
+        "physical_layout_sha256": "838b8934487a6fb6f52a55b04e86bceb28e22b142dc86fbacdef173c060dc23d",
+        "planned_ranges": 11,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 128,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 8,
+        "empty_tasks": 7,
+        "physical_layout_sha256": "838b8934487a6fb6f52a55b04e86bceb28e22b142dc86fbacdef173c060dc23d",
+        "planned_ranges": 11,
+        "planned_tasks": 10,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "356b9ca3c9ca1c91001f466af32c2e7446841a96400f2bb11ab3214c839f1450",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 256,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "10a46644574bdac8cfb62ac10a413b1d01d3fa56ebb2e3f562bc7f7d01845e08",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 512,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "1fa447acc5c5a066160ebce35dfee08739467a6fdda6d4751b504aee1cbe2e60",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 1024,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "ea0dfba0915d239139ee6efe5917b3d72036794acdf9eb51bc17928526fe0724",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    },
+    {
+      "actual": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "comparisons": {
+        "empty_ranges": true,
+        "empty_tasks": true,
+        "physical_layout_sha256": true,
+        "planned_ranges": true,
+        "planned_tasks": true,
+        "useful_layout_sha256": true,
+        "useful_tasks": true
+      },
+      "configured_mib": 2048,
+      "episode": "variable_2010_first_3",
+      "expected": {
+        "empty_ranges": 7,
+        "empty_tasks": 5,
+        "physical_layout_sha256": "4c123351f24d9d46ddf05cede8ecec9e83d64bcffb58255f5e0bd1610d1e62e0",
+        "planned_ranges": 10,
+        "planned_tasks": 8,
+        "useful_layout_sha256": "31b2b9594d2d4af8134b2b38ceb7f607d4333680499694860ea09e6148642a98",
+        "useful_tasks": 3
+      },
+      "match": true,
+      "plan_sha256": "ea4f1560b01b5959387f801794ff59cd3fd0ecbb8e1e3244d1e863863719c474",
+      "query": "variable_width",
+      "scan_class": "FileSourceScanExec"
+    }
+  ],
+  "required_gpu_scan": false,
+  "scan_classes": [
+    "FileSourceScanExec"
+  ],
+  "validated_fields": [
+    "planned_tasks",
+    "planned_ranges",
+    "useful_tasks",
+    "empty_tasks",
+    "empty_ranges",
+    "physical_layout_sha256",
+    "useful_layout_sha256"
+  ]
+}

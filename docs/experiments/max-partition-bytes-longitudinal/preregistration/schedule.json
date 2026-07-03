@@ -1,0 +1,192 @@
+{
+  "blocks": 2,
+  "census_sha256": "7ef2b4ca5041ba4bdf15e7df5f11882c6c4bb58171b88186e57003bc51f1e0cd",
+  "cpu_reference_order": [
+    "fixed_2009_all_12",
+    "variable_2010_all_12",
+    "evolution_through_2011"
+  ],
+  "measured_blocks": [
+    {
+      "block": 0,
+      "treatments": [
+        {
+          "configured_mib": 256,
+          "episode": "variable_2010_all_12",
+          "treatment_id": "variable_2010_all_12:256m"
+        },
+        {
+          "configured_mib": 1024,
+          "episode": "evolution_through_2011",
+          "treatment_id": "evolution_through_2011:1024m"
+        },
+        {
+          "configured_mib": 512,
+          "episode": "evolution_through_2011",
+          "treatment_id": "evolution_through_2011:512m"
+        },
+        {
+          "configured_mib": 512,
+          "episode": "fixed_2009_all_12",
+          "treatment_id": "fixed_2009_all_12:512m"
+        },
+        {
+          "configured_mib": 128,
+          "episode": "variable_2010_all_12",
+          "treatment_id": "variable_2010_all_12:128m"
+        },
+        {
+          "configured_mib": 128,
+          "episode": "fixed_2009_all_12",
+          "treatment_id": "fixed_2009_all_12:128m"
+        },
+        {
+          "configured_mib": 512,
+          "episode": "variable_2010_all_12",
+          "treatment_id": "variable_2010_all_12:512m"
+        },
+        {
+          "configured_mib": 1024,
+          "episode": "variable_2010_all_12",
+          "treatment_id": "variable_2010_all_12:1024m"
+        },
+        {
+          "configured_mib": 128,
+          "episode": "evolution_through_2011",
+          "treatment_id": "evolution_through_2011:128m"
+        },
+        {
+          "configured_mib": 256,
+          "episode": "fixed_2009_all_12",
+          "treatment_id": "fixed_2009_all_12:256m"
+        },
+        {
+          "configured_mib": 256,
+          "episode": "evolution_through_2011",
+          "treatment_id": "evolution_through_2011:256m"
+        }
+      ]
+    },
+    {
+      "block": 1,
+      "treatments": [
+        {
+          "configured_mib": 256,
+          "episode": "variable_2010_all_12",
+          "treatment_id": "variable_2010_all_12:256m"
+        },
+        {
+          "configured_mib": 128,
+          "episode": "evolution_through_2011",
+          "treatment_id": "evolution_through_2011:128m"
+        },
+        {
+          "configured_mib": 128,
+          "episode": "fixed_2009_all_12",
+          "treatment_id": "fixed_2009_all_12:128m"
+        },
+        {
+          "configured_mib": 512,
+          "episode": "fixed_2009_all_12",
+          "treatment_id": "fixed_2009_all_12:512m"
+        },
+        {
+          "configured_mib": 512,
+          "episode": "variable_2010_all_12",
+          "treatment_id": "variable_2010_all_12:512m"
+        },
+        {
+          "configured_mib": 1024,
+          "episode": "variable_2010_all_12",
+          "treatment_id": "variable_2010_all_12:1024m"
+        },
+        {
+          "configured_mib": 256,
+          "episode": "fixed_2009_all_12",
+          "treatment_id": "fixed_2009_all_12:256m"
+        },
+        {
+          "configured_mib": 256,
+          "episode": "evolution_through_2011",
+          "treatment_id": "evolution_through_2011:256m"
+        },
+        {
+          "configured_mib": 512,
+          "episode": "evolution_through_2011",
+          "treatment_id": "evolution_through_2011:512m"
+        },
+        {
+          "configured_mib": 1024,
+          "episode": "evolution_through_2011",
+          "treatment_id": "evolution_through_2011:1024m"
+        },
+        {
+          "configured_mib": 128,
+          "episode": "variable_2010_all_12",
+          "treatment_id": "variable_2010_all_12:128m"
+        }
+      ]
+    }
+  ],
+  "registry_sha256": "a92c3c66f319245757ec7dc2da19777e148a70319b4b06570810e6406a396359",
+  "schema_version": 1,
+  "seed": 20260703,
+  "treatment_count": 11,
+  "warmup_order": [
+    {
+      "configured_mib": 128,
+      "episode": "fixed_2009_all_12",
+      "treatment_id": "fixed_2009_all_12:128m"
+    },
+    {
+      "configured_mib": 256,
+      "episode": "fixed_2009_all_12",
+      "treatment_id": "fixed_2009_all_12:256m"
+    },
+    {
+      "configured_mib": 512,
+      "episode": "fixed_2009_all_12",
+      "treatment_id": "fixed_2009_all_12:512m"
+    },
+    {
+      "configured_mib": 128,
+      "episode": "variable_2010_all_12",
+      "treatment_id": "variable_2010_all_12:128m"
+    },
+    {
+      "configured_mib": 256,
+      "episode": "variable_2010_all_12",
+      "treatment_id": "variable_2010_all_12:256m"
+    },
+    {
+      "configured_mib": 512,
+      "episode": "variable_2010_all_12",
+      "treatment_id": "variable_2010_all_12:512m"
+    },
+    {
+      "configured_mib": 1024,
+      "episode": "variable_2010_all_12",
+      "treatment_id": "variable_2010_all_12:1024m"
+    },
+    {
+      "configured_mib": 128,
+      "episode": "evolution_through_2011",
+      "treatment_id": "evolution_through_2011:128m"
+    },
+    {
+      "configured_mib": 256,
+      "episode": "evolution_through_2011",
+      "treatment_id": "evolution_through_2011:256m"
+    },
+    {
+      "configured_mib": 512,
+      "episode": "evolution_through_2011",
+      "treatment_id": "evolution_through_2011:512m"
+    },
+    {
+      "configured_mib": 1024,
+      "episode": "evolution_through_2011",
+      "treatment_id": "evolution_through_2011:1024m"
+    }
+  ]
+}
