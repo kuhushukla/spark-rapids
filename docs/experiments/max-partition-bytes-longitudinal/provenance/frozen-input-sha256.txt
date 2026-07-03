@@ -1,0 +1,8 @@
+7ef2b4ca5041ba4bdf15e7df5f11882c6c4bb58171b88186e57003bc51f1e0cd  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/analysis/stage0-census.json
+c543b09c5918eda7f984640b7493bd9b6bf7cf9152372125047055b9124869c4  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/analysis/stage0-planning-compliance.json
+3ce7aab4ea5ec5d597f918008147f66a1e6787594d3c92cd335193f05c018182  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/analysis/stage0-gpu-planning-compliance.json
+3d719dce3831e7eb7567ad363b777231941208602ae4c1748a19521ab87855a2  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/analysis/stage0-verdict.json
+e3bfeff2f53090fd7705b0a8b12043420d2608d962f7ccf663d5c0c0b7be6905  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/analysis/source-sha256.json
+a92c3c66f319245757ec7dc2da19777e148a70319b4b06570810e6406a396359  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/preregistration/episode-registry.json
+fce63ee3d916814d31e0f76ac55d5a393078b9290ab0bd00e1f782783ca144ef  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/preregistration/schedule.json
+f4b79d543485f43202cb87039b55c16049bab100143589ee6c19e872072851f4  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/preregistration/preregistration.json

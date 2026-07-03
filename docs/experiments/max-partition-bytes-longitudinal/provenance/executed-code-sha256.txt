@@ -1,0 +1,11 @@
+8661bddb4f73c761afc65c4474b87c123c32520f44161f2e95529c105d2b70d2  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/run_experiment.sh
+395434563cfca2c3bf6c6e659a4988425015082c26a0f1fbb4d764f20986fa5a  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/scripts/benchmark.py
+a14bbaa80406ddb404f95afcc0fa8b77b0ba2d1d2bf9e1f872feb761f8e4fbf4  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/scripts/census.py
+e0ad06fcc463ce49d20297b65eda18ceb8393b659b2d379791ac03fdbb190ef1  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/scripts/freeze_preregistration.py
+8f04596bd624da43715b37bd00649055f03d42fb1802d3b8fbeb761e6d3b90d0  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/scripts/hash_sources.py
+923be6add3dc47992232b0157e4fba924b7a27f88883e137493809bfd54abb30  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/scripts/prepare_schedule.py
+47d15e8840a260af979deb4fbba9d53c9325b505f8aef2534b5fd0f65935a51b  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/scripts/validate_experiment.py
+77cf71ff06f02d9afc6656a9a61243fae50f50cfec6ed508d9d6b81d904b8279  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/scripts/validate_planning.py
+08abb35b2f222142fb67ed48a1fb72aca6492dbb6ae7fb020a6f1e80559f4c46  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/scripts/validate_stage0.py
+1dcd4b2df6d79ff8ad7f639d47c943a4f1c4572fbcf4e8d62966a04c376f1432  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/scripts/validate_wrapper.py
+70a438b31d2c5628385b255f6e54c96929419da6f674148a05e80b203e0044df  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/max-partition-bytes-longitudinal/scripts/verify_preregistration.py

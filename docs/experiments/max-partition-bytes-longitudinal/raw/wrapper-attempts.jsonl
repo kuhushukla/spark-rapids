@@ -1,0 +1,10 @@
+{"event":"wrapper_start","run_id":"stage1-20260703-1432-0983a70fb","timestamp":"2026-07-03T14:32:29Z","timeout_seconds":1800}
+{"event":"preregistration_verified","status":"success"}
+{"event":"stage0_replay","status":"success"}
+{"event":"source_identity","status":"success"}
+{"event":"cpu_complete","status":"success"}
+{"event":"gpu_complete","status":"success","elapsed_seconds":115}
+{"event":"validation_complete","status":"success"}
+{"event":"replay_complete","status":"success"}
+{"event":"budget_check","status":"success","wrapper_elapsed_seconds":144,"gpu_elapsed_seconds":115}
+{"event":"wrapper_terminal","status":"success","timestamp":"2026-07-03T14:34:53Z"}
