@@ -16,7 +16,8 @@
 
 package com.nvidia.spark.rapids.perf
 
-import java.nio.file.Files
+import java.nio.charset.StandardCharsets
+import java.nio.file.{Files, StandardOpenOption}
 
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -66,9 +67,12 @@ class PerformanceHistorySuite extends AnyFunSuite {
       outputBatches = 4,
       maxBatchBytes = 512L * 1024 * 1024,
       usefulTasks = 4,
+      launchedTasks = 4,
+      effectiveTaskParallelism = 2.0,
       effectiveReadParallelism = 2.0,
       observedGpuOverlapCapacity = 2.0,
       maxTaskServiceNs = 200,
+      sumTaskFixedNs = 80,
       sumReadNs = 100,
       sumDecodeNs = 200,
       sumSqlFilterNs = 50,
@@ -94,14 +98,14 @@ class PerformanceHistorySuite extends AnyFunSuite {
     reopened.close()
   }
 
-  test("prediction requires the complete hardware table predicate and reader context") {
+  test("prediction requires an exact table version in the context key") {
     val path = Files.createTempDirectory("performance-history-key").resolve("history.log")
     val history = PerformanceHistory.local(path)
     history.record(observation(context()))
 
     val differentTableVersion = PredictionRequest(
       context("2010"), 2000, 4000, 200, 1000, 50, 1000, 8,
-      1024L * 1024 * 1024, 4, 2.0, 2.0, 2048, 4096)
+      1024L * 1024 * 1024, 4, 8, 2.0, 2.0, 2.0, 400, 2048, 4096)
     assert(history.predict(differentTableVersion).isEmpty)
     history.close()
   }
@@ -122,12 +126,16 @@ class PerformanceHistorySuite extends AnyFunSuite {
       outputBatches = 8,
       maxBatchBytes = 1024L * 1024 * 1024,
       usefulTasks = 4,
+      launchedTasks = 8,
+      effectiveTaskParallelism = 2.0,
       effectiveReadParallelism = 2.0,
       predictedGpuOverlapCapacity = 2.0,
+      predictedMaxTaskServiceNs = 400,
       maxTaskFootprintBytes = 2048,
       admissionBudgetBytes = 4096)
     val prediction = history.predict(request).get
 
+    assert(prediction.components.taskFixedServiceNs === 160)
     assert(prediction.components.readServiceNs === 200)
     assert(prediction.components.decodeServiceNs === 400)
     assert(prediction.components.filterServiceNs === 100)
@@ -145,10 +153,69 @@ class PerformanceHistorySuite extends AnyFunSuite {
       usefulTasks = 1,
       maxTaskFootprintBytes = 3000,
       admissionBudgetBytes = 2000)).get
-    assert(collapsed.components.longestTaskLowerBoundNs === 900)
+    assert(collapsed.components.longestTaskLowerBoundNs === 920)
     assert(collapsed.predictedGpuCapacity === 1.0)
     assert(collapsed.memoryStatus === "unsafe")
-    assert(collapsed.stageWallNs === 1575)
+    assert(collapsed.stageWallNs === 1610)
     history.close()
+  }
+
+  test("an incomplete tail is truncated before the next append") {
+    val path = Files.createTempDirectory("performance-history-tail").resolve("history.log")
+    val first = observation(context())
+    val history = PerformanceHistory.local(path)
+    history.record(first)
+    history.close()
+    Files.write(path, "v4\\tpartial".getBytes(StandardCharsets.UTF_8),
+      StandardOpenOption.APPEND)
+
+    val recovered = PerformanceHistory.local(path)
+    assert(recovered.observations(context()) === Seq(first))
+    val second = first.copy(observedAtMs = 2L)
+    recovered.record(second)
+    recovered.close()
+
+    val reopened = PerformanceHistory.local(path)
+    assert(reopened.observations(context()) === Seq(first, second))
+    reopened.close()
+  }
+
+  test("prediction refuses a size outside the observed batch neighborhood") {
+    val path = Files.createTempDirectory("performance-history-size").resolve("history.log")
+    val history = PerformanceHistory.local(path)
+    history.record(observation(context()))
+    val request = PredictionRequest(
+      context(), 2000, 1L << 40, 200, 1000, 50, 1000, 1,
+      1L << 40, 4, 8, 2.0, 2.0, 2.0, 400, 2048, 4096)
+    assert(history.predict(request).isEmpty)
+    history.close()
+  }
+
+  test("five observations expose residual bounds") {
+    val path = Files.createTempDirectory("performance-history-residual").resolve("history.log")
+    val history = PerformanceHistory.local(path)
+    (1L to 5L).foreach { index =>
+      history.record(observation(context()).copy(observedAtMs = index))
+    }
+    val request = PredictionRequest(
+      context(), 2000, 4000, 200, 1000, 50, 1000, 8,
+      1024L * 1024 * 1024, 4, 8, 2.0, 2.0, 2.0, 400, 2048, 4096)
+    val prediction = history.predict(request).get
+    assert(prediction.sampleCount === 5)
+    assert(prediction.p10Scale.nonEmpty)
+    assert(prediction.p90Scale.nonEmpty)
+    history.close()
+  }
+
+  test("corruption before the final record fails reopening") {
+    val path = Files.createTempDirectory("performance-history-corrupt").resolve("history.log")
+    val history = PerformanceHistory.local(path)
+    history.record(observation(context()))
+    history.close()
+    Files.write(path, "corrupt\n".getBytes(StandardCharsets.UTF_8),
+      StandardOpenOption.APPEND)
+    intercept[IllegalArgumentException] {
+      PerformanceHistory.local(path)
+    }
   }
 }

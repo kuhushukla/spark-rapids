@@ -11,9 +11,9 @@ fixed costs, retains enough tasks to overlap work, and remains below the residen
 wall with prediction-error margin. The output is a bounded region with evidence and
 uncertainty, not one universal "optimal byte" value.
 
-\`spark.sql.files.maxPartitionBytes\` controls encoded input assigned to a task. It
+`spark.sql.files.maxPartitionBytes` controls encoded input assigned to a task. It
 changes task count, waves, file/row-group splitting, and overhead amortization.
-\`spark.rapids.sql.batchSizeBytes\` targets decoded GPU batch size. A large partition can
+`spark.rapids.sql.batchSizeBytes` targets decoded GPU batch size. A large partition can
 produce several batches; a small partition cannot produce a batch larger than its
 decoded output. The chunked reader and soft limit further mediate actual batch sizes.
 
@@ -26,7 +26,8 @@ Measurements are reusable only inside a declared context. The POC key contains:
 
 - instance or local hardware label, GPU model/memory, and CPU cores;
 - Spark, RAPIDS, Java, connector versions, and a versioned execution fingerprint that
-  covers executor/GPU topology, batch/read limits, reader path, and admission policy;
+  covers executor/GPU topology, batch/read limits, reader path, admission policy, AQE,
+  and relevant shuffle/coalescing settings;
 - table and snapshot, schema, format, and codec;
 - canonical projection, partition predicate, data predicate, and downstream-stage
   fingerprints;
@@ -41,23 +42,23 @@ should be hashed before a production implementation persists them.
 
 ## Quantities and metric semantics
 
-For observation \`i\`:
+For observation `i`:
 
-- \`D_i\`: compressed bytes actually read, excluding metadata-pruned ranges;
-- \`U_i, R_i\`: decoded bytes and rows before the SQL filter;
-- \`SBytes_i, SRows_i\`: surviving bytes and rows;
-- \`N_i, B_i\`: useful tasks and output batches;
-- \`Wr_i, Wd_i, Wf_i, Wx_i\`: summed read, decode, filter, and downstream service;
-- \`Cr_i, Cg_i\`: independently measured read and GPU capacities;
-- \`M_i\`: maximum task footprint;
-- \`Ts_i, Tq_i\`: scan-stage and query wall time.
+- `D_i`: compressed bytes actually read, excluding metadata-pruned ranges;
+- `U_i, R_i`: decoded bytes and rows before the SQL filter;
+- `SBytes_i, SRows_i`: surviving bytes and rows;
+- `N_i, B_i`: useful tasks and output batches;
+- `Wr_i, Wd_i, Wf_i, Wx_i`: summed read, decode, filter, and downstream service;
+- `Cr_i, Cg_i`: independently measured read and GPU capacities;
+- `M_i`: maximum task footprint;
+- `Ts_i, Tq_i`: scan-stage and query wall time.
 
 These are not all additive wall times:
 
 - RAPIDS scan time wraps iterator progress and includes overlapping work.
-- GPU decode time is host wall around \`Table.readParquet\`, not CUDA kernel time.
+- GPU decode time is host wall around `Table.readParquet`, not CUDA kernel time.
 - filesystem read time measures filesystem calls, not all scheduling/buffering.
-- scan-internal filter time is footer/row-group pruning, not SQL \`GpuFilter\`.
+- scan-internal filter time is footer/row-group pruning, not SQL `GpuFilter`.
 - async buffer, scheduling, and read metrics overlap and must not be summed blindly.
 - CUDA kernel service sums kernel durations; CUDA busy time unions kernel intervals.
 
@@ -69,21 +70,21 @@ spill metrics where available.
 
 Historical table/file statistics predict a proposed encoded partition:
 
-\`\`\`text
+```text
 predictedDecodedBytes = encodedBytes * historicalDecodedBytesPerEncodedByte(K)
 predictedDecodedRows  = encodedBytes * historicalDecodedRowsPerEncodedByte(K)
-\`\`\`
+```
 
-Projection and predicate are in \`K\`, because expansion, width, and selectivity change
+Projection and predicate are in `K`, because expansion, width, and selectivity change
 the ratios. Schema evolution is represented explicitly for common columns, legal
 Parquet up-casts, and null-filled missing columns.
 
 Use robust ratios/regressions and retain residual quantiles. Safety uses upper bounds:
 
-\`\`\`text
+```text
 safeDecodedBytes = upperQuantile(predictedDecodedBytes | K)
 safeFootprint = upperQuantile(predictedFootprint | safeDecodedBytes, rows, K)
-\`\`\`
+```
 
 Rows and bytes are both required. Bytes bound memory; rows often explain per-row work.
 
@@ -92,12 +93,13 @@ Rows and bytes are both required. Bytes bound memory; rows often explain per-row
 The simplest deployable model uses context-conditioned per-service-demand rates. Each
 rate is units divided by the corresponding summed call/service time, before overlap:
 
-\`\`\`text
+```text
+taskFixedService  = launchedTasks * fittedFixedCostPerTask(K)
 readService       = encodedBytes / effectiveReadRate(K)
 decodeService     = decodedBytes / effectiveDecodeRate(K)
 filterService     = decodedRows / effectiveFilterRate(K)
 downstreamService = downstreamWorkUnits / effectiveDownstreamRate(K)
-\`\`\`
+```
 
 Downstream work has an explicit operator fingerprint and unit; bytes and rows are never
 mixed dimensionally. Local warm-data read service rate includes page-cache behavior.
@@ -107,9 +109,9 @@ not counted in both quantities.
 
 A detailed read submodel is needed only when changing range coalescing/client design:
 
-\`\`\`text
+```text
 readService ~= requestCount * requestLatency + transferredBytes / linkBandwidth
-\`\`\`
+```
 
 One blocking client is serial. Multiple blocking threads use a bounded parallel
 schedule. An async client uses an outstanding-request schedule. This remains behind the
@@ -120,28 +122,35 @@ same API and cannot reuse rates from a different client context.
 An additive sum is service accounting, not stage wall: tasks pipeline read, decode, and
 GPU work. The deployable lower bound is:
 
-\`\`\`text
+```text
 L = max(
+  taskFixedService / effectiveTaskCapacity,
   readService / effectiveReadCapacity,
   (decodeService + filterService + downstreamService) / measuredGpuOverlapCapacity,
-  longestUsefulTask
+  predictedLongestUsefulTask
 )
-\`\`\`
+```
+
+The fixed task cost must be fitted externally from task-count ramps or explicit task
+setup metrics; it
+is not hidden in a size-bucket residual. Empty launched tasks remain in
+`launchedTasks`, even when `usefulTasks` is zero for their output.
 
 Read capacity is not inferred from GPU holders. GPU overlap capacity is predicted from
 the union of the same host service intervals whose sums appear in the numerator (or by
 a task list scheduler); CUDA kernel-service/kernel-busy overlap cannot divide host decode
-wall. Holder count is only a feasibility cap. The
-longest task is measured or
-predicted from task-level history, not total service divided by task count. Candidate
+wall. Holder count is only a feasibility cap. The candidate longest task is supplied
+from the predicted task assignment/skew model. The mathematical floor is variable
+service divided by useful tasks plus fixed service divided by launched tasks, so empty
+task setup is not assigned to useful tasks. Candidate
 GPU capacity is capped by useful tasks and by
-\`admissionBudgetBytes / maxTaskFootprintBytes\`.
+`admissionBudgetBytes / maxTaskFootprintBytes`.
 
 The exploratory calibrated estimate is:
 
-\`\`\`text
+```text
 predictedStageWall = L * median(observedStageWall / historicalL | K, sizeBucket)
-\`\`\`
+```
 
 Residual p10/p90 scales report uncertainty. Query wall adds a separately measured
 non-scan tail. Production should replace the scalar residual with a bounded list
@@ -154,8 +163,8 @@ cliffs.
 
 ## Measured local evidence
 
-The preregistered Nsight Systems runs use \`local-rtx-a6000\`, Spark 3.5.5
-\`local[8]\`, warm local Snappy Parquet, the 2009 taxi common-column aggregate, 1-GiB
+The preregistered Nsight Systems runs use `local-rtx-a6000`, Spark 3.5.5
+`local[8]`, warm local Snappy Parquet, the 2009 taxi common-column aggregate, 1-GiB
 RAPIDS batch target, and dynamic admission.
 
 | maxPartitionBytes | tasks | Spark stage wall | GPU ownership envelope | kernel service | kernel busy | max simultaneous kernels |
@@ -181,6 +190,24 @@ These profiles validate mechanisms, not a 10%-accurate predictor: only three cel
 profiled and profiler wall times are perturbed. The preregistered 10% median and 15% p90
 error targets require prospective repeated holdouts.
 
+## Fresh query-shape transfer evidence
+
+A separate 48-run, three-block trial added multi-key aggregate, self-join, window/top-N,
+and wide selective-filter shapes. Its raw evidence is internally reproducible, but its
+preregistration file has no immutable pre-execution binding and is therefore treated as
+descriptive.
+
+Median curves split by downstream work: aggregate/filter shapes favored larger
+partitions, while self-join/window shapes favored smaller partitions. Scan tasks changed
+from 212 to 5 for the full-corpus queries and from 39 to 1 for the window query. No
+single tested size was within 10% of best on every shape. The restricted minimax was
+512 MiB with 12.50% worst point regret.
+
+This supports a downstream/query-shape context dimension and rejects the tested global
+candidates as universally within 10%; it does not validate fingerprint sufficiency. AQE was off and
+is part of the execution context: an AQE-on paired shuffle-heavy follow-up is required.
+The trial is documented under `docs/experiments/fresh-query-holdout/`.
+
 ## Bounded selection rule
 
 For each candidate, predict decoded bytes, rows, useful tasks, component service,
@@ -197,19 +224,21 @@ default is already inside the box, do nothing.
 
 ## Prototype API and limits
 
-\`PerformanceHistory.local(path)\` returns an internal API that records observations and
+`PerformanceHistory.local(path)` returns an internal API that records observations and
 predicts from an exact key plus nearby typical-batch-size bucket. It estimates component
-service rates, applies separately supplied empirical read/GPU overlap capacities and a
-longest-task bound, floors footprint-limited admission slots, and reports memory status.
+service rates, applies a fitted launched-task fixed term, separately supplied empirical
+read/GPU/task capacities and candidate longest-task bound, floors footprint-limited
+admission slots, and reports memory status.
 It refuses unsupported size extrapolation and suppresses residual intervals below five
 samples.
 
-Persistence is a versioned line protocol hidden behind the API. It recovers by ignoring
-an incomplete final record and fails on earlier corruption. This POC is deliberately
+Persistence is a versioned line protocol hidden behind the API. It recovers by
+truncating an incomplete final record before a later append and fails on earlier
+corruption. This POC is deliberately
 driver-owned and single-instance, appends synchronously after a completed measured
 stage, and has unbounded retention. It must not be called on the measured critical path.
 It accepts externally predicted decoded bytes/footprint; the upper-quantile safety model
-and complete task/file-layout overhead model are not yet implemented. Its
+and complete file/row-group/skew assignment model are not yet implemented. Its
 `sumSqlFilterNs` input means SQL `GpuFilter` service only; scan footer/row-group pruning
 is not modeled yet and must not be supplied under that name. Production needs
 one buffered writer, record IDs, bounded retention/atomic compaction,
@@ -229,4 +258,4 @@ No public Spark/RAPIDS configuration was added and no GPU operator was modified.
 5. Promote only after holdout coverage and bounded-regret criteria pass.
 
 Raw profiles, preregistration, analyzers, and checksums are under
-\`docs/experiments/profiled-gpu-tuning-poc/\`.
+`docs/experiments/profiled-gpu-tuning-poc/`.

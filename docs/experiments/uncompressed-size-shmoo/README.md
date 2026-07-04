@@ -133,6 +133,20 @@ point-median criterion, with stable results and no retry/spill. Five blocks do n
 confidence-bound true regret below 10%, so this supports a candidate for further transfer
 testing rather than validating a universal default.
 
+A later 48-run fresh-query trial found the limit of that transfer: 512 MiB remained the
+restricted-candidate minimax fallback, but its worst point-median regret was 12.50% and
+no tested global value stayed within 10% on every query. Aggregate/filter shapes favored
+large partitions; self-join/window shapes favored small partitions as scan-task
+parallelism collapsed. The evidence is reproducible but descriptive because the
+trial's preregistration file was not immutably committed before execution. See
+`../fresh-query-holdout/`.
+
+Point-regret margins near the noise floor must not be ranked. A fixed-seed sensitivity
+simulation with five truly equal candidates, 6% CV, and five repetitions produces 3.86%
+mean and 8.68% p90 apparent regret solely from winner selection. Future confirmation
+should use a predeclared ±10% TOST/noninferiority band and roughly ten paired blocks,
+rather than choosing the smallest noisy median.
+
 ![Prospective bounded-regret transfer rerun](analysis/bathtub-holdout.svg)
 
 The proposed wide 4–16× plateau was not supported at the preregistered 5% threshold:
@@ -170,6 +184,10 @@ The flat 2–4-GiB result and one-batch task output show that, once a task conta
 data, the batch target directly controls emitted batch size. Partition sizing still controls
 available task volume, task count, and how many batches a task can produce. Larger batch
 targets also increased observed task footprint, so batch sizing has its own memory wall.
+Relative to 1 GiB, the 2-GiB target improved these medians by about 3% for common and 9%
+for variable-width—not a general 20% result. The fresh window trial observed a maximum
+single-task footprint of 8,285,290,552 bytes; a 16-GiB GPU with a roughly 50% pool would
+be at the boundary. A smaller-GPU safety run is required before raising this target.
 
 This factorial supports batching mediation; it still does not isolate GPU occupancy,
 filesystem cache, scheduling waves, or every reader internal. The application environment

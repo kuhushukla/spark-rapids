@@ -1,0 +1,9 @@
+{
+  "date": "2026-07-03",
+  "pilot_app_id": "local-1783130957539",
+  "q3_shrink_fallback_triggered": false,
+  "q3_pilot_seconds": 5.18,
+  "q4_tighten_fallback_triggered": false,
+  "q4_survivor_fraction": 6.02e-06,
+  "decision": "Run 3 measured blocks exactly as pre-registered; no fallback applied."
+}

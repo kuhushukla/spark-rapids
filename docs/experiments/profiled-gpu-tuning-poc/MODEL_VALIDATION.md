@@ -15,9 +15,22 @@ be real while a numerical predictor is still unqualified.
 | Max-capacity plus longest-task bound can be calibrated to 10% | Three profiled cells, no profile repetitions, incomplete task-level inputs | Not established |
 
 The implemented POC therefore requires an externally measured GPU-overlap capacity,
-independent read overlap, candidate task count, longest-task estimate, and externally
-safe decoded/footprint bounds. It refuses size extrapolation and does not expose
-uncertainty below five residual samples.
+independent read/task overlap, launched and useful task counts, a fitted fixed cost per
+task, a candidate longest-task estimate, and externally safe decoded/footprint bounds.
+It refuses size extrapolation and does not expose uncertainty below five residual
+samples.
+
+The later fresh-query trial demonstrates that the downstream fingerprint is essential:
+aggregate/filter median curves favored larger partitions, while self-join/window curves
+favored smaller ones. Its 512-MiB minimax fallback had 12.50% worst point regret and
+failed a universal 10% criterion. That trial is descriptive because its preregistration
+was not immutably bound before execution.
+
+A separate source-layout treatment launched 46 tasks at 128 MiB; 34 emitted no scan
+output yet accumulated about 3,038 ms of GPU-holding time. This motivates a reader code
+optimization, not merely another tuning rule. Before changing acquisition, trace whether
+pruning proves emptiness before the relevant reader's semaphore call; discovering
+emptiness through GPU decode cannot safely skip acquisition.
 
 The next confirmatory experiment must record task-level service/timelines, file and row
 group assignment, launched/empty tasks, survivor batches, scan-pruning versus SQL-filter

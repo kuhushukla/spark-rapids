@@ -1,0 +1,842 @@
+{
+ "local-1783130957539": {
+  "pilot_b0_q1_multikey_agg_s512_i0": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2045730638,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 653
+  },
+  "pilot_b0_q2_selfjoin_s512_i1": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2101465439,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    50,
+    50
+   ],
+   "total_scan_tasks": 100,
+   "total_tasks_all_stages": 903
+  },
+  "pilot_b0_q3_window_topn_s512_i2": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 1835369032,
+    "waiting_tasks_max": 3
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    9
+   ],
+   "total_scan_tasks": 9,
+   "total_tasks_all_stages": 610
+  },
+  "pilot_b0_q4_wide_selective_filter_s512_i3": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2167522859
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 254
+  }
+ },
+ "local-1783131036753": {
+  "measure_b1_q1_multikey_agg_s128_i4": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 546105894,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    212
+   ],
+   "total_scan_tasks": 212,
+   "total_tasks_all_stages": 815
+  },
+  "measure_b1_q1_multikey_agg_s2048_i2": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 3003200306,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    13
+   ],
+   "total_scan_tasks": 13,
+   "total_tasks_all_stages": 616
+  },
+  "measure_b1_q1_multikey_agg_s512_i13": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2045730638,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 653
+  },
+  "measure_b1_q1_multikey_agg_s8192_i9": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 3003200306,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    5
+   ],
+   "total_scan_tasks": 5,
+   "total_tasks_all_stages": 608
+  },
+  "measure_b1_q2_selfjoin_s128_i3": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2142671776,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    212,
+    212
+   ],
+   "total_scan_tasks": 424,
+   "total_tasks_all_stages": 1227
+  },
+  "measure_b1_q2_selfjoin_s2048_i11": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 3847236749,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    13,
+    13
+   ],
+   "total_scan_tasks": 26,
+   "total_tasks_all_stages": 829
+  },
+  "measure_b1_q2_selfjoin_s512_i8": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2101465439,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    50,
+    50
+   ],
+   "total_scan_tasks": 100,
+   "total_tasks_all_stages": 903
+  },
+  "measure_b1_q2_selfjoin_s8192_i12": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 4887275437,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    5,
+    5
+   ],
+   "total_scan_tasks": 10,
+   "total_tasks_all_stages": 813
+  },
+  "measure_b1_q3_window_topn_s128_i14": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 470460536,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    39
+   ],
+   "total_scan_tasks": 39,
+   "total_tasks_all_stages": 640
+  },
+  "measure_b1_q3_window_topn_s2048_i1": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 4557787424,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    3
+   ],
+   "total_scan_tasks": 3,
+   "total_tasks_all_stages": 604
+  },
+  "measure_b1_q3_window_topn_s512_i10": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 1835369032,
+    "waiting_tasks_max": 3
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    9
+   ],
+   "total_scan_tasks": 9,
+   "total_tasks_all_stages": 610
+  },
+  "measure_b1_q3_window_topn_s8192_i7": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 8285290552,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    1
+   ],
+   "total_scan_tasks": 1,
+   "total_tasks_all_stages": 602
+  },
+  "measure_b1_q4_wide_selective_filter_s128_i0": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 555952059
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    212
+   ],
+   "total_scan_tasks": 212,
+   "total_tasks_all_stages": 416
+  },
+  "measure_b1_q4_wide_selective_filter_s2048_i5": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2761637375
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    13
+   ],
+   "total_scan_tasks": 13,
+   "total_tasks_all_stages": 217
+  },
+  "measure_b1_q4_wide_selective_filter_s512_i15": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2167522859
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 254
+  },
+  "measure_b1_q4_wide_selective_filter_s8192_i6": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2729014965
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    5
+   ],
+   "total_scan_tasks": 5,
+   "total_tasks_all_stages": 209
+  },
+  "warmup_b1_q1_multikey_agg_s512_i0": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2045730638,
+    "waiting_tasks_max": 3
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 653
+  },
+  "warmup_b1_q2_selfjoin_s512_i1": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2101465439,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    50,
+    50
+   ],
+   "total_scan_tasks": 100,
+   "total_tasks_all_stages": 903
+  },
+  "warmup_b1_q3_window_topn_s512_i2": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 1835369032,
+    "waiting_tasks_max": 3
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    9
+   ],
+   "total_scan_tasks": 9,
+   "total_tasks_all_stages": 610
+  },
+  "warmup_b1_q4_wide_selective_filter_s512_i3": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2167522859
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 254
+  }
+ },
+ "local-1783131254762": {
+  "measure_b2_q1_multikey_agg_s128_i5": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 546105894,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    212
+   ],
+   "total_scan_tasks": 212,
+   "total_tasks_all_stages": 815
+  },
+  "measure_b2_q1_multikey_agg_s2048_i12": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 3003200306,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    13
+   ],
+   "total_scan_tasks": 13,
+   "total_tasks_all_stages": 616
+  },
+  "measure_b2_q1_multikey_agg_s512_i0": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2045730638,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 653
+  },
+  "measure_b2_q1_multikey_agg_s8192_i3": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 3003200306,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    5
+   ],
+   "total_scan_tasks": 5,
+   "total_tasks_all_stages": 608
+  },
+  "measure_b2_q2_selfjoin_s128_i15": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2142671776,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    212,
+    212
+   ],
+   "total_scan_tasks": 424,
+   "total_tasks_all_stages": 1227
+  },
+  "measure_b2_q2_selfjoin_s2048_i13": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 3847236749,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    13,
+    13
+   ],
+   "total_scan_tasks": 26,
+   "total_tasks_all_stages": 829
+  },
+  "measure_b2_q2_selfjoin_s512_i2": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2101465439,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    50,
+    50
+   ],
+   "total_scan_tasks": 100,
+   "total_tasks_all_stages": 903
+  },
+  "measure_b2_q2_selfjoin_s8192_i9": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 4887275437,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    5,
+    5
+   ],
+   "total_scan_tasks": 10,
+   "total_tasks_all_stages": 813
+  },
+  "measure_b2_q3_window_topn_s128_i7": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 470460536,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    39
+   ],
+   "total_scan_tasks": 39,
+   "total_tasks_all_stages": 640
+  },
+  "measure_b2_q3_window_topn_s2048_i10": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 4557787424,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    3
+   ],
+   "total_scan_tasks": 3,
+   "total_tasks_all_stages": 604
+  },
+  "measure_b2_q3_window_topn_s512_i8": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 1835369032,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    9
+   ],
+   "total_scan_tasks": 9,
+   "total_tasks_all_stages": 610
+  },
+  "measure_b2_q3_window_topn_s8192_i1": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 8285290552,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    1
+   ],
+   "total_scan_tasks": 1,
+   "total_tasks_all_stages": 602
+  },
+  "measure_b2_q4_wide_selective_filter_s128_i4": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 555952059
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    212
+   ],
+   "total_scan_tasks": 212,
+   "total_tasks_all_stages": 416
+  },
+  "measure_b2_q4_wide_selective_filter_s2048_i11": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2761637375
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    13
+   ],
+   "total_scan_tasks": 13,
+   "total_tasks_all_stages": 217
+  },
+  "measure_b2_q4_wide_selective_filter_s512_i6": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2167522859
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 254
+  },
+  "measure_b2_q4_wide_selective_filter_s8192_i14": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2729014965
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    5
+   ],
+   "total_scan_tasks": 5,
+   "total_tasks_all_stages": 209
+  },
+  "warmup_b2_q1_multikey_agg_s512_i0": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2045730638,
+    "waiting_tasks_max": 3
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 653
+  },
+  "warmup_b2_q2_selfjoin_s512_i1": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2101465439,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    50,
+    50
+   ],
+   "total_scan_tasks": 100,
+   "total_tasks_all_stages": 903
+  },
+  "warmup_b2_q3_window_topn_s512_i2": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 1835369032,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    9
+   ],
+   "total_scan_tasks": 9,
+   "total_tasks_all_stages": 610
+  },
+  "warmup_b2_q4_wide_selective_filter_s512_i3": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2167522859
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 254
+  }
+ },
+ "local-1783131468624": {
+  "measure_b3_q1_multikey_agg_s128_i5": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 546105894,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    212
+   ],
+   "total_scan_tasks": 212,
+   "total_tasks_all_stages": 815
+  },
+  "measure_b3_q1_multikey_agg_s2048_i2": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 3003200306,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    13
+   ],
+   "total_scan_tasks": 13,
+   "total_tasks_all_stages": 616
+  },
+  "measure_b3_q1_multikey_agg_s512_i11": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2045730638,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 653
+  },
+  "measure_b3_q1_multikey_agg_s8192_i8": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 3003200306,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    5
+   ],
+   "total_scan_tasks": 5,
+   "total_tasks_all_stages": 608
+  },
+  "measure_b3_q2_selfjoin_s128_i14": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2142671776,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    212,
+    212
+   ],
+   "total_scan_tasks": 424,
+   "total_tasks_all_stages": 1227
+  },
+  "measure_b3_q2_selfjoin_s2048_i1": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 3847236749,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    13,
+    13
+   ],
+   "total_scan_tasks": 26,
+   "total_tasks_all_stages": 829
+  },
+  "measure_b3_q2_selfjoin_s512_i7": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2101465439,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    50,
+    50
+   ],
+   "total_scan_tasks": 100,
+   "total_tasks_all_stages": 903
+  },
+  "measure_b3_q2_selfjoin_s8192_i10": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 4887275437,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    5,
+    5
+   ],
+   "total_scan_tasks": 10,
+   "total_tasks_all_stages": 813
+  },
+  "measure_b3_q3_window_topn_s128_i13": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 470460536,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    39
+   ],
+   "total_scan_tasks": 39,
+   "total_tasks_all_stages": 640
+  },
+  "measure_b3_q3_window_topn_s2048_i12": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 4557787424,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    3
+   ],
+   "total_scan_tasks": 3,
+   "total_tasks_all_stages": 604
+  },
+  "measure_b3_q3_window_topn_s512_i15": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 1835369032,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    9
+   ],
+   "total_scan_tasks": 9,
+   "total_tasks_all_stages": 610
+  },
+  "measure_b3_q3_window_topn_s8192_i0": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 8285290552,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    1
+   ],
+   "total_scan_tasks": 1,
+   "total_tasks_all_stages": 602
+  },
+  "measure_b3_q4_wide_selective_filter_s128_i3": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 555952059
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    212
+   ],
+   "total_scan_tasks": 212,
+   "total_tasks_all_stages": 416
+  },
+  "measure_b3_q4_wide_selective_filter_s2048_i4": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2761637375
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    13
+   ],
+   "total_scan_tasks": 13,
+   "total_tasks_all_stages": 217
+  },
+  "measure_b3_q4_wide_selective_filter_s512_i6": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2167522859
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 254
+  },
+  "measure_b3_q4_wide_selective_filter_s8192_i9": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2729014965
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    5
+   ],
+   "total_scan_tasks": 5,
+   "total_tasks_all_stages": 209
+  },
+  "warmup_b3_q1_multikey_agg_s512_i0": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2045730638,
+    "waiting_tasks_max": 3
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 653
+  },
+  "warmup_b3_q2_selfjoin_s512_i1": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2101465439,
+    "waiting_tasks_max": 1
+   },
+   "scan_stage_count": 2,
+   "scan_stage_task_counts": [
+    50,
+    50
+   ],
+   "total_scan_tasks": 100,
+   "total_tasks_all_stages": 903
+  },
+  "warmup_b3_q3_window_topn_s512_i2": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 1835369032,
+    "waiting_tasks_max": 2
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    9
+   ],
+   "total_scan_tasks": 9,
+   "total_tasks_all_stages": 610
+  },
+  "warmup_b3_q4_wide_selective_filter_s512_i3": {
+   "gpu": {
+    "max_concurrent_gpu_tasks": 8,
+    "max_task_footprint": 2167522859
+   },
+   "scan_stage_count": 1,
+   "scan_stage_task_counts": [
+    50
+   ],
+   "total_scan_tasks": 50,
+   "total_tasks_all_stages": 254
+  }
+ }
+}

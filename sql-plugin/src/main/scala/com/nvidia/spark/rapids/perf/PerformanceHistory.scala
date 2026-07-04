@@ -62,8 +62,9 @@ private[rapids] case class PerformanceContext(
     downstreamUnit: String)
 
 /**
- * Service times are summed demand before overlap. sumSqlFilterNs is SQL GpuFilter
- * service only, not Parquet footer/row-group pruning. observedGpuOverlapCapacity is
+ * Service times are summed demand before overlap. sumTaskFixedNs is a fitted or
+ * instrumented launched-task setup demand. sumSqlFilterNs is SQL GpuFilter service only,
+ * not Parquet footer/row-group pruning. observedGpuOverlapCapacity is
  * derived from the union of these same host service intervals, never from holder count
  * or CUDA-kernel overlap.
  */
@@ -79,9 +80,12 @@ private[rapids] case class PerformanceObservation(
     outputBatches: Long,
     maxBatchBytes: Long,
     usefulTasks: Int,
+    launchedTasks: Int,
+    effectiveTaskParallelism: Double,
     effectiveReadParallelism: Double,
     observedGpuOverlapCapacity: Double,
     maxTaskServiceNs: Long,
+    sumTaskFixedNs: Long,
     sumReadNs: Long,
     sumDecodeNs: Long,
     sumSqlFilterNs: Long,
@@ -108,12 +112,16 @@ private[rapids] case class PredictionRequest(
     outputBatches: Long,
     maxBatchBytes: Long,
     usefulTasks: Int,
+    launchedTasks: Int,
+    effectiveTaskParallelism: Double,
     effectiveReadParallelism: Double,
     predictedGpuOverlapCapacity: Double,
+    predictedMaxTaskServiceNs: Long,
     maxTaskFootprintBytes: Long,
     admissionBudgetBytes: Long)
 
 private[rapids] case class ComponentPrediction(
+    taskFixedServiceNs: Long,
     readServiceNs: Long,
     decodeServiceNs: Long,
     filterServiceNs: Long,
@@ -149,7 +157,7 @@ private[rapids] object PerformanceHistory {
  * PerformanceHistory, so this is not a public or durable integration contract.
  */
 private object ObservationCodec {
-  private val Version = "v3"
+  private val Version = "v4"
   private val encoder = Base64.getUrlEncoder.withoutPadding()
   private val decoder = Base64.getUrlDecoder
 
@@ -167,7 +175,8 @@ private object ObservationCodec {
       encode(c.sparkVersion), encode(c.rapidsVersion), encode(c.javaVersion),
       encode(c.connectorId), encode(c.tableId), encode(c.tableVersion),
       encode(c.fileFormat), encode(c.codec), encode(c.schemaFingerprint),
-      encode(c.executionFingerprint), encode(c.projectionFingerprint), encode(c.partitionPredicateFingerprint),
+      encode(c.executionFingerprint), encode(c.projectionFingerprint),
+      encode(c.partitionPredicateFingerprint),
       encode(c.dataPredicateFingerprint), encode(c.fileSystemScheme), encode(c.storageContext),
       encode(c.clientKind), c.asynchronousRead, c.readerThreads, c.maxOutstandingRequests,
       c.readAheadEnabled, c.rangeMergeGapBytes, encode(c.throttlePolicyId),
@@ -175,8 +184,10 @@ private object ObservationCodec {
       observation.observedAtMs, observation.compressedReadBytes, observation.decodedBytes,
       observation.decodedRows, observation.survivorBytes, observation.survivorRows,
       observation.downstreamWorkUnits, observation.outputBatches, observation.maxBatchBytes,
-      observation.usefulTasks, observation.effectiveReadParallelism,
-      observation.observedGpuOverlapCapacity, observation.maxTaskServiceNs, observation.sumReadNs, observation.sumDecodeNs,
+      observation.usefulTasks, observation.launchedTasks,
+      observation.effectiveTaskParallelism, observation.effectiveReadParallelism,
+      observation.observedGpuOverlapCapacity, observation.maxTaskServiceNs,
+      observation.sumTaskFixedNs, observation.sumReadNs, observation.sumDecodeNs,
       observation.sumSqlFilterNs,
       observation.sumDownstreamNs, observation.scanStageWallNs, observation.queryWallNs,
       observation.maxGpuHolders, observation.maxTaskFootprintBytes,
@@ -205,10 +216,10 @@ private object ObservationCodec {
     val observation = PerformanceObservation(
       context, next().toLong, next().toLong, next().toLong, next().toLong,
       next().toLong, next().toLong, next().toLong, next().toLong, next().toLong,
-      next().toInt, next().toDouble, next().toDouble, next().toLong, next().toLong,
-      next().toLong,
-      next().toLong, next().toLong, next().toLong, next().toLong, next().toInt,
-      next().toLong, optionalLong(next()), optionalLong(next()))
+      next().toInt, next().toInt, next().toDouble, next().toDouble, next().toDouble,
+      next().toLong, next().toLong, next().toLong, next().toLong, next().toLong,
+      next().toLong, next().toLong, next().toLong, next().toInt, next().toLong,
+      optionalLong(next()), optionalLong(next()))
     require(!values.hasNext, "unexpected trailing performance history fields")
     observation
   }
@@ -222,12 +233,25 @@ private final class LocalFilePerformanceHistory(path: Path) extends PerformanceH
     Files.createDirectories(path.getParent)
   }
   if (Files.exists(path)) {
-    val contents = new String(Files.readAllBytes(path), StandardCharsets.UTF_8)
-    val completeLines = contents.split("\n", -1)
-    val lastCompleteIndex = if (contents.endsWith("\n")) completeLines.length else {
-      completeLines.length - 1
+    val fileBytes = Files.readAllBytes(path)
+    val lastNewline = fileBytes.lastIndexOf('\n'.toByte)
+    val completeLength = lastNewline + 1
+    if (completeLength < fileBytes.length) {
+      val channel = FileChannel.open(path, StandardOpenOption.WRITE)
+      try {
+        val lock = channel.lock()
+        try {
+          channel.truncate(completeLength)
+          channel.force(true)
+        } finally {
+          lock.release()
+        }
+      } finally {
+        channel.close()
+      }
     }
-    completeLines.take(lastCompleteIndex).filter(_.trim.nonEmpty).foreach { line =>
+    val contents = new String(fileBytes.take(completeLength), StandardCharsets.UTF_8)
+    contents.split("\n", -1).filter(_.trim.nonEmpty).foreach { line =>
       records += ObservationCodec.deserialize(line)
     }
   }
@@ -331,18 +355,23 @@ private object Predictor {
       bucket: Int,
       matchQuality: String): PerformancePrediction = {
     require(request.usefulTasks > 0, "useful tasks must be positive")
+    require(request.launchedTasks >= request.usefulTasks,
+      "launched tasks must be at least useful tasks")
+    require(java.lang.Double.isFinite(request.effectiveTaskParallelism) &&
+      request.effectiveTaskParallelism > 0,
+      "task parallelism must be finite and positive")
     require(java.lang.Double.isFinite(request.effectiveReadParallelism) &&
       request.effectiveReadParallelism > 0, "read parallelism must be finite and positive")
     require(java.lang.Double.isFinite(request.predictedGpuOverlapCapacity) &&
       request.predictedGpuOverlapCapacity > 0, "GPU capacity must be finite and positive")
+    val taskFixedNs = service(request.launchedTasks, observations,
+      _.launchedTasks.toLong, _.sumTaskFixedNs)
     val readNs = service(request.compressedReadBytes, observations,
       _.compressedReadBytes, _.sumReadNs)
     val decodeNs = service(request.decodedBytes, observations, _.decodedBytes, _.sumDecodeNs)
     val filterNs = service(request.decodedRows, observations, _.decodedRows, _.sumSqlFilterNs)
     val downstreamNs = service(request.downstreamWorkUnits, observations,
       _.downstreamWorkUnits, _.sumDownstreamNs)
-    val totalServiceNs = readNs + decodeNs + filterNs + downstreamNs
-
     val footprintCapacity =
       if (request.maxTaskFootprintBytes > 0 && request.admissionBudgetBytes > 0) {
         Math.floor(request.admissionBudgetBytes.toDouble / request.maxTaskFootprintBytes)
@@ -355,34 +384,30 @@ private object Predictor {
       if (request.maxTaskFootprintBytes <= 0 || request.admissionBudgetBytes <= 0) "unknown"
       else if (request.maxTaskFootprintBytes <= request.admissionBudgetBytes) "safe"
       else "unsafe"
+    val taskCapacity = Math.min(request.effectiveTaskParallelism, request.launchedTasks)
+    val taskFixedWall = taskFixedNs / taskCapacity
     val readWall = readNs / request.effectiveReadParallelism
+    val variableServiceNs = readNs + decodeNs + filterNs + downstreamNs
     val gpuWall = (decodeNs + filterNs + downstreamNs) / gpuCapacity
-    val longestFractions = observations.flatMap { observation =>
-      val total = observation.sumReadNs + observation.sumDecodeNs +
-        observation.sumSqlFilterNs + observation.sumDownstreamNs
-      if (total > 0 && observation.maxTaskServiceNs > 0) {
-        Some(observation.maxTaskServiceNs.toDouble / total)
-      } else {
-        None
-      }
-    }
-    val averageTask = Math.round(totalServiceNs.toDouble / request.usefulTasks)
-    val longestTask = if (longestFractions.nonEmpty) {
-      Math.max(averageTask, Math.round(totalServiceNs * median(longestFractions)))
-    } else {
-      averageTask
-    }
-    val rawBound = Math.max(Math.max(readWall, gpuWall), longestTask)
+    val averageUsefulTask = variableServiceNs.toDouble / request.usefulTasks
+    val averageFixedPerTask = taskFixedNs.toDouble / request.launchedTasks
+    val averageTaskFloor = Math.round(averageUsefulTask + averageFixedPerTask)
+    val longestTask = Math.max(averageTaskFloor, request.predictedMaxTaskServiceNs)
+    val rawBound = Math.max(Math.max(taskFixedWall, readWall),
+      Math.max(gpuWall, longestTask))
 
     val residualScales = observations.flatMap { observation =>
+      val taskCapacity = Math.max(1.0,
+        Math.min(observation.effectiveTaskParallelism, observation.launchedTasks))
       val readCapacity = Math.max(1.0, observation.effectiveReadParallelism)
       val gpuCapacity = Math.max(1.0, observation.observedGpuOverlapCapacity)
+      val historicalFixed = observation.sumTaskFixedNs / taskCapacity
       val historicalRead = observation.sumReadNs / readCapacity
       val historicalGpu = (observation.sumDecodeNs + observation.sumSqlFilterNs +
         observation.sumDownstreamNs) / gpuCapacity
       val historicalLongest = observation.maxTaskServiceNs.toDouble
-      val historicalBound = Math.max(Math.max(historicalRead, historicalGpu),
-        historicalLongest)
+      val historicalBound = Math.max(Math.max(historicalFixed, historicalRead),
+        Math.max(historicalGpu, historicalLongest))
       if (historicalBound > 0) Some(observation.scanStageWallNs / historicalBound) else None
     }
     val scale = if (residualScales.nonEmpty) median(residualScales) else 1.0
@@ -395,7 +420,8 @@ private object Predictor {
     PerformancePrediction(
       stageNs,
       Math.addExact(stageNs, tailNs),
-      ComponentPrediction(readNs, decodeNs, filterNs, downstreamNs, longestTask),
+      ComponentPrediction(taskFixedNs, readNs, decodeNs, filterNs, downstreamNs,
+        longestTask),
       observations.length,
       bucket,
       if (observations.length >= 5) matchQuality else matchQuality + "-low-sample",

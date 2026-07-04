@@ -1,0 +1,503 @@
+{
+  "cells": {
+    "q1_multikey_agg|128": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 546105894,
+      "median_s": 9.8937,
+      "scan_stage_task_counts_by_block": [
+        [
+          212
+        ],
+        [
+          212
+        ],
+        [
+          212
+        ]
+      ],
+      "times_s": [
+        8.8715,
+        10.2689,
+        9.8937
+      ]
+    },
+    "q1_multikey_agg|2048": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 3003200306,
+      "median_s": 8.4733,
+      "scan_stage_task_counts_by_block": [
+        [
+          13
+        ],
+        [
+          13
+        ],
+        [
+          13
+        ]
+      ],
+      "times_s": [
+        8.1494,
+        8.4733,
+        8.6271
+      ]
+    },
+    "q1_multikey_agg|512": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 2045730638,
+      "median_s": 8.6411,
+      "scan_stage_task_counts_by_block": [
+        [
+          50
+        ],
+        [
+          50
+        ],
+        [
+          50
+        ]
+      ],
+      "times_s": [
+        8.6411,
+        8.5596,
+        8.9304
+      ]
+    },
+    "q1_multikey_agg|8192": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 3003200306,
+      "median_s": 7.6812,
+      "scan_stage_task_counts_by_block": [
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ]
+      ],
+      "times_s": [
+        8.5319,
+        7.6812,
+        7.3541
+      ]
+    },
+    "q2_selfjoin|128": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 2142671776,
+      "median_s": 16.5429,
+      "scan_stage_task_counts_by_block": [
+        [
+          212,
+          212
+        ],
+        [
+          212,
+          212
+        ],
+        [
+          212,
+          212
+        ]
+      ],
+      "times_s": [
+        16.5429,
+        15.8417,
+        16.568
+      ]
+    },
+    "q2_selfjoin|2048": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 3847236749,
+      "median_s": 20.6229,
+      "scan_stage_task_counts_by_block": [
+        [
+          13,
+          13
+        ],
+        [
+          13,
+          13
+        ],
+        [
+          13,
+          13
+        ]
+      ],
+      "times_s": [
+        20.6229,
+        20.5225,
+        21.258
+      ]
+    },
+    "q2_selfjoin|512": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 2101465439,
+      "median_s": 18.0076,
+      "scan_stage_task_counts_by_block": [
+        [
+          50,
+          50
+        ],
+        [
+          50,
+          50
+        ],
+        [
+          50,
+          50
+        ]
+      ],
+      "times_s": [
+        17.8798,
+        18.0595,
+        18.0076
+      ]
+    },
+    "q2_selfjoin|8192": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 4887275437,
+      "median_s": 21.8336,
+      "scan_stage_task_counts_by_block": [
+        [
+          5,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "times_s": [
+        23.1156,
+        21.3222,
+        21.8336
+      ]
+    },
+    "q3_window_topn|128": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 470460536,
+      "median_s": 4.5107,
+      "scan_stage_task_counts_by_block": [
+        [
+          39
+        ],
+        [
+          39
+        ],
+        [
+          39
+        ]
+      ],
+      "times_s": [
+        4.5272,
+        4.5107,
+        4.3957
+      ]
+    },
+    "q3_window_topn|2048": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 4557787424,
+      "median_s": 5.2215,
+      "scan_stage_task_counts_by_block": [
+        [
+          3
+        ],
+        [
+          3
+        ],
+        [
+          3
+        ]
+      ],
+      "times_s": [
+        5.2215,
+        5.089,
+        5.3469
+      ]
+    },
+    "q3_window_topn|512": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 1835369032,
+      "median_s": 4.8701,
+      "scan_stage_task_counts_by_block": [
+        [
+          9
+        ],
+        [
+          9
+        ],
+        [
+          9
+        ]
+      ],
+      "times_s": [
+        4.9286,
+        4.8701,
+        4.814
+      ]
+    },
+    "q3_window_topn|8192": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 8285290552,
+      "median_s": 5.9551,
+      "scan_stage_task_counts_by_block": [
+        [
+          1
+        ],
+        [
+          1
+        ],
+        [
+          1
+        ]
+      ],
+      "times_s": [
+        5.7267,
+        6.0142,
+        5.9551
+      ]
+    },
+    "q4_wide_selective_filter|128": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 555952059,
+      "median_s": 4.4413,
+      "scan_stage_task_counts_by_block": [
+        [
+          212
+        ],
+        [
+          212
+        ],
+        [
+          212
+        ]
+      ],
+      "times_s": [
+        4.4413,
+        4.1412,
+        4.732
+      ]
+    },
+    "q4_wide_selective_filter|2048": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 2761637375,
+      "median_s": 3.0023,
+      "scan_stage_task_counts_by_block": [
+        [
+          13
+        ],
+        [
+          13
+        ],
+        [
+          13
+        ]
+      ],
+      "times_s": [
+        3.0023,
+        2.5666,
+        3.1072
+      ]
+    },
+    "q4_wide_selective_filter|512": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 2167522859,
+      "median_s": 3.1647,
+      "scan_stage_task_counts_by_block": [
+        [
+          50
+        ],
+        [
+          50
+        ],
+        [
+          50
+        ]
+      ],
+      "times_s": [
+        3.1938,
+        3.1647,
+        3.0142
+      ]
+    },
+    "q4_wide_selective_filter|8192": {
+      "max_gpu_concurrent_tasks": 8,
+      "max_task_footprint_bytes": 2729014965,
+      "median_s": 2.8942,
+      "scan_stage_task_counts_by_block": [
+        [
+          5
+        ],
+        [
+          5
+        ],
+        [
+          5
+        ]
+      ],
+      "times_s": [
+        2.6729,
+        2.8942,
+        2.9909
+      ]
+    }
+  },
+  "hash_ok": true,
+  "hashes": {
+    "q1_multikey_agg": [
+      "c3df16cc0beceafae9dace727136c478bca3a082d3fac444e2d5b16b0f8b1cac"
+    ],
+    "q2_selfjoin": [
+      "b089705e3c0b1cf21dfc9811abc0326f0cbfc229edd7a6bdb5f03c18f683f776"
+    ],
+    "q3_window_topn": [
+      "f59390609daf3323353e21e1534fe20d6260bf7ef0771fd9d73b640053edc4e4"
+    ],
+    "q4_wide_selective_filter": [
+      "b585463548d27598f3c900427eb2c7567f229b84712632e4201126bb45125a05"
+    ]
+  },
+  "measured_runs": 48,
+  "minimax_size_mib": 512,
+  "safety_flags": [],
+  "schema_version": 2,
+  "summary": {
+    "q1_multikey_agg": {
+      "best": 8192,
+      "medians": {
+        "128": 9.8937,
+        "512": 8.6411,
+        "2048": 8.4733,
+        "8192": 7.6812
+      },
+      "regret": {
+        "128": 0.2880409311045151,
+        "512": 0.12496745300213519,
+        "2048": 0.10312190803520283,
+        "8192": 0.0
+      }
+    },
+    "q2_selfjoin": {
+      "best": 128,
+      "medians": {
+        "128": 16.5429,
+        "512": 18.0076,
+        "2048": 20.6229,
+        "8192": 21.8336
+      },
+      "regret": {
+        "128": 0.0,
+        "512": 0.08853949428455721,
+        "2048": 0.2466314854106597,
+        "8192": 0.31981696075053345
+      }
+    },
+    "q3_window_topn": {
+      "best": 128,
+      "medians": {
+        "128": 4.5107,
+        "512": 4.8701,
+        "2048": 5.2215,
+        "8192": 5.9551
+      },
+      "regret": {
+        "128": 0.0,
+        "512": 0.07967721196266653,
+        "2048": 0.1575808632806437,
+        "8192": 0.32021637439865214
+      }
+    },
+    "q4_wide_selective_filter": {
+      "best": 8192,
+      "medians": {
+        "128": 4.4413,
+        "512": 3.1647,
+        "2048": 3.0023,
+        "8192": 2.8942
+      },
+      "regret": {
+        "128": 0.5345518623453804,
+        "512": 0.09346278764425398,
+        "2048": 0.03735056319535612,
+        "8192": 0.0
+      }
+    }
+  },
+  "treatment": {
+    "q1_multikey_agg": {
+      "128": [
+        212
+      ],
+      "512": [
+        50
+      ],
+      "2048": [
+        13
+      ],
+      "8192": [
+        5
+      ]
+    },
+    "q2_selfjoin": {
+      "128": [
+        212,
+        212
+      ],
+      "512": [
+        50,
+        50
+      ],
+      "2048": [
+        13,
+        13
+      ],
+      "8192": [
+        5,
+        5
+      ]
+    },
+    "q3_window_topn": {
+      "128": [
+        39
+      ],
+      "512": [
+        9
+      ],
+      "2048": [
+        3
+      ],
+      "8192": [
+        1
+      ]
+    },
+    "q4_wide_selective_filter": {
+      "128": [
+        212
+      ],
+      "512": [
+        50
+      ],
+      "2048": [
+        13
+      ],
+      "8192": [
+        5
+      ]
+    }
+  },
+  "verdict_2048_within_10pct": false,
+  "verdict_512_within_10pct": false,
+  "worst_regret_by_size": {
+    "128": 0.5345518623453804,
+    "512": 0.12496745300213519,
+    "2048": 0.2466314854106597,
+    "8192": 0.32021637439865214
+  }
+}

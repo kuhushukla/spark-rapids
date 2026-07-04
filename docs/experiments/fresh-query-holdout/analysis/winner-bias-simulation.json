@@ -1,0 +1,13 @@
+{
+  "assumption": "independent equal lognormal candidates; candidate zero is fixed",
+  "candidates": 5,
+  "cv": 0.06,
+  "mean_apparent_regret": 0.03856254322880208,
+  "median_apparent_regret": 0.0330356231913046,
+  "p90_apparent_regret": 0.08677173243782743,
+  "p95_apparent_regret": 0.10301200531773413,
+  "probability_above_10_percent": 0.0573,
+  "repetitions_per_candidate": 5,
+  "seed": 20260704,
+  "trials": 100000
+}

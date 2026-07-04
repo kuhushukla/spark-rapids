@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "title": "Fresh holdout: frozen 512-MiB maxPartitionBytes policy on never-tested query shapes",
+  "date": "2026-07-03",
+  "status": "frozen before pilot and before any measured run",
+  "hypothesis": "The frozen 512-MiB spark.sql.files.maxPartitionBytes candidate stays within 10% point-median regret of the per-query best size on 4 query shapes the original study never tested (multi-key aggregation, self-join, window top-N, wide selective filter). Secondary: same check for 2048 MiB; 128 MiB reported for context.",
+  "data": {
+    "corpus": "/home/roberte/src/rapids-plugin-4-spark/taxi-data-sharded",
+    "files": 825,
+    "total_rows": 516784476,
+    "epochs": {
+      "2009": {"rows": 170896055, "schema": "vendor_name/Trip_*/Fare_Amt string+double"},
+      "2010": {"rows": 169001162, "schema": "vendor_id/pickup_* string+double"},
+      "2011": {"rows": 176887259, "schema": "VendorID/tpep_*/PULocationID long+double"}
+    },
+    "note": "Epoch schemas conflict (names and types). Queries use per-epoch explicit select/cast adapters unioned by name; only columns type-consistent within each epoch are selected. PULocationID used only in the 2011-only query."
+  },
+  "sizes_mib": [128, 512, 2048, 8192],
+  "policy_candidates_mib": [512, 2048],
+  "queries": {
+    "q1_multikey_agg": "Full corpus. groupBy(vendor, ptype, pcount) -> count, sum(fare_cents), sum(tip_cents), sum(total_cents), sum(dist_milli), min(dist_milli), max(total_cents); orderBy keys; collect.",
+    "q2_selfjoin": "Full corpus. dim = groupBy(vendor, ptype).agg(sum(total_cents) s, count c); join base back on (vendor, ptype); groupBy(vendor) -> count, count(total_cents*c > s), sum(fare_cents); orderBy vendor; collect.",
+    "q3_window_topn": "2011 epoch only (176.9M rows; full-corpus window sort would blow the runtime budget; PULocationID exists only in 2011). Project 6 integer-ized cols; rank() over (partitionBy PULocationID orderBy total_cents desc, dist_milli desc, fare_cents desc) <= 3; groupBy(PULocationID) -> count, sum(total_cents), sum(dist_milli), max(tip_cents); orderBy PULocationID; collect.",
+    "q4_wide_selective_filter": "Full corpus, 10 projected columns. Filter trip_distance > 30.0 AND total > 200.0 (expected <1% survivors); global agg -> count, sums of 6 cent columns, min/max(dist_milli), max(total_cents), sum(pcount), countDistinct(vendor), countDistinct(ptype); collect (1 row).",
+    "determinism": "All hashed aggregates use long integers (cents = cast(round(x*100) as long), milli = cast(round(x*1000) as long)) so sums are order-independent; rank() (not row_number) with a 3-column ordering key makes the top-N row set partition-invariant. Result hash = sha256 over canonically sorted rows."
+  },
+  "block_plan": {
+    "blocks": 3,
+    "sessions": "one spark-submit session per block; local[8], --driver-memory 12g, RAPIDS plugin enabled",
+    "seeds": [20260711, 20260712, 20260713],
+    "warmup": "one untimed pass of all 4 queries at 512 MiB at session start",
+    "measured": "all 16 (query,size) cells per session in seeded randomized order (random.Random(seed).shuffle)",
+    "timing": "time.monotonic around collect() of the small deterministic result; planning included in every cell identically",
+    "per_cell_conf": "spark.conf.set('spark.sql.files.maxPartitionBytes', size) before building the query; scan task counts from event logs must differ across sizes, else flag"
+  },
+  "session_confs_matching_frozen_policy_conditions": {
+    "spark.sql.adaptive.enabled": "false",
+    "spark.sql.files.minPartitionNum": "1",
+    "spark.sql.files.openCostInBytes": "4194304",
+    "spark.rapids.sql.concurrentGpuTasks": "4",
+    "spark.rapids.sql.concurrentGpuTasks.dynamic": "true",
+    "spark.rapids.sql.batchSizeBytes": "1073741824",
+    "spark.rapids.sql.reader.batchSizeBytes": "2147483648",
+    "spark.rapids.sql.reader.batchSizeRows": "2147483647",
+    "spark.rapids.sql.metrics.level": "DEBUG",
+    "spark.rapids.memory.gpu.allocFraction": "0.5",
+    "spark.plugins": "com.nvidia.spark.SQLPlugin",
+    "spark.eventLog.enabled": "true",
+    "spark.eventLog.dir": "file:///tmp/fresh-holdout/eventlogs",
+    "spark.sql.session.timeZone": "UTC"
+  },
+  "pilot": {
+    "purpose": "one session, all 4 queries at 512 MiB only; validates correctness, hash stability, selectivity, and runtime budget. Excluded from analysis.",
+    "preregistered_fallbacks": [
+      "If q3 exceeds 60 s in the pilot, shrink q3 input to 2011-01..2011-06 and note it.",
+      "If q4 survivor fraction exceeds 1%, tighten predicate to trip_distance > 50.0 AND total > 300.0.",
+      "Fallback decisions are made once, after the pilot, before any measured block."
+    ]
+  },
+  "exclusion_rules": [
+    "A cell that errors is retried once within its session; a second failure leaves the cell missing and is reported.",
+    "If result hashes differ across sizes within a query, flag a correctness anomaly; that query's regret is reported but marked unreliable.",
+    "Any run > 120 s is kept but flagged; no mid-experiment redesign.",
+    "No measurements are discarded for being slow or fast; all individual measurements are reported."
+  ],
+  "analysis_plan": [
+    "Per (query,size): median wall seconds across the 3 blocks; all 48 individual measurements reported.",
+    "Per query: best size = argmin of medians; regret(size) = median(size)/median(best) - 1 for 128, 512, 2048, 8192.",
+    "Primary criterion: regret(512) <= 10% for every query. Secondary: regret(2048) <= 10%.",
+    "Safety: sum gpuRetryCount, gpuSplitAndRetryCount, gpuSpillToHost/DiskBytes per cell from event logs; any nonzero value is flagged.",
+    "Scan-stage task counts per cell from event logs verify the partitioning treatment actually changed; identical counts between adjacent sizes are reported as treatment collapse.",
+    "Result hashes must be identical across sizes and blocks within each query."
+  ],
+  "budget": "Total wall time under ~45 min: 1 pilot session + 3 block sessions.",
+  "limitations_declared_upfront": [
+    "3 blocks give no confidence bound; this is a descriptive point-median criterion.",
+    "Warm OS page cache; single host; local[8]; one GPU (RTX A6000).",
+    "q3 covers only the 2011 epoch and, with minPartitionNum=1 removed epoch bytes-per-core caps, large sizes may still collapse to few scan tasks.",
+    "Sums-of-cents queries are integer-heavy by design for determinism; string-heavy shapes are only partially covered via vendor/ptype keys."
+  ]
+}
