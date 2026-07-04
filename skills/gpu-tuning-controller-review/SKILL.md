@@ -95,7 +95,13 @@ Check:
 - cold-start and low-confidence fallback;
 - kill switch and automatic disable;
 - shadow and canary modes;
-- persistence identity, freshness, decay, and invalidation;
+- independent context, feature, metric, model, policy, and persistence versions;
+- lifecycle-schema validator output, external canonical hashes for immutable model/parent manifests and payloads, resolvable exact-context and training artifacts, and training-cutoff leakage checks;
+- append-only rollout-transition hash chain, transition authority, atomic active pointer, and rollback pointer;
+- experiment base-manifest/invariant comparison for replay, or intentional delta/new-stratum evidence for replication;
+- exact compatible reuse versus transient-capacity decay versus hard semantic invalidation;
+- operational drift detectors with windows, minimum samples, thresholds, consecutive-window rules, actions, and recovery;
+- quarantine and attribution rules that prevent shadow recommendations or incumbent actions from becoming false counterfactual labels;
 - other controllers that change the plant;
 - precedence when safety and performance recommendations conflict;
 - fairness and head-of-line blocking;
@@ -123,6 +129,8 @@ Apply project rules, including:
 Verify:
 
 - immutable workload/data/software/hardware identity;
+- exact replay versus declared cross-hardware/storage/software replication;
+- shuffle manager/transport, shuffle partitioning, AQE behavior, and downstream operator fingerprint when conclusions cross a shuffle boundary;
 - complete effective configurations;
 - raw runs, failures, checksums, and commands;
 - randomized/counterbalanced order and warm-up policy;

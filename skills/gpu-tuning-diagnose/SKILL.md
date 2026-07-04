@@ -60,6 +60,7 @@ Capture or report missing:
 - table/data snapshot, schema, projections, predicate values or selectivity, layout, scale, and skew;
 - executor/GPU/CPU/memory/disk/network topology;
 - effective Spark and RAPIDS configuration;
+- shuffle manager implementation and transport, `spark.sql.shuffle.partitions`, AQE coalescing/skew/local-reader settings, exchange count/types, and whether the measured scan stage includes shuffle write;
 - AQE initial and final plans;
 - cache/warm-up/concurrent-workload conditions.
 
@@ -119,6 +120,8 @@ For every sensor record:
 - live, release-time, task-end, stage-end, or cross-run cadence;
 - counter, duration, high watermark, sample, or estimate;
 - aggregation and retry/speculation behavior;
+- clock/timebase, extraction transform/version, and missing/censored-value meaning;
+- whether it is stable context, a slowly learned parameter, or volatile live state;
 - known blind spots and overhead.
 
 RAPIDS-specific cautions:

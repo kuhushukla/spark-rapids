@@ -35,6 +35,7 @@ Require or discover:
 
 - optimization objective and hard safety/correctness constraints;
 - approved hypothesis/model card and supporting experiment;
+- validated [model lifecycle manifest](../gpu-tuning-model-lifecycle/templates/model-lifecycle.yaml), model payload hash, evidence-gate result, and append-only rollout/activation record, or an explicit reason they are not applicable;
 - exact sensor and actuator;
 - decision boundary and affected remaining work;
 - validity region, fallback, and rollout mode;
@@ -71,7 +72,8 @@ Record in code comments or a colocated design/test artifact as appropriate:
 - observation and actuation delays;
 - serial, parallel, pipelined, barrier, and shared-resource assumptions;
 - fallback and automatic-disable condition;
-- controller/model version and metric tags;
+- independent context, feature, metric, observation, model, policy, and persistence versions;
+- immutable model payload hash, rollout transition state, activation authority, and rollback pointer;
 - falsification test and validity region.
 
 Model task waves and DAG barriers according to actual scheduling. Do not add serial times for parallel tasks or use a maximum for phases that do not overlap.
@@ -86,7 +88,10 @@ Before active decisions, expose enough evidence to audit:
 - abstention/fallback reason;
 - safety margin;
 - realized result at the correct attribution boundary;
-- controller/model version.
+- controller/model and all schema versions;
+- stable observation, recommendation, actual-action, and result linkage IDs.
+
+A realized outcome labels the actual action, not an unexecuted shadow recommendation. Active control is forbidden unless a valid rollout record places the immutable model in `canary` or `active` state and the activation authority is present; otherwise implement shadow or disabled behavior only.
 
 Respect metric-volume limits. Event-log/task-end metrics are suitable for audit and cross-run learning, not a fast live control channel.
 
@@ -129,7 +134,7 @@ Run the narrowest relevant checks first, then proportionate suites. Record exact
 
 Inspect the final diff for unrelated changes. Do not commit unless authorized. If committing in this repository, use git commit -s and never bypass hooks.
 
-Hand off to [gpu-tuning-controller-review](../gpu-tuning-controller-review/SKILL.md) when available. The implementation is not promoted merely because tests pass.
+Use [gpu-tuning-model-lifecycle](../gpu-tuning-model-lifecycle/SKILL.md) to create or update durable history, drift, and rollout artifacts, then hand off to [gpu-tuning-controller-review](../gpu-tuning-controller-review/SKILL.md) when available. The implementation is not promoted merely because tests pass.
 
 ## Output
 

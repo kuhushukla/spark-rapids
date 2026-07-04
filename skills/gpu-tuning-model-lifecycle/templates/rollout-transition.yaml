@@ -1,0 +1,34 @@
+schema_version: "gpu-tuning-rollout/v1"
+transition:
+  transition_id: ""
+  model_id: ""
+  model_manifest_sha256: ""
+  model_payload_sha256: ""
+  from_state: "candidate"
+  to_state: "offline_validated|shadow|canary|active|retired|invalid"
+  timestamp_rfc3339: ""
+  authority: ""
+  reason: ""
+  gate_result:
+    artifact_location: ""
+    sha256: ""
+  assignment:
+    eligibility: ""
+    randomization_unit: ""
+    allocation: ""
+    holdback_or_control: ""
+    attribution_window: {value: null, unit: ""}
+    abort_thresholds: []
+activation_pointer:
+  previous_model_id: ""
+  previous_model_manifest_sha256: ""
+  previous_model_payload_sha256: ""
+  selected_model_id: ""
+  selected_model_manifest_sha256: ""
+  selected_model_payload_sha256: ""
+  rollback_model_id: ""
+  rollback_model_manifest_sha256: ""
+  rollback_model_payload_sha256: ""
+integrity:
+  previous_transition_sha256: ""
+  checksum_location: "external artifact index; never self-hash this record"

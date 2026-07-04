@@ -91,57 +91,29 @@ Keep:
 
 Never overwrite prior raw runs. Use stable run IDs. If raw data is too large for git, version checksums, schemas, collection commands, and durable immutable locations.
 
+For experiments intended to transfer beyond one workstation, separate protocol from execution. Give the dataset, query, runtime profile, and artifact store stable versioned IDs. Dataset identity contains logical snapshot and physical-layout digests plus location aliases; a local path or cloud URI is a resolved location, not the identity. The runtime profile declares launcher adapter, master/deploy mode, executor topology, effective Spark/RAPIDS configuration, storage/client context, and profiler capabilities.
+
+Use a small launcher boundary:
+
+```text
+probe() -> discovered software, hardware, and capabilities
+prepare(resolved run) -> immutable inputs and artifact locations
+submit(resolved run) -> external application handle
+wait/cancel(handle) -> terminal state
+collect(handle) -> normalized artifact index
+```
+
+Begin with a local `spark-submit` adapter and a generic command adapter for cluster wrappers. Keep CSP SDK details out of workloads. Workloads receive resolved dataset/query parameters and output URIs; they must not hard-code the master, developer paths, event-log discovery, credentials, or local-only profiler assumptions.
+
+Declare the run mode. **Replay** requires the same dataset, query, software, schedule, and runtime identity. **Replication** deliberately changes hardware, storage, topology, or software and creates a new result stratum; do not silently pool it with replay evidence. Use versioned common envelopes for the run journal, environment, normalized observations, artifact index, and verdict so experiment-specific analysis can coexist with common validators.
+
 Write the allocation schedule durably before the first treatment. Maintain an append-only journal: write and flush a start record before each attempt and a terminal record after it with run ID, phase, treatment/config hash, timestamps, status, artifact references, and error/abort reason. Persist partial results incrementally so interruption cannot erase completed or failed attempts. Keep harness/instrumentation failures in `attempts/`; exclude them from the estimand unless pre-registered, but do not erase them.
 
-Copy [the bundled manifest template](templates/experiment-manifest.yaml) into the experiment directory and fill every applicable field. The manifest must include:
+Copy [the bundled manifest template](templates/experiment-manifest.yaml) into the experiment directory and fill every applicable field. It is the authoritative field list and separates typed experiment identity, derivation, workload, expected runtime profile, discovered environment, metric contract, procedure, and artifact references.
 
-```yaml
-experiment_id: "..."
-lifecycle:
-  state: "DRAFT"
-  preregistration_snapshot_and_sha256: ""
-  amendments: []
-hypothesis: "..."
-objective:
-  primary_metric: "..."
-  estimand_and_experimental_unit: "..."
-  aggregation: "..."
-  claim_form_superiority_noninferiority_equivalence_or_estimation: "..."
-  confidence_level_and_interval_method: "..."
-  effect_direction_practical_margin_and_decision_rule: "..."
-  candidate_family_and_multiplicity_method: "..."
-  minimum_effect: "..."
-  sample_size_power_or_precision_rule: "..."
-  stopping_and_missing_failed_outlier_policy: "..."
-safety:
-  abort_conditions: []
-authority:
-  environment_and_actions: "..."
-  max_gpu_hours_runtime_dollars: "..."
-  credential_reference_or_mechanism_never_secret_value: "..."
-  sensitive_data_and_log_redaction: "..."
-  cleanup_obligations: "..."
-  git_branch_and_commit: "..."
-baseline: {}
-treatment_delta: {}
-workload:
-  query_or_hash: "..."
-  data_snapshot: "..."
-  seed: "..."
-  scale_logical_and_encoded: "..."
-software:
-  repo_sha_build_profile_spark_rapids_cudf_cuda_jvm: "..."
-hardware:
-  gpu_cpu_memory_disk_network_topology: "..."
-procedure:
-  warmups: 0
-  repetitions: 0
-  paired_blocking_randomization_and_allocation: "..."
-  cache_policy: "..."
-  schedule_topology_serial_parallel_pipeline_barrier_contention: "..."
-artifacts:
-  raw_locations_and_checksums: []
-```
+For a replay, record the base manifest hash and any experiment-specific invariant extensions. Regardless of that extension list, mandatory replay invariants are the resolved dataset snapshot/layout, query source and parameters, software/build artifacts, frozen schedule, runtime-profile definition, complete expected and observed effective Spark/RAPIDS configuration, and relevant storage/cache policy. The validator must fail replay on any mandatory or declared invariant mismatch. For a replication, record intentional deltas, create a new result stratum, and state the pooling policy. Record expected runtime constraints separately from the probed environment artifact. The metric contract must include event-time-aligned volatile storage/network capacity observations when those lanes can affect the result.
+
+Before production or shared-cluster use, publish a versioned schema and validator for the manifest and common artifact envelopes. The validator must reject unknown or ill-typed fields, unresolved artifact references, replay identity mismatches, and replication results without a distinct stratum.
 
 ## Step 4: Small Validation
 

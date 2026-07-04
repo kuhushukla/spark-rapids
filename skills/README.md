@@ -12,8 +12,9 @@ This repository also provides an evidence-driven workflow for dynamic GPU Spark 
 1. **[gpu-tuning-diagnose](gpu-tuning-diagnose/SKILL.md)** -- Reconstruct the critical path and produce falsifiable bottleneck hypotheses.
 2. **[gpu-tuning-model-design](gpu-tuning-model-design/SKILL.md)** -- Compare baseline and proposed execution graphs for pipelining, MPP, compression, batching, and other new designs.
 3. **[gpu-tuning-experiment](gpu-tuning-experiment/SKILL.md)** -- Design, version, run, and analyze controlled tuning experiments.
-4. **[gpu-tuning-implement](gpu-tuning-implement/SKILL.md)** -- Implement an authorized, validated controller change with observability, safety, shim coverage, and tests.
-5. **[gpu-tuning-controller-review](gpu-tuning-controller-review/SKILL.md)** -- Independently audit actuator feasibility, model validity, controller safety, implementation, and evidence before promotion.
+4. **[gpu-tuning-model-lifecycle](gpu-tuning-model-lifecycle/SKILL.md)** -- Turn historical evidence and live telemetry into versioned priors, challengers, drift decisions, and safe model updates.
+5. **[gpu-tuning-implement](gpu-tuning-implement/SKILL.md)** -- Implement an authorized, validated controller change with observability, safety, shim coverage, and tests.
+6. **[gpu-tuning-controller-review](gpu-tuning-controller-review/SKILL.md)** -- Independently audit actuator feasibility, model validity, controller safety, implementation, and evidence before promotion.
 
 <details open>
 <summary><strong>Table of Contents</strong></summary>
@@ -73,8 +74,9 @@ Use the tuning skills as evidence gates:
 1. **[gpu-tuning-diagnose](gpu-tuning-diagnose/SKILL.md)** -- define the objective, reconstruct the scheduled critical path, and rank falsifiable hypotheses.
 2. **[gpu-tuning-model-design](gpu-tuning-model-design/SKILL.md)** -- model and prioritize new execution or optimization ideas; skip only when validating an existing controller without a design change.
 3. **[gpu-tuning-experiment](gpu-tuning-experiment/SKILL.md)** -- pre-register and run an authorized, reproducible experiment.
-4. **[gpu-tuning-implement](gpu-tuning-implement/SKILL.md)** -- implement the smallest justified controller change.
-5. **[gpu-tuning-controller-review](gpu-tuning-controller-review/SKILL.md)** -- independently audit it before promotion.
+4. **[gpu-tuning-model-lifecycle](gpu-tuning-model-lifecycle/SKILL.md)** -- define reusable history, live-state updates, drift, immutable challenger versions, and promotion gates.
+5. **[gpu-tuning-implement](gpu-tuning-implement/SKILL.md)** -- implement the smallest justified controller change.
+6. **[gpu-tuning-controller-review](gpu-tuning-controller-review/SKILL.md)** -- independently audit it before promotion.
 
 Within this repository, see the [model-driven tuning guide](../docs/design/dynamic-gpu-job-tuning.md). Each skill remains self-contained when installed separately.
 

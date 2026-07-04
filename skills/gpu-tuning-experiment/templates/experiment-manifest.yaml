@@ -1,25 +1,41 @@
+schema_version: "gpu-tuning-experiment/v2"
 experiment_id: ""
+derivation:
+  mode: "replay|replication"
+  base_experiment:
+    id: ""
+    manifest_sha256: ""
+  invariant_fields: []
+  intentional_deltas: []
+  result_stratum_id: ""
+  pooling_policy: ""
 lifecycle:
   state: "DRAFT"
-  preregistration_snapshot_and_sha256: ""
+  preregistration:
+    location: ""
+    sha256: ""
   amendments: []
 hypothesis: ""
 objective:
-  primary_metric: ""
-  estimand_and_experimental_unit: ""
+  primary_metric: {id: "", unit: ""}
+  estimand: ""
+  experimental_unit: ""
   aggregation: ""
-  claim_form_superiority_noninferiority_equivalence_or_estimation: ""
-  confidence_level_and_interval_method: ""
-  effect_direction_practical_margin_and_decision_rule: ""
+  claim_form: "superiority|noninferiority|equivalence|estimation"
+  confidence_level: null
+  interval_method: ""
+  effect_direction: ""
+  practical_margin: {value: null, unit: ""}
+  decision_rule: ""
   candidate_family_and_multiplicity_method: ""
-  minimum_effect: ""
+  minimum_effect: {value: null, unit: ""}
   sample_size_power_or_precision_rule: ""
   stopping_and_missing_failed_outlier_policy: ""
 safety:
   abort_conditions: []
 authority:
   environment_and_actions: ""
-  max_gpu_hours_runtime_dollars: ""
+  budget: {value: null, unit: ""}
   credential_reference_or_mechanism_never_secret_value: ""
   sensitive_data_and_log_redaction: ""
   cleanup_obligations: ""
@@ -27,14 +43,70 @@ authority:
 baseline: {}
 treatment_delta: {}
 workload:
-  query_or_hash: ""
-  data_snapshot: ""
+  dataset:
+    id: ""
+    version: ""
+    logical_snapshot_sha256: ""
+    physical_layout_sha256: ""
+    resolved_location: ""
+  query:
+    id: ""
+    version: ""
+    source_sha256: ""
+    parameters: {}
+    correctness_canonicalizer: ""
   seed: ""
-  scale_logical_and_encoded: ""
+  scale:
+    logical: {value: null, unit: ""}
+    encoded: {value: null, unit: ""}
 software:
-  repo_sha_build_profile_spark_rapids_cudf_cuda_jvm: ""
-hardware:
-  gpu_cpu_memory_disk_network_topology: ""
+  source_repository: {revision: "", build_profile: ""}
+  spark: {version: "", distribution_sha256: ""}
+  rapids_plugin: {version: "", jar_sha256: ""}
+  cudf_cuda_jvm: ""
+runtime_profile:
+  id: ""
+  version: ""
+  definition_artifact: {location: "", sha256: ""}
+  launcher_adapter: {id: "", version: "", sha256: ""}
+  expected_constraints:
+    master_and_deploy_mode: ""
+    executor_topology: ""
+    gpu_cpu_memory_disk_network: ""
+    storage_endpoint_region_class: ""
+    connector_and_client_mode: ""
+    profiler_capabilities: []
+  expected_effective_configuration_artifact:
+    location: ""
+    sha256: ""
+  observed_environment_artifact:
+    schema_version: ""
+    location: ""
+    sha256: ""
+  observed_effective_configuration_artifact:
+    schema_version: ""
+    location: ""
+    sha256: ""
+  artifact_store:
+    id: ""
+    resolved_location: ""
+metric_contract:
+  schema_version: ""
+  location: ""
+  sha256: ""
+  required_families:
+    stable_context: []
+    learned_parameters: []
+    live_state: []
+    volatile_capacity_observations:
+      - event_time_window
+      - storage_or_network_lane
+      - bytes_requests_and_ranges
+      - outstanding_concurrency
+      - latency_queue_throttle_retry
+      - cache_state
+      - throughput_distribution
+      - clock_alignment
 procedure:
   warmups: 0
   repetitions: 0
@@ -42,7 +114,10 @@ procedure:
   cache_policy: ""
   schedule_topology_serial_parallel_pipeline_barrier_contention: ""
 artifacts:
-  schedule_and_sha256: ""
-  append_only_run_journal: ""
-  validator_output_and_command: ""
+  resolved_inputs: {location: "", sha256: ""}
+  schedule: {location: "", sha256: ""}
+  run_journal: {schema_version: "", location: "", sha256: ""}
+  normalized_observations: {schema_version: "", location: "", sha256: ""}
+  artifact_index: {schema_version: "", location: "", sha256: ""}
+  validator_output: {schema_version: "", location: "", sha256: "", command: ""}
   raw_locations_and_checksums: []
