@@ -32,6 +32,15 @@ METRIC_NAMES = {
     "GPU decode time": "gpu_decode_ns",
     "scan time": "scan_ns",
     "size of read buffer": "read_buffer_bytes",
+    "buffer time": "buffer_ns",
+    "filter time": "reader_filter_ns",
+    "I/O schedule time": "io_schedule_ns",
+    "buffer time (GPU underloaded)": "buffer_bubble_ns",
+    "filter time (GPU underloaded)": "reader_filter_bubble_ns",
+    "I/O schedule time (GPU underloaded)": "io_schedule_bubble_ns",
+    "time to read fs data": "read_fs_ns",
+    "time to write data to buffer": "write_buffer_ns",
+    "op time": "scan_op_ns",
 }
 
 

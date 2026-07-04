@@ -1,6 +1,6 @@
 # Profiled GPU tuning proof of concept
 
-Status: **PREREGISTERED; NOT YET EXECUTED**
+Status: **PREREGISTERED BEFORE EXECUTION; NSYS, CUPTI, AND JFR EXECUTED**
 
 ## Objective
 

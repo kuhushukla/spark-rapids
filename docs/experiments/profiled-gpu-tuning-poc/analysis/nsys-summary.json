@@ -1,0 +1,383 @@
+{
+  "profiles": [
+    {
+      "attempt": "nsys-128-001",
+      "cuda": {
+        "decode_nvtx_calls": 87,
+        "decode_nvtx_service_ns": 1315891285,
+        "decode_nvtx_union_ns": 443960241,
+        "kernel_busy_fraction_of_gpu_ownership_envelope": 0.20187620668634543,
+        "kernel_busy_fraction_of_spark_stage": 0.19765291564147627,
+        "kernel_busy_union_ns": 112464509,
+        "kernel_calls": 10962,
+        "kernel_overlap_factor": 1.110912892528611,
+        "kernel_service_ns": 124938273,
+        "maximum_simultaneous_kernels": 6,
+        "memcpy_bytes": 1763857360,
+        "memcpy_calls": 17052,
+        "memcpy_service_ns": 54062580,
+        "memcpy_union_ns": 52582660,
+        "overlapping_decode_window_kernel_fraction_of_nvtx_union": 0.24244123698455242,
+        "overlapping_decode_window_kernel_service_ns": 119858975,
+        "overlapping_decode_window_kernel_union_ns": 107634270,
+        "top_kernels": [
+          {
+            "calls": 87,
+            "duration_ns": 35738333,
+            "name": "decode_page_data_generic"
+          },
+          {
+            "calls": 87,
+            "duration_ns": 15750346,
+            "name": "unsnap_kernel"
+          },
+          {
+            "calls": 1479,
+            "duration_ns": 13005569,
+            "name": "static_kernel"
+          },
+          {
+            "calls": 2697,
+            "duration_ns": 12020736,
+            "name": "transform_kernel"
+          },
+          {
+            "calls": 87,
+            "duration_ns": 9486820,
+            "name": "decode_page_headers_kernel"
+          },
+          {
+            "calls": 87,
+            "duration_ns": 8303219,
+            "name": "count_page_headers_kernel"
+          },
+          {
+            "calls": 261,
+            "duration_ns": 5362969,
+            "name": "DeviceRadixSortSingleTileKernel"
+          },
+          {
+            "calls": 174,
+            "duration_ns": 3195202,
+            "name": "copy_if_else_kernel"
+          },
+          {
+            "calls": 435,
+            "duration_ns": 2947579,
+            "name": "DeviceScanByKeyKernel"
+          },
+          {
+            "calls": 1218,
+            "duration_ns": 2856261,
+            "name": "DeviceReduceSingleTileKernel"
+          }
+        ]
+      },
+      "gpu_metrics": {
+        "DRAM Read Bandwidth [Throughput %]": {
+          "max": 22,
+          "mean": 2.436265709156194,
+          "p50": 1,
+          "p90": 6,
+          "samples": 557
+        },
+        "DRAM Write Bandwidth [Throughput %]": {
+          "max": 12,
+          "mean": 2.0520646319569122,
+          "p50": 1,
+          "p90": 5,
+          "samples": 557
+        },
+        "PCIe RX Throughput [Throughput %]": {
+          "max": 27,
+          "mean": 2.8240574506283664,
+          "p50": 1,
+          "p90": 12,
+          "samples": 557
+        },
+        "PCIe TX Throughput [Throughput %]": {
+          "max": 3,
+          "mean": 1.104129263913824,
+          "p50": 1,
+          "p90": 1,
+          "samples": 557
+        },
+        "SM Issue [Throughput %]": {
+          "max": 11,
+          "mean": 2.127468581687612,
+          "p50": 1,
+          "p90": 5,
+          "samples": 557
+        },
+        "SMs Active [Throughput %]": {
+          "max": 72,
+          "mean": 10.845601436265708,
+          "p50": 6,
+          "p90": 36,
+          "samples": 557
+        }
+      },
+      "max_partition_mib": 128,
+      "profiled_query_elapsed_ms": 681.333082,
+      "stage": {
+        "gpu_ownership_envelope_ns": 557096405,
+        "id": 4,
+        "spark_wall_ns": 569000000,
+        "task_count": 87
+      }
+    },
+    {
+      "attempt": "nsys-2048-001",
+      "cuda": {
+        "decode_nvtx_calls": 5,
+        "decode_nvtx_service_ns": 316951590,
+        "decode_nvtx_union_ns": 109686863,
+        "kernel_busy_fraction_of_gpu_ownership_envelope": 0.11750309823145912,
+        "kernel_busy_fraction_of_spark_stage": 0.11216471684587814,
+        "kernel_busy_union_ns": 31293956,
+        "kernel_calls": 735,
+        "kernel_overlap_factor": 1.096976553555581,
+        "kernel_service_ns": 34328736,
+        "maximum_simultaneous_kernels": 4,
+        "memcpy_bytes": 1763984404,
+        "memcpy_calls": 980,
+        "memcpy_service_ns": 51115985,
+        "memcpy_union_ns": 50168453,
+        "overlapping_decode_window_kernel_fraction_of_nvtx_union": 0.1739760485264311,
+        "overlapping_decode_window_kernel_service_ns": 21816257,
+        "overlapping_decode_window_kernel_union_ns": 19082887,
+        "top_kernels": [
+          {
+            "calls": 5,
+            "duration_ns": 11353268,
+            "name": "decode_page_data_generic"
+          },
+          {
+            "calls": 85,
+            "duration_ns": 5415450,
+            "name": "static_kernel"
+          },
+          {
+            "calls": 155,
+            "duration_ns": 5058454,
+            "name": "transform_kernel"
+          },
+          {
+            "calls": 10,
+            "duration_ns": 2938268,
+            "name": "copy_if_else_kernel"
+          },
+          {
+            "calls": 10,
+            "duration_ns": 2150294,
+            "name": "DeviceReduceKernel"
+          },
+          {
+            "calls": 5,
+            "duration_ns": 1666704,
+            "name": "unsnap_kernel"
+          },
+          {
+            "calls": 55,
+            "duration_ns": 1087884,
+            "name": "copy_range_kernel"
+          },
+          {
+            "calls": 10,
+            "duration_ns": 724999,
+            "name": "compute_page_sizes_kernel"
+          },
+          {
+            "calls": 80,
+            "duration_ns": 633672,
+            "name": "DeviceRadixSortOnesweepKernel"
+          },
+          {
+            "calls": 5,
+            "duration_ns": 535910,
+            "name": "decode_page_headers_kernel"
+          }
+        ]
+      },
+      "gpu_metrics": {
+        "DRAM Read Bandwidth [Throughput %]": {
+          "max": 84,
+          "mean": 4.7180451127819545,
+          "p50": 1.0,
+          "p90": 10,
+          "samples": 266
+        },
+        "DRAM Write Bandwidth [Throughput %]": {
+          "max": 60,
+          "mean": 3.8045112781954886,
+          "p50": 1.0,
+          "p90": 10,
+          "samples": 266
+        },
+        "PCIe RX Throughput [Throughput %]": {
+          "max": 40,
+          "mean": 5.090225563909774,
+          "p50": 1.0,
+          "p90": 27,
+          "samples": 266
+        },
+        "PCIe TX Throughput [Throughput %]": {
+          "max": 14,
+          "mean": 1.6240601503759398,
+          "p50": 1.0,
+          "p90": 4,
+          "samples": 266
+        },
+        "SM Issue [Throughput %]": {
+          "max": 59,
+          "mean": 4,
+          "p50": 0.0,
+          "p90": 19,
+          "samples": 266
+        },
+        "SMs Active [Throughput %]": {
+          "max": 100,
+          "mean": 12.011278195488721,
+          "p50": 0.0,
+          "p90": 63,
+          "samples": 266
+        }
+      },
+      "max_partition_mib": 2048,
+      "profiled_query_elapsed_ms": 365.075875,
+      "stage": {
+        "gpu_ownership_envelope_ns": 266324518,
+        "id": 4,
+        "spark_wall_ns": 279000000,
+        "task_count": 5
+      }
+    },
+    {
+      "attempt": "nsys-16384-001",
+      "cuda": {
+        "decode_nvtx_calls": 3,
+        "decode_nvtx_service_ns": 90243248,
+        "decode_nvtx_union_ns": 90243248,
+        "kernel_busy_fraction_of_gpu_ownership_envelope": 0.0659503992365802,
+        "kernel_busy_fraction_of_spark_stage": 0.06415870575692964,
+        "kernel_busy_union_ns": 30090433,
+        "kernel_calls": 324,
+        "kernel_overlap_factor": 1.0,
+        "kernel_service_ns": 30090433,
+        "maximum_simultaneous_kernels": 1,
+        "memcpy_bytes": 1768221955,
+        "memcpy_calls": 474,
+        "memcpy_service_ns": 36534640,
+        "memcpy_union_ns": 36534640,
+        "overlapping_decode_window_kernel_fraction_of_nvtx_union": 0.17236936108505316,
+        "overlapping_decode_window_kernel_service_ns": 15555171,
+        "overlapping_decode_window_kernel_union_ns": 15555171,
+        "top_kernels": [
+          {
+            "calls": 3,
+            "duration_ns": 10204845,
+            "name": "decode_page_data_generic"
+          },
+          {
+            "calls": 36,
+            "duration_ns": 4873747,
+            "name": "static_kernel"
+          },
+          {
+            "calls": 68,
+            "duration_ns": 4735027,
+            "name": "transform_kernel"
+          },
+          {
+            "calls": 6,
+            "duration_ns": 2686044,
+            "name": "copy_if_else_kernel"
+          },
+          {
+            "calls": 8,
+            "duration_ns": 2039221,
+            "name": "DeviceReduceKernel"
+          },
+          {
+            "calls": 2,
+            "duration_ns": 1475920,
+            "name": "unsnap_kernel"
+          },
+          {
+            "calls": 5,
+            "duration_ns": 1034314,
+            "name": "compute_page_sizes_kernel"
+          },
+          {
+            "calls": 23,
+            "duration_ns": 988075,
+            "name": "copy_range_kernel"
+          },
+          {
+            "calls": 36,
+            "duration_ns": 267780,
+            "name": "DeviceRadixSortOnesweepKernel"
+          },
+          {
+            "calls": 10,
+            "duration_ns": 234083,
+            "name": "DeviceScanByKeyKernel"
+          }
+        ]
+      },
+      "gpu_metrics": {
+        "DRAM Read Bandwidth [Throughput %]": {
+          "max": 79,
+          "mean": 2.8552631578947367,
+          "p50": 0.0,
+          "p90": 2,
+          "samples": 456
+        },
+        "DRAM Write Bandwidth [Throughput %]": {
+          "max": 47,
+          "mean": 2.2171052631578947,
+          "p50": 0.0,
+          "p90": 2,
+          "samples": 456
+        },
+        "PCIe RX Throughput [Throughput %]": {
+          "max": 42,
+          "mean": 3.0153508771929824,
+          "p50": 0.0,
+          "p90": 1,
+          "samples": 456
+        },
+        "PCIe TX Throughput [Throughput %]": {
+          "max": 17,
+          "mean": 1.4385964912280702,
+          "p50": 1.0,
+          "p90": 1,
+          "samples": 456
+        },
+        "SM Issue [Throughput %]": {
+          "max": 52,
+          "mean": 2.3530701754385963,
+          "p50": 0.0,
+          "p90": 3,
+          "samples": 456
+        },
+        "SMs Active [Throughput %]": {
+          "max": 100,
+          "mean": 7.098684210526316,
+          "p50": 0.0,
+          "p90": 22,
+          "samples": 456
+        }
+      },
+      "max_partition_mib": 16384,
+      "profiled_query_elapsed_ms": 553.208491,
+      "stage": {
+        "gpu_ownership_envelope_ns": 456258542,
+        "id": 4,
+        "spark_wall_ns": 469000000,
+        "task_count": 1
+      }
+    }
+  ],
+  "schema_version": 2
+}

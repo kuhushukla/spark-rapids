@@ -1,0 +1,3 @@
+attempts/cupti-*/analysis/profile.json
+attempts/nsys-*/analysis/profile.sqlite
+scripts/__pycache__/
