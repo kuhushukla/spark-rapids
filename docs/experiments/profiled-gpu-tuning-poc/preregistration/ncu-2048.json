@@ -1,0 +1,1 @@
+{"runs":[{"run_id":"ncu-common-2048","phase":"profile","block":0,"repeat":0,"study":"ncu_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":2048}]}

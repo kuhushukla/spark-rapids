@@ -1,0 +1,14 @@
+{
+  "runs": [
+    {"run_id":"jfr-warmup-common-2048","phase":"warmup","block":-1,"repeat":0,"study":"jfr_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":2048},
+    {"run_id":"jfr-b0-common-128","phase":"measure","block":0,"repeat":0,"study":"jfr_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":128},
+    {"run_id":"jfr-b0-common-16384","phase":"measure","block":0,"repeat":0,"study":"jfr_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":16384},
+    {"run_id":"jfr-b0-common-2048","phase":"measure","block":0,"repeat":0,"study":"jfr_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":2048},
+    {"run_id":"jfr-b1-common-2048","phase":"measure","block":1,"repeat":0,"study":"jfr_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":2048},
+    {"run_id":"jfr-b1-common-128","phase":"measure","block":1,"repeat":0,"study":"jfr_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":128},
+    {"run_id":"jfr-b1-common-16384","phase":"measure","block":1,"repeat":0,"study":"jfr_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":16384},
+    {"run_id":"jfr-b2-common-16384","phase":"measure","block":2,"repeat":0,"study":"jfr_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":16384},
+    {"run_id":"jfr-b2-common-2048","phase":"measure","block":2,"repeat":0,"study":"jfr_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":2048},
+    {"run_id":"jfr-b2-common-128","phase":"measure","block":2,"repeat":0,"study":"jfr_profile","episode":"train_2009","start_month":"2009-01","end_month":"2009-12","query":"common","max_partition_mib":128}
+  ]
+}
