@@ -62,8 +62,11 @@ Collect the Basic section for the first 40 kernel launches enclosed by the exist
 `Parquet decode` NVTX range. Nsight Compute replay perturbs execution; only kernel
 characteristics are used, never its query wall time.
 
-Nsight Systems is preferred for overlap/timeline validation but is not installed in the
-current container. This is an explicit evidence gap unless the host provides it.
+Nsight Systems 2025.2.1 is bundled outside `PATH` under the installed Nsight Compute
+tree. Run the same frozen three-run schedules with CUDA, NVTX, OS-runtime, and 1-kHz GPU
+metric tracing. Use the event log and task NVTX ranges to restrict analysis to target scan
+stage 4. CUPTI and Nsight Systems traces are independent cross-checks; neither profiled
+wall time is used as an unprofiled performance observation.
 
 ## Prediction validation
 
