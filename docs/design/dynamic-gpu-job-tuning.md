@@ -712,19 +712,16 @@ Start with deterministic coordination. Multi-agent reinforcement learning is not
 
 ## 11. Cross-run learning
 
-Cross-run history is valuable for initial settings and actions that cannot change during the current job. SQL Server’s official [Memory Grant Feedback documentation](https://learn.microsoft.com/en-us/sql/relational-databases/performance/intelligent-query-processing-memory-grant-feedback) demonstrates the value of multiple-execution percentile history and persistence; Spark cloud services also use historical workloads for autotuning. These are precedents for the pattern, not parameter transfer proofs.
+Cross-run history is valuable for quantities that cannot be calculated at the current decision boundary. It may initialize an application-wide setting, but it can also describe data and component rates used by a later per-scan or per-stage runtime decision. SQL Server’s official [Memory Grant Feedback documentation](https://learn.microsoft.com/en-us/sql/relational-databases/performance/intelligent-query-processing-memory-grant-feedback) demonstrates the value of multiple-execution percentile history and persistence; Spark cloud services also use historical workloads for autotuning. These are precedents for the pattern, not parameter transfer proofs.
 
-Persist:
+Persist two different structures:
 
-- identity keys from the optimization contract;
-- feature schema and units;
-- action and effective configuration;
-- raw/derived outcomes and confidence;
-- controller/model/software/hardware versions;
-- sample count, recency, and drift statistics;
-- invalidation reason and fallback.
+- exact evidence provenance: observed query/plan, data/schema/snapshot, literal predicates, action, effective configuration, resource state, outcomes, and all versions;
+- composable prediction observations: component feature schema and units, learned target/rate, uncertainty, sample weight/age, and compatible fallback levels.
 
-Use exact matches first, then similarity with uncertainty. Decay or invalidate on plan, schema, table snapshot/layout, statistics, version, or topology change. Maintain an exploration budget; otherwise a policy can become stuck on yesterday’s best choice.
+Exact provenance is for audit and experimental replay, not a mandatory prediction match. At prediction time, each component uses the smallest causal feature subset available at the legal runtime boundary. Query literals, snapshots, schema additions, and executor-count changes normally change features and uncertainty; they do not invalidate unrelated components. Hard-invalidate only an affected component when metric meaning or mechanism is incompatible. Missing optional features widen uncertainty, choose a transferable prior, or disable that component while other components continue.
+
+Maintain an exploration budget; otherwise a policy can become stuck on yesterday’s best choice.
 
 Bayesian optimization and learned policies are appropriate for expensive cross-run search after the safe candidate space is defined. The [OtterTune paper](https://www.cs.cmu.edu/~dvanaken/papers/ottertune-sigmod17.pdf) shows transfer and sample-efficient database configuration tuning, but its results do not imply that the same feature set or gains transfer to GPU Spark jobs.
 
@@ -748,7 +745,7 @@ Use the [`gpu-tuning-diagnose`](../../skills/gpu-tuning-diagnose/SKILL.md) skill
 - Run controlled experiments and retain raw artifacts.
 - Reject or narrow the hypothesis when results disagree.
 
-Use the [`gpu-tuning-experiment`](../../skills/gpu-tuning-experiment/SKILL.md) skill.
+Use the [`gpu-tuning-model-design`](../../skills/gpu-tuning-model-design/SKILL.md) and [`gpu-tuning-experiment`](../../skills/gpu-tuning-experiment/SKILL.md) skills.
 
 ### Phase C: implement
 
@@ -758,8 +755,12 @@ Use the [`gpu-tuning-experiment`](../../skills/gpu-tuning-experiment/SKILL.md) s
 - Update all applicable Spark shims.
 - Add unit, integration, failure, and compatibility tests.
 - Start disabled or shadowed when behavior is not already proven.
+- Keep exact evidence provenance separate from component feature matching.
+- Define per-component fallbacks so missing query, schema, plan, hardware, or live-state
+  features degrade only the dependent prediction.
 
-Use the [`gpu-tuning-implement`](../../skills/gpu-tuning-implement/SKILL.md) skill.
+Use the [`gpu-tuning-model-lifecycle`](../../skills/gpu-tuning-model-lifecycle/SKILL.md)
+and [`gpu-tuning-implement`](../../skills/gpu-tuning-implement/SKILL.md) skills.
 
 ### Phase D: review and promote
 

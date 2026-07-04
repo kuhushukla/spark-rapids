@@ -1,6 +1,6 @@
 ---
 name: gpu-tuning-model-lifecycle
-description: Creates and maintains evidence-driven GPU Spark performance models from historical priors and live telemetry. Use when defining reusable context keys and metric provenance, calibrating a model on new hardware or storage, detecting drift, updating a deployed model, or deciding whether a challenger may progress from offline validation through shadow and canary operation.
+description: Creates and maintains composable GPU Spark performance models from exact evidence provenance, transferable component features, historical priors, and live telemetry. Use when defining per-component fallback and uncertainty, calibrating on new data or environments, detecting drift, updating a deployed model, or deciding whether a challenger may progress through shadow and canary operation.
 license: CC-BY-4.0 AND Apache-2.0
 metadata:
   spdx-file-copyright-text: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
@@ -42,9 +42,9 @@ Record:
 - fallback, kill switch, and rollback owner;
 - incumbent model, policy, feature, metric, context, and persistence versions.
 
-Near-real-time measurement does not imply near-real-time actuation. For example, a planned Spark file partition normally cannot be resized after its tasks exist. Live evidence may tune later file groups only if the reader exposes such a boundary; otherwise it informs a later stage, query, or run. Task admission and retry-local choices have different boundaries and require separate policies.
+Near-real-time measurement does not imply near-real-time actuation. A Spark file partition cannot be resized after its tasks exist, but a plugin hook immediately before a particular scan creates its file partitions can choose that scan's split limit using the selected files, schemas, predicates, configuration, history, and available live state. This is a per-read planning decision, not necessarily an application-wide launcher setting. Task admission and retry-local choices have different boundaries and require separate policies.
 
-Do not combine distinct plants under one model merely because they share a knob name. Shuffle manager and transport, AQE behavior, partition count, topology, storage connector, and downstream operator pipeline can change the mechanism. Split or explicitly condition the model when these change causal behavior.
+Do not build one monolithic query model merely because components share an objective. Decompose the prediction by mechanism. Shuffle manager/transport may condition a shuffle component; it need not invalidate a data-expansion component. Storage client changes may condition read service; they need not discard learned decoded row/byte ratios. Include a feature only in components whose causal behavior it changes.
 
 ## Step 2: Mechanism, Context, and Metric Contract
 
@@ -64,26 +64,34 @@ Keep reusable metric semantics separate from run-specific lineage. Observation b
 
 A Spark event-log value available at task or stage end cannot drive a faster same-task loop. Use an executor-local signal for that loop and retain the event log for reconciliation.
 
-The canonical context separates:
+Separate exact evidence provenance from prediction retrieval.
 
-- semantic identity: normalized logical and physical/AQE-final plan, table snapshot, schema, projection, predicate family/selectivity, layout and statistics version, downstream operators;
-- execution identity: Spark/RAPIDS/cuDF/connector versions, reader mode, shuffle manager/transport, AQE, effective configuration, executor and GPU topology;
-- storage identity: endpoint/region/class, filesystem/connector/client version, sync/async behavior, configured request concurrency, range/coalescing/readahead policy;
-- plant identity: identities and active policies of other controllers that change semantics.
+Evidence provenance records the complete observed query/plan, table snapshot, schemas, literal predicates, software, hardware, storage, reader, configuration, resource state, action, and result. It is immutable and checksummed so a claim can be reproduced. It does not define an all-or-nothing prediction key.
 
-The modeled actuator is not an exact-match context field: it is an action feature whose recommended and actual effective values are linked to each outcome. Treat other controllers as exact context, covariates, or interference exclusions according to their causal effect.
+Prediction is a composition of component estimators. For each component declare:
 
-Define exact-match fields, similarity features, allowed interpolation ranges, and confidence penalties. Unknown or incompatible schema versions must not be silently pooled. Every exact-context artifact reference must carry schema version, immutable location, and checksum; literal and artifact forms are mutually exclusive.
+- required and optional runtime inputs;
+- the small feature subset that causally affects that component;
+- compatible observations and hard semantic incompatibilities;
+- an ordered fallback lattice from specific history through transferable priors;
+- partial-pooling or shrinkage rule, age/sample weighting, interval, and abstention;
+- behavior when an optional feature is missing.
+
+For example, encoded-to-decoded rows/bytes may use file format, codec when known, projected column types, schema-evolution state, predicate/selectivity evidence, and optional table history. It must not require an exact query or full-plan match. Decode throughput may add GPU/software features. Read service may add connector/client and recent capacity. A task-wave component may use current slots, while the size/memory components continue when that live value is unavailable.
+
+Treat query literals, snapshots, schema additions, and executor-count changes as feature values with uncertainty—not automatic new model families. A new column should borrow compatible column/type priors while known columns retain their learned estimates. Plan operators are runtime features when visible inside the current AQE boundary; unavailable future plan fragments disable only dependent components.
+
+The modeled actuator is an action feature whose recommended and actual effective values are linked to each outcome. Unknown or incompatible metric/feature schema versions must not be silently pooled, but ordinary missing optional features invoke the declared fallback instead of global abstention.
 
 ## Step 3: Three Timescales
 
-Classify every input:
+Classify every input per component:
 
-1. **Stable context**: semantics and mechanisms that select a model family. A hard mismatch selects another family or invalidates reuse.
-2. **Learned parameters**: expansion ratio, fixed task cost, decode/filter/operator rate, footprint coefficients, and residual distributions. Estimate over multiple independent observations with uncertainty and recency.
-3. **Live state**: available memory, admitted concurrency, queue depth, current storage/network throughput and latency, throttling/retries, cache state, skew, spill, and competing load. Measure over a declared recent window.
+1. **Runtime structural features**: available schemas, projected columns, predicate/operator structure, selected file/layout information, reader/configuration semantics, and compatible software epochs. These are inputs, not necessarily exact keys.
+2. **Learned parameters**: per-column/type widths, expansion and selectivity distributions, fixed task cost, decode/filter/operator rates, footprint coefficients, and residuals. Estimate with hierarchical fallback, uncertainty, and recency.
+3. **Live state**: available memory, admitted concurrency, current executor/slot estimate, queue depth, recent storage/network throughput and latency, throttling/retries, cache state, skew, spill, and competing load. Measure over a declared recent window and tolerate absence.
 
-Use history to initialize learned parameters and priors. Use live state for volatile service capacity. Do not create a permanent context key for every transient S3 slowdown; decay or abstain when capacity changes. Conversely, do not merely decay across a semantic code, plan, schema, metric, or actuator-lifecycle incompatibility—hard-invalidate it.
+Use history for data description and mechanism parameters that cannot be calculated at planning time. Use current scan inputs wherever possible and live state for volatile capacity. Hard-invalidate only the affected component across an incompatible metric meaning or mechanism. Widen uncertainty, fall back, or disable one optional component when ordinary inputs are missing or changing.
 
 Keep online observations in a quarantine buffer. They may update a durable prior only after correctness, identity, attribution, censoring, and safety checks pass. Raw observations are append-only; publish new model artifacts rather than mutating an active artifact in place.
 
@@ -101,7 +109,7 @@ Separate exact replay from replication:
 - **replay** holds data, query, software, schedule, and runtime identity fixed;
 - **replication** intentionally changes hardware, storage, topology, or software and creates a new context stratum.
 
-The launcher owns submit, status, cancel, log collection, remote paths, and cleanup. The workload receives resolved dataset/query parameters and output locations; it must not hard-code local paths, master mode, credentials, or event-log discovery.
+The launcher owns experimental submit, status, cancel, log collection, remote paths, and cleanup. It exists to collect portable evidence; it is not the deployed controller. Runtime decisions belong at the product's legal actuation boundary—for scan sizing, normally a per-read plugin planning hook. The benchmark workload receives resolved dataset/query parameters and output locations; it must not hard-code local paths, master mode, credentials, or event-log discovery.
 
 Start a new context with a small discriminating calibration set, not a full Cartesian sweep. Include enough low/mid/high action points and task waves to identify each mechanism, then validate an untouched query, snapshot, scale, or hardware stratum. Expand only when residuals or the decision boundary require it.
 

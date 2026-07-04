@@ -54,6 +54,14 @@ For every phase, identify representation, logical and encoded bytes, passes, ope
 
 Use a defensible capacity ceiling only for a lower bound. Use measured sustainable rates plus uncertainty for a prediction.
 
+### Design for composable transfer
+
+Do not make a whole query, table snapshot, plan, or hardware environment the default unit of reuse. Preserve those fields as evidence provenance, then split the prediction into mechanism components. For each component list the smallest causal feature set, runtime availability, optional refinements, hard incompatibilities, transferable priors, and missing-feature fallback.
+
+A query literal or new column should change the applicable features and uncertainty, not automatically force global cold start. Plan fragments available at the current AQE boundary may feed operator components; unavailable future plan fragments must not block independent data-shape or memory components. If one optional component cannot run, return a degraded composition or conservative baseline instead of discarding all usable evidence.
+
+Prefer current runtime metadata over history when it directly answers the question. Use history for quantities that cannot be calculated yet, and use live telemetry for volatile capacity. Test transfer by holding out changed queries, predicates, projections, schema epochs, tables, and environments—not only random runs from one exact context.
+
 ## 4. Check treatment distinctness
 
 Before proposing a sweep, map each candidate through configured input → effective rule → physical work. Use metadata, source tracing, or a small compliance probe to identify indivisible units and treatment equivalence.

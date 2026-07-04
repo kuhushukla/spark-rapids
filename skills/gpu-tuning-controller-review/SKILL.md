@@ -77,8 +77,11 @@ Check:
 - partitions, tasks, and batches are distinct;
 - sums represent serial work and maxima represent demonstrated overlap;
 - stage-DAG critical path and resource contention;
-- priors, sample count, percentile definition, censoring, skew, and recency;
-- prediction interval or confidence-based abstention;
+- exact evidence provenance is separate from prediction features;
+- each component uses only causally relevant features and has a tested fallback lattice;
+- changed query literals, snapshots, schemas, hardware, or resource counts degrade only dependent components rather than forcing unnecessary global cold start;
+- priors, partial pooling, sample weights, percentile definition, censoring, skew, and recency;
+- per-component intervals, missing-feature behavior, and confidence-based fallback or abstention;
 - training/hold-out separation;
 - assumptions and falsification test;
 - model output maps to the actuator without double division or double counting.
@@ -96,10 +99,10 @@ Check:
 - kill switch and automatic disable;
 - shadow and canary modes;
 - independent context, feature, metric, model, policy, and persistence versions;
-- lifecycle-schema validator output, external canonical hashes for immutable model/parent manifests and payloads, resolvable exact-context and training artifacts, and training-cutoff leakage checks;
+- lifecycle-schema validator output, external canonical hashes for immutable model/parent manifests and payloads, resolvable evidence-provenance and training artifacts, and training-cutoff leakage checks;
 - append-only rollout-transition hash chain, transition authority, atomic active pointer, and rollback pointer;
 - experiment base-manifest/invariant comparison for replay, or intentional delta/new-stratum evidence for replication;
-- exact compatible reuse versus transient-capacity decay versus hard semantic invalidation;
+- compatible reuse, fallback, and drift are decided per component; hard invalidation is limited to affected semantic mechanisms;
 - operational drift detectors with windows, minimum samples, thresholds, consecutive-window rules, actions, and recovery;
 - quarantine and attribution rules that prevent shadow recommendations or incumbent actions from becoming false counterfactual labels;
 - other controllers that change the plant;

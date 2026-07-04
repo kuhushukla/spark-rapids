@@ -1,12 +1,9 @@
-schema_version: "gpu-tuning-model-lifecycle/v1"
+schema_version: "gpu-tuning-model-lifecycle/v2"
 artifact:
   model_id: ""
   created_at_rfc3339: ""
   initial_state: "candidate"
-  model_payload:
-    location: ""
-    sha256: ""
-    media_type: ""
+  model_payload: {location: "", sha256: "", media_type: ""}
   manifest_integrity:
     canonicalization: ""
     checksum_location: "external artifact index; never self-hash this manifest"
@@ -15,12 +12,12 @@ artifact:
     model_manifest_sha256: ""
     model_payload_sha256: ""
 versions:
-  context_schema: {id: "", version: "", sha256: "", compatibility_rule: ""}
-  feature_schema: {id: "", version: "", sha256: "", compatibility_rule: ""}
+  provenance_schema: {id: "", version: "", sha256: "", compatibility_rule: ""}
+  runtime_request_schema: {id: "", version: "", sha256: "", compatibility_rule: ""}
+  component_feature_schemas: []
   metric_schema: {id: "", version: "", sha256: "", compatibility_rule: ""}
   observation_schema: {id: "", version: "", sha256: "", compatibility_rule: ""}
   estimator_code: {id: "", version: "", sha256: "", compatibility_rule: ""}
-  parameter_calibration: {id: "", version: "", sha256: "", compatibility_rule: ""}
   policy_controller: {id: "", version: "", sha256: "", compatibility_rule: ""}
   persistence_format: {id: "", version: "", sha256: "", compatibility_rule: ""}
 contract:
@@ -35,57 +32,60 @@ contract:
     maximum_decision_latency: {value: null, unit: ""}
   correctness_constraints: []
   safety_constraints: []
-context_key:
-  exact_match_fields:
-    # Set exactly one of literal or artifact for each field.
-    - name: "logical_and_physical_aqe_plan"
-      literal: null
-      artifact: {schema_version: "", location: "", sha256: ""}
-    - name: "table_snapshot_schema_layout_statistics"
-      literal: null
-      artifact: {schema_version: "", location: "", sha256: ""}
-    - name: "projection_predicate_selectivity"
-      literal: null
-      artifact: {schema_version: "", location: "", sha256: ""}
-    - name: "spark_rapids_cudf_connector_versions"
-      literal: null
-      artifact: {schema_version: "", location: "", sha256: ""}
-    - name: "reader_and_execution_fingerprint"
-      literal: null
-      artifact: {schema_version: "", location: "", sha256: ""}
-    - name: "shuffle_manager_transport_partitions_and_aqe"
-      literal: null
-      artifact: {schema_version: "", location: "", sha256: ""}
-    - name: "executor_gpu_topology"
-      literal: null
-      artifact: {schema_version: "", location: "", sha256: ""}
-    - name: "storage_endpoint_region_class_and_client"
-      literal: null
-      artifact: {schema_version: "", location: "", sha256: ""}
-    - name: "downstream_operator_fingerprint"
-      literal: null
-      artifact: {schema_version: "", location: "", sha256: ""}
-    - name: "plant_changing_controller_identities_and_policies"
-      literal: null
-      artifact: {schema_version: "", location: "", sha256: ""}
-  similarity_features: []
-  supported_ranges: []
-  confidence_penalties: []
-action_features:
-  schema_id_version_sha256: {id: "", version: "", sha256: ""}
-  modeled_actuator:
-    id: ""
+runtime_request:
+  decision_scope: "per-read"
+  required_inputs: []
+  optional_inputs: []
+  unavailable_future_inputs: []
+  spark_default_fallback: ""
+evidence_provenance:
+  # Exact provenance is retained for audit; it is not an exact prediction key.
+  schema: {id: "", version: "", sha256: ""}
+  required_fields:
+    - query_and_observed_plan
+    - table_snapshot_and_schemas
+    - projection_and_literal_predicates
+    - selected_files_layout_and_statistics
+    - software_hardware_storage_reader_and_configuration
+    - live_resource_state_with_observation_time
+    - recommended_and_actual_action
+    - realized_result_and_safety_events
+components:
+  - id: ""
+    target: ""
     unit: ""
-    supported_range: {minimum: null, maximum: null}
+    feature_schema: {id: "", version: "", sha256: ""}
+    required_features: []
+    optional_features: []
+    hard_incompatibilities: []
+    fallback_levels:
+      - level: 0
+        description: ""
+        compatible_observation_rule: ""
+        partial_pooling_or_shrinkage: ""
+        minimum_effective_samples: null
+      - level: 1
+        description: "transferable prior"
+        compatible_observation_rule: ""
+        partial_pooling_or_shrinkage: ""
+        minimum_effective_samples: null
+    missing_optional_feature_behavior: ""
+    age_and_sample_weighting: ""
+    supported_ranges: []
+    uncertainty_and_abstention: ""
+composition:
+  equations_or_code_sha256: ""
+  unavailable_component_behavior: ""
+  confidence_propagation: ""
+  selection_and_shrinkage_toward_spark_default: ""
+action_features:
+  schema: {id: "", version: "", sha256: ""}
+  modeled_actuator: {id: "", unit: "", minimum: null, maximum: null}
   observation_fields:
     recommended_action: ""
     actual_effective_action: ""
     other_controller_covariates: []
     interference_exclusions: []
-inputs:
-  stable_context: []
-  learned_parameters: []
-  live_state: []
 metrics:
   - id: ""
     schema_version: ""
@@ -116,6 +116,7 @@ training_lineage:
   rejected_or_censored_observations: []
 evidence_gates:
   - id: ""
+    component_or_policy_id: ""
     metric_id: ""
     segment: ""
     operator: ""
@@ -126,49 +127,32 @@ evidence_gates:
     maximum_observation_age: {value: null, unit: ""}
     result_artifact: {location: "", sha256: ""}
 freshness_and_drift:
-  hard_identity_invalidation_rules: []
+  hard_component_incompatibility_rules: []
   detectors:
     - id: ""
+      component_id: ""
       kind: "covariate|residual|safety|infrastructure"
       metric_or_feature_ids: []
       segments: []
       event_time_field: ""
-      allowed_lateness: {value: null, unit: ""}
       reference_window: {value: null, unit: ""}
       current_window: {value: null, unit: ""}
       weighting: ""
       minimum_effective_samples: null
       statistic_or_test: ""
       threshold: {operator: "", value: null, unit: ""}
-      multiplicity: {family: "", method: ""}
       consecutive_windows: null
-      actions: {warning: "", abstain: "", invalidate: "", rollback: ""}
+      actions: {warning: "", widen_or_fallback: "", abstain_component: "", rollback: ""}
       recovery_and_requalification: ""
-volatile_capacity_observations:
-  required_metric_family: "storage_network_capacity"
-  required_fields:
-    - event_time_window
-    - storage_or_network_lane
-    - bytes_and_request_counts
-    - request_range_sizes
-    - outstanding_concurrency
-    - latency_queue_throttle_and_retry
-    - cache_state_and_hits
-    - effective_throughput_distribution
-    - competing_load_or_missing_reason
-    - clock_alignment
 update_policy:
   online_quarantine_and_validation: ""
   append_only_observation_identity: ""
   weighting_retention_and_compaction: ""
-  challenger_trigger_and_fit: ""
+  component_challenger_trigger_and_fit: ""
   activation_log_schema: "gpu-tuning-rollout/v1"
-invalidation_and_compatibility:
-  - change: ""
-    action: "reuse|decay|reextract|retrain|fork|reject"
-    migration: {id: "", sha256: ""}
 fallback_and_rollback:
-  abstention_fallback: ""
+  component_fallbacks: []
+  whole_policy_spark_default: ""
   kill_switch: ""
   rollback_model_id: ""
   authority: ""

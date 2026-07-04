@@ -4,7 +4,7 @@ Status: **EXECUTED (exploratory mechanism validation)**
 
 This package profiles the scan stage used by the partition-size experiment and supports
 the model in
-[`docs/design/context-keyed-gpu-scan-performance-model.md`](../../design/context-keyed-gpu-scan-performance-model.md).
+[`docs/design/composable-gpu-scan-performance-model.md`](../../design/composable-gpu-scan-performance-model.md).
 
 ## Question and scope
 

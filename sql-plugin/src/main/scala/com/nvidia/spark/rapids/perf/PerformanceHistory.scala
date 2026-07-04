@@ -25,10 +25,12 @@ import java.util.Base64
 import scala.collection.mutable.ArrayBuffer
 
 /**
- * Exact reuse key for an observed performance context.
+ * Exact provenance captured for an observed performance context.
  *
- * The read client details remain part of the key even though the POC models reads with
- * effective throughput. A serial blocking client is not interchangeable with an async client.
+ * This is not the intended production prediction key. The current persistence POC still uses
+ * case-class equality during lookup; the composable planner must instead select evidence
+ * independently for data shape, footprint, read, decode, operator, and scheduling components.
+ * A serial blocking client, for example, matters to read service but not decoded row width.
  */
 private[rapids] case class PerformanceContext(
     instanceType: String,
@@ -288,6 +290,8 @@ private final class LocalFilePerformanceHistory(path: Path) extends PerformanceH
   override def predict(request: PredictionRequest): Option[PerformancePrediction] =
     synchronized {
       require(!closed, "performance history is closed")
+      // Temporary POC behavior. Do not wire this exact-context lookup into scan planning;
+      // production retrieval must use component-specific features and hierarchical fallbacks.
       val exact = records.filter(_.context == request.context)
       if (exact.isEmpty) {
         None
