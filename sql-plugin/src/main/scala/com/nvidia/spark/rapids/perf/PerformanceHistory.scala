@@ -50,6 +50,8 @@ private[rapids] case class PerformanceContext(
     projectionFingerprint: String,
     partitionPredicateFingerprint: String,
     dataPredicateFingerprint: String,
+    partitionPredicateShapeFingerprint: String,
+    dataPredicateShapeFingerprint: String,
     fileSystemScheme: String,
     storageContext: String,
     clientKind: String,
@@ -142,8 +144,32 @@ private[rapids] case class PerformancePrediction(
     p10Scale: Option[Double],
     p90Scale: Option[Double])
 
+private[rapids] case class DataShapeRequest(
+    context: PerformanceContext,
+    compressedReadBytes: Long)
+
+private[rapids] case class DataShapePrediction(
+    decodedBytes: Long,
+    decodedRows: Long,
+    empiricalUpperDecodedBytes: Long,
+    empiricalUpperDecodedRows: Long,
+    sampleCount: Int,
+    evidenceLevel: String)
+
+private[rapids] case class FootprintRequest(
+    context: PerformanceContext,
+    maxBatchBytes: Long)
+
+private[rapids] case class FootprintPrediction(
+    taskFootprintBytes: Long,
+    empiricalUpperTaskFootprintBytes: Long,
+    sampleCount: Int,
+    evidenceLevel: String)
+
 private[rapids] trait PerformanceHistory extends AutoCloseable {
   def record(observation: PerformanceObservation): Unit
+  def predictDataShape(request: DataShapeRequest): Option[DataShapePrediction]
+  def predictFootprint(request: FootprintRequest): Option[FootprintPrediction]
   def predict(request: PredictionRequest): Option[PerformancePrediction]
   def observations(context: PerformanceContext): Seq[PerformanceObservation]
   def flush(): Unit
@@ -159,7 +185,7 @@ private[rapids] object PerformanceHistory {
  * PerformanceHistory, so this is not a public or durable integration contract.
  */
 private object ObservationCodec {
-  private val Version = "v4"
+  private val Version = "v5"
   private val encoder = Base64.getUrlEncoder.withoutPadding()
   private val decoder = Base64.getUrlDecoder
 
@@ -178,8 +204,9 @@ private object ObservationCodec {
       encode(c.connectorId), encode(c.tableId), encode(c.tableVersion),
       encode(c.fileFormat), encode(c.codec), encode(c.schemaFingerprint),
       encode(c.executionFingerprint), encode(c.projectionFingerprint),
-      encode(c.partitionPredicateFingerprint),
-      encode(c.dataPredicateFingerprint), encode(c.fileSystemScheme), encode(c.storageContext),
+      encode(c.partitionPredicateFingerprint), encode(c.dataPredicateFingerprint),
+      encode(c.partitionPredicateShapeFingerprint), encode(c.dataPredicateShapeFingerprint),
+      encode(c.fileSystemScheme), encode(c.storageContext),
       encode(c.clientKind), c.asynchronousRead, c.readerThreads, c.maxOutstandingRequests,
       c.readAheadEnabled, c.rangeMergeGapBytes, encode(c.throttlePolicyId),
       encode(c.cacheState), encode(c.downstreamFingerprint), encode(c.downstreamUnit),
@@ -210,7 +237,8 @@ private object ObservationCodec {
       decode(next()), decode(next()), decode(next()), decode(next()),
       decode(next()), decode(next()), decode(next()), decode(next()),
       decode(next()), decode(next()), decode(next()), decode(next()), decode(next()),
-      decode(next()), decode(next()), decode(next()), next().toBoolean,
+      decode(next()), decode(next()), decode(next()), decode(next()), decode(next()),
+      next().toBoolean,
       next().toInt, next().toInt, next().toBoolean, next().toLong,
       decode(next()), decode(next()), decode(next()), decode(next()))
     def optionalLong(value: String): Option[Long] =
@@ -287,6 +315,18 @@ private final class LocalFilePerformanceHistory(path: Path) extends PerformanceH
       records.filter(_.context == context).toSeq
     }
 
+  override def predictDataShape(request: DataShapeRequest): Option[DataShapePrediction] =
+    synchronized {
+      require(!closed, "performance history is closed")
+      ComponentPredictor.predictDataShape(request, records.toSeq)
+    }
+
+  override def predictFootprint(request: FootprintRequest): Option[FootprintPrediction] =
+    synchronized {
+      require(!closed, "performance history is closed")
+      ComponentPredictor.predictFootprint(request, records.toSeq)
+    }
+
   override def predict(request: PredictionRequest): Option[PerformancePrediction] =
     synchronized {
       require(!closed, "performance history is closed")
@@ -325,6 +365,120 @@ private final class LocalFilePerformanceHistory(path: Path) extends PerformanceH
 
   private def sizeBucket(bytes: Long): Int =
     if (bytes <= 0) 0 else 63 - java.lang.Long.numberOfLeadingZeros(bytes)
+}
+
+private object ComponentPredictor {
+  private def median(values: Seq[Double]): Double = {
+    val sorted = values.sorted
+    val middle = sorted.length / 2
+    if (sorted.length % 2 == 0) (sorted(middle - 1) + sorted(middle)) / 2.0
+    else sorted(middle)
+  }
+
+  private def upper(values: Seq[Double]): Double = {
+    val sorted = values.sorted
+    if (sorted.length < 5) sorted.last
+    else sorted(Math.round(0.90 * (sorted.length - 1)).toInt)
+  }
+
+  private def scaled(value: Long, ratio: Double): Long = {
+    val result = value.toDouble * ratio
+    if (!java.lang.Double.isFinite(result) || result >= Long.MaxValue) Long.MaxValue
+    else Math.max(0L, Math.round(result))
+  }
+
+  private def sameDataShape(left: PerformanceContext, right: PerformanceContext): Boolean = {
+    left.fileFormat == right.fileFormat &&
+      left.codec == right.codec &&
+      left.schemaFingerprint == right.schemaFingerprint &&
+      left.projectionFingerprint == right.projectionFingerprint &&
+      left.partitionPredicateShapeFingerprint == right.partitionPredicateShapeFingerprint &&
+      left.dataPredicateShapeFingerprint == right.dataPredicateShapeFingerprint
+  }
+
+  private def dataShapeEvidence(
+      request: DataShapeRequest,
+      records: Seq[PerformanceObservation]): (Seq[PerformanceObservation], String) = {
+    val compatible = records.filter { observation =>
+      sameDataShape(observation.context, request.context) &&
+        observation.compressedReadBytes > 0 &&
+        observation.decodedBytes > 0 &&
+        observation.decodedRows > 0
+    }
+    val sameTable = compatible.filter(_.context.tableId == request.context.tableId)
+    if (sameTable.nonEmpty) {
+      (sameTable, "same-table-compatible-snapshot")
+    } else {
+      (compatible, "cross-table-compatible-shape")
+    }
+  }
+
+  def predictDataShape(
+      request: DataShapeRequest,
+      records: Seq[PerformanceObservation]): Option[DataShapePrediction] = {
+    require(request.compressedReadBytes >= 0, "compressed read bytes must not be negative")
+    val (evidence, level) = dataShapeEvidence(request, records)
+    if (request.compressedReadBytes == 0 || evidence.isEmpty) {
+      None
+    } else {
+      val byteRatios = evidence.map { observation =>
+        observation.decodedBytes.toDouble / observation.compressedReadBytes
+      }
+      val rowRatios = evidence.map { observation =>
+        observation.decodedRows.toDouble / observation.compressedReadBytes
+      }
+      Some(DataShapePrediction(
+        scaled(request.compressedReadBytes, median(byteRatios)),
+        scaled(request.compressedReadBytes, median(rowRatios)),
+        scaled(request.compressedReadBytes, upper(byteRatios)),
+        scaled(request.compressedReadBytes, upper(rowRatios)),
+        evidence.length,
+        level))
+    }
+  }
+
+  private def sameFootprintMechanism(
+      left: PerformanceContext,
+      right: PerformanceContext): Boolean = {
+    left.rapidsVersion == right.rapidsVersion &&
+      left.fileFormat == right.fileFormat &&
+      left.codec == right.codec &&
+      left.executionFingerprint == right.executionFingerprint &&
+      left.downstreamFingerprint == right.downstreamFingerprint &&
+      left.downstreamUnit == right.downstreamUnit
+  }
+
+  def predictFootprint(
+      request: FootprintRequest,
+      records: Seq[PerformanceObservation]): Option[FootprintPrediction] = {
+    require(request.maxBatchBytes >= 0, "maximum batch bytes must not be negative")
+    val compatible = records.filter { observation =>
+      sameFootprintMechanism(observation.context, request.context) &&
+        observation.maxBatchBytes > 0 &&
+        observation.maxTaskFootprintBytes > 0
+    }
+    val sameShape = compatible.filter { observation =>
+      observation.context.schemaFingerprint == request.context.schemaFingerprint &&
+        observation.context.projectionFingerprint == request.context.projectionFingerprint
+    }
+    val (evidence, level) =
+      if (sameShape.nonEmpty) (sameShape, "same-reader-and-shape")
+      else (compatible, "same-reader-transferable-batch")
+    if (request.maxBatchBytes == 0 || evidence.isEmpty) {
+      None
+    } else {
+      // Batch-normalized footprint is a POC feature, not yet a validated safety bound.
+      // Production must calibrate its residuals by reader/operator mechanism and task shape.
+      val ratios = evidence.map { observation =>
+        observation.maxTaskFootprintBytes.toDouble / observation.maxBatchBytes
+      }
+      Some(FootprintPrediction(
+        scaled(request.maxBatchBytes, median(ratios)),
+        scaled(request.maxBatchBytes, upper(ratios)),
+        evidence.length,
+        level))
+    }
+  }
 }
 
 private object Predictor {

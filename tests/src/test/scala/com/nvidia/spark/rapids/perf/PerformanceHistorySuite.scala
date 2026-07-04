@@ -22,25 +22,37 @@ import java.nio.file.{Files, StandardOpenOption}
 import org.scalatest.funsuite.AnyFunSuite
 
 class PerformanceHistorySuite extends AnyFunSuite {
-  private def context(tableVersion: String = "2009"): PerformanceContext =
+  private def context(
+      tableVersion: String = "2009",
+      tableId: String = "taxi",
+      schemaFingerprint: String = "schema-sha256",
+      projectionFingerprint: String = "projection-sha256",
+      partitionPredicateFingerprint: String = "partition-predicate-literal-a",
+      dataPredicateFingerprint: String = "data-predicate-literal-a",
+      partitionPredicateShapeFingerprint: String = "partition-predicate-shape",
+      dataPredicateShapeFingerprint: String = "data-predicate-shape",
+      instanceType: String = "g7.4xlarge",
+      gpuName: String = "NVIDIA L4"): PerformanceContext =
     PerformanceContext(
-      "g7.4xlarge",
-      "NVIDIA L4",
+      instanceType,
+      gpuName,
       24L * 1024 * 1024 * 1024,
       16,
       "3.5.5",
       "26.08.0",
       "17",
       "hadoop-s3a-v1",
-      "taxi",
+      tableId,
       tableVersion,
       "parquet",
       "snappy",
-      "schema-sha256",
+      schemaFingerprint,
       "reader-and-admission-config-sha256",
-      "projection-sha256",
-      "partition-predicate-sha256",
-      "data-predicate-sha256",
+      projectionFingerprint,
+      partitionPredicateFingerprint,
+      dataPredicateFingerprint,
+      partitionPredicateShapeFingerprint,
+      dataPredicateShapeFingerprint,
       "s3a",
       "bucket=example,region=us-east-1",
       "s3a-async",
@@ -98,7 +110,7 @@ class PerformanceHistorySuite extends AnyFunSuite {
     reopened.close()
   }
 
-  test("prediction requires an exact table version in the context key") {
+  test("legacy end-to-end prediction still requires an exact context") {
     val path = Files.createTempDirectory("performance-history-key").resolve("history.log")
     val history = PerformanceHistory.local(path)
     history.record(observation(context()))
@@ -107,6 +119,69 @@ class PerformanceHistorySuite extends AnyFunSuite {
       context("2010"), 2000, 4000, 200, 1000, 50, 1000, 8,
       1024L * 1024 * 1024, 4, 8, 2.0, 2.0, 2.0, 400, 2048, 4096)
     assert(history.predict(differentTableVersion).isEmpty)
+    history.close()
+  }
+
+  test("data-shape prediction transfers across snapshots and hardware") {
+    val path = Files.createTempDirectory("performance-history-data-shape")
+      .resolve("history.log")
+    val history = PerformanceHistory.local(path)
+    history.record(observation(context()))
+
+    val requestContext = context(
+      tableVersion = "2010",
+      partitionPredicateFingerprint = "partition-predicate-literal-b",
+      dataPredicateFingerprint = "data-predicate-literal-b",
+      instanceType = "different-instance",
+      gpuName = "different-gpu")
+    val prediction = history.predictDataShape(DataShapeRequest(requestContext, 3000)).get
+
+    assert(prediction.decodedBytes === 6000)
+    assert(prediction.decodedRows === 300)
+    assert(prediction.empiricalUpperDecodedBytes === 6000)
+    assert(prediction.empiricalUpperDecodedRows === 300)
+    assert(prediction.sampleCount === 1)
+    assert(prediction.evidenceLevel === "same-table-compatible-snapshot")
+    history.close()
+  }
+
+  test("data-shape prediction transfers to another table with a compatible shape") {
+    val path = Files.createTempDirectory("performance-history-cross-table")
+      .resolve("history.log")
+    val history = PerformanceHistory.local(path)
+    history.record(observation(context()))
+
+    val requestContext = context(tableId = "another-table", tableVersion = "v1")
+    val prediction = history.predictDataShape(DataShapeRequest(requestContext, 500)).get
+
+    assert(prediction.decodedBytes === 1000)
+    assert(prediction.decodedRows === 50)
+    assert(prediction.evidenceLevel === "cross-table-compatible-shape")
+    assert(history.predictDataShape(DataShapeRequest(
+      requestContext.copy(schemaFingerprint = "incompatible-schema"), 500)).isEmpty)
+    history.close()
+  }
+
+  test("footprint prediction uses recorded task footprint instead of table identity") {
+    val path = Files.createTempDirectory("performance-history-footprint")
+      .resolve("history.log")
+    val history = PerformanceHistory.local(path)
+    history.record(observation(context()))
+
+    val sameShape = history.predictFootprint(FootprintRequest(
+      context(tableVersion = "2010"), 1024L * 1024 * 1024)).get
+    assert(sameShape.taskFootprintBytes === 2048)
+    assert(sameShape.empiricalUpperTaskFootprintBytes === 2048)
+    assert(sameShape.evidenceLevel === "same-reader-and-shape")
+
+    val changedShape = history.predictFootprint(FootprintRequest(
+      context(
+        tableId = "another-table",
+        schemaFingerprint = "new-schema",
+        projectionFingerprint = "new-projection"),
+      1024L * 1024 * 1024)).get
+    assert(changedShape.taskFootprintBytes === 2048)
+    assert(changedShape.evidenceLevel === "same-reader-transferable-batch")
     history.close()
   }
 
@@ -166,7 +241,7 @@ class PerformanceHistorySuite extends AnyFunSuite {
     val history = PerformanceHistory.local(path)
     history.record(first)
     history.close()
-    Files.write(path, "v4\\tpartial".getBytes(StandardCharsets.UTF_8),
+    Files.write(path, "v5\\tpartial".getBytes(StandardCharsets.UTF_8),
       StandardOpenOption.APPEND)
 
     val recovered = PerformanceHistory.local(path)

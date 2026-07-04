@@ -149,6 +149,19 @@ The experiment extracts DEBUG scan, buffer, internal-filter, I/O-schedule, bubbl
 filesystem-read, buffer-write, GPU-decode, SQL-filter, semaphore, footprint, retry, and
 spill metrics where available.
 
+`gpuMaxTaskFootprint` originates from
+`RmmSpark.getMaxGpuTaskMemory(taskAttemptId)`. The dynamic stage estimator already uses
+these task maxima for its current-stage p80 estimate. Historical learning should reuse
+the same observation, but retain it at task scope or as a validated per-scan distribution
+with count/quantiles and scan-shape attribution. The accumulator merges task values
+additively, so a stage aggregate is not itself a maximum and must not be stored under
+that interpretation.
+
+Store the observed task maxima and their input/batch shape plus retry/spill/censoring
+state. Also store the derived footprint prediction, uncertainty, and model version for
+audit. Do not store only the derived p80: raw sufficient observations are required to
+refit the footprint relation when data, batching, or software changes.
+
 ## Decoded-size and row prediction
 
 Historical observations and currently available metadata predict a proposed encoded
@@ -343,12 +356,27 @@ Spark's calculated default. If no candidate is demonstrably safer or better, ret
 
 ## Prototype API and limits
 
-The committed `PerformanceHistory` is evidence that local recording and component-rate
-calculation are feasible, but its exact 29-field `PerformanceContext` equality lookup is
-the wrong retrieval design for the intended product. It must not be integrated into scan
-planning unchanged.
+The committed `PerformanceHistory` now exposes independently reusable
+`predictDataShape` and `predictFootprint` component APIs. Data-shape evidence first
+uses compatible same-table observations across snapshots and changed predicate literals,
+then compatible schema/projection/format/codec/predicate-shape observations from other
+tables; hardware and full-query identity do not participate. The request's compressed
+read bytes must still come from current metadata or a separate pruning/selectivity
+estimate. Footprint evidence uses compatible reader/execution and
+downstream mechanisms, first with the same schema/projection and then a batch-size-based
+cross-shape fallback.
 
-The replacement high-level boundary is:
+The footprint component currently scales observed task footprint by maximum GPU batch
+bytes. This is a transferable POC feature, not a validated safety bound. Its reported
+upper value is only the empirical upper ratio (maximum below five samples, p90
+thereafter); promotion requires prospective residual calibration by reader/operator/task
+shape.
+
+The older end-to-end `predict` path still uses exact provenance equality and is retained
+only as evidence that local persistence and component-rate calculation are feasible. It
+is the wrong retrieval design and must not be integrated into scan planning.
+
+The high-level planner boundary remains:
 
 ```text
 planScan(ScanPlanningRequest) ->
