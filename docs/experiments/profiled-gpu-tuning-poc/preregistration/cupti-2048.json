@@ -1,0 +1,40 @@
+{
+  "runs": [
+    {
+      "run_id": "cupti-2048-warmup-common",
+      "phase": "warmup",
+      "block": -1,
+      "repeat": 0,
+      "study": "cupti_profile",
+      "episode": "train_2009",
+      "start_month": "2009-01",
+      "end_month": "2009-12",
+      "query": "common",
+      "max_partition_mib": 2048
+    },
+    {
+      "run_id": "cupti-2048-warmup-variable",
+      "phase": "warmup",
+      "block": -1,
+      "repeat": 0,
+      "study": "cupti_profile",
+      "episode": "train_2009",
+      "start_month": "2009-01",
+      "end_month": "2009-12",
+      "query": "variable_width",
+      "max_partition_mib": 2048
+    },
+    {
+      "run_id": "cupti-2048-target-common",
+      "phase": "profile",
+      "block": 0,
+      "repeat": 0,
+      "study": "cupti_profile",
+      "episode": "train_2009",
+      "start_month": "2009-01",
+      "end_month": "2009-12",
+      "query": "common",
+      "max_partition_mib": 2048
+    }
+  ]
+}

@@ -40,6 +40,21 @@ JFR captures driver/executor CPU activity in the local-mode JVM. A 100-ms
 `nvidia-smi` sample captures coarse device utilization, memory, power, and clocks.
 Profiled wall times are diagnostic and are not mixed with unprofiled benchmark timing.
 
+### Stage-gated RAPIDS CUPTI profile
+
+For each of 128, 2,048, and 16,384 MiB, run the frozen sequence: common warmup,
+variable-width warmup, then the common target. Profile only scan stage 4 with the
+built-in RAPIDS CUPTI profiler. Convert its binary output to JSON and retain:
+
+- summed CUDA kernel duration as GPU service demand;
+- the union of kernel intervals as GPU busy time;
+- memcpy duration and bytes;
+- NVTX `Parquet decode` and task/GPU-ownership ranges;
+- idle gaps and overlap on the stage critical path.
+
+The stage ID is valid only for the exact frozen three-run schedule and must be verified
+from every event log.
+
 ### Nsight Compute
 
 Run one isolated common-query cell at each of 128, 2,048, and 16,384 MiB.
