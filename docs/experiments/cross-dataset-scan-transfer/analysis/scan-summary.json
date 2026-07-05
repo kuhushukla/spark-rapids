@@ -1,0 +1,7698 @@
+{
+  "accumulator_duration_resolution_ns": 1000000,
+  "runs": [
+    {
+      "block": null,
+      "elapsed_ms": 938.167259,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 28651430,
+          "min": 28651430,
+          "p50": 28651430,
+          "p90": 28651430,
+          "p95": 28651430,
+          "sum": 28651430
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 432,
+          "min": 432,
+          "p50": 432,
+          "p90": 432,
+          "p95": 432,
+          "sum": 432
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 69198871,
+          "min": 69198871,
+          "p50": 69198871,
+          "p90": 69198871,
+          "p95": 69198871,
+          "sum": 69198871
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 108579584,
+          "min": 108579584,
+          "p50": 108579584,
+          "p90": 108579584,
+          "p95": 108579584,
+          "sum": 108579584
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 209000000,
+          "min": 209000000,
+          "p50": 209000000,
+          "p90": 209000000,
+          "p95": 209000000,
+          "sum": 209000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 4000000,
+          "min": 4000000,
+          "p50": 4000000,
+          "p90": 4000000,
+          "p95": 4000000,
+          "sum": 4000000
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 5458334,
+          "min": 5458334,
+          "p50": 5458334,
+          "p90": 5458334,
+          "p95": 5458334,
+          "sum": 5458334
+        },
+        "input_records": {
+          "count": 1,
+          "max": 2964624,
+          "min": 2964624,
+          "p50": 2964624,
+          "p90": 2964624,
+          "p95": 2964624,
+          "sum": 2964624
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 48545856,
+          "min": 48545856,
+          "p50": 48545856,
+          "p90": 48545856,
+          "p95": 48545856,
+          "sum": 48545856
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 2964624,
+          "min": 2964624,
+          "p50": 2964624,
+          "p90": 2964624,
+          "p95": 2964624,
+          "sum": 2964624
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 48545856,
+          "min": 48545856,
+          "p50": 48545856,
+          "p90": 48545856,
+          "p95": 48545856,
+          "sum": 48545856
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 2964624,
+          "min": 2964624,
+          "p50": 2964624,
+          "p90": 2964624,
+          "p95": 2964624,
+          "sum": 2964624
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 5355119,
+          "min": 5355119,
+          "p50": 5355119,
+          "p90": 5355119,
+          "p95": 5355119,
+          "sum": 5355119
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 4919404,
+          "min": 4919404,
+          "p50": 4919404,
+          "p90": 4919404,
+          "p95": 4919404,
+          "sum": 4919404
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 54620453,
+          "min": 54620453,
+          "p50": 54620453,
+          "p90": 54620453,
+          "p95": 54620453,
+          "sum": 54620453
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 254510257,
+          "min": 254510257,
+          "p50": 254510257,
+          "p90": 254510257,
+          "p95": 254510257,
+          "sum": 254510257
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 255257252,
+          "min": 255257252,
+          "p50": 255257252,
+          "p90": 255257252,
+          "p95": 255257252,
+          "sum": 255257252
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "train",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "83c285b430b217a27a34c2b1a1697de96459a96a6309fe569d8dd0589978b80a",
+      "run_id": "gpu-train-yellow-2024-01",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 432,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 28651430,
+          "min": 28651430,
+          "p50": 28651430,
+          "p90": 28651430,
+          "p95": 28651430,
+          "sum": 28651430
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 432,
+          "min": 432,
+          "p50": 432,
+          "p90": 432,
+          "p95": 432,
+          "sum": 432
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 69198871,
+          "min": 69198871,
+          "p50": 69198871,
+          "p90": 69198871,
+          "p95": 69198871,
+          "sum": 69198871
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 108579584,
+          "min": 108579584,
+          "p50": 108579584,
+          "p90": 108579584,
+          "p95": 108579584,
+          "sum": 108579584
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 209000000,
+          "min": 209000000,
+          "p50": 209000000,
+          "p90": 209000000,
+          "p95": 209000000,
+          "sum": 209000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 4000000,
+          "min": 4000000,
+          "p50": 4000000,
+          "p90": 4000000,
+          "p95": 4000000,
+          "sum": 4000000
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 5458334,
+          "min": 5458334,
+          "p50": 5458334,
+          "p90": 5458334,
+          "p95": 5458334,
+          "sum": 5458334
+        },
+        "input_records": {
+          "count": 1,
+          "max": 2964624,
+          "min": 2964624,
+          "p50": 2964624,
+          "p90": 2964624,
+          "p95": 2964624,
+          "sum": 2964624
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 48545856,
+          "min": 48545856,
+          "p50": 48545856,
+          "p90": 48545856,
+          "p95": 48545856,
+          "sum": 48545856
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 2964624,
+          "min": 2964624,
+          "p50": 2964624,
+          "p90": 2964624,
+          "p95": 2964624,
+          "sum": 2964624
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 48545856,
+          "min": 48545856,
+          "p50": 48545856,
+          "p90": 48545856,
+          "p95": 48545856,
+          "sum": 48545856
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 2964624,
+          "min": 2964624,
+          "p50": 2964624,
+          "p90": 2964624,
+          "p95": 2964624,
+          "sum": 2964624
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 5355119,
+          "min": 5355119,
+          "p50": 5355119,
+          "p90": 5355119,
+          "p95": 5355119,
+          "sum": 5355119
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 4919404,
+          "min": 4919404,
+          "p50": 4919404,
+          "p90": 4919404,
+          "p95": 4919404,
+          "sum": 4919404
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 54620453,
+          "min": 54620453,
+          "p50": 54620453,
+          "p90": 54620453,
+          "p95": 54620453,
+          "sum": 54620453
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 254510257,
+          "min": 254510257,
+          "p50": 254510257,
+          "p90": 254510257,
+          "p95": 254510257,
+          "sum": 254510257
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 255257252,
+          "min": 255257252,
+          "p50": 255257252,
+          "p90": 255257252,
+          "p95": 255257252,
+          "sum": 255257252
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 28651430,
+          "duration_ms": 432,
+          "finish_time_ms": 1783214498642,
+          "gpu_decode_ns": 69198871,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_task_footprint": 108579584,
+          "gpu_semaphore_holding_ns": 209000000,
+          "gpu_semaphore_wait_ns": 4000000,
+          "input_bytes": 5458334,
+          "input_records": 2964624,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214498210,
+          "max_output_batch_bytes": 48545856,
+          "max_output_batch_rows": 2964624,
+          "output_batch_bytes": 48545856,
+          "output_batches": 1,
+          "output_rows": 2964624,
+          "partition_id": 0,
+          "read_buffer_bytes": 5355119,
+          "read_fs_ns": 4919404,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 54620453,
+          "scan_ns": 254510257,
+          "scan_op_ns": 255257252,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 1,
+          "task_id": 1,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 233.528116,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 41846590,
+          "min": 41846590,
+          "p50": 41846590,
+          "p90": 41846590,
+          "p95": 41846590,
+          "sum": 41846590
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 124,
+          "min": 124,
+          "p50": 124,
+          "p90": 124,
+          "p95": 124,
+          "sum": 124
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 31116186,
+          "min": 31116186,
+          "p50": 31116186,
+          "p90": 31116186,
+          "p95": 31116186,
+          "sum": 31116186
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 720191720,
+          "min": 720191720,
+          "p50": 720191720,
+          "p90": 720191720,
+          "p95": 720191720,
+          "sum": 720191720
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 720191720,
+          "min": 720191720,
+          "p50": 720191720,
+          "p90": 720191720,
+          "p95": 720191720,
+          "sum": 720191720
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 59000000,
+          "min": 59000000,
+          "p50": 59000000,
+          "p90": 59000000,
+          "p95": 59000000,
+          "sum": 59000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 1000000,
+          "min": 1000000,
+          "p50": 1000000,
+          "p90": 1000000,
+          "p95": 1000000,
+          "sum": 1000000
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 46563297,
+          "min": 46563297,
+          "p50": 46563297,
+          "p90": 46563297,
+          "p95": 46563297,
+          "sum": 46563297
+        },
+        "input_records": {
+          "count": 1,
+          "max": 19663930,
+          "min": 19663930,
+          "p50": 19663930,
+          "p90": 19663930,
+          "p95": 19663930,
+          "sum": 19663930
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 321997024,
+          "min": 321997024,
+          "p50": 321997024,
+          "p90": 321997024,
+          "p95": 321997024,
+          "sum": 321997024
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 19663930,
+          "min": 19663930,
+          "p50": 19663930,
+          "p90": 19663930,
+          "p95": 19663930,
+          "sum": 19663930
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 321997024,
+          "min": 321997024,
+          "p50": 321997024,
+          "p90": 321997024,
+          "p95": 321997024,
+          "sum": 321997024
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 19663930,
+          "min": 19663930,
+          "p50": 19663930,
+          "p90": 19663930,
+          "p95": 19663930,
+          "sum": 19663930
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 45709617,
+          "min": 45709617,
+          "p50": 45709617,
+          "p90": 45709617,
+          "p95": 45709617,
+          "sum": 45709617
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 32704253,
+          "min": 32704253,
+          "p50": 32704253,
+          "p90": 32704253,
+          "p95": 32704253,
+          "sum": 32704253
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 8236754,
+          "min": 8236754,
+          "p50": 8236754,
+          "p90": 8236754,
+          "p95": 8236754,
+          "sum": 8236754
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 88121224,
+          "min": 88121224,
+          "p50": 88121224,
+          "p90": 88121224,
+          "p95": 88121224,
+          "sum": 88121224
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 88223286,
+          "min": 88223286,
+          "p50": 88223286,
+          "p90": 88223286,
+          "p95": 88223286,
+          "sum": 88223286
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "holdout",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "0e985d3f50c7958de90c8938aeb029d9e787e99d12ef85d4642b79985194d010",
+      "run_id": "gpu-holdout-hvfhv-2024-01",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 124,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 41846590,
+          "min": 41846590,
+          "p50": 41846590,
+          "p90": 41846590,
+          "p95": 41846590,
+          "sum": 41846590
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 124,
+          "min": 124,
+          "p50": 124,
+          "p90": 124,
+          "p95": 124,
+          "sum": 124
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 31116186,
+          "min": 31116186,
+          "p50": 31116186,
+          "p90": 31116186,
+          "p95": 31116186,
+          "sum": 31116186
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 720191720,
+          "min": 720191720,
+          "p50": 720191720,
+          "p90": 720191720,
+          "p95": 720191720,
+          "sum": 720191720
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 720191720,
+          "min": 720191720,
+          "p50": 720191720,
+          "p90": 720191720,
+          "p95": 720191720,
+          "sum": 720191720
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 59000000,
+          "min": 59000000,
+          "p50": 59000000,
+          "p90": 59000000,
+          "p95": 59000000,
+          "sum": 59000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 1000000,
+          "min": 1000000,
+          "p50": 1000000,
+          "p90": 1000000,
+          "p95": 1000000,
+          "sum": 1000000
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 46563297,
+          "min": 46563297,
+          "p50": 46563297,
+          "p90": 46563297,
+          "p95": 46563297,
+          "sum": 46563297
+        },
+        "input_records": {
+          "count": 1,
+          "max": 19663930,
+          "min": 19663930,
+          "p50": 19663930,
+          "p90": 19663930,
+          "p95": 19663930,
+          "sum": 19663930
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 321997024,
+          "min": 321997024,
+          "p50": 321997024,
+          "p90": 321997024,
+          "p95": 321997024,
+          "sum": 321997024
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 19663930,
+          "min": 19663930,
+          "p50": 19663930,
+          "p90": 19663930,
+          "p95": 19663930,
+          "sum": 19663930
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 321997024,
+          "min": 321997024,
+          "p50": 321997024,
+          "p90": 321997024,
+          "p95": 321997024,
+          "sum": 321997024
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 19663930,
+          "min": 19663930,
+          "p50": 19663930,
+          "p90": 19663930,
+          "p95": 19663930,
+          "sum": 19663930
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 45709617,
+          "min": 45709617,
+          "p50": 45709617,
+          "p90": 45709617,
+          "p95": 45709617,
+          "sum": 45709617
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 32704253,
+          "min": 32704253,
+          "p50": 32704253,
+          "p90": 32704253,
+          "p95": 32704253,
+          "sum": 32704253
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 8236754,
+          "min": 8236754,
+          "p50": 8236754,
+          "p90": 8236754,
+          "p95": 8236754,
+          "sum": 8236754
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 88121224,
+          "min": 88121224,
+          "p50": 88121224,
+          "p90": 88121224,
+          "p95": 88121224,
+          "sum": 88121224
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 88223286,
+          "min": 88223286,
+          "p50": 88223286,
+          "p90": 88223286,
+          "p95": 88223286,
+          "sum": 88223286
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 41846590,
+          "duration_ms": 124,
+          "finish_time_ms": 1783214499238,
+          "gpu_decode_ns": 31116186,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_device_memory_bytes": 720191720,
+          "gpu_max_task_footprint": 720191720,
+          "gpu_semaphore_holding_ns": 59000000,
+          "gpu_semaphore_wait_ns": 1000000,
+          "input_bytes": 46563297,
+          "input_records": 19663930,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214499114,
+          "max_output_batch_bytes": 321997024,
+          "max_output_batch_rows": 19663930,
+          "output_batch_bytes": 321997024,
+          "output_batches": 1,
+          "output_rows": 19663930,
+          "partition_id": 0,
+          "read_buffer_bytes": 45709617,
+          "read_fs_ns": 32704253,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 8236754,
+          "scan_ns": 88121224,
+          "scan_op_ns": 88223286,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 4,
+          "task_id": 4,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 175.531171,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 7321951,
+          "min": 7321951,
+          "p50": 7321951,
+          "p90": 7321951,
+          "p95": 7321951,
+          "sum": 7321951
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 77,
+          "min": 77,
+          "p50": 77,
+          "p90": 77,
+          "p95": 77,
+          "sum": 77
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 30463652,
+          "min": 30463652,
+          "p50": 30463652,
+          "p90": 30463652,
+          "p95": 30463652,
+          "sum": 30463652
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 110150936,
+          "min": 110150936,
+          "p50": 110150936,
+          "p90": 110150936,
+          "p95": 110150936,
+          "sum": 110150936
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 52000000,
+          "min": 52000000,
+          "p50": 52000000,
+          "p90": 52000000,
+          "p95": 52000000,
+          "sum": 52000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 5417965,
+          "min": 5417965,
+          "p50": 5417965,
+          "p90": 5417965,
+          "p95": 5417965,
+          "sum": 5417965
+        },
+        "input_records": {
+          "count": 1,
+          "max": 3007526,
+          "min": 3007526,
+          "p50": 3007526,
+          "p90": 3007526,
+          "p95": 3007526,
+          "sum": 3007526
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 49248416,
+          "min": 49248416,
+          "p50": 49248416,
+          "p90": 49248416,
+          "p95": 49248416,
+          "sum": 49248416
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 3007526,
+          "min": 3007526,
+          "p50": 3007526,
+          "p90": 3007526,
+          "p95": 3007526,
+          "sum": 3007526
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 49248416,
+          "min": 49248416,
+          "p50": 49248416,
+          "p90": 49248416,
+          "p95": 49248416,
+          "sum": 49248416
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 3007526,
+          "min": 3007526,
+          "p50": 3007526,
+          "p90": 3007526,
+          "p95": 3007526,
+          "sum": 3007526
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 5352354,
+          "min": 5352354,
+          "p50": 5352354,
+          "p90": 5352354,
+          "p95": 5352354,
+          "sum": 5352354
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 5018371,
+          "min": 5018371,
+          "p50": 5018371,
+          "p90": 5018371,
+          "p95": 5018371,
+          "sum": 5018371
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3287904,
+          "min": 3287904,
+          "p50": 3287904,
+          "p90": 3287904,
+          "p95": 3287904,
+          "sum": 3287904
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 44231036,
+          "min": 44231036,
+          "p50": 44231036,
+          "p90": 44231036,
+          "p95": 44231036,
+          "sum": 44231036
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 44314683,
+          "min": 44314683,
+          "p50": 44314683,
+          "p90": 44314683,
+          "p95": 44314683,
+          "sum": 44314683
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "train",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "e936391f3d77905521a03d3442e4305810d478b0086191ae4044b6c107b02686",
+      "run_id": "gpu-train-yellow-2024-02",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 77,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 7321951,
+          "min": 7321951,
+          "p50": 7321951,
+          "p90": 7321951,
+          "p95": 7321951,
+          "sum": 7321951
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 77,
+          "min": 77,
+          "p50": 77,
+          "p90": 77,
+          "p95": 77,
+          "sum": 77
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 30463652,
+          "min": 30463652,
+          "p50": 30463652,
+          "p90": 30463652,
+          "p95": 30463652,
+          "sum": 30463652
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 110150936,
+          "min": 110150936,
+          "p50": 110150936,
+          "p90": 110150936,
+          "p95": 110150936,
+          "sum": 110150936
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 52000000,
+          "min": 52000000,
+          "p50": 52000000,
+          "p90": 52000000,
+          "p95": 52000000,
+          "sum": 52000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 5417965,
+          "min": 5417965,
+          "p50": 5417965,
+          "p90": 5417965,
+          "p95": 5417965,
+          "sum": 5417965
+        },
+        "input_records": {
+          "count": 1,
+          "max": 3007526,
+          "min": 3007526,
+          "p50": 3007526,
+          "p90": 3007526,
+          "p95": 3007526,
+          "sum": 3007526
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 49248416,
+          "min": 49248416,
+          "p50": 49248416,
+          "p90": 49248416,
+          "p95": 49248416,
+          "sum": 49248416
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 3007526,
+          "min": 3007526,
+          "p50": 3007526,
+          "p90": 3007526,
+          "p95": 3007526,
+          "sum": 3007526
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 49248416,
+          "min": 49248416,
+          "p50": 49248416,
+          "p90": 49248416,
+          "p95": 49248416,
+          "sum": 49248416
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 3007526,
+          "min": 3007526,
+          "p50": 3007526,
+          "p90": 3007526,
+          "p95": 3007526,
+          "sum": 3007526
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 5352354,
+          "min": 5352354,
+          "p50": 5352354,
+          "p90": 5352354,
+          "p95": 5352354,
+          "sum": 5352354
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 5018371,
+          "min": 5018371,
+          "p50": 5018371,
+          "p90": 5018371,
+          "p95": 5018371,
+          "sum": 5018371
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3287904,
+          "min": 3287904,
+          "p50": 3287904,
+          "p90": 3287904,
+          "p95": 3287904,
+          "sum": 3287904
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 44231036,
+          "min": 44231036,
+          "p50": 44231036,
+          "p90": 44231036,
+          "p95": 44231036,
+          "sum": 44231036
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 44314683,
+          "min": 44314683,
+          "p50": 44314683,
+          "p90": 44314683,
+          "p95": 44314683,
+          "sum": 44314683
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 7321951,
+          "duration_ms": 77,
+          "finish_time_ms": 1783214499575,
+          "gpu_decode_ns": 30463652,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_task_footprint": 110150936,
+          "gpu_semaphore_holding_ns": 52000000,
+          "gpu_semaphore_wait_ns": 0,
+          "input_bytes": 5417965,
+          "input_records": 3007526,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214499498,
+          "max_output_batch_bytes": 49248416,
+          "max_output_batch_rows": 3007526,
+          "output_batch_bytes": 49248416,
+          "output_batches": 1,
+          "output_rows": 3007526,
+          "partition_id": 0,
+          "read_buffer_bytes": 5352354,
+          "read_fs_ns": 5018371,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 3287904,
+          "scan_ns": 44231036,
+          "scan_op_ns": 44314683,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 7,
+          "task_id": 7,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 221.579926,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 40372800,
+          "min": 40372800,
+          "p50": 40372800,
+          "p90": 40372800,
+          "p95": 40372800,
+          "sum": 40372800
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 124,
+          "min": 124,
+          "p50": 124,
+          "p90": 124,
+          "p95": 124,
+          "sum": 124
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 34394442,
+          "min": 34394442,
+          "p50": 34394442,
+          "p90": 34394442,
+          "p95": 34394442,
+          "sum": 34394442
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 709028848,
+          "min": 709028848,
+          "p50": 709028848,
+          "p90": 709028848,
+          "p95": 709028848,
+          "sum": 709028848
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 709028848,
+          "min": 709028848,
+          "p50": 709028848,
+          "p90": 709028848,
+          "p95": 709028848,
+          "sum": 709028848
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 61000000,
+          "min": 61000000,
+          "p50": 61000000,
+          "p90": 61000000,
+          "p95": 61000000,
+          "sum": 61000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 45902396,
+          "min": 45902396,
+          "p50": 45902396,
+          "p90": 45902396,
+          "p95": 45902396,
+          "sum": 45902396
+        },
+        "input_records": {
+          "count": 1,
+          "max": 19359148,
+          "min": 19359148,
+          "p50": 19359148,
+          "p90": 19359148,
+          "p95": 19359148,
+          "sum": 19359148
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 317006080,
+          "min": 317006080,
+          "p50": 317006080,
+          "p90": 317006080,
+          "p95": 317006080,
+          "sum": 317006080
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 19359148,
+          "min": 19359148,
+          "p50": 19359148,
+          "p90": 19359148,
+          "p95": 19359148,
+          "sum": 19359148
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 317006080,
+          "min": 317006080,
+          "p50": 317006080,
+          "p90": 317006080,
+          "p95": 317006080,
+          "sum": 317006080
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 19359148,
+          "min": 19359148,
+          "p50": 19359148,
+          "p90": 19359148,
+          "p95": 19359148,
+          "sum": 19359148
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 44981040,
+          "min": 44981040,
+          "p50": 44981040,
+          "p90": 44981040,
+          "p95": 44981040,
+          "sum": 44981040
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 33283580,
+          "min": 33283580,
+          "p50": 33283580,
+          "p90": 33283580,
+          "p95": 33283580,
+          "sum": 33283580
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 8661297,
+          "min": 8661297,
+          "p50": 8661297,
+          "p90": 8661297,
+          "p95": 8661297,
+          "sum": 8661297
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 90411279,
+          "min": 90411279,
+          "p50": 90411279,
+          "p90": 90411279,
+          "p95": 90411279,
+          "sum": 90411279
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 90473277,
+          "min": 90473277,
+          "p50": 90473277,
+          "p90": 90473277,
+          "p95": 90473277,
+          "sum": 90473277
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "holdout",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "945c211b6815ac97201e72766a6759c80e5bec69ddcd5d09de29b08bac91a5cb",
+      "run_id": "gpu-holdout-hvfhv-2024-02",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 124,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 40372800,
+          "min": 40372800,
+          "p50": 40372800,
+          "p90": 40372800,
+          "p95": 40372800,
+          "sum": 40372800
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 124,
+          "min": 124,
+          "p50": 124,
+          "p90": 124,
+          "p95": 124,
+          "sum": 124
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 34394442,
+          "min": 34394442,
+          "p50": 34394442,
+          "p90": 34394442,
+          "p95": 34394442,
+          "sum": 34394442
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 709028848,
+          "min": 709028848,
+          "p50": 709028848,
+          "p90": 709028848,
+          "p95": 709028848,
+          "sum": 709028848
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 709028848,
+          "min": 709028848,
+          "p50": 709028848,
+          "p90": 709028848,
+          "p95": 709028848,
+          "sum": 709028848
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 61000000,
+          "min": 61000000,
+          "p50": 61000000,
+          "p90": 61000000,
+          "p95": 61000000,
+          "sum": 61000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 45902396,
+          "min": 45902396,
+          "p50": 45902396,
+          "p90": 45902396,
+          "p95": 45902396,
+          "sum": 45902396
+        },
+        "input_records": {
+          "count": 1,
+          "max": 19359148,
+          "min": 19359148,
+          "p50": 19359148,
+          "p90": 19359148,
+          "p95": 19359148,
+          "sum": 19359148
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 317006080,
+          "min": 317006080,
+          "p50": 317006080,
+          "p90": 317006080,
+          "p95": 317006080,
+          "sum": 317006080
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 19359148,
+          "min": 19359148,
+          "p50": 19359148,
+          "p90": 19359148,
+          "p95": 19359148,
+          "sum": 19359148
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 317006080,
+          "min": 317006080,
+          "p50": 317006080,
+          "p90": 317006080,
+          "p95": 317006080,
+          "sum": 317006080
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 19359148,
+          "min": 19359148,
+          "p50": 19359148,
+          "p90": 19359148,
+          "p95": 19359148,
+          "sum": 19359148
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 44981040,
+          "min": 44981040,
+          "p50": 44981040,
+          "p90": 44981040,
+          "p95": 44981040,
+          "sum": 44981040
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 33283580,
+          "min": 33283580,
+          "p50": 33283580,
+          "p90": 33283580,
+          "p95": 33283580,
+          "sum": 33283580
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 8661297,
+          "min": 8661297,
+          "p50": 8661297,
+          "p90": 8661297,
+          "p95": 8661297,
+          "sum": 8661297
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 90411279,
+          "min": 90411279,
+          "p50": 90411279,
+          "p90": 90411279,
+          "p95": 90411279,
+          "sum": 90411279
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 90473277,
+          "min": 90473277,
+          "p50": 90473277,
+          "p90": 90473277,
+          "p95": 90473277,
+          "sum": 90473277
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 40372800,
+          "duration_ms": 124,
+          "finish_time_ms": 1783214499943,
+          "gpu_decode_ns": 34394442,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_device_memory_bytes": 709028848,
+          "gpu_max_task_footprint": 709028848,
+          "gpu_semaphore_holding_ns": 61000000,
+          "gpu_semaphore_wait_ns": 0,
+          "input_bytes": 45902396,
+          "input_records": 19359148,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214499819,
+          "max_output_batch_bytes": 317006080,
+          "max_output_batch_rows": 19359148,
+          "output_batch_bytes": 317006080,
+          "output_batches": 1,
+          "output_rows": 19359148,
+          "partition_id": 0,
+          "read_buffer_bytes": 44981040,
+          "read_fs_ns": 33283580,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 8661297,
+          "scan_ns": 90411279,
+          "scan_op_ns": 90473277,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 10,
+          "task_id": 10,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 165.346951,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 7387886,
+          "min": 7387886,
+          "p50": 7387886,
+          "p90": 7387886,
+          "p95": 7387886,
+          "sum": 7387886
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 76,
+          "min": 76,
+          "p50": 76,
+          "p90": 76,
+          "p95": 76,
+          "sum": 76
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 30444615,
+          "min": 30444615,
+          "p50": 30444615,
+          "p90": 30444615,
+          "p95": 30444615,
+          "sum": 30444615
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 131213968,
+          "min": 131213968,
+          "p50": 131213968,
+          "p90": 131213968,
+          "p95": 131213968,
+          "sum": 131213968
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 51000000,
+          "min": 51000000,
+          "p50": 51000000,
+          "p90": 51000000,
+          "p95": 51000000,
+          "sum": 51000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 6413751,
+          "min": 6413751,
+          "p50": 6413751,
+          "p90": 6413751,
+          "p95": 6413751,
+          "sum": 6413751
+        },
+        "input_records": {
+          "count": 1,
+          "max": 3582628,
+          "min": 3582628,
+          "p50": 3582628,
+          "p90": 3582628,
+          "p95": 3582628,
+          "sum": 3582628
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 58665664,
+          "min": 58665664,
+          "p50": 58665664,
+          "p90": 58665664,
+          "p95": 58665664,
+          "sum": 58665664
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 3582628,
+          "min": 3582628,
+          "p50": 3582628,
+          "p90": 3582628,
+          "p95": 3582628,
+          "sum": 3582628
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 58665664,
+          "min": 58665664,
+          "p50": 58665664,
+          "p90": 58665664,
+          "p95": 58665664,
+          "sum": 58665664
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 3582628,
+          "min": 3582628,
+          "p50": 3582628,
+          "p90": 3582628,
+          "p95": 3582628,
+          "sum": 3582628
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 6340505,
+          "min": 6340505,
+          "p50": 6340505,
+          "p90": 6340505,
+          "p95": 6340505,
+          "sum": 6340505
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 5379935,
+          "min": 5379935,
+          "p50": 5379935,
+          "p90": 5379935,
+          "p95": 5379935,
+          "sum": 5379935
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3407501,
+          "min": 3407501,
+          "p50": 3407501,
+          "p90": 3407501,
+          "p95": 3407501,
+          "sum": 3407501
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 44417880,
+          "min": 44417880,
+          "p50": 44417880,
+          "p90": 44417880,
+          "p95": 44417880,
+          "sum": 44417880
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 44474153,
+          "min": 44474153,
+          "p50": 44474153,
+          "p90": 44474153,
+          "p95": 44474153,
+          "sum": 44474153
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "train",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "f8bb2dbab6a5b695817aede4047e20ab2a14ebecc66b645cb853427e7272c3c4",
+      "run_id": "gpu-train-yellow-2024-03",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 76,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 7387886,
+          "min": 7387886,
+          "p50": 7387886,
+          "p90": 7387886,
+          "p95": 7387886,
+          "sum": 7387886
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 76,
+          "min": 76,
+          "p50": 76,
+          "p90": 76,
+          "p95": 76,
+          "sum": 76
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 30444615,
+          "min": 30444615,
+          "p50": 30444615,
+          "p90": 30444615,
+          "p95": 30444615,
+          "sum": 30444615
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 131213968,
+          "min": 131213968,
+          "p50": 131213968,
+          "p90": 131213968,
+          "p95": 131213968,
+          "sum": 131213968
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 51000000,
+          "min": 51000000,
+          "p50": 51000000,
+          "p90": 51000000,
+          "p95": 51000000,
+          "sum": 51000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 6413751,
+          "min": 6413751,
+          "p50": 6413751,
+          "p90": 6413751,
+          "p95": 6413751,
+          "sum": 6413751
+        },
+        "input_records": {
+          "count": 1,
+          "max": 3582628,
+          "min": 3582628,
+          "p50": 3582628,
+          "p90": 3582628,
+          "p95": 3582628,
+          "sum": 3582628
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 58665664,
+          "min": 58665664,
+          "p50": 58665664,
+          "p90": 58665664,
+          "p95": 58665664,
+          "sum": 58665664
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 3582628,
+          "min": 3582628,
+          "p50": 3582628,
+          "p90": 3582628,
+          "p95": 3582628,
+          "sum": 3582628
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 58665664,
+          "min": 58665664,
+          "p50": 58665664,
+          "p90": 58665664,
+          "p95": 58665664,
+          "sum": 58665664
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 3582628,
+          "min": 3582628,
+          "p50": 3582628,
+          "p90": 3582628,
+          "p95": 3582628,
+          "sum": 3582628
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 6340505,
+          "min": 6340505,
+          "p50": 6340505,
+          "p90": 6340505,
+          "p95": 6340505,
+          "sum": 6340505
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 5379935,
+          "min": 5379935,
+          "p50": 5379935,
+          "p90": 5379935,
+          "p95": 5379935,
+          "sum": 5379935
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3407501,
+          "min": 3407501,
+          "p50": 3407501,
+          "p90": 3407501,
+          "p95": 3407501,
+          "sum": 3407501
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 44417880,
+          "min": 44417880,
+          "p50": 44417880,
+          "p90": 44417880,
+          "p95": 44417880,
+          "sum": 44417880
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 44474153,
+          "min": 44474153,
+          "p50": 44474153,
+          "p90": 44474153,
+          "p95": 44474153,
+          "sum": 44474153
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 7387886,
+          "duration_ms": 76,
+          "finish_time_ms": 1783214500269,
+          "gpu_decode_ns": 30444615,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_task_footprint": 131213968,
+          "gpu_semaphore_holding_ns": 51000000,
+          "gpu_semaphore_wait_ns": 0,
+          "input_bytes": 6413751,
+          "input_records": 3582628,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214500193,
+          "max_output_batch_bytes": 58665664,
+          "max_output_batch_rows": 3582628,
+          "output_batch_bytes": 58665664,
+          "output_batches": 1,
+          "output_rows": 3582628,
+          "partition_id": 0,
+          "read_buffer_bytes": 6340505,
+          "read_fs_ns": 5379935,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 3407501,
+          "scan_ns": 44417880,
+          "scan_op_ns": 44474153,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 13,
+          "task_id": 13,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 215.000231,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 42029637,
+          "min": 42029637,
+          "p50": 42029637,
+          "p90": 42029637,
+          "p95": 42029637,
+          "sum": 42029637
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 127,
+          "min": 127,
+          "p50": 127,
+          "p90": 127,
+          "p95": 127,
+          "sum": 127
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 35285009,
+          "min": 35285009,
+          "p50": 35285009,
+          "p90": 35285009,
+          "p95": 35285009,
+          "sum": 35285009
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 779409168,
+          "min": 779409168,
+          "p50": 779409168,
+          "p90": 779409168,
+          "p95": 779409168,
+          "sum": 779409168
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 64000000,
+          "min": 64000000,
+          "p50": 64000000,
+          "p90": 64000000,
+          "p95": 64000000,
+          "sum": 64000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 50441769,
+          "min": 50441769,
+          "p50": 50441769,
+          "p90": 50441769,
+          "p95": 50441769,
+          "sum": 50441769
+        },
+        "input_records": {
+          "count": 1,
+          "max": 21280788,
+          "min": 21280788,
+          "p50": 21280788,
+          "p90": 21280788,
+          "p95": 21280788,
+          "sum": 21280788
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 348473088,
+          "min": 348473088,
+          "p50": 348473088,
+          "p90": 348473088,
+          "p95": 348473088,
+          "sum": 348473088
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 21280788,
+          "min": 21280788,
+          "p50": 21280788,
+          "p90": 21280788,
+          "p95": 21280788,
+          "sum": 21280788
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 348473088,
+          "min": 348473088,
+          "p50": 348473088,
+          "p90": 348473088,
+          "p95": 348473088,
+          "sum": 348473088
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 21280788,
+          "min": 21280788,
+          "p50": 21280788,
+          "p90": 21280788,
+          "p95": 21280788,
+          "sum": 21280788
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 49489271,
+          "min": 49489271,
+          "p50": 49489271,
+          "p90": 49489271,
+          "p95": 49489271,
+          "sum": 49489271
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 36092868,
+          "min": 36092868,
+          "p50": 36092868,
+          "p90": 36092868,
+          "p95": 36092868,
+          "sum": 36092868
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 7007155,
+          "min": 7007155,
+          "p50": 7007155,
+          "p90": 7007155,
+          "p95": 7007155,
+          "sum": 7007155
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 93048422,
+          "min": 93048422,
+          "p50": 93048422,
+          "p90": 93048422,
+          "p95": 93048422,
+          "sum": 93048422
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 93153019,
+          "min": 93153019,
+          "p50": 93153019,
+          "p90": 93153019,
+          "p95": 93153019,
+          "sum": 93153019
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "holdout",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "074cd4193e3934ed99c99c3fbc02b424633d0f1ddf35fbf6f1028e3576a18b96",
+      "run_id": "gpu-holdout-hvfhv-2024-03",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 127,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 42029637,
+          "min": 42029637,
+          "p50": 42029637,
+          "p90": 42029637,
+          "p95": 42029637,
+          "sum": 42029637
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 127,
+          "min": 127,
+          "p50": 127,
+          "p90": 127,
+          "p95": 127,
+          "sum": 127
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 35285009,
+          "min": 35285009,
+          "p50": 35285009,
+          "p90": 35285009,
+          "p95": 35285009,
+          "sum": 35285009
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 779409168,
+          "min": 779409168,
+          "p50": 779409168,
+          "p90": 779409168,
+          "p95": 779409168,
+          "sum": 779409168
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 64000000,
+          "min": 64000000,
+          "p50": 64000000,
+          "p90": 64000000,
+          "p95": 64000000,
+          "sum": 64000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 50441769,
+          "min": 50441769,
+          "p50": 50441769,
+          "p90": 50441769,
+          "p95": 50441769,
+          "sum": 50441769
+        },
+        "input_records": {
+          "count": 1,
+          "max": 21280788,
+          "min": 21280788,
+          "p50": 21280788,
+          "p90": 21280788,
+          "p95": 21280788,
+          "sum": 21280788
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 348473088,
+          "min": 348473088,
+          "p50": 348473088,
+          "p90": 348473088,
+          "p95": 348473088,
+          "sum": 348473088
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 21280788,
+          "min": 21280788,
+          "p50": 21280788,
+          "p90": 21280788,
+          "p95": 21280788,
+          "sum": 21280788
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 348473088,
+          "min": 348473088,
+          "p50": 348473088,
+          "p90": 348473088,
+          "p95": 348473088,
+          "sum": 348473088
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 21280788,
+          "min": 21280788,
+          "p50": 21280788,
+          "p90": 21280788,
+          "p95": 21280788,
+          "sum": 21280788
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 49489271,
+          "min": 49489271,
+          "p50": 49489271,
+          "p90": 49489271,
+          "p95": 49489271,
+          "sum": 49489271
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 36092868,
+          "min": 36092868,
+          "p50": 36092868,
+          "p90": 36092868,
+          "p95": 36092868,
+          "sum": 36092868
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 7007155,
+          "min": 7007155,
+          "p50": 7007155,
+          "p90": 7007155,
+          "p95": 7007155,
+          "sum": 7007155
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 93048422,
+          "min": 93048422,
+          "p50": 93048422,
+          "p90": 93048422,
+          "p95": 93048422,
+          "sum": 93048422
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 93153019,
+          "min": 93153019,
+          "p50": 93153019,
+          "p90": 93153019,
+          "p95": 93153019,
+          "sum": 93153019
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 42029637,
+          "duration_ms": 127,
+          "finish_time_ms": 1783214500625,
+          "gpu_decode_ns": 35285009,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_task_footprint": 779409168,
+          "gpu_semaphore_holding_ns": 64000000,
+          "gpu_semaphore_wait_ns": 0,
+          "input_bytes": 50441769,
+          "input_records": 21280788,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214500498,
+          "max_output_batch_bytes": 348473088,
+          "max_output_batch_rows": 21280788,
+          "output_batch_bytes": 348473088,
+          "output_batches": 1,
+          "output_rows": 21280788,
+          "partition_id": 0,
+          "read_buffer_bytes": 49489271,
+          "read_fs_ns": 36092868,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 7007155,
+          "scan_ns": 93048422,
+          "scan_op_ns": 93153019,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 16,
+          "task_id": 16,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 168.625097,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 6267275,
+          "min": 6267275,
+          "p50": 6267275,
+          "p90": 6267275,
+          "p95": 6267275,
+          "sum": 6267275
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 82,
+          "min": 82,
+          "p50": 82,
+          "p90": 82,
+          "p95": 82,
+          "sum": 82
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 37255649,
+          "min": 37255649,
+          "p50": 37255649,
+          "p90": 37255649,
+          "p95": 37255649,
+          "sum": 37255649
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 128710884,
+          "min": 128710884,
+          "p50": 128710884,
+          "p90": 128710884,
+          "p95": 128710884,
+          "sum": 128710884
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 128710884,
+          "min": 128710884,
+          "p50": 128710884,
+          "p90": 128710884,
+          "p95": 128710884,
+          "sum": 128710884
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 59000000,
+          "min": 59000000,
+          "p50": 59000000,
+          "p90": 59000000,
+          "p95": 59000000,
+          "sum": 59000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 6338600,
+          "min": 6338600,
+          "p50": 6338600,
+          "p90": 6338600,
+          "p95": 6338600,
+          "sum": 6338600
+        },
+        "input_records": {
+          "count": 1,
+          "max": 3514289,
+          "min": 3514289,
+          "p50": 3514289,
+          "p90": 3514289,
+          "p95": 3514289,
+          "sum": 3514289
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 57546512,
+          "min": 57546512,
+          "p50": 57546512,
+          "p90": 57546512,
+          "p95": 57546512,
+          "sum": 57546512
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 3514289,
+          "min": 3514289,
+          "p50": 3514289,
+          "p90": 3514289,
+          "p95": 3514289,
+          "sum": 3514289
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 57546512,
+          "min": 57546512,
+          "p50": 57546512,
+          "p90": 57546512,
+          "p95": 57546512,
+          "sum": 57546512
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 3514289,
+          "min": 3514289,
+          "p50": 3514289,
+          "p90": 3514289,
+          "p95": 3514289,
+          "sum": 3514289
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 6228124,
+          "min": 6228124,
+          "p50": 6228124,
+          "p90": 6228124,
+          "p95": 6228124,
+          "sum": 6228124
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 4175896,
+          "min": 4175896,
+          "p50": 4175896,
+          "p90": 4175896,
+          "p95": 4175896,
+          "sum": 4175896
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3065243,
+          "min": 3065243,
+          "p50": 3065243,
+          "p90": 3065243,
+          "p95": 3065243,
+          "sum": 3065243
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 49191486,
+          "min": 49191486,
+          "p50": 49191486,
+          "p90": 49191486,
+          "p95": 49191486,
+          "sum": 49191486
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 49256359,
+          "min": 49256359,
+          "p50": 49256359,
+          "p90": 49256359,
+          "p95": 49256359,
+          "sum": 49256359
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "train",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "788aa70657e0d146b61f610691ee2b53b035e37287d44dd13ea3463e2ad6355c",
+      "run_id": "gpu-train-yellow-2024-04",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 82,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 6267275,
+          "min": 6267275,
+          "p50": 6267275,
+          "p90": 6267275,
+          "p95": 6267275,
+          "sum": 6267275
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 82,
+          "min": 82,
+          "p50": 82,
+          "p90": 82,
+          "p95": 82,
+          "sum": 82
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 37255649,
+          "min": 37255649,
+          "p50": 37255649,
+          "p90": 37255649,
+          "p95": 37255649,
+          "sum": 37255649
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 128710884,
+          "min": 128710884,
+          "p50": 128710884,
+          "p90": 128710884,
+          "p95": 128710884,
+          "sum": 128710884
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 128710884,
+          "min": 128710884,
+          "p50": 128710884,
+          "p90": 128710884,
+          "p95": 128710884,
+          "sum": 128710884
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 59000000,
+          "min": 59000000,
+          "p50": 59000000,
+          "p90": 59000000,
+          "p95": 59000000,
+          "sum": 59000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 6338600,
+          "min": 6338600,
+          "p50": 6338600,
+          "p90": 6338600,
+          "p95": 6338600,
+          "sum": 6338600
+        },
+        "input_records": {
+          "count": 1,
+          "max": 3514289,
+          "min": 3514289,
+          "p50": 3514289,
+          "p90": 3514289,
+          "p95": 3514289,
+          "sum": 3514289
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 57546512,
+          "min": 57546512,
+          "p50": 57546512,
+          "p90": 57546512,
+          "p95": 57546512,
+          "sum": 57546512
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 3514289,
+          "min": 3514289,
+          "p50": 3514289,
+          "p90": 3514289,
+          "p95": 3514289,
+          "sum": 3514289
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 57546512,
+          "min": 57546512,
+          "p50": 57546512,
+          "p90": 57546512,
+          "p95": 57546512,
+          "sum": 57546512
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 3514289,
+          "min": 3514289,
+          "p50": 3514289,
+          "p90": 3514289,
+          "p95": 3514289,
+          "sum": 3514289
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 6228124,
+          "min": 6228124,
+          "p50": 6228124,
+          "p90": 6228124,
+          "p95": 6228124,
+          "sum": 6228124
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 4175896,
+          "min": 4175896,
+          "p50": 4175896,
+          "p90": 4175896,
+          "p95": 4175896,
+          "sum": 4175896
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3065243,
+          "min": 3065243,
+          "p50": 3065243,
+          "p90": 3065243,
+          "p95": 3065243,
+          "sum": 3065243
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 49191486,
+          "min": 49191486,
+          "p50": 49191486,
+          "p90": 49191486,
+          "p95": 49191486,
+          "sum": 49191486
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 49256359,
+          "min": 49256359,
+          "p50": 49256359,
+          "p90": 49256359,
+          "p95": 49256359,
+          "sum": 49256359
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 6267275,
+          "duration_ms": 82,
+          "finish_time_ms": 1783214500949,
+          "gpu_decode_ns": 37255649,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_device_memory_bytes": 128710884,
+          "gpu_max_task_footprint": 128710884,
+          "gpu_semaphore_holding_ns": 59000000,
+          "gpu_semaphore_wait_ns": 0,
+          "input_bytes": 6338600,
+          "input_records": 3514289,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214500867,
+          "max_output_batch_bytes": 57546512,
+          "max_output_batch_rows": 3514289,
+          "output_batch_bytes": 57546512,
+          "output_batches": 1,
+          "output_rows": 3514289,
+          "partition_id": 0,
+          "read_buffer_bytes": 6228124,
+          "read_fs_ns": 4175896,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 3065243,
+          "scan_ns": 49191486,
+          "scan_op_ns": 49256359,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 19,
+          "task_id": 19,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 201.641923,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 37303010,
+          "min": 37303010,
+          "p50": 37303010,
+          "p90": 37303010,
+          "p95": 37303010,
+          "sum": 37303010
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 116,
+          "min": 116,
+          "p50": 116,
+          "p90": 116,
+          "p95": 116,
+          "sum": 116
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 36669950,
+          "min": 36669950,
+          "p50": 36669950,
+          "p90": 36669950,
+          "p95": 36669950,
+          "sum": 36669950
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 722722808,
+          "min": 722722808,
+          "p50": 722722808,
+          "p90": 722722808,
+          "p95": 722722808,
+          "sum": 722722808
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 722722808,
+          "min": 722722808,
+          "p50": 722722808,
+          "p90": 722722808,
+          "p95": 722722808,
+          "sum": 722722808
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 63000000,
+          "min": 63000000,
+          "p50": 63000000,
+          "p90": 63000000,
+          "p95": 63000000,
+          "sum": 63000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 46758779,
+          "min": 46758779,
+          "p50": 46758779,
+          "p90": 46758779,
+          "p95": 46758779,
+          "sum": 46758779
+        },
+        "input_records": {
+          "count": 1,
+          "max": 19733038,
+          "min": 19733038,
+          "p50": 19733038,
+          "p90": 19733038,
+          "p95": 19733038,
+          "sum": 19733038
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 323128672,
+          "min": 323128672,
+          "p50": 323128672,
+          "p90": 323128672,
+          "p95": 323128672,
+          "sum": 323128672
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 19733038,
+          "min": 19733038,
+          "p50": 19733038,
+          "p90": 19733038,
+          "p95": 19733038,
+          "sum": 19733038
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 323128672,
+          "min": 323128672,
+          "p50": 323128672,
+          "p90": 323128672,
+          "p95": 323128672,
+          "sum": 323128672
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 19733038,
+          "min": 19733038,
+          "p50": 19733038,
+          "p90": 19733038,
+          "p95": 19733038,
+          "sum": 19733038
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 45830403,
+          "min": 45830403,
+          "p50": 45830403,
+          "p90": 45830403,
+          "p95": 45830403,
+          "sum": 45830403
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 32793953,
+          "min": 32793953,
+          "p50": 32793953,
+          "p90": 32793953,
+          "p95": 32793953,
+          "sum": 32793953
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 4648480,
+          "min": 4648480,
+          "p50": 4648480,
+          "p90": 4648480,
+          "p95": 4648480,
+          "sum": 4648480
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 86208854,
+          "min": 86208854,
+          "p50": 86208854,
+          "p90": 86208854,
+          "p95": 86208854,
+          "sum": 86208854
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 86264830,
+          "min": 86264830,
+          "p50": 86264830,
+          "p90": 86264830,
+          "p95": 86264830,
+          "sum": 86264830
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "holdout",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "b3703e6dcb6ac4a7b4bd1bf248b908263c46abaf94fc21aee48ee0af23bb3f94",
+      "run_id": "gpu-holdout-hvfhv-2024-04",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 116,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 37303010,
+          "min": 37303010,
+          "p50": 37303010,
+          "p90": 37303010,
+          "p95": 37303010,
+          "sum": 37303010
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 116,
+          "min": 116,
+          "p50": 116,
+          "p90": 116,
+          "p95": 116,
+          "sum": 116
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 36669950,
+          "min": 36669950,
+          "p50": 36669950,
+          "p90": 36669950,
+          "p95": 36669950,
+          "sum": 36669950
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 722722808,
+          "min": 722722808,
+          "p50": 722722808,
+          "p90": 722722808,
+          "p95": 722722808,
+          "sum": 722722808
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 722722808,
+          "min": 722722808,
+          "p50": 722722808,
+          "p90": 722722808,
+          "p95": 722722808,
+          "sum": 722722808
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 63000000,
+          "min": 63000000,
+          "p50": 63000000,
+          "p90": 63000000,
+          "p95": 63000000,
+          "sum": 63000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 46758779,
+          "min": 46758779,
+          "p50": 46758779,
+          "p90": 46758779,
+          "p95": 46758779,
+          "sum": 46758779
+        },
+        "input_records": {
+          "count": 1,
+          "max": 19733038,
+          "min": 19733038,
+          "p50": 19733038,
+          "p90": 19733038,
+          "p95": 19733038,
+          "sum": 19733038
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 323128672,
+          "min": 323128672,
+          "p50": 323128672,
+          "p90": 323128672,
+          "p95": 323128672,
+          "sum": 323128672
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 19733038,
+          "min": 19733038,
+          "p50": 19733038,
+          "p90": 19733038,
+          "p95": 19733038,
+          "sum": 19733038
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 323128672,
+          "min": 323128672,
+          "p50": 323128672,
+          "p90": 323128672,
+          "p95": 323128672,
+          "sum": 323128672
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 19733038,
+          "min": 19733038,
+          "p50": 19733038,
+          "p90": 19733038,
+          "p95": 19733038,
+          "sum": 19733038
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 45830403,
+          "min": 45830403,
+          "p50": 45830403,
+          "p90": 45830403,
+          "p95": 45830403,
+          "sum": 45830403
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 32793953,
+          "min": 32793953,
+          "p50": 32793953,
+          "p90": 32793953,
+          "p95": 32793953,
+          "sum": 32793953
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 4648480,
+          "min": 4648480,
+          "p50": 4648480,
+          "p90": 4648480,
+          "p95": 4648480,
+          "sum": 4648480
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 86208854,
+          "min": 86208854,
+          "p50": 86208854,
+          "p90": 86208854,
+          "p95": 86208854,
+          "sum": 86208854
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 86264830,
+          "min": 86264830,
+          "p50": 86264830,
+          "p90": 86264830,
+          "p95": 86264830,
+          "sum": 86264830
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 37303010,
+          "duration_ms": 116,
+          "finish_time_ms": 1783214501290,
+          "gpu_decode_ns": 36669950,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_device_memory_bytes": 722722808,
+          "gpu_max_task_footprint": 722722808,
+          "gpu_semaphore_holding_ns": 63000000,
+          "gpu_semaphore_wait_ns": 0,
+          "input_bytes": 46758779,
+          "input_records": 19733038,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214501174,
+          "max_output_batch_bytes": 323128672,
+          "max_output_batch_rows": 19733038,
+          "output_batch_bytes": 323128672,
+          "output_batches": 1,
+          "output_rows": 19733038,
+          "partition_id": 0,
+          "read_buffer_bytes": 45830403,
+          "read_fs_ns": 32793953,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 4648480,
+          "scan_ns": 86208854,
+          "scan_op_ns": 86264830,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 22,
+          "task_id": 22,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 154.627558,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 7831556,
+          "min": 7831556,
+          "p50": 7831556,
+          "p90": 7831556,
+          "p95": 7831556,
+          "sum": 7831556
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 70,
+          "min": 70,
+          "p50": 70,
+          "p90": 70,
+          "p95": 70,
+          "sum": 70
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 28598621,
+          "min": 28598621,
+          "p50": 28598621,
+          "p90": 28598621,
+          "p95": 28598621,
+          "sum": 28598621
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 136385668,
+          "min": 136385668,
+          "p50": 136385668,
+          "p90": 136385668,
+          "p95": 136385668,
+          "sum": 136385668
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 49000000,
+          "min": 49000000,
+          "p50": 49000000,
+          "p90": 49000000,
+          "p95": 49000000,
+          "sum": 49000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 6743084,
+          "min": 6743084,
+          "p50": 6743084,
+          "p90": 6743084,
+          "p95": 6743084,
+          "sum": 6743084
+        },
+        "input_records": {
+          "count": 1,
+          "max": 3723833,
+          "min": 3723833,
+          "p50": 3723833,
+          "p90": 3723833,
+          "p95": 3723833,
+          "sum": 3723833
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 60977936,
+          "min": 60977936,
+          "p50": 60977936,
+          "p90": 60977936,
+          "p95": 60977936,
+          "sum": 60977936
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 3723833,
+          "min": 3723833,
+          "p50": 3723833,
+          "p90": 3723833,
+          "p95": 3723833,
+          "sum": 3723833
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 60977936,
+          "min": 60977936,
+          "p50": 60977936,
+          "p90": 60977936,
+          "p95": 60977936,
+          "sum": 60977936
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 3723833,
+          "min": 3723833,
+          "p50": 3723833,
+          "p90": 3723833,
+          "p95": 3723833,
+          "sum": 3723833
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 6667099,
+          "min": 6667099,
+          "p50": 6667099,
+          "p90": 6667099,
+          "p95": 6667099,
+          "sum": 6667099
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 5751899,
+          "min": 5751899,
+          "p50": 5751899,
+          "p90": 5751899,
+          "p95": 5751899,
+          "sum": 5751899
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3582342,
+          "min": 3582342,
+          "p50": 3582342,
+          "p90": 3582342,
+          "p95": 3582342,
+          "sum": 3582342
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 42692271,
+          "min": 42692271,
+          "p50": 42692271,
+          "p90": 42692271,
+          "p95": 42692271,
+          "sum": 42692271
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 42743990,
+          "min": 42743990,
+          "p50": 42743990,
+          "p90": 42743990,
+          "p95": 42743990,
+          "sum": 42743990
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "train",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "8681f816cce3f1effc9385cbc9b869c7d5854bca928751bfa4cc470223d983c4",
+      "run_id": "gpu-train-yellow-2024-05",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 70,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 7831556,
+          "min": 7831556,
+          "p50": 7831556,
+          "p90": 7831556,
+          "p95": 7831556,
+          "sum": 7831556
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 70,
+          "min": 70,
+          "p50": 70,
+          "p90": 70,
+          "p95": 70,
+          "sum": 70
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 28598621,
+          "min": 28598621,
+          "p50": 28598621,
+          "p90": 28598621,
+          "p95": 28598621,
+          "sum": 28598621
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 136385668,
+          "min": 136385668,
+          "p50": 136385668,
+          "p90": 136385668,
+          "p95": 136385668,
+          "sum": 136385668
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 49000000,
+          "min": 49000000,
+          "p50": 49000000,
+          "p90": 49000000,
+          "p95": 49000000,
+          "sum": 49000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 6743084,
+          "min": 6743084,
+          "p50": 6743084,
+          "p90": 6743084,
+          "p95": 6743084,
+          "sum": 6743084
+        },
+        "input_records": {
+          "count": 1,
+          "max": 3723833,
+          "min": 3723833,
+          "p50": 3723833,
+          "p90": 3723833,
+          "p95": 3723833,
+          "sum": 3723833
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 60977936,
+          "min": 60977936,
+          "p50": 60977936,
+          "p90": 60977936,
+          "p95": 60977936,
+          "sum": 60977936
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 3723833,
+          "min": 3723833,
+          "p50": 3723833,
+          "p90": 3723833,
+          "p95": 3723833,
+          "sum": 3723833
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 60977936,
+          "min": 60977936,
+          "p50": 60977936,
+          "p90": 60977936,
+          "p95": 60977936,
+          "sum": 60977936
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 3723833,
+          "min": 3723833,
+          "p50": 3723833,
+          "p90": 3723833,
+          "p95": 3723833,
+          "sum": 3723833
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 6667099,
+          "min": 6667099,
+          "p50": 6667099,
+          "p90": 6667099,
+          "p95": 6667099,
+          "sum": 6667099
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 5751899,
+          "min": 5751899,
+          "p50": 5751899,
+          "p90": 5751899,
+          "p95": 5751899,
+          "sum": 5751899
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3582342,
+          "min": 3582342,
+          "p50": 3582342,
+          "p90": 3582342,
+          "p95": 3582342,
+          "sum": 3582342
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 42692271,
+          "min": 42692271,
+          "p50": 42692271,
+          "p90": 42692271,
+          "p95": 42692271,
+          "sum": 42692271
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 42743990,
+          "min": 42743990,
+          "p50": 42743990,
+          "p90": 42743990,
+          "p95": 42743990,
+          "sum": 42743990
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 7831556,
+          "duration_ms": 70,
+          "finish_time_ms": 1783214501577,
+          "gpu_decode_ns": 28598621,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_task_footprint": 136385668,
+          "gpu_semaphore_holding_ns": 49000000,
+          "gpu_semaphore_wait_ns": 0,
+          "input_bytes": 6743084,
+          "input_records": 3723833,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214501507,
+          "max_output_batch_bytes": 60977936,
+          "max_output_batch_rows": 3723833,
+          "output_batch_bytes": 60977936,
+          "output_batches": 1,
+          "output_rows": 3723833,
+          "partition_id": 0,
+          "read_buffer_bytes": 6667099,
+          "read_fs_ns": 5751899,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 3582342,
+          "scan_ns": 42692271,
+          "scan_op_ns": 42743990,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 25,
+          "task_id": 25,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 194.000927,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 39122333,
+          "min": 39122333,
+          "p50": 39122333,
+          "p90": 39122333,
+          "p95": 39122333,
+          "sum": 39122333
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 111,
+          "min": 111,
+          "p50": 111,
+          "p90": 111,
+          "p95": 111,
+          "sum": 111
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 31758853,
+          "min": 31758853,
+          "p50": 31758853,
+          "p90": 31758853,
+          "p95": 31758853,
+          "sum": 31758853
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 758303848,
+          "min": 758303848,
+          "p50": 758303848,
+          "p90": 758303848,
+          "p95": 758303848,
+          "sum": 758303848
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 758303848,
+          "min": 758303848,
+          "p50": 758303848,
+          "p90": 758303848,
+          "p95": 758303848,
+          "sum": 758303848
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 58000000,
+          "min": 58000000,
+          "p50": 58000000,
+          "p90": 58000000,
+          "p95": 58000000,
+          "sum": 58000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 49024291,
+          "min": 49024291,
+          "p50": 49024291,
+          "p90": 49024291,
+          "p95": 49024291,
+          "sum": 49024291
+        },
+        "input_records": {
+          "count": 1,
+          "max": 20704538,
+          "min": 20704538,
+          "p50": 20704538,
+          "p90": 20704538,
+          "p95": 20704538,
+          "sum": 20704538
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 339036896,
+          "min": 339036896,
+          "p50": 339036896,
+          "p90": 339036896,
+          "p95": 339036896,
+          "sum": 339036896
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 20704538,
+          "min": 20704538,
+          "p50": 20704538,
+          "p90": 20704538,
+          "p95": 20704538,
+          "sum": 20704538
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 339036896,
+          "min": 339036896,
+          "p50": 339036896,
+          "p90": 339036896,
+          "p95": 339036896,
+          "sum": 339036896
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 20704538,
+          "min": 20704538,
+          "p50": 20704538,
+          "p90": 20704538,
+          "p95": 20704538,
+          "sum": 20704538
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 48090361,
+          "min": 48090361,
+          "p50": 48090361,
+          "p90": 48090361,
+          "p95": 48090361,
+          "sum": 48090361
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 36458811,
+          "min": 36458811,
+          "p50": 36458811,
+          "p90": 36458811,
+          "p95": 36458811,
+          "sum": 36458811
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3476191,
+          "min": 3476191,
+          "p50": 3476191,
+          "p90": 3476191,
+          "p95": 3476191,
+          "sum": 3476191
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 81650454,
+          "min": 81650454,
+          "p50": 81650454,
+          "p90": 81650454,
+          "p95": 81650454,
+          "sum": 81650454
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 81704618,
+          "min": 81704618,
+          "p50": 81704618,
+          "p90": 81704618,
+          "p95": 81704618,
+          "sum": 81704618
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "holdout",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "6d429c89e85aafb540ecc050193ac65b1cf59c85e4f58cb8a1ecac7b0d02d06b",
+      "run_id": "gpu-holdout-hvfhv-2024-05",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 111,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 39122333,
+          "min": 39122333,
+          "p50": 39122333,
+          "p90": 39122333,
+          "p95": 39122333,
+          "sum": 39122333
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 111,
+          "min": 111,
+          "p50": 111,
+          "p90": 111,
+          "p95": 111,
+          "sum": 111
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 31758853,
+          "min": 31758853,
+          "p50": 31758853,
+          "p90": 31758853,
+          "p95": 31758853,
+          "sum": 31758853
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 758303848,
+          "min": 758303848,
+          "p50": 758303848,
+          "p90": 758303848,
+          "p95": 758303848,
+          "sum": 758303848
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 758303848,
+          "min": 758303848,
+          "p50": 758303848,
+          "p90": 758303848,
+          "p95": 758303848,
+          "sum": 758303848
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 58000000,
+          "min": 58000000,
+          "p50": 58000000,
+          "p90": 58000000,
+          "p95": 58000000,
+          "sum": 58000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 49024291,
+          "min": 49024291,
+          "p50": 49024291,
+          "p90": 49024291,
+          "p95": 49024291,
+          "sum": 49024291
+        },
+        "input_records": {
+          "count": 1,
+          "max": 20704538,
+          "min": 20704538,
+          "p50": 20704538,
+          "p90": 20704538,
+          "p95": 20704538,
+          "sum": 20704538
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 339036896,
+          "min": 339036896,
+          "p50": 339036896,
+          "p90": 339036896,
+          "p95": 339036896,
+          "sum": 339036896
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 20704538,
+          "min": 20704538,
+          "p50": 20704538,
+          "p90": 20704538,
+          "p95": 20704538,
+          "sum": 20704538
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 339036896,
+          "min": 339036896,
+          "p50": 339036896,
+          "p90": 339036896,
+          "p95": 339036896,
+          "sum": 339036896
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 20704538,
+          "min": 20704538,
+          "p50": 20704538,
+          "p90": 20704538,
+          "p95": 20704538,
+          "sum": 20704538
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 48090361,
+          "min": 48090361,
+          "p50": 48090361,
+          "p90": 48090361,
+          "p95": 48090361,
+          "sum": 48090361
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 36458811,
+          "min": 36458811,
+          "p50": 36458811,
+          "p90": 36458811,
+          "p95": 36458811,
+          "sum": 36458811
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3476191,
+          "min": 3476191,
+          "p50": 3476191,
+          "p90": 3476191,
+          "p95": 3476191,
+          "sum": 3476191
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 81650454,
+          "min": 81650454,
+          "p50": 81650454,
+          "p90": 81650454,
+          "p95": 81650454,
+          "sum": 81650454
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 81704618,
+          "min": 81704618,
+          "p50": 81704618,
+          "p90": 81704618,
+          "p95": 81704618,
+          "sum": 81704618
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 39122333,
+          "duration_ms": 111,
+          "finish_time_ms": 1783214501906,
+          "gpu_decode_ns": 31758853,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_device_memory_bytes": 758303848,
+          "gpu_max_task_footprint": 758303848,
+          "gpu_semaphore_holding_ns": 58000000,
+          "gpu_semaphore_wait_ns": 0,
+          "input_bytes": 49024291,
+          "input_records": 20704538,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214501795,
+          "max_output_batch_bytes": 339036896,
+          "max_output_batch_rows": 20704538,
+          "output_batch_bytes": 339036896,
+          "output_batches": 1,
+          "output_rows": 20704538,
+          "partition_id": 0,
+          "read_buffer_bytes": 48090361,
+          "read_fs_ns": 36458811,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 3476191,
+          "scan_ns": 81650454,
+          "scan_op_ns": 81704618,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 28,
+          "task_id": 28,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 163.624621,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 5596215,
+          "min": 5596215,
+          "p50": 5596215,
+          "p90": 5596215,
+          "p95": 5596215,
+          "sum": 5596215
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 81,
+          "min": 81,
+          "p50": 81,
+          "p90": 81,
+          "p95": 81,
+          "sum": 81
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 40438906,
+          "min": 40438906,
+          "p50": 40438906,
+          "p90": 40438906,
+          "p95": 40438906,
+          "sum": 40438906
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 129623108,
+          "min": 129623108,
+          "p50": 129623108,
+          "p90": 129623108,
+          "p95": 129623108,
+          "sum": 129623108
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 129623108,
+          "min": 129623108,
+          "p50": 129623108,
+          "p90": 129623108,
+          "p95": 129623108,
+          "sum": 129623108
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 60000000,
+          "min": 60000000,
+          "p50": 60000000,
+          "p90": 60000000,
+          "p95": 60000000,
+          "sum": 60000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 6398572,
+          "min": 6398572,
+          "p50": 6398572,
+          "p90": 6398572,
+          "p95": 6398572,
+          "sum": 6398572
+        },
+        "input_records": {
+          "count": 1,
+          "max": 3539193,
+          "min": 3539193,
+          "p50": 3539193,
+          "p90": 3539193,
+          "p95": 3539193,
+          "sum": 3539193
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 57954384,
+          "min": 57954384,
+          "p50": 57954384,
+          "p90": 57954384,
+          "p95": 57954384,
+          "sum": 57954384
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 3539193,
+          "min": 3539193,
+          "p50": 3539193,
+          "p90": 3539193,
+          "p95": 3539193,
+          "sum": 3539193
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 57954384,
+          "min": 57954384,
+          "p50": 57954384,
+          "p90": 57954384,
+          "p95": 57954384,
+          "sum": 57954384
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 3539193,
+          "min": 3539193,
+          "p50": 3539193,
+          "p90": 3539193,
+          "p95": 3539193,
+          "sum": 3539193
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 6327049,
+          "min": 6327049,
+          "p50": 6327049,
+          "p90": 6327049,
+          "p95": 6327049,
+          "sum": 6327049
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 3401840,
+          "min": 3401840,
+          "p50": 3401840,
+          "p90": 3401840,
+          "p95": 3401840,
+          "sum": 3401840
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 4394019,
+          "min": 4394019,
+          "p50": 4394019,
+          "p90": 4394019,
+          "p95": 4394019,
+          "sum": 4394019
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 52744913,
+          "min": 52744913,
+          "p50": 52744913,
+          "p90": 52744913,
+          "p95": 52744913,
+          "sum": 52744913
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 52786681,
+          "min": 52786681,
+          "p50": 52786681,
+          "p90": 52786681,
+          "p95": 52786681,
+          "sum": 52786681
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "train",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "ec16566f3812c56933bee68ffb5f63e204122cefcb3cfafbb8fbc8b4d89518f3",
+      "run_id": "gpu-train-yellow-2024-06",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 81,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 5596215,
+          "min": 5596215,
+          "p50": 5596215,
+          "p90": 5596215,
+          "p95": 5596215,
+          "sum": 5596215
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 81,
+          "min": 81,
+          "p50": 81,
+          "p90": 81,
+          "p95": 81,
+          "sum": 81
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 40438906,
+          "min": 40438906,
+          "p50": 40438906,
+          "p90": 40438906,
+          "p95": 40438906,
+          "sum": 40438906
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_device_memory_bytes": {
+          "count": 1,
+          "max": 129623108,
+          "min": 129623108,
+          "p50": 129623108,
+          "p90": 129623108,
+          "p95": 129623108,
+          "sum": 129623108
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 129623108,
+          "min": 129623108,
+          "p50": 129623108,
+          "p90": 129623108,
+          "p95": 129623108,
+          "sum": 129623108
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 60000000,
+          "min": 60000000,
+          "p50": 60000000,
+          "p90": 60000000,
+          "p95": 60000000,
+          "sum": 60000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 6398572,
+          "min": 6398572,
+          "p50": 6398572,
+          "p90": 6398572,
+          "p95": 6398572,
+          "sum": 6398572
+        },
+        "input_records": {
+          "count": 1,
+          "max": 3539193,
+          "min": 3539193,
+          "p50": 3539193,
+          "p90": 3539193,
+          "p95": 3539193,
+          "sum": 3539193
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 57954384,
+          "min": 57954384,
+          "p50": 57954384,
+          "p90": 57954384,
+          "p95": 57954384,
+          "sum": 57954384
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 3539193,
+          "min": 3539193,
+          "p50": 3539193,
+          "p90": 3539193,
+          "p95": 3539193,
+          "sum": 3539193
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 57954384,
+          "min": 57954384,
+          "p50": 57954384,
+          "p90": 57954384,
+          "p95": 57954384,
+          "sum": 57954384
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 3539193,
+          "min": 3539193,
+          "p50": 3539193,
+          "p90": 3539193,
+          "p95": 3539193,
+          "sum": 3539193
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 6327049,
+          "min": 6327049,
+          "p50": 6327049,
+          "p90": 6327049,
+          "p95": 6327049,
+          "sum": 6327049
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 3401840,
+          "min": 3401840,
+          "p50": 3401840,
+          "p90": 3401840,
+          "p95": 3401840,
+          "sum": 3401840
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 4394019,
+          "min": 4394019,
+          "p50": 4394019,
+          "p90": 4394019,
+          "p95": 4394019,
+          "sum": 4394019
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 52744913,
+          "min": 52744913,
+          "p50": 52744913,
+          "p90": 52744913,
+          "p95": 52744913,
+          "sum": 52744913
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 52786681,
+          "min": 52786681,
+          "p50": 52786681,
+          "p90": 52786681,
+          "p95": 52786681,
+          "sum": 52786681
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 5596215,
+          "duration_ms": 81,
+          "finish_time_ms": 1783214502206,
+          "gpu_decode_ns": 40438906,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_device_memory_bytes": 129623108,
+          "gpu_max_task_footprint": 129623108,
+          "gpu_semaphore_holding_ns": 60000000,
+          "gpu_semaphore_wait_ns": 0,
+          "input_bytes": 6398572,
+          "input_records": 3539193,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214502125,
+          "max_output_batch_bytes": 57954384,
+          "max_output_batch_rows": 3539193,
+          "output_batch_bytes": 57954384,
+          "output_batches": 1,
+          "output_rows": 3539193,
+          "partition_id": 0,
+          "read_buffer_bytes": 6327049,
+          "read_fs_ns": 3401840,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 4394019,
+          "scan_ns": 52744913,
+          "scan_op_ns": 52786681,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 31,
+          "task_id": 31,
+          "write_buffer_ns": 0
+        }
+      ]
+    },
+    {
+      "block": null,
+      "elapsed_ms": 168.013339,
+      "empty_scan_task_count": 0,
+      "empty_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 0
+        },
+        "buffer_ns": {
+          "count": 0
+        },
+        "duration_ms": {
+          "count": 0
+        },
+        "gpu_decode_ns": {
+          "count": 0
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 0
+        },
+        "gpu_max_task_footprint": {
+          "count": 0
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 0
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 0
+        },
+        "input_bytes": {
+          "count": 0
+        },
+        "input_records": {
+          "count": 0
+        },
+        "io_schedule_bubble_ns": {
+          "count": 0
+        },
+        "io_schedule_ns": {
+          "count": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 0
+        },
+        "max_output_batch_rows": {
+          "count": 0
+        },
+        "output_batch_bytes": {
+          "count": 0
+        },
+        "output_batches": {
+          "count": 0
+        },
+        "output_rows": {
+          "count": 0
+        },
+        "read_buffer_bytes": {
+          "count": 0
+        },
+        "read_fs_ns": {
+          "count": 0
+        },
+        "reader_filter_bubble_ns": {
+          "count": 0
+        },
+        "reader_filter_ns": {
+          "count": 0
+        },
+        "scan_ns": {
+          "count": 0
+        },
+        "scan_op_ns": {
+          "count": 0
+        },
+        "spark_disk_spill_bytes": {
+          "count": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 0
+        },
+        "write_buffer_ns": {
+          "count": 0
+        }
+      },
+      "end_month": null,
+      "episode": null,
+      "journal_result_rdd_partitions": 1,
+      "max_partition_mib": 512,
+      "output_producing_scan_task_count": 1,
+      "output_task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 35305047,
+          "min": 35305047,
+          "p50": 35305047,
+          "p90": 35305047,
+          "p95": 35305047,
+          "sum": 35305047
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 106,
+          "min": 106,
+          "p50": 106,
+          "p90": 106,
+          "p95": 106,
+          "sum": 106
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 32554420,
+          "min": 32554420,
+          "p50": 32554420,
+          "p90": 32554420,
+          "p95": 32554420,
+          "sum": 32554420
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 737013416,
+          "min": 737013416,
+          "p50": 737013416,
+          "p90": 737013416,
+          "p95": 737013416,
+          "sum": 737013416
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 59000000,
+          "min": 59000000,
+          "p50": 59000000,
+          "p90": 59000000,
+          "p95": 59000000,
+          "sum": 59000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 47692714,
+          "min": 47692714,
+          "p50": 47692714,
+          "p90": 47692714,
+          "p95": 47692714,
+          "sum": 47692714
+        },
+        "input_records": {
+          "count": 1,
+          "max": 20123226,
+          "min": 20123226,
+          "p50": 20123226,
+          "p90": 20123226,
+          "p95": 20123226,
+          "sum": 20123226
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 329517984,
+          "min": 329517984,
+          "p50": 329517984,
+          "p90": 329517984,
+          "p95": 329517984,
+          "sum": 329517984
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 20123226,
+          "min": 20123226,
+          "p50": 20123226,
+          "p90": 20123226,
+          "p95": 20123226,
+          "sum": 20123226
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 329517984,
+          "min": 329517984,
+          "p50": 329517984,
+          "p90": 329517984,
+          "p95": 329517984,
+          "sum": 329517984
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 20123226,
+          "min": 20123226,
+          "p50": 20123226,
+          "p90": 20123226,
+          "p95": 20123226,
+          "sum": 20123226
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 46718417,
+          "min": 46718417,
+          "p50": 46718417,
+          "p90": 46718417,
+          "p95": 46718417,
+          "sum": 46718417
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 32690898,
+          "min": 32690898,
+          "p50": 32690898,
+          "p90": 32690898,
+          "p95": 32690898,
+          "sum": 32690898
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3345243,
+          "min": 3345243,
+          "p50": 3345243,
+          "p90": 3345243,
+          "p95": 3345243,
+          "sum": 3345243
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 78405452,
+          "min": 78405452,
+          "p50": 78405452,
+          "p90": 78405452,
+          "p95": 78405452,
+          "sum": 78405452
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 78454665,
+          "min": 78454665,
+          "p50": 78454665,
+          "p90": 78454665,
+          "p95": 78454665,
+          "sum": 78454665
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "phase": "holdout",
+      "planned_scan_stage_tasks": 1,
+      "query": "common-location-surcharge-aggregate",
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "repeat": null,
+      "result_sha256": "5936f090ddbde9151a9c2de2bde8284e20402f803a84a721441a0a015ed7772c",
+      "run_id": "gpu-holdout-hvfhv-2024-06",
+      "scan_task_count": 1,
+      "scan_task_span_ms": 106,
+      "start_month": null,
+      "task_metrics": {
+        "buffer_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "buffer_ns": {
+          "count": 1,
+          "max": 35305047,
+          "min": 35305047,
+          "p50": 35305047,
+          "p90": 35305047,
+          "p95": 35305047,
+          "sum": 35305047
+        },
+        "duration_ms": {
+          "count": 1,
+          "max": 106,
+          "min": 106,
+          "p50": 106,
+          "p90": 106,
+          "p95": 106,
+          "sum": 106
+        },
+        "gpu_decode_ns": {
+          "count": 1,
+          "max": 32554420,
+          "min": 32554420,
+          "p50": 32554420,
+          "p90": 32554420,
+          "p95": 32554420,
+          "sum": 32554420
+        },
+        "gpu_max_concurrent_tasks": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "gpu_max_task_footprint": {
+          "count": 1,
+          "max": 737013416,
+          "min": 737013416,
+          "p50": 737013416,
+          "p90": 737013416,
+          "p95": 737013416,
+          "sum": 737013416
+        },
+        "gpu_semaphore_holding_ns": {
+          "count": 1,
+          "max": 59000000,
+          "min": 59000000,
+          "p50": 59000000,
+          "p90": 59000000,
+          "p95": 59000000,
+          "sum": 59000000
+        },
+        "gpu_semaphore_wait_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "input_bytes": {
+          "count": 1,
+          "max": 47692714,
+          "min": 47692714,
+          "p50": 47692714,
+          "p90": 47692714,
+          "p95": 47692714,
+          "sum": 47692714
+        },
+        "input_records": {
+          "count": 1,
+          "max": 20123226,
+          "min": 20123226,
+          "p50": 20123226,
+          "p90": 20123226,
+          "p95": 20123226,
+          "sum": 20123226
+        },
+        "io_schedule_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "io_schedule_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "max_output_batch_bytes": {
+          "count": 1,
+          "max": 329517984,
+          "min": 329517984,
+          "p50": 329517984,
+          "p90": 329517984,
+          "p95": 329517984,
+          "sum": 329517984
+        },
+        "max_output_batch_rows": {
+          "count": 1,
+          "max": 20123226,
+          "min": 20123226,
+          "p50": 20123226,
+          "p90": 20123226,
+          "p95": 20123226,
+          "sum": 20123226
+        },
+        "output_batch_bytes": {
+          "count": 1,
+          "max": 329517984,
+          "min": 329517984,
+          "p50": 329517984,
+          "p90": 329517984,
+          "p95": 329517984,
+          "sum": 329517984
+        },
+        "output_batches": {
+          "count": 1,
+          "max": 1,
+          "min": 1,
+          "p50": 1,
+          "p90": 1,
+          "p95": 1,
+          "sum": 1
+        },
+        "output_rows": {
+          "count": 1,
+          "max": 20123226,
+          "min": 20123226,
+          "p50": 20123226,
+          "p90": 20123226,
+          "p95": 20123226,
+          "sum": 20123226
+        },
+        "read_buffer_bytes": {
+          "count": 1,
+          "max": 46718417,
+          "min": 46718417,
+          "p50": 46718417,
+          "p90": 46718417,
+          "p95": 46718417,
+          "sum": 46718417
+        },
+        "read_fs_ns": {
+          "count": 1,
+          "max": 32690898,
+          "min": 32690898,
+          "p50": 32690898,
+          "p90": 32690898,
+          "p95": 32690898,
+          "sum": 32690898
+        },
+        "reader_filter_bubble_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "reader_filter_ns": {
+          "count": 1,
+          "max": 3345243,
+          "min": 3345243,
+          "p50": 3345243,
+          "p90": 3345243,
+          "p95": 3345243,
+          "sum": 3345243
+        },
+        "scan_ns": {
+          "count": 1,
+          "max": 78405452,
+          "min": 78405452,
+          "p50": 78405452,
+          "p90": 78405452,
+          "p95": 78405452,
+          "sum": 78405452
+        },
+        "scan_op_ns": {
+          "count": 1,
+          "max": 78454665,
+          "min": 78454665,
+          "p50": 78454665,
+          "p90": 78454665,
+          "p95": 78454665,
+          "sum": 78454665
+        },
+        "spark_disk_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_memory_spill_bytes": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "spark_peak_execution_memory": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        },
+        "write_buffer_ns": {
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "p50": 0,
+          "p90": 0,
+          "p95": 0,
+          "sum": 0
+        }
+      },
+      "tasks": [
+        {
+          "buffer_bubble_ns": 0,
+          "buffer_ns": 35305047,
+          "duration_ms": 106,
+          "finish_time_ms": 1783214502485,
+          "gpu_decode_ns": 32554420,
+          "gpu_max_concurrent_tasks": 1,
+          "gpu_max_task_footprint": 737013416,
+          "gpu_semaphore_holding_ns": 59000000,
+          "gpu_semaphore_wait_ns": 0,
+          "input_bytes": 47692714,
+          "input_records": 20123226,
+          "io_schedule_bubble_ns": 0,
+          "io_schedule_ns": 0,
+          "launch_time_ms": 1783214502379,
+          "max_output_batch_bytes": 329517984,
+          "max_output_batch_rows": 20123226,
+          "output_batch_bytes": 329517984,
+          "output_batches": 1,
+          "output_rows": 20123226,
+          "partition_id": 0,
+          "read_buffer_bytes": 46718417,
+          "read_fs_ns": 32690898,
+          "reader_filter_bubble_ns": 0,
+          "reader_filter_ns": 3345243,
+          "scan_ns": 78405452,
+          "scan_op_ns": 78454665,
+          "spark_disk_spill_bytes": 0,
+          "spark_memory_spill_bytes": 0,
+          "spark_peak_execution_memory": 0,
+          "stage_id": 34,
+          "task_id": 34,
+          "write_buffer_ns": 0
+        }
+      ]
+    }
+  ],
+  "schema_version": 3
+}

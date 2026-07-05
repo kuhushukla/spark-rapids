@@ -1,0 +1,202 @@
+{
+  "correctness": {
+    "holdout-hvfhv-2024-01": true,
+    "holdout-hvfhv-2024-02": true,
+    "holdout-hvfhv-2024-03": true,
+    "holdout-hvfhv-2024-04": true,
+    "holdout-hvfhv-2024-05": true,
+    "holdout-hvfhv-2024-06": true,
+    "train-yellow-2024-01": true,
+    "train-yellow-2024-02": true,
+    "train-yellow-2024-03": true,
+    "train-yellow-2024-04": true,
+    "train-yellow-2024-05": true,
+    "train-yellow-2024-06": true
+  },
+  "gates": {
+    "decoded_bytes_median_ape_le_20pct": false,
+    "decoded_bytes_p90_ape_le_35pct": true,
+    "decoded_rows_median_ape_le_20pct": false,
+    "decoded_rows_p90_ape_le_35pct": true,
+    "footprint_empirical_upper_coverage_ge_90pct": false,
+    "footprint_median_ape_le_30pct": true,
+    "no_retry_or_spill": true
+  },
+  "holdout": {
+    "decoded_byte_error": {
+      "count": 6,
+      "max": 0.3130537685586346,
+      "median": 0.3123359909722147,
+      "p90": 0.3126103126792965
+    },
+    "decoded_row_error": {
+      "count": 6,
+      "max": 0.3130524649121955,
+      "median": 0.3123352144288433,
+      "p90": 0.3126095706606353
+    },
+    "footprint_empirical_upper_coverage": 0.0,
+    "footprint_error": {
+      "count": 6,
+      "max": 6.149256144229551e-07,
+      "median": 5.112311795436332e-07,
+      "p90": 5.749674106889143e-07
+    },
+    "footprint_task_count": 6,
+    "predictions": [
+      {
+        "actual_output_bytes": 321997024,
+        "actual_output_rows": 19663930,
+        "byte_absolute_percentage_error": 0.3113137436947243,
+        "empirical_upper_output_bytes": 423252757,
+        "empirical_upper_output_rows": 25847403,
+        "input_bytes": 46563297,
+        "predicted_output_bytes": 422239123,
+        "predicted_output_rows": 25785567,
+        "row_absolute_percentage_error": 0.31131299796124173,
+        "run_id": "holdout-hvfhv-2024-01",
+        "task_footprint_predictions": [
+          {
+            "absolute_percentage_error": 5.054209731819744e-07,
+            "actual_footprint_bytes": 720191720,
+            "empirical_upper_footprint_bytes": 720191505,
+            "max_output_batch_bytes": 321997024,
+            "partition_id": 0,
+            "predicted_footprint_bytes": 720191356
+          }
+        ]
+      },
+      {
+        "actual_output_bytes": 317006080,
+        "actual_output_rows": 19359148,
+        "byte_absolute_percentage_error": 0.3130537685586346,
+        "empirical_upper_output_bytes": 417245274,
+        "empirical_upper_output_rows": 25480535,
+        "input_bytes": 45902396,
+        "predicted_output_bytes": 416246028,
+        "predicted_output_rows": 25419577,
+        "row_absolute_percentage_error": 0.3130524649121955,
+        "run_id": "holdout-hvfhv-2024-02",
+        "task_footprint_predictions": [
+          {
+            "absolute_percentage_error": 6.149256144229551e-07,
+            "actual_footprint_bytes": 709028848,
+            "empirical_upper_footprint_bytes": 709028558,
+            "max_output_batch_bytes": 317006080,
+            "partition_id": 0,
+            "predicted_footprint_bytes": 709028412
+          }
+        ]
+      },
+      {
+        "actual_output_bytes": 348473088,
+        "actual_output_rows": 21280788,
+        "byte_absolute_percentage_error": 0.3126103126792965,
+        "empirical_upper_output_bytes": 458507433,
+        "empirical_upper_output_rows": 28000353,
+        "input_bytes": 50441769,
+        "predicted_output_bytes": 457409369,
+        "predicted_output_rows": 27933366,
+        "row_absolute_percentage_error": 0.3126095706606353,
+        "run_id": "holdout-hvfhv-2024-03",
+        "task_footprint_predictions": [
+          {
+            "absolute_percentage_error": 5.055111181345508e-07,
+            "actual_footprint_bytes": 779409168,
+            "empirical_upper_footprint_bytes": 779408935,
+            "max_output_batch_bytes": 348473088,
+            "partition_id": 0,
+            "predicted_footprint_bytes": 779408774
+          }
+        ]
+      },
+      {
+        "actual_output_bytes": 323128672,
+        "actual_output_rows": 19733038,
+        "byte_absolute_percentage_error": 0.3122071909483786,
+        "empirical_upper_output_bytes": 425029656,
+        "empirical_upper_output_rows": 25955916,
+        "input_bytes": 46758779,
+        "predicted_output_bytes": 424011767,
+        "predicted_output_rows": 25893820,
+        "row_absolute_percentage_error": 0.31220646308997124,
+        "run_id": "holdout-hvfhv-2024-04",
+        "task_footprint_predictions": [
+          {
+            "absolute_percentage_error": 5.022672537546373e-07,
+            "actual_footprint_bytes": 722722808,
+            "empirical_upper_footprint_bytes": 722722594,
+            "max_output_batch_bytes": 323128672,
+            "partition_id": 0,
+            "predicted_footprint_bytes": 722722445
+          }
+        ]
+      },
+      {
+        "actual_output_bytes": 339036896,
+        "actual_output_rows": 20704538,
+        "byte_absolute_percentage_error": 0.31123068977129853,
+        "empirical_upper_output_bytes": 445622790,
+        "empirical_upper_output_rows": 27213507,
+        "input_bytes": 49024291,
+        "predicted_output_bytes": 444555583,
+        "predicted_output_rows": 27148402,
+        "row_absolute_percentage_error": 0.3112295478411544,
+        "run_id": "holdout-hvfhv-2024-05",
+        "task_footprint_predictions": [
+          {
+            "absolute_percentage_error": 5.749674106889143e-07,
+            "actual_footprint_bytes": 758303848,
+            "empirical_upper_footprint_bytes": 758303568,
+            "max_output_batch_bytes": 339036896,
+            "partition_id": 0,
+            "predicted_footprint_bytes": 758303412
+          }
+        ]
+      },
+      {
+        "actual_output_bytes": 329517984,
+        "actual_output_rows": 20123226,
+        "byte_absolute_percentage_error": 0.3124647909960508,
+        "empirical_upper_output_bytes": 433518972,
+        "empirical_upper_output_rows": 26474346,
+        "input_bytes": 47692714,
+        "predicted_output_bytes": 432480752,
+        "predicted_output_rows": 26411009,
+        "row_absolute_percentage_error": 0.3124639657677154,
+        "run_id": "holdout-hvfhv-2024-06",
+        "task_footprint_predictions": [
+          {
+            "absolute_percentage_error": 5.169512409527156e-07,
+            "actual_footprint_bytes": 737013416,
+            "empirical_upper_footprint_bytes": 737013187,
+            "max_output_batch_bytes": 329517984,
+            "partition_id": 0,
+            "predicted_footprint_bytes": 737013035
+          }
+        ]
+      }
+    ],
+    "run_count": 6
+  },
+  "safety_totals": {
+    "gpu_retry_count": 0,
+    "gpu_spill_disk_bytes": 0,
+    "gpu_spill_host_bytes": 0,
+    "gpu_split_retry_count": 0,
+    "spark_disk_spill_bytes": 0,
+    "spark_memory_spill_bytes": 0
+  },
+  "schema_version": "cross-dataset-scan-transfer/result-v1",
+  "training": {
+    "byte_ratio_empirical_upper": 9.089836497651794,
+    "byte_ratio_median": 9.068067554441164,
+    "footprint_per_max_batch_empirical_upper": 2.236640251408763,
+    "footprint_per_max_batch_median": 2.236639789993217,
+    "footprint_task_count": 6,
+    "row_ratio_empirical_upper": 0.5551025154278405,
+    "row_ratio_median": 0.5537745044745627,
+    "run_count": 6
+  },
+  "verdict": "NOT_SUPPORTED"
+}

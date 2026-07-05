@@ -1,0 +1,6 @@
+d37aa6caaba7197b62692eb0d1670fa4ea6314911ac6ef8e1fc696f1ea5b7a18  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/manifest.yaml
+9ac613f37f4dd78f27e42e5e2ce8d80b6831b064968ea44525682bc192b6fcfc  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/schedule.json
+c5bd5ba1fe69748cd1b00a1136f7d8bf61dfc7e8fb5bdb19af76f9b27144b02d  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py
+4d6112d5f875226163f3cd740b8e1268f993e6206742c06483448481d0b612d9  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/analyze.py
+74be39d691123b50ce70a2636c878fed7f429877ef3a988e1204b0f9ae1dee25  /home/roberte/src/rapids-plugin-4-spark/docs/experiments/uncompressed-size-shmoo/scripts/extract_scan_metrics.py
+9ca72145dd8e7d19bf8338a2a5646eb7ca2a66541d2ee590be9beff5831d5441  /home/roberte/src/rapids-plugin-4-spark/dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar

@@ -145,20 +145,21 @@ class PerformanceHistorySuite extends AnyFunSuite {
     history.close()
   }
 
-  test("data-shape prediction transfers to another table with a compatible shape") {
+  test("cross-table transfer reuses width but abstains from row density") {
     val path = Files.createTempDirectory("performance-history-cross-table")
       .resolve("history.log")
     val history = PerformanceHistory.local(path)
     history.record(observation(context()))
 
     val requestContext = context(tableId = "another-table", tableVersion = "v1")
-    val prediction = history.predictDataShape(DataShapeRequest(requestContext, 500)).get
+    assert(history.predictDataShape(DataShapeRequest(requestContext, 500)).isEmpty)
 
-    assert(prediction.decodedBytes === 1000)
-    assert(prediction.decodedRows === 50)
-    assert(prediction.evidenceLevel === "cross-table-compatible-shape")
-    assert(history.predictDataShape(DataShapeRequest(
-      requestContext.copy(schemaFingerprint = "incompatible-schema"), 500)).isEmpty)
+    val width = history.predictDecodedWidth(DecodedWidthRequest(requestContext, 50)).get
+    assert(width.decodedBytes === 1000)
+    assert(width.empiricalUpperDecodedBytes === 1000)
+    assert(width.evidenceLevel === "cross-table-compatible-projected-width")
+    assert(history.predictDecodedWidth(DecodedWidthRequest(
+      requestContext.copy(schemaFingerprint = "incompatible-schema"), 50)).isEmpty)
     history.close()
   }
 

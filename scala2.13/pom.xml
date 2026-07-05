@@ -1726,7 +1726,9 @@ This will force full Scala code rebuild in downstream modules.
                         <!-- Immutable experiment evidence cannot carry source-code license headers. -->
                         <exclude>docs/experiments/**/analysis/**/*.json</exclude>
                         <exclude>docs/experiments/**/provenance/**/*.txt</exclude>
+                        <exclude>docs/experiments/**/provenance/**/*.sha256</exclude>
                         <exclude>docs/experiments/**/preregistration/**/*.json</exclude>
+                        <exclude>docs/experiments/**/schedule.json</exclude>
                         <exclude>docs/experiments/**/raw/**</exclude>
                         <exclude>docs/experiments/**/stdout/**/*.txt</exclude>
                         <exclude>docs/experiments/**/manifest.yaml</exclude>

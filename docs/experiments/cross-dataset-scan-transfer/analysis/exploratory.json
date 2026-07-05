@@ -1,0 +1,59 @@
+{
+  "footprint_empirical_upper": {
+    "coverage_by_relative_margin": {
+      "0.0": 0.0,
+      "0.001": 1.0,
+      "0.01": 1.0,
+      "1e-06": 1.0
+    },
+    "required_relative_margin": {
+      "count": 6,
+      "max": 4.0901032360984857e-07,
+      "median": 3.0482902679818125e-07,
+      "min": 2.961025458159128e-07,
+      "p90": 3.6924526236603583e-07
+    }
+  },
+  "frozen_verdict": "NOT_SUPPORTED",
+  "label": "POST_HOC_EXPLORATORY_DO_NOT_CHANGE_FROZEN_VERDICT",
+  "output_bytes_per_row": {
+    "holdout": {
+      "count": 6,
+      "max": 16.37500885570686,
+      "median": 16.375008261015843,
+      "min": 16.375001627137724,
+      "p90": 16.37500866979174
+    },
+    "training": {
+      "count": 6,
+      "max": 16.375059101733452,
+      "median": 16.37504112274926,
+      "min": 16.375008429870167,
+      "p90": 16.375046548904685
+    },
+    "training_median_holdout_error": {
+      "count": 6,
+      "max": 2.4119455029299425e-06,
+      "median": 2.006822402897319e-06,
+      "min": 1.970505340431326e-06,
+      "p90": 2.256915202257678e-06
+    }
+  },
+  "rows_per_input_byte": {
+    "holdout": {
+      "count": 6,
+      "max": 0.4223322270994189,
+      "median": 0.4219764177514863,
+      "min": 0.4217459149626961,
+      "p90": 0.4223053620966746
+    },
+    "training": {
+      "count": 6,
+      "max": 0.5585854517894443,
+      "median": 0.5537745044745627,
+      "min": 0.5431371550366834,
+      "p90": 0.5551025154278405
+    }
+  },
+  "schema_version": "cross-dataset-scan-transfer/exploratory-v1"
+}

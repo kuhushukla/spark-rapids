@@ -77,7 +77,9 @@ def main():
         summary = json.load(stream)
     runs = {}
     for run in summary["runs"]:
-        journal = gpu[run["run_id"].removeprefix("gpu-")]
+        run_id = run["run_id"]
+        protocol_id = run_id[4:] if run_id.startswith("gpu-") else run_id
+        journal = gpu[protocol_id]
         runs[journal["protocol_run_id"]] = (journal, run)
 
     safety_fields = (

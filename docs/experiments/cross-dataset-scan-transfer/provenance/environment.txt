@@ -1,0 +1,6 @@
+run_id=run-001
+repo_revision=8767ba48eafb3644e62b656a1e726624c7bb80bc
+spark_home=/home/roberte/src/spark_3.5.5
+rapids_jar=/home/roberte/src/rapids-plugin-4-spark/dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar
+data_root=/data/public/tlc-trip-record-data
+scratch_root=/data/tmp/cross-dataset-scan-transfer-run-001

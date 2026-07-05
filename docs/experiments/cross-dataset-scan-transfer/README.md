@@ -1,6 +1,6 @@
 # Cross-dataset scan-component transfer
 
-Status: preregistered; no holdout measurements examined.
+Status: executed and validated. Frozen verdict: **NOT SUPPORTED**. See [RESULTS.md](RESULTS.md).
 
 This experiment tests whether the composable scan-history POC can transfer from
 six yellow-taxi monthly scans to six untouched high-volume-for-hire monthly scans.
@@ -45,5 +45,7 @@ Passing supports only the declared component transfer:
 - local Parquet/Snappy and the recorded RAPIDS build;
 - the recorded batch and reader mechanisms.
 
-Failure is also useful: it identifies which component needs richer features. It
-does not justify fitting the holdout and reporting the refit as validation.
+The frozen model failed its median decoded-row/byte and footprint-upper-coverage
+gates. The post-hoc decomposition identifies a transferable decoded-width
+component and a non-transferable rows-per-input-byte component without changing
+the frozen verdict. See [RESULTS.md](RESULTS.md).

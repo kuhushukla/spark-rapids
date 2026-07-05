@@ -1,0 +1,1330 @@
+26/07/05 01:21:27 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/07/05 01:21:27 INFO SparkContext: Running Spark version 3.5.5
+26/07/05 01:21:27 INFO SparkContext: OS info Linux, 6.8.0-47-generic, amd64
+26/07/05 01:21:27 INFO SparkContext: Java version 17.0.19
+26/07/05 01:21:27 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+26/07/05 01:21:27 INFO ResourceUtils: ==============================================================
+26/07/05 01:21:27 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/07/05 01:21:27 INFO ResourceUtils: ==============================================================
+26/07/05 01:21:27 INFO SparkContext: Submitted application: cross-dataset-scan-transfer-gpu
+26/07/05 01:21:27 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/07/05 01:21:27 INFO ResourceProfile: Limiting resource is cpu
+26/07/05 01:21:27 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/07/05 01:21:27 INFO SecurityManager: Changing view acls to: roberte
+26/07/05 01:21:27 INFO SecurityManager: Changing modify acls to: roberte
+26/07/05 01:21:27 INFO SecurityManager: Changing view acls groups to: 
+26/07/05 01:21:27 INFO SecurityManager: Changing modify acls groups to: 
+26/07/05 01:21:27 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: roberte; groups with view permissions: EMPTY; users with modify permissions: roberte; groups with modify permissions: EMPTY
+26/07/05 01:21:27 INFO Utils: Successfully started service 'sparkDriver' on port 45825.
+26/07/05 01:21:27 INFO SparkEnv: Registering MapOutputTracker
+26/07/05 01:21:27 INFO SparkEnv: Registering BlockManagerMaster
+26/07/05 01:21:27 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/07/05 01:21:27 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/07/05 01:21:27 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/07/05 01:21:27 INFO DiskBlockManager: Created local directory at /data/tmp/cross-dataset-scan-transfer-run-001/spark-local/blockmgr-5759a166-5343-46b5-92dd-8b2eb0d8db6e
+26/07/05 01:21:27 INFO MemoryStore: MemoryStore started with capacity 14.2 GiB
+26/07/05 01:21:27 INFO SparkEnv: Registering OutputCommitCoordinator
+26/07/05 01:21:27 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/07/05 01:21:27 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/07/05 01:21:27 INFO SparkContext: Added JAR file:///home/roberte/src/rapids-plugin-4-spark/dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar at spark://31900463e94b:45825/jars/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar with timestamp 1783214487583
+26/07/05 01:21:27 INFO ShimLoader: Loading shim for Spark version: 3.5.5
+26/07/05 01:21:27 INFO ShimLoader: Complete Spark build info: 3.5.5, git@github.com:apache/spark.git, HEAD, 7c29c664cdc9321205a98a14858aaf8daaa19db2, 2026-06-03T14:05:40Z
+26/07/05 01:21:27 INFO ShimLoader: Scala version: version 2.12.18
+26/07/05 01:21:28 INFO ShimLoader: findURLClassLoader found a URLClassLoader org.apache.spark.util.MutableURLClassLoader@43826ec
+26/07/05 01:21:28 INFO ShimLoader: Updating spark classloader org.apache.spark.util.MutableURLClassLoader@43826ec with the URLs: jar:file:/home/roberte/src/rapids-plugin-4-spark/dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar!/spark-shared/, jar:file:/home/roberte/src/rapids-plugin-4-spark/dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar!/spark355/
+26/07/05 01:21:28 INFO ShimLoader: Spark classLoader org.apache.spark.util.MutableURLClassLoader@43826ec updated successfully
+26/07/05 01:21:28 INFO ShimLoader: Updating spark classloader org.apache.spark.util.MutableURLClassLoader@43826ec with the URLs: jar:file:/home/roberte/src/rapids-plugin-4-spark/dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar!/spark-shared/, jar:file:/home/roberte/src/rapids-plugin-4-spark/dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar!/spark355/
+26/07/05 01:21:28 INFO ShimLoader: Spark classLoader org.apache.spark.util.MutableURLClassLoader@43826ec updated successfully
+26/07/05 01:21:28 INFO RapidsPluginUtils: RAPIDS Accelerator build: Map(url -> ssh://git@gitlab-master.nvidia.com:12051/nvspark/spark-rapids.git, branch -> experiment/uncompressed-size-shmoo, revision -> 4c66f721475504adb36ac5f24af42d0b342d63c7, version -> 26.08.0-SNAPSHOT, date -> 2026-07-03T15:25:51Z, cudf_version -> 26.08.0-SNAPSHOT, user -> roberte)
+26/07/05 01:21:28 INFO RapidsPluginUtils: RAPIDS Accelerator JNI build: Map(url -> https://github.com/NVIDIA/cudf-spark-jni.git, branch -> HEAD, gpu_architectures -> 100;101;120;70;75;80;86;89;90, revision -> 4658f4a3c7c9b71828a4a93b4a95fd6d5b0410fc, version -> 26.08.0-SNAPSHOT, date -> 2026-07-03T04:13:00Z, user -> root)
+26/07/05 01:21:28 INFO RapidsPluginUtils: cudf build: Map(url -> https://github.com/rapidsai/cudf.git, branch -> HEAD, gpu_architectures -> 100;120;70;75;80;86;90, revision -> 08f48c2cff5748643bb530ebb6f45d5b37d1bd35, version -> 26.08.0-SNAPSHOT, date -> 2026-07-03T04:12:56Z, user -> root)
+26/07/05 01:21:28 INFO RapidsPluginUtils: RAPIDS Accelerator Private Map(url -> https://gitlab-master.nvidia.com/nvspark/cudf-spark-private.git, branch -> HEAD, revision -> 87762b84491a8cf7a0b3517b7b16f2ea014de2d2, version -> 26.08.0-SNAPSHOT, date -> 2026-07-03T02:42:11Z, user -> root)
+26/07/05 01:21:28 WARN RapidsPluginUtils: RAPIDS Accelerator 26.08.0-SNAPSHOT using cudf 26.08.0-SNAPSHOT, private revision 87762b84491a8cf7a0b3517b7b16f2ea014de2d2
+26/07/05 01:21:28 WARN RapidsPluginUtils: RAPIDS Accelerator is enabled, to disable GPU support set `spark.rapids.sql.enabled` to false.
+26/07/05 01:21:28 WARN RapidsPluginUtils: spark.rapids.sql.explain is set to `ALL`. Set it to 'NONE' to suppress the diagnostics logging about the query placement on the GPU.
+26/07/05 01:21:28 INFO DriverPluginContainer: Initialized driver component for plugin com.nvidia.spark.SQLPlugin.
+26/07/05 01:21:28 INFO Executor: Starting executor ID driver on host 31900463e94b
+26/07/05 01:21:28 INFO Executor: OS info Linux, 6.8.0-47-generic, amd64
+26/07/05 01:21:28 INFO Executor: Java version 17.0.19
+26/07/05 01:21:28 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): 'file:/home/roberte/src/rapids-plugin-4-spark/dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar,file:/home/roberte/src/rapids-plugin-4-spark/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar'
+26/07/05 01:21:28 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@52aa9e7d for default.
+26/07/05 01:21:28 INFO RapidsPluginUtils: Estimated number of cores is 8
+26/07/05 01:21:35 INFO RapidsExecutorPlugin: Initializing memory from Executor Plugin
+26/07/05 01:21:35 INFO MemoryCheckerImpl: Trying to detect available CPU memory
+26/07/05 01:21:35 INFO MemoryCheckerImpl: attempting to read /sys/fs/cgroup/memory.max
+26/07/05 01:21:35 INFO MemoryCheckerImpl: attempting to read /sys/fs/cgroup/memory.current
+26/07/05 01:21:35 INFO MemoryCheckerImpl: attempting to read /proc/meminfo
+26/07/05 01:21:35 INFO MemoryCheckerImpl: no process limits detected; using system limit of 172989939712
+26/07/05 01:21:35 WARN GpuDeviceManager: spark.rapids.memory.host.offHeapLimit.size is not set; we used memory limit derived from (0.8 * (estimated available host memory / device count) - spark.executor.memory - spark.executor.pyspark.memory - spark.memory.offHeap.size) = (0.8 * (172989939712 / 1) - 1073741824 - 0 - 0) = 137532958310
+26/07/05 01:21:35 INFO GpuDeviceManager: Setting MT read memory limit to 118045.484375 MiB (90% of 131161.6494140625 MiB total off-heap)
+26/07/05 01:21:35 INFO GpuDeviceManager: availableGpuTotal: 48669.75 MiB
+26/07/05 01:21:35 INFO GpuDeviceManager: availableGpuFree: 48379.8125 MiB
+26/07/05 01:21:35 INFO GpuDeviceManager: Initializing RMM ASYNC pool size = 47739.8125 MB on gpuId 0
+26/07/05 01:21:35 INFO GpuDeviceManager: Using per-thread default stream
+26/07/05 01:21:35 INFO ShimDiskBlockManager: Created local directory at /data/tmp/cross-dataset-scan-transfer-run-001/spark-local/blockmgr-135b0463-23be-4b0f-95b9-2287ed2a6936
+26/07/05 01:21:35 INFO SpillFramework: Initialized SpillFramework. Host spill store max size is: 1073741824 B.
+26/07/05 01:21:35 INFO AwsStorageExecutorPlugin: Initializing S3 Plugin on the Executor driver
+26/07/05 01:21:35 WARN PerfIOConf: PerfIO: no HTTP client available on classpath; falling back to S3A
+26/07/05 01:21:35 WARN PerfIOConf: PerfIO: google-cloud-storage classes not found on classpath; falling back to GCS connector
+26/07/05 01:21:35 INFO ExecutorPluginContainer: Initialized executor component for plugin com.nvidia.spark.SQLPlugin.
+26/07/05 01:21:35 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 39319.
+26/07/05 01:21:35 INFO NettyBlockTransferService: Server created on 31900463e94b:39319
+26/07/05 01:21:35 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/07/05 01:21:35 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 31900463e94b, 39319, None)
+26/07/05 01:21:35 INFO BlockManagerMasterEndpoint: Registering block manager 31900463e94b:39319 with 14.2 GiB RAM, BlockManagerId(driver, 31900463e94b, 39319, None)
+26/07/05 01:21:35 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 31900463e94b, 39319, None)
+26/07/05 01:21:35 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 31900463e94b, 39319, None)
+26/07/05 01:21:35 INFO SingleEventLogFileWriter: Logging events to file:/data/tmp/cross-dataset-scan-transfer-run-001/eventlog/local-1783214488125.inprogress
+26/07/05 01:21:36 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir.
+26/07/05 01:21:36 INFO SharedState: Warehouse path is 'file:/data/tmp/cross-dataset-scan-transfer-run-001/warehouse'.
+26/07/05 01:21:36 INFO InMemoryFileIndex: It took 21 ms to list leaf files for 1 paths.
+26/07/05 01:21:36 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:36 INFO DAGScheduler: Got job 0 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:36 INFO DAGScheduler: Final stage: ResultStage 0 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:36 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:36 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:36 INFO DAGScheduler: Submitting ResultStage 0 (MapPartitionsRDD[1] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:36 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:36 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:36 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:36 INFO SparkContext: Created broadcast 0 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:36 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 0 (MapPartitionsRDD[1] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:36 INFO TaskSchedulerImpl: Adding task set 0.0 with 1 tasks resource profile 0
+26/07/05 01:21:36 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9350 bytes) 
+26/07/05 01:21:36 INFO Executor: Running task 0.0 in stage 0.0 (TID 0)
+26/07/05 01:21:36 INFO Executor: Finished task 0.0 in stage 0.0 (TID 0). 2521 bytes result sent to driver
+26/07/05 01:21:36 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 242 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:36 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
+26/07/05 01:21:36 INFO DAGScheduler: ResultStage 0 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.318 s
+26/07/05 01:21:36 INFO DAGScheduler: Job 0 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:36 INFO TaskSchedulerImpl: Killing all running tasks in stage 0: Stage finished
+26/07/05 01:21:36 INFO DAGScheduler: Job 0 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.338545 s
+26/07/05 01:21:37 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:37 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:37 INFO BlockManagerInfo: Removed broadcast_0_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:37 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#7) will run on GPU
+    *Expression <Sum> sum(PULocationID#7) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#8) will run on GPU
+    *Expression <Sum> sum(DOLocationID#8) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#17) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#17) will run on GPU
+  *Expression <Alias> count(1)#42L AS row_count#43L will run on GPU
+  *Expression <Alias> sum(PULocationID#7)#44L AS sum_pu#45L will run on GPU
+  *Expression <Alias> sum(DOLocationID#8)#46L AS sum_do#47L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#17)#48 AS sum_congestion#49 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#7) will run on GPU
+        *Expression <Sum> sum(PULocationID#7) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#8) will run on GPU
+        *Expression <Sum> sum(DOLocationID#8) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#17) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#17) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:37 INFO GpuOverrides: Plan conversion to the GPU took 113.55 ms
+26/07/05 01:21:37 INFO GpuOverrides: GPU plan transition optimization took 11.30 ms
+26/07/05 01:21:38 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 54155945 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:38 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:38 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:38 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:38 INFO SparkContext: Created broadcast 1 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:38 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:38 INFO DAGScheduler: Registering RDD 10 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 0
+26/07/05 01:21:38 INFO DAGScheduler: Got job 1 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:38 INFO DAGScheduler: Final stage: ResultStage 2 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:38 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 1)
+26/07/05 01:21:38 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 1)
+26/07/05 01:21:38 INFO DAGScheduler: Submitting ShuffleMapStage 1 (GpuOpTimeTrackingRDD[10] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:38 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 59.3 KiB, free 14.2 GiB)
+26/07/05 01:21:38 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 25.6 KiB, free 14.2 GiB)
+26/07/05 01:21:38 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 31900463e94b:39319 (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:38 INFO SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:38 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 1 (GpuOpTimeTrackingRDD[10] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:38 INFO TaskSchedulerImpl: Adding task set 1.0 with 1 tasks resource profile 0
+26/07/05 01:21:38 INFO TaskSetManager: Starting task 0.0 in stage 1.0 (TID 1) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10115 bytes) 
+26/07/05 01:21:38 INFO Executor: Running task 0.0 in stage 1.0 (TID 1)
+26/07/05 01:21:38 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-01.parquet task attemptid: 1
+26/07/05 01:21:38 INFO Executor: Finished task 0.0 in stage 1.0 (TID 1). 14337 bytes result sent to driver
+26/07/05 01:21:38 INFO TaskSetManager: Finished task 0.0 in stage 1.0 (TID 1) in 432 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:38 INFO TaskSchedulerImpl: Removed TaskSet 1.0, whose tasks have all completed, from pool 
+26/07/05 01:21:38 INFO DAGScheduler: ShuffleMapStage 1 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.443 s
+26/07/05 01:21:38 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:38 INFO DAGScheduler: running: Set()
+26/07/05 01:21:38 INFO DAGScheduler: waiting: Set(ResultStage 2)
+26/07/05 01:21:38 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:38 INFO DAGScheduler: Submitting ResultStage 2 (MapPartitionsRDD[20] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:38 INFO MemoryStore: Block broadcast_3 stored as values in memory (estimated size 71.8 KiB, free 14.2 GiB)
+26/07/05 01:21:38 INFO MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 30.9 KiB, free 14.2 GiB)
+26/07/05 01:21:38 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on 31900463e94b:39319 (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:38 INFO SparkContext: Created broadcast 3 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:38 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 2 (MapPartitionsRDD[20] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:38 INFO TaskSchedulerImpl: Adding task set 2.0 with 1 tasks resource profile 0
+26/07/05 01:21:38 INFO TaskSetManager: Starting task 0.0 in stage 2.0 (TID 2) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:38 INFO Executor: Running task 0.0 in stage 2.0 (TID 2)
+26/07/05 01:21:38 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:38 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 7 ms
+26/07/05 01:21:38 INFO CodeGenerator: Code generated in 114.785943 ms
+26/07/05 01:21:38 INFO Executor: Finished task 0.0 in stage 2.0 (TID 2). 17969 bytes result sent to driver
+26/07/05 01:21:38 INFO TaskSetManager: Finished task 0.0 in stage 2.0 (TID 2) in 236 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:38 INFO TaskSchedulerImpl: Removed TaskSet 2.0, whose tasks have all completed, from pool 
+26/07/05 01:21:38 INFO DAGScheduler: ResultStage 2 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.249 s
+26/07/05 01:21:38 INFO DAGScheduler: Job 1 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:38 INFO TaskSchedulerImpl: Killing all running tasks in stage 2: Stage finished
+26/07/05 01:21:38 INFO DAGScheduler: Job 1 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.712771 s
+26/07/05 01:21:38 INFO InMemoryFileIndex: It took 0 ms to list leaf files for 1 paths.
+26/07/05 01:21:38 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:38 INFO DAGScheduler: Got job 2 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:38 INFO DAGScheduler: Final stage: ResultStage 3 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:38 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:38 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:38 INFO DAGScheduler: Submitting ResultStage 3 (MapPartitionsRDD[33] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:38 INFO MemoryStore: Block broadcast_4 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:38 INFO MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:38 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:38 INFO SparkContext: Created broadcast 4 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:38 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 3 (MapPartitionsRDD[33] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:38 INFO TaskSchedulerImpl: Adding task set 3.0 with 1 tasks resource profile 0
+26/07/05 01:21:38 INFO TaskSetManager: Starting task 0.0 in stage 3.0 (TID 3) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9363 bytes) 
+26/07/05 01:21:38 INFO Executor: Running task 0.0 in stage 3.0 (TID 3)
+26/07/05 01:21:39 INFO Executor: Finished task 0.0 in stage 3.0 (TID 3). 2614 bytes result sent to driver
+26/07/05 01:21:39 INFO TaskSetManager: Finished task 0.0 in stage 3.0 (TID 3) in 22 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Removed TaskSet 3.0, whose tasks have all completed, from pool 
+26/07/05 01:21:39 INFO DAGScheduler: ResultStage 3 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.034 s
+26/07/05 01:21:39 INFO DAGScheduler: Job 2 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Killing all running tasks in stage 3: Stage finished
+26/07/05 01:21:39 INFO DAGScheduler: Job 2 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.036544 s
+26/07/05 01:21:39 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:39 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:39 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#95) will run on GPU
+    *Expression <Sum> sum(PULocationID#95) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#96) will run on GPU
+    *Expression <Sum> sum(DOLocationID#96) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#103) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#103) will run on GPU
+  *Expression <Alias> count(1)#140L AS row_count#141L will run on GPU
+  *Expression <Alias> sum(PULocationID#95)#142L AS sum_pu#143L will run on GPU
+  *Expression <Alias> sum(DOLocationID#96)#144L AS sum_do#145L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#103)#146 AS sum_congestion#147 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#95) will run on GPU
+        *Expression <Sum> sum(PULocationID#95) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#96) will run on GPU
+        *Expression <Sum> sum(DOLocationID#96) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#103) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#103) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:39 INFO GpuOverrides: Plan conversion to the GPU took 5.87 ms
+26/07/05 01:21:39 INFO GpuOverrides: GPU plan transition optimization took 0.97 ms
+26/07/05 01:21:39 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 476951851 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_5 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_5_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_5_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 5 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:39 INFO BlockManagerInfo: Removed broadcast_4_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Removed broadcast_3_piece0 on 31900463e94b:39319 in memory (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Removed broadcast_2_piece0 on 31900463e94b:39319 in memory (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:39 INFO DAGScheduler: Registering RDD 42 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 1
+26/07/05 01:21:39 INFO DAGScheduler: Got job 3 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:39 INFO DAGScheduler: Final stage: ResultStage 5 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:39 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 4)
+26/07/05 01:21:39 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 4)
+26/07/05 01:21:39 INFO DAGScheduler: Submitting ShuffleMapStage 4 (GpuOpTimeTrackingRDD[42] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_6 stored as values in memory (estimated size 59.5 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_6_piece0 stored as bytes in memory (estimated size 25.7 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_6_piece0 in memory on 31900463e94b:39319 (size: 25.7 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 6 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:39 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 4 (GpuOpTimeTrackingRDD[42] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Adding task set 4.0 with 1 tasks resource profile 0
+26/07/05 01:21:39 INFO TaskSetManager: Starting task 0.0 in stage 4.0 (TID 4) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10128 bytes) 
+26/07/05 01:21:39 INFO Executor: Running task 0.0 in stage 4.0 (TID 4)
+26/07/05 01:21:39 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-01.parquet task attemptid: 4
+26/07/05 01:21:39 INFO Executor: Finished task 0.0 in stage 4.0 (TID 4). 14294 bytes result sent to driver
+26/07/05 01:21:39 INFO TaskSetManager: Finished task 0.0 in stage 4.0 (TID 4) in 124 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Removed TaskSet 4.0, whose tasks have all completed, from pool 
+26/07/05 01:21:39 INFO DAGScheduler: ShuffleMapStage 4 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.131 s
+26/07/05 01:21:39 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:39 INFO DAGScheduler: running: Set()
+26/07/05 01:21:39 INFO DAGScheduler: waiting: Set(ResultStage 5)
+26/07/05 01:21:39 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:39 INFO DAGScheduler: Submitting ResultStage 5 (MapPartitionsRDD[52] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_7 stored as values in memory (estimated size 72.0 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_7_piece0 stored as bytes in memory (estimated size 30.9 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_7_piece0 in memory on 31900463e94b:39319 (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 7 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:39 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 5 (MapPartitionsRDD[52] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Adding task set 5.0 with 1 tasks resource profile 0
+26/07/05 01:21:39 INFO TaskSetManager: Starting task 0.0 in stage 5.0 (TID 5) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:39 INFO Executor: Running task 0.0 in stage 5.0 (TID 5)
+26/07/05 01:21:39 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:39 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:39 INFO Executor: Finished task 0.0 in stage 5.0 (TID 5). 17928 bytes result sent to driver
+26/07/05 01:21:39 INFO TaskSetManager: Finished task 0.0 in stage 5.0 (TID 5) in 38 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Removed TaskSet 5.0, whose tasks have all completed, from pool 
+26/07/05 01:21:39 INFO DAGScheduler: ResultStage 5 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.050 s
+26/07/05 01:21:39 INFO DAGScheduler: Job 3 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Killing all running tasks in stage 5: Stage finished
+26/07/05 01:21:39 INFO DAGScheduler: Job 3 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.187711 s
+26/07/05 01:21:39 INFO InMemoryFileIndex: It took 2 ms to list leaf files for 1 paths.
+26/07/05 01:21:39 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:39 INFO DAGScheduler: Got job 4 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:39 INFO DAGScheduler: Final stage: ResultStage 6 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:39 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:39 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:39 INFO DAGScheduler: Submitting ResultStage 6 (MapPartitionsRDD[65] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_8 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_8_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_8_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 8 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:39 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 6 (MapPartitionsRDD[65] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Adding task set 6.0 with 1 tasks resource profile 0
+26/07/05 01:21:39 INFO TaskSetManager: Starting task 0.0 in stage 6.0 (TID 6) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9350 bytes) 
+26/07/05 01:21:39 INFO Executor: Running task 0.0 in stage 6.0 (TID 6)
+26/07/05 01:21:39 INFO Executor: Finished task 0.0 in stage 6.0 (TID 6). 2435 bytes result sent to driver
+26/07/05 01:21:39 INFO TaskSetManager: Finished task 0.0 in stage 6.0 (TID 6) in 22 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Removed TaskSet 6.0, whose tasks have all completed, from pool 
+26/07/05 01:21:39 INFO DAGScheduler: ResultStage 6 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.041 s
+26/07/05 01:21:39 INFO DAGScheduler: Job 4 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Killing all running tasks in stage 6: Stage finished
+26/07/05 01:21:39 INFO DAGScheduler: Job 4 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.043336 s
+26/07/05 01:21:39 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:39 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:39 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#193) will run on GPU
+    *Expression <Sum> sum(PULocationID#193) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#194) will run on GPU
+    *Expression <Sum> sum(DOLocationID#194) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#203) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#203) will run on GPU
+  *Expression <Alias> count(1)#228L AS row_count#229L will run on GPU
+  *Expression <Alias> sum(PULocationID#193)#230L AS sum_pu#231L will run on GPU
+  *Expression <Alias> sum(DOLocationID#194)#232L AS sum_do#233L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#203)#234 AS sum_congestion#235 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#193) will run on GPU
+        *Expression <Sum> sum(PULocationID#193) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#194) will run on GPU
+        *Expression <Sum> sum(DOLocationID#194) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#203) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#203) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:39 INFO GpuOverrides: Plan conversion to the GPU took 5.80 ms
+26/07/05 01:21:39 INFO GpuOverrides: GPU plan transition optimization took 0.98 ms
+26/07/05 01:21:39 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 54543588 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_9 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_9_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_9_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 9 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:39 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:39 INFO DAGScheduler: Registering RDD 74 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 2
+26/07/05 01:21:39 INFO DAGScheduler: Got job 5 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:39 INFO DAGScheduler: Final stage: ResultStage 8 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:39 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 7)
+26/07/05 01:21:39 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 7)
+26/07/05 01:21:39 INFO DAGScheduler: Submitting ShuffleMapStage 7 (GpuOpTimeTrackingRDD[74] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_10 stored as values in memory (estimated size 59.3 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_10_piece0 stored as bytes in memory (estimated size 25.6 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_10_piece0 in memory on 31900463e94b:39319 (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 10 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:39 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 7 (GpuOpTimeTrackingRDD[74] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Adding task set 7.0 with 1 tasks resource profile 0
+26/07/05 01:21:39 INFO TaskSetManager: Starting task 0.0 in stage 7.0 (TID 7) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10115 bytes) 
+26/07/05 01:21:39 INFO Executor: Running task 0.0 in stage 7.0 (TID 7)
+26/07/05 01:21:39 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-02.parquet task attemptid: 7
+26/07/05 01:21:39 INFO Executor: Finished task 0.0 in stage 7.0 (TID 7). 14294 bytes result sent to driver
+26/07/05 01:21:39 INFO TaskSetManager: Finished task 0.0 in stage 7.0 (TID 7) in 77 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Removed TaskSet 7.0, whose tasks have all completed, from pool 
+26/07/05 01:21:39 INFO DAGScheduler: ShuffleMapStage 7 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.085 s
+26/07/05 01:21:39 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:39 INFO DAGScheduler: running: Set()
+26/07/05 01:21:39 INFO DAGScheduler: waiting: Set(ResultStage 8)
+26/07/05 01:21:39 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:39 INFO DAGScheduler: Submitting ResultStage 8 (MapPartitionsRDD[84] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_11 stored as values in memory (estimated size 71.9 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_11_piece0 stored as bytes in memory (estimated size 30.9 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_11_piece0 in memory on 31900463e94b:39319 (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 11 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:39 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 8 (MapPartitionsRDD[84] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Adding task set 8.0 with 1 tasks resource profile 0
+26/07/05 01:21:39 INFO TaskSetManager: Starting task 0.0 in stage 8.0 (TID 8) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:39 INFO Executor: Running task 0.0 in stage 8.0 (TID 8)
+26/07/05 01:21:39 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:39 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:39 INFO Executor: Finished task 0.0 in stage 8.0 (TID 8). 17926 bytes result sent to driver
+26/07/05 01:21:39 INFO TaskSetManager: Finished task 0.0 in stage 8.0 (TID 8) in 36 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Removed TaskSet 8.0, whose tasks have all completed, from pool 
+26/07/05 01:21:39 INFO DAGScheduler: ResultStage 8 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.049 s
+26/07/05 01:21:39 INFO DAGScheduler: Job 5 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Killing all running tasks in stage 8: Stage finished
+26/07/05 01:21:39 INFO DAGScheduler: Job 5 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.139441 s
+26/07/05 01:21:39 INFO InMemoryFileIndex: It took 1 ms to list leaf files for 1 paths.
+26/07/05 01:21:39 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:39 INFO DAGScheduler: Got job 6 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:39 INFO DAGScheduler: Final stage: ResultStage 9 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:39 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:39 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:39 INFO DAGScheduler: Submitting ResultStage 9 (MapPartitionsRDD[97] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_12 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_12_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_12_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 12 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:39 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 9 (MapPartitionsRDD[97] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Adding task set 9.0 with 1 tasks resource profile 0
+26/07/05 01:21:39 INFO TaskSetManager: Starting task 0.0 in stage 9.0 (TID 9) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9363 bytes) 
+26/07/05 01:21:39 INFO Executor: Running task 0.0 in stage 9.0 (TID 9)
+26/07/05 01:21:39 INFO Executor: Finished task 0.0 in stage 9.0 (TID 9). 2614 bytes result sent to driver
+26/07/05 01:21:39 INFO TaskSetManager: Finished task 0.0 in stage 9.0 (TID 9) in 20 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Removed TaskSet 9.0, whose tasks have all completed, from pool 
+26/07/05 01:21:39 INFO DAGScheduler: ResultStage 9 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.039 s
+26/07/05 01:21:39 INFO DAGScheduler: Job 6 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Killing all running tasks in stage 9: Stage finished
+26/07/05 01:21:39 INFO DAGScheduler: Job 6 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.042093 s
+26/07/05 01:21:39 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:39 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:39 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#281) will run on GPU
+    *Expression <Sum> sum(PULocationID#281) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#282) will run on GPU
+    *Expression <Sum> sum(DOLocationID#282) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#289) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#289) will run on GPU
+  *Expression <Alias> count(1)#326L AS row_count#327L will run on GPU
+  *Expression <Alias> sum(PULocationID#281)#328L AS sum_pu#329L will run on GPU
+  *Expression <Alias> sum(DOLocationID#282)#330L AS sum_do#331L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#289)#332 AS sum_congestion#333 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#281) will run on GPU
+        *Expression <Sum> sum(PULocationID#281) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#282) will run on GPU
+        *Expression <Sum> sum(DOLocationID#282) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#289) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#289) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:39 INFO GpuOverrides: Plan conversion to the GPU took 5.60 ms
+26/07/05 01:21:39 INFO GpuOverrides: GPU plan transition optimization took 0.86 ms
+26/07/05 01:21:39 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 466669732 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_13 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_13_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_13_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 13 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:39 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:39 INFO DAGScheduler: Registering RDD 106 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 3
+26/07/05 01:21:39 INFO DAGScheduler: Got job 7 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:39 INFO DAGScheduler: Final stage: ResultStage 11 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:39 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 10)
+26/07/05 01:21:39 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 10)
+26/07/05 01:21:39 INFO DAGScheduler: Submitting ShuffleMapStage 10 (GpuOpTimeTrackingRDD[106] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_14 stored as values in memory (estimated size 59.5 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_14_piece0 stored as bytes in memory (estimated size 25.6 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_14_piece0 in memory on 31900463e94b:39319 (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 14 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:39 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 10 (GpuOpTimeTrackingRDD[106] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Adding task set 10.0 with 1 tasks resource profile 0
+26/07/05 01:21:39 INFO TaskSetManager: Starting task 0.0 in stage 10.0 (TID 10) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10128 bytes) 
+26/07/05 01:21:39 INFO Executor: Running task 0.0 in stage 10.0 (TID 10)
+26/07/05 01:21:39 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-02.parquet task attemptid: 10
+26/07/05 01:21:39 INFO Executor: Finished task 0.0 in stage 10.0 (TID 10). 14294 bytes result sent to driver
+26/07/05 01:21:39 INFO TaskSetManager: Finished task 0.0 in stage 10.0 (TID 10) in 124 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Removed TaskSet 10.0, whose tasks have all completed, from pool 
+26/07/05 01:21:39 INFO DAGScheduler: ShuffleMapStage 10 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.134 s
+26/07/05 01:21:39 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:39 INFO DAGScheduler: running: Set()
+26/07/05 01:21:39 INFO DAGScheduler: waiting: Set(ResultStage 11)
+26/07/05 01:21:39 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:39 INFO DAGScheduler: Submitting ResultStage 11 (MapPartitionsRDD[116] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_15 stored as values in memory (estimated size 72.0 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO MemoryStore: Block broadcast_15_piece0 stored as bytes in memory (estimated size 31.0 KiB, free 14.2 GiB)
+26/07/05 01:21:39 INFO BlockManagerInfo: Added broadcast_15_piece0 in memory on 31900463e94b:39319 (size: 31.0 KiB, free: 14.2 GiB)
+26/07/05 01:21:39 INFO SparkContext: Created broadcast 15 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:39 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 11 (MapPartitionsRDD[116] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Adding task set 11.0 with 1 tasks resource profile 0
+26/07/05 01:21:39 INFO TaskSetManager: Starting task 0.0 in stage 11.0 (TID 11) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:39 INFO Executor: Running task 0.0 in stage 11.0 (TID 11)
+26/07/05 01:21:39 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:39 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:39 INFO Executor: Finished task 0.0 in stage 11.0 (TID 11). 17928 bytes result sent to driver
+26/07/05 01:21:39 INFO TaskSetManager: Finished task 0.0 in stage 11.0 (TID 11) in 34 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Removed TaskSet 11.0, whose tasks have all completed, from pool 
+26/07/05 01:21:39 INFO DAGScheduler: ResultStage 11 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.045 s
+26/07/05 01:21:39 INFO DAGScheduler: Job 7 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:39 INFO TaskSchedulerImpl: Killing all running tasks in stage 11: Stage finished
+26/07/05 01:21:39 INFO DAGScheduler: Job 7 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.186509 s
+26/07/05 01:21:40 INFO InMemoryFileIndex: It took 1 ms to list leaf files for 1 paths.
+26/07/05 01:21:40 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:40 INFO DAGScheduler: Got job 8 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:40 INFO DAGScheduler: Final stage: ResultStage 12 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:40 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:40 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:40 INFO DAGScheduler: Submitting ResultStage 12 (MapPartitionsRDD[129] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_16 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_16_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_16_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 16 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 12 (MapPartitionsRDD[129] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Adding task set 12.0 with 1 tasks resource profile 0
+26/07/05 01:21:40 INFO TaskSetManager: Starting task 0.0 in stage 12.0 (TID 12) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9350 bytes) 
+26/07/05 01:21:40 INFO Executor: Running task 0.0 in stage 12.0 (TID 12)
+26/07/05 01:21:40 INFO Executor: Finished task 0.0 in stage 12.0 (TID 12). 2435 bytes result sent to driver
+26/07/05 01:21:40 INFO TaskSetManager: Finished task 0.0 in stage 12.0 (TID 12) in 18 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Removed TaskSet 12.0, whose tasks have all completed, from pool 
+26/07/05 01:21:40 INFO DAGScheduler: ResultStage 12 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.037 s
+26/07/05 01:21:40 INFO DAGScheduler: Job 8 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Killing all running tasks in stage 12: Stage finished
+26/07/05 01:21:40 INFO DAGScheduler: Job 8 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.040231 s
+26/07/05 01:21:40 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:40 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:40 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#379) will run on GPU
+    *Expression <Sum> sum(PULocationID#379) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#380) will run on GPU
+    *Expression <Sum> sum(DOLocationID#380) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#389) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#389) will run on GPU
+  *Expression <Alias> count(1)#414L AS row_count#415L will run on GPU
+  *Expression <Alias> sum(PULocationID#379)#416L AS sum_pu#417L will run on GPU
+  *Expression <Alias> sum(DOLocationID#380)#418L AS sum_do#419L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#389)#420 AS sum_congestion#421 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#379) will run on GPU
+        *Expression <Sum> sum(PULocationID#379) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#380) will run on GPU
+        *Expression <Sum> sum(DOLocationID#380) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#389) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#389) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:40 INFO GpuOverrides: Plan conversion to the GPU took 4.57 ms
+26/07/05 01:21:40 INFO GpuOverrides: GPU plan transition optimization took 0.93 ms
+26/07/05 01:21:40 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 64272584 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_17 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_17_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_17_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 17 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:40 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:40 INFO DAGScheduler: Registering RDD 138 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 4
+26/07/05 01:21:40 INFO DAGScheduler: Got job 9 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:40 INFO DAGScheduler: Final stage: ResultStage 14 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:40 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 13)
+26/07/05 01:21:40 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 13)
+26/07/05 01:21:40 INFO DAGScheduler: Submitting ShuffleMapStage 13 (GpuOpTimeTrackingRDD[138] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_18 stored as values in memory (estimated size 59.3 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_18_piece0 stored as bytes in memory (estimated size 25.6 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_18_piece0 in memory on 31900463e94b:39319 (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 18 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:40 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 13 (GpuOpTimeTrackingRDD[138] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Adding task set 13.0 with 1 tasks resource profile 0
+26/07/05 01:21:40 INFO TaskSetManager: Starting task 0.0 in stage 13.0 (TID 13) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10115 bytes) 
+26/07/05 01:21:40 INFO Executor: Running task 0.0 in stage 13.0 (TID 13)
+26/07/05 01:21:40 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-03.parquet task attemptid: 13
+26/07/05 01:21:40 INFO Executor: Finished task 0.0 in stage 13.0 (TID 13). 14294 bytes result sent to driver
+26/07/05 01:21:40 INFO TaskSetManager: Finished task 0.0 in stage 13.0 (TID 13) in 76 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Removed TaskSet 13.0, whose tasks have all completed, from pool 
+26/07/05 01:21:40 INFO DAGScheduler: ShuffleMapStage 13 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.086 s
+26/07/05 01:21:40 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:40 INFO DAGScheduler: running: Set()
+26/07/05 01:21:40 INFO DAGScheduler: waiting: Set(ResultStage 14)
+26/07/05 01:21:40 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:40 INFO DAGScheduler: Submitting ResultStage 14 (MapPartitionsRDD[148] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_19 stored as values in memory (estimated size 71.9 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_19_piece0 stored as bytes in memory (estimated size 30.9 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_19_piece0 in memory on 31900463e94b:39319 (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 19 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 14 (MapPartitionsRDD[148] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Adding task set 14.0 with 1 tasks resource profile 0
+26/07/05 01:21:40 INFO TaskSetManager: Starting task 0.0 in stage 14.0 (TID 14) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:40 INFO Executor: Running task 0.0 in stage 14.0 (TID 14)
+26/07/05 01:21:40 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:40 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:40 INFO Executor: Finished task 0.0 in stage 14.0 (TID 14). 17927 bytes result sent to driver
+26/07/05 01:21:40 INFO TaskSetManager: Finished task 0.0 in stage 14.0 (TID 14) in 32 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Removed TaskSet 14.0, whose tasks have all completed, from pool 
+26/07/05 01:21:40 INFO DAGScheduler: ResultStage 14 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.043 s
+26/07/05 01:21:40 INFO DAGScheduler: Job 9 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Killing all running tasks in stage 14: Stage finished
+26/07/05 01:21:40 INFO DAGScheduler: Job 9 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.132903 s
+26/07/05 01:21:40 INFO InMemoryFileIndex: It took 1 ms to list leaf files for 1 paths.
+26/07/05 01:21:40 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:40 INFO DAGScheduler: Got job 10 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:40 INFO DAGScheduler: Final stage: ResultStage 15 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:40 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:40 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:40 INFO DAGScheduler: Submitting ResultStage 15 (MapPartitionsRDD[161] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_20 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_20_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_20_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 20 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 15 (MapPartitionsRDD[161] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Adding task set 15.0 with 1 tasks resource profile 0
+26/07/05 01:21:40 INFO TaskSetManager: Starting task 0.0 in stage 15.0 (TID 15) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9363 bytes) 
+26/07/05 01:21:40 INFO Executor: Running task 0.0 in stage 15.0 (TID 15)
+26/07/05 01:21:40 INFO Executor: Finished task 0.0 in stage 15.0 (TID 15). 2614 bytes result sent to driver
+26/07/05 01:21:40 INFO TaskSetManager: Finished task 0.0 in stage 15.0 (TID 15) in 19 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Removed TaskSet 15.0, whose tasks have all completed, from pool 
+26/07/05 01:21:40 INFO DAGScheduler: ResultStage 15 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.037 s
+26/07/05 01:21:40 INFO DAGScheduler: Job 10 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Killing all running tasks in stage 15: Stage finished
+26/07/05 01:21:40 INFO DAGScheduler: Job 10 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.039155 s
+26/07/05 01:21:40 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:40 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:40 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#467) will run on GPU
+    *Expression <Sum> sum(PULocationID#467) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#468) will run on GPU
+    *Expression <Sum> sum(DOLocationID#468) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#475) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#475) will run on GPU
+  *Expression <Alias> count(1)#512L AS row_count#513L will run on GPU
+  *Expression <Alias> sum(PULocationID#467)#514L AS sum_pu#515L will run on GPU
+  *Expression <Alias> sum(DOLocationID#468)#516L AS sum_do#517L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#475)#518 AS sum_congestion#519 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#467) will run on GPU
+        *Expression <Sum> sum(PULocationID#467) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#468) will run on GPU
+        *Expression <Sum> sum(DOLocationID#468) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#475) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#475) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:40 INFO GpuOverrides: Plan conversion to the GPU took 4.72 ms
+26/07/05 01:21:40 INFO GpuOverrides: GPU plan transition optimization took 0.74 ms
+26/07/05 01:21:40 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 512134864 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_21 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_21_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_21_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 21 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:40 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:40 INFO DAGScheduler: Registering RDD 170 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 5
+26/07/05 01:21:40 INFO DAGScheduler: Got job 11 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:40 INFO DAGScheduler: Final stage: ResultStage 17 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:40 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 16)
+26/07/05 01:21:40 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 16)
+26/07/05 01:21:40 INFO DAGScheduler: Submitting ShuffleMapStage 16 (GpuOpTimeTrackingRDD[170] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_22 stored as values in memory (estimated size 59.5 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_22_piece0 stored as bytes in memory (estimated size 25.7 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_22_piece0 in memory on 31900463e94b:39319 (size: 25.7 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 22 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:40 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 16 (GpuOpTimeTrackingRDD[170] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Adding task set 16.0 with 1 tasks resource profile 0
+26/07/05 01:21:40 INFO TaskSetManager: Starting task 0.0 in stage 16.0 (TID 16) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10128 bytes) 
+26/07/05 01:21:40 INFO Executor: Running task 0.0 in stage 16.0 (TID 16)
+26/07/05 01:21:40 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-03.parquet task attemptid: 16
+26/07/05 01:21:40 INFO Executor: Finished task 0.0 in stage 16.0 (TID 16). 14294 bytes result sent to driver
+26/07/05 01:21:40 INFO TaskSetManager: Finished task 0.0 in stage 16.0 (TID 16) in 127 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Removed TaskSet 16.0, whose tasks have all completed, from pool 
+26/07/05 01:21:40 INFO DAGScheduler: ShuffleMapStage 16 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.136 s
+26/07/05 01:21:40 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:40 INFO DAGScheduler: running: Set()
+26/07/05 01:21:40 INFO DAGScheduler: waiting: Set(ResultStage 17)
+26/07/05 01:21:40 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:40 INFO DAGScheduler: Submitting ResultStage 17 (MapPartitionsRDD[180] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_23 stored as values in memory (estimated size 72.0 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_23_piece0 stored as bytes in memory (estimated size 31.0 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_23_piece0 in memory on 31900463e94b:39319 (size: 31.0 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 23 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 17 (MapPartitionsRDD[180] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Adding task set 17.0 with 1 tasks resource profile 0
+26/07/05 01:21:40 INFO TaskSetManager: Starting task 0.0 in stage 17.0 (TID 17) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:40 INFO Executor: Running task 0.0 in stage 17.0 (TID 17)
+26/07/05 01:21:40 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:40 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:40 INFO Executor: Finished task 0.0 in stage 17.0 (TID 17). 17928 bytes result sent to driver
+26/07/05 01:21:40 INFO TaskSetManager: Finished task 0.0 in stage 17.0 (TID 17) in 31 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Removed TaskSet 17.0, whose tasks have all completed, from pool 
+26/07/05 01:21:40 INFO DAGScheduler: ResultStage 17 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.043 s
+26/07/05 01:21:40 INFO DAGScheduler: Job 11 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Killing all running tasks in stage 17: Stage finished
+26/07/05 01:21:40 INFO DAGScheduler: Job 11 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.183714 s
+26/07/05 01:21:40 INFO InMemoryFileIndex: It took 1 ms to list leaf files for 1 paths.
+26/07/05 01:21:40 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:40 INFO DAGScheduler: Got job 12 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:40 INFO DAGScheduler: Final stage: ResultStage 18 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:40 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:40 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:40 INFO DAGScheduler: Submitting ResultStage 18 (MapPartitionsRDD[193] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_24 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_24_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_24_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 24 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 18 (MapPartitionsRDD[193] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Adding task set 18.0 with 1 tasks resource profile 0
+26/07/05 01:21:40 INFO TaskSetManager: Starting task 0.0 in stage 18.0 (TID 18) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9350 bytes) 
+26/07/05 01:21:40 INFO Executor: Running task 0.0 in stage 18.0 (TID 18)
+26/07/05 01:21:40 INFO Executor: Finished task 0.0 in stage 18.0 (TID 18). 2435 bytes result sent to driver
+26/07/05 01:21:40 INFO TaskSetManager: Finished task 0.0 in stage 18.0 (TID 18) in 17 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Removed TaskSet 18.0, whose tasks have all completed, from pool 
+26/07/05 01:21:40 INFO DAGScheduler: ResultStage 18 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.035 s
+26/07/05 01:21:40 INFO DAGScheduler: Job 12 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Killing all running tasks in stage 18: Stage finished
+26/07/05 01:21:40 INFO DAGScheduler: Job 12 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.037015 s
+26/07/05 01:21:40 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:40 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:40 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#565) will run on GPU
+    *Expression <Sum> sum(PULocationID#565) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#566) will run on GPU
+    *Expression <Sum> sum(DOLocationID#566) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#575) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#575) will run on GPU
+  *Expression <Alias> count(1)#600L AS row_count#601L will run on GPU
+  *Expression <Alias> sum(PULocationID#565)#602L AS sum_pu#603L will run on GPU
+  *Expression <Alias> sum(DOLocationID#566)#604L AS sum_do#605L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#575)#606 AS sum_congestion#607 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#565) will run on GPU
+        *Expression <Sum> sum(PULocationID#565) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#566) will run on GPU
+        *Expression <Sum> sum(DOLocationID#566) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#575) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#575) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:40 INFO GpuOverrides: Plan conversion to the GPU took 4.73 ms
+26/07/05 01:21:40 INFO GpuOverrides: GPU plan transition optimization took 0.66 ms
+26/07/05 01:21:40 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 63327929 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_25 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_25_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_25_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 25 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:40 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:40 INFO DAGScheduler: Registering RDD 202 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 6
+26/07/05 01:21:40 INFO DAGScheduler: Got job 13 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:40 INFO DAGScheduler: Final stage: ResultStage 20 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:40 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 19)
+26/07/05 01:21:40 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 19)
+26/07/05 01:21:40 INFO DAGScheduler: Submitting ShuffleMapStage 19 (GpuOpTimeTrackingRDD[202] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_26 stored as values in memory (estimated size 59.3 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_26_piece0 stored as bytes in memory (estimated size 25.6 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_26_piece0 in memory on 31900463e94b:39319 (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 26 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:40 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 19 (GpuOpTimeTrackingRDD[202] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Adding task set 19.0 with 1 tasks resource profile 0
+26/07/05 01:21:40 INFO TaskSetManager: Starting task 0.0 in stage 19.0 (TID 19) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10115 bytes) 
+26/07/05 01:21:40 INFO Executor: Running task 0.0 in stage 19.0 (TID 19)
+26/07/05 01:21:40 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-04.parquet task attemptid: 19
+26/07/05 01:21:40 INFO Executor: Finished task 0.0 in stage 19.0 (TID 19). 14294 bytes result sent to driver
+26/07/05 01:21:40 INFO TaskSetManager: Finished task 0.0 in stage 19.0 (TID 19) in 82 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Removed TaskSet 19.0, whose tasks have all completed, from pool 
+26/07/05 01:21:40 INFO DAGScheduler: ShuffleMapStage 19 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.091 s
+26/07/05 01:21:40 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:40 INFO DAGScheduler: running: Set()
+26/07/05 01:21:40 INFO DAGScheduler: waiting: Set(ResultStage 20)
+26/07/05 01:21:40 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:40 INFO DAGScheduler: Submitting ResultStage 20 (MapPartitionsRDD[212] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_27 stored as values in memory (estimated size 71.9 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO MemoryStore: Block broadcast_27_piece0 stored as bytes in memory (estimated size 30.9 KiB, free 14.2 GiB)
+26/07/05 01:21:40 INFO BlockManagerInfo: Added broadcast_27_piece0 in memory on 31900463e94b:39319 (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:40 INFO SparkContext: Created broadcast 27 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 20 (MapPartitionsRDD[212] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Adding task set 20.0 with 1 tasks resource profile 0
+26/07/05 01:21:40 INFO TaskSetManager: Starting task 0.0 in stage 20.0 (TID 20) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:40 INFO Executor: Running task 0.0 in stage 20.0 (TID 20)
+26/07/05 01:21:40 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:40 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:40 INFO Executor: Finished task 0.0 in stage 20.0 (TID 20). 17926 bytes result sent to driver
+26/07/05 01:21:40 INFO TaskSetManager: Finished task 0.0 in stage 20.0 (TID 20) in 33 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Removed TaskSet 20.0, whose tasks have all completed, from pool 
+26/07/05 01:21:40 INFO DAGScheduler: ResultStage 20 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.042 s
+26/07/05 01:21:40 INFO DAGScheduler: Job 13 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:40 INFO TaskSchedulerImpl: Killing all running tasks in stage 20: Stage finished
+26/07/05 01:21:40 INFO DAGScheduler: Job 13 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.137547 s
+26/07/05 01:21:41 INFO InMemoryFileIndex: It took 1 ms to list leaf files for 1 paths.
+26/07/05 01:21:41 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:41 INFO DAGScheduler: Got job 14 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:41 INFO DAGScheduler: Final stage: ResultStage 21 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:41 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:41 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:41 INFO DAGScheduler: Submitting ResultStage 21 (MapPartitionsRDD[225] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_28 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_28_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_28_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 28 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:41 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 21 (MapPartitionsRDD[225] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Adding task set 21.0 with 1 tasks resource profile 0
+26/07/05 01:21:41 INFO TaskSetManager: Starting task 0.0 in stage 21.0 (TID 21) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9363 bytes) 
+26/07/05 01:21:41 INFO Executor: Running task 0.0 in stage 21.0 (TID 21)
+26/07/05 01:21:41 INFO Executor: Finished task 0.0 in stage 21.0 (TID 21). 2614 bytes result sent to driver
+26/07/05 01:21:41 INFO TaskSetManager: Finished task 0.0 in stage 21.0 (TID 21) in 17 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Removed TaskSet 21.0, whose tasks have all completed, from pool 
+26/07/05 01:21:41 INFO DAGScheduler: ResultStage 21 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.033 s
+26/07/05 01:21:41 INFO DAGScheduler: Job 14 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Killing all running tasks in stage 21: Stage finished
+26/07/05 01:21:41 INFO DAGScheduler: Job 14 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.034253 s
+26/07/05 01:21:41 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:41 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:41 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#653) will run on GPU
+    *Expression <Sum> sum(PULocationID#653) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#654) will run on GPU
+    *Expression <Sum> sum(DOLocationID#654) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#661) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#661) will run on GPU
+  *Expression <Alias> count(1)#698L AS row_count#699L will run on GPU
+  *Expression <Alias> sum(PULocationID#653)#700L AS sum_pu#701L will run on GPU
+  *Expression <Alias> sum(DOLocationID#654)#702L AS sum_do#703L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#661)#704 AS sum_congestion#705 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#653) will run on GPU
+        *Expression <Sum> sum(PULocationID#653) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#654) will run on GPU
+        *Expression <Sum> sum(DOLocationID#654) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#661) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#661) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:41 INFO GpuOverrides: Plan conversion to the GPU took 3.51 ms
+26/07/05 01:21:41 INFO GpuOverrides: GPU plan transition optimization took 0.62 ms
+26/07/05 01:21:41 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 480309947 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_29 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_29_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_29_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 29 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:41 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:41 INFO DAGScheduler: Registering RDD 234 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 7
+26/07/05 01:21:41 INFO DAGScheduler: Got job 15 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:41 INFO DAGScheduler: Final stage: ResultStage 23 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:41 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 22)
+26/07/05 01:21:41 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 22)
+26/07/05 01:21:41 INFO DAGScheduler: Submitting ShuffleMapStage 22 (GpuOpTimeTrackingRDD[234] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_30 stored as values in memory (estimated size 59.5 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_30_piece0 stored as bytes in memory (estimated size 25.6 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_30_piece0 in memory on 31900463e94b:39319 (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 30 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:41 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 22 (GpuOpTimeTrackingRDD[234] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Adding task set 22.0 with 1 tasks resource profile 0
+26/07/05 01:21:41 INFO TaskSetManager: Starting task 0.0 in stage 22.0 (TID 22) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10128 bytes) 
+26/07/05 01:21:41 INFO Executor: Running task 0.0 in stage 22.0 (TID 22)
+26/07/05 01:21:41 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-04.parquet task attemptid: 22
+26/07/05 01:21:41 INFO Executor: Finished task 0.0 in stage 22.0 (TID 22). 14294 bytes result sent to driver
+26/07/05 01:21:41 INFO TaskSetManager: Finished task 0.0 in stage 22.0 (TID 22) in 116 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Removed TaskSet 22.0, whose tasks have all completed, from pool 
+26/07/05 01:21:41 INFO DAGScheduler: ShuffleMapStage 22 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.126 s
+26/07/05 01:21:41 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:41 INFO DAGScheduler: running: Set()
+26/07/05 01:21:41 INFO DAGScheduler: waiting: Set(ResultStage 23)
+26/07/05 01:21:41 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:41 INFO DAGScheduler: Submitting ResultStage 23 (MapPartitionsRDD[244] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_31 stored as values in memory (estimated size 72.0 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_31_piece0 stored as bytes in memory (estimated size 31.0 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_31_piece0 in memory on 31900463e94b:39319 (size: 31.0 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 31 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:41 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 23 (MapPartitionsRDD[244] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Adding task set 23.0 with 1 tasks resource profile 0
+26/07/05 01:21:41 INFO TaskSetManager: Starting task 0.0 in stage 23.0 (TID 23) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:41 INFO Executor: Running task 0.0 in stage 23.0 (TID 23)
+26/07/05 01:21:41 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:41 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:41 INFO Executor: Finished task 0.0 in stage 23.0 (TID 23). 17928 bytes result sent to driver
+26/07/05 01:21:41 INFO TaskSetManager: Finished task 0.0 in stage 23.0 (TID 23) in 30 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Removed TaskSet 23.0, whose tasks have all completed, from pool 
+26/07/05 01:21:41 INFO DAGScheduler: ResultStage 23 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.040 s
+26/07/05 01:21:41 INFO DAGScheduler: Job 15 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Killing all running tasks in stage 23: Stage finished
+26/07/05 01:21:41 INFO DAGScheduler: Job 15 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.172004 s
+26/07/05 01:21:41 INFO InMemoryFileIndex: It took 1 ms to list leaf files for 1 paths.
+26/07/05 01:21:41 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:41 INFO DAGScheduler: Got job 16 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:41 INFO DAGScheduler: Final stage: ResultStage 24 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:41 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:41 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:41 INFO DAGScheduler: Submitting ResultStage 24 (MapPartitionsRDD[257] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_32 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_32_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_32_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 32 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:41 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 24 (MapPartitionsRDD[257] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Adding task set 24.0 with 1 tasks resource profile 0
+26/07/05 01:21:41 INFO TaskSetManager: Starting task 0.0 in stage 24.0 (TID 24) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9350 bytes) 
+26/07/05 01:21:41 INFO Executor: Running task 0.0 in stage 24.0 (TID 24)
+26/07/05 01:21:41 INFO Executor: Finished task 0.0 in stage 24.0 (TID 24). 2435 bytes result sent to driver
+26/07/05 01:21:41 INFO TaskSetManager: Finished task 0.0 in stage 24.0 (TID 24) in 15 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Removed TaskSet 24.0, whose tasks have all completed, from pool 
+26/07/05 01:21:41 INFO DAGScheduler: ResultStage 24 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.032 s
+26/07/05 01:21:41 INFO DAGScheduler: Job 16 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Killing all running tasks in stage 24: Stage finished
+26/07/05 01:21:41 INFO DAGScheduler: Job 16 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.033902 s
+26/07/05 01:21:41 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:41 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:41 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#751) will run on GPU
+    *Expression <Sum> sum(PULocationID#751) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#752) will run on GPU
+    *Expression <Sum> sum(DOLocationID#752) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#761) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#761) will run on GPU
+  *Expression <Alias> count(1)#786L AS row_count#787L will run on GPU
+  *Expression <Alias> sum(PULocationID#751)#788L AS sum_pu#789L will run on GPU
+  *Expression <Alias> sum(DOLocationID#752)#790L AS sum_do#791L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#761)#792 AS sum_congestion#793 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#751) will run on GPU
+        *Expression <Sum> sum(PULocationID#751) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#752) will run on GPU
+        *Expression <Sum> sum(DOLocationID#752) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#761) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#761) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:41 INFO GpuOverrides: Plan conversion to the GPU took 3.39 ms
+26/07/05 01:21:41 INFO GpuOverrides: GPU plan transition optimization took 0.68 ms
+26/07/05 01:21:41 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 66747432 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_33 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_33_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_33_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 33 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:41 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:41 INFO DAGScheduler: Registering RDD 266 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 8
+26/07/05 01:21:41 INFO DAGScheduler: Got job 17 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:41 INFO DAGScheduler: Final stage: ResultStage 26 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:41 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 25)
+26/07/05 01:21:41 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 25)
+26/07/05 01:21:41 INFO DAGScheduler: Submitting ShuffleMapStage 25 (GpuOpTimeTrackingRDD[266] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_34 stored as values in memory (estimated size 59.3 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_34_piece0 stored as bytes in memory (estimated size 25.5 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_34_piece0 in memory on 31900463e94b:39319 (size: 25.5 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 34 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:41 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 25 (GpuOpTimeTrackingRDD[266] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Adding task set 25.0 with 1 tasks resource profile 0
+26/07/05 01:21:41 INFO TaskSetManager: Starting task 0.0 in stage 25.0 (TID 25) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10115 bytes) 
+26/07/05 01:21:41 INFO Executor: Running task 0.0 in stage 25.0 (TID 25)
+26/07/05 01:21:41 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-05.parquet task attemptid: 25
+26/07/05 01:21:41 INFO Executor: Finished task 0.0 in stage 25.0 (TID 25). 14294 bytes result sent to driver
+26/07/05 01:21:41 INFO TaskSetManager: Finished task 0.0 in stage 25.0 (TID 25) in 70 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Removed TaskSet 25.0, whose tasks have all completed, from pool 
+26/07/05 01:21:41 INFO DAGScheduler: ShuffleMapStage 25 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.080 s
+26/07/05 01:21:41 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:41 INFO DAGScheduler: running: Set()
+26/07/05 01:21:41 INFO DAGScheduler: waiting: Set(ResultStage 26)
+26/07/05 01:21:41 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:41 INFO DAGScheduler: Submitting ResultStage 26 (MapPartitionsRDD[276] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_35 stored as values in memory (estimated size 71.9 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_35_piece0 stored as bytes in memory (estimated size 30.9 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_35_piece0 in memory on 31900463e94b:39319 (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 35 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:41 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 26 (MapPartitionsRDD[276] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Adding task set 26.0 with 1 tasks resource profile 0
+26/07/05 01:21:41 INFO TaskSetManager: Starting task 0.0 in stage 26.0 (TID 26) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:41 INFO Executor: Running task 0.0 in stage 26.0 (TID 26)
+26/07/05 01:21:41 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:41 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:41 INFO Executor: Finished task 0.0 in stage 26.0 (TID 26). 17926 bytes result sent to driver
+26/07/05 01:21:41 INFO TaskSetManager: Finished task 0.0 in stage 26.0 (TID 26) in 28 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Removed TaskSet 26.0, whose tasks have all completed, from pool 
+26/07/05 01:21:41 INFO DAGScheduler: ResultStage 26 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.040 s
+26/07/05 01:21:41 INFO DAGScheduler: Job 17 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Killing all running tasks in stage 26: Stage finished
+26/07/05 01:21:41 INFO DAGScheduler: Job 17 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.125529 s
+26/07/05 01:21:41 INFO InMemoryFileIndex: It took 1 ms to list leaf files for 1 paths.
+26/07/05 01:21:41 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:41 INFO DAGScheduler: Got job 18 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:41 INFO DAGScheduler: Final stage: ResultStage 27 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:41 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:41 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:41 INFO DAGScheduler: Submitting ResultStage 27 (MapPartitionsRDD[289] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_36 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_36_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_36_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 36 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:41 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 27 (MapPartitionsRDD[289] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Adding task set 27.0 with 1 tasks resource profile 0
+26/07/05 01:21:41 INFO TaskSetManager: Starting task 0.0 in stage 27.0 (TID 27) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9363 bytes) 
+26/07/05 01:21:41 INFO Executor: Running task 0.0 in stage 27.0 (TID 27)
+26/07/05 01:21:41 INFO Executor: Finished task 0.0 in stage 27.0 (TID 27). 2614 bytes result sent to driver
+26/07/05 01:21:41 INFO TaskSetManager: Finished task 0.0 in stage 27.0 (TID 27) in 16 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Removed TaskSet 27.0, whose tasks have all completed, from pool 
+26/07/05 01:21:41 INFO DAGScheduler: ResultStage 27 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.035 s
+26/07/05 01:21:41 INFO DAGScheduler: Job 18 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Killing all running tasks in stage 27: Stage finished
+26/07/05 01:21:41 INFO DAGScheduler: Job 18 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.036889 s
+26/07/05 01:21:41 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:41 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:41 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#839) will run on GPU
+    *Expression <Sum> sum(PULocationID#839) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#840) will run on GPU
+    *Expression <Sum> sum(DOLocationID#840) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#847) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#847) will run on GPU
+  *Expression <Alias> count(1)#884L AS row_count#885L will run on GPU
+  *Expression <Alias> sum(PULocationID#839)#886L AS sum_pu#887L will run on GPU
+  *Expression <Alias> sum(DOLocationID#840)#888L AS sum_do#889L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#847)#890 AS sum_congestion#891 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#839) will run on GPU
+        *Expression <Sum> sum(PULocationID#839) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#840) will run on GPU
+        *Expression <Sum> sum(DOLocationID#840) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#847) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#847) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:41 INFO GpuOverrides: Plan conversion to the GPU took 4.03 ms
+26/07/05 01:21:41 INFO GpuOverrides: GPU plan transition optimization took 0.76 ms
+26/07/05 01:21:41 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 502770222 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_37 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_37_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_37_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 37 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:41 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:41 INFO DAGScheduler: Registering RDD 298 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 9
+26/07/05 01:21:41 INFO DAGScheduler: Got job 19 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:41 INFO DAGScheduler: Final stage: ResultStage 29 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:41 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 28)
+26/07/05 01:21:41 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 28)
+26/07/05 01:21:41 INFO DAGScheduler: Submitting ShuffleMapStage 28 (GpuOpTimeTrackingRDD[298] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_38 stored as values in memory (estimated size 59.5 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_38_piece0 stored as bytes in memory (estimated size 25.7 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_38_piece0 in memory on 31900463e94b:39319 (size: 25.7 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 38 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:41 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 28 (GpuOpTimeTrackingRDD[298] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Adding task set 28.0 with 1 tasks resource profile 0
+26/07/05 01:21:41 INFO TaskSetManager: Starting task 0.0 in stage 28.0 (TID 28) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10128 bytes) 
+26/07/05 01:21:41 INFO Executor: Running task 0.0 in stage 28.0 (TID 28)
+26/07/05 01:21:41 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-05.parquet task attemptid: 28
+26/07/05 01:21:41 INFO Executor: Finished task 0.0 in stage 28.0 (TID 28). 14294 bytes result sent to driver
+26/07/05 01:21:41 INFO TaskSetManager: Finished task 0.0 in stage 28.0 (TID 28) in 111 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Removed TaskSet 28.0, whose tasks have all completed, from pool 
+26/07/05 01:21:41 INFO DAGScheduler: ShuffleMapStage 28 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.120 s
+26/07/05 01:21:41 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:41 INFO DAGScheduler: running: Set()
+26/07/05 01:21:41 INFO DAGScheduler: waiting: Set(ResultStage 29)
+26/07/05 01:21:41 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:41 INFO DAGScheduler: Submitting ResultStage 29 (MapPartitionsRDD[308] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_39 stored as values in memory (estimated size 72.0 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO MemoryStore: Block broadcast_39_piece0 stored as bytes in memory (estimated size 30.9 KiB, free 14.2 GiB)
+26/07/05 01:21:41 INFO BlockManagerInfo: Added broadcast_39_piece0 in memory on 31900463e94b:39319 (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:41 INFO SparkContext: Created broadcast 39 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:41 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 29 (MapPartitionsRDD[308] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Adding task set 29.0 with 1 tasks resource profile 0
+26/07/05 01:21:41 INFO TaskSetManager: Starting task 0.0 in stage 29.0 (TID 29) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:41 INFO Executor: Running task 0.0 in stage 29.0 (TID 29)
+26/07/05 01:21:41 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:41 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:41 INFO Executor: Finished task 0.0 in stage 29.0 (TID 29). 17928 bytes result sent to driver
+26/07/05 01:21:41 INFO TaskSetManager: Finished task 0.0 in stage 29.0 (TID 29) in 29 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Removed TaskSet 29.0, whose tasks have all completed, from pool 
+26/07/05 01:21:41 INFO DAGScheduler: ResultStage 29 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.039 s
+26/07/05 01:21:41 INFO DAGScheduler: Job 19 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:41 INFO TaskSchedulerImpl: Killing all running tasks in stage 29: Stage finished
+26/07/05 01:21:41 INFO DAGScheduler: Job 19 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.164714 s
+26/07/05 01:21:41 INFO InMemoryFileIndex: It took 1 ms to list leaf files for 1 paths.
+26/07/05 01:21:42 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:42 INFO DAGScheduler: Got job 20 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:42 INFO DAGScheduler: Final stage: ResultStage 30 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:42 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:42 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:42 INFO DAGScheduler: Submitting ResultStage 30 (MapPartitionsRDD[321] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_40 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_40_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Added broadcast_40_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO SparkContext: Created broadcast 40 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:42 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 30 (MapPartitionsRDD[321] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Adding task set 30.0 with 1 tasks resource profile 0
+26/07/05 01:21:42 INFO TaskSetManager: Starting task 0.0 in stage 30.0 (TID 30) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9350 bytes) 
+26/07/05 01:21:42 INFO Executor: Running task 0.0 in stage 30.0 (TID 30)
+26/07/05 01:21:42 INFO Executor: Finished task 0.0 in stage 30.0 (TID 30). 2435 bytes result sent to driver
+26/07/05 01:21:42 INFO TaskSetManager: Finished task 0.0 in stage 30.0 (TID 30) in 14 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Removed TaskSet 30.0, whose tasks have all completed, from pool 
+26/07/05 01:21:42 INFO DAGScheduler: ResultStage 30 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.037 s
+26/07/05 01:21:42 INFO DAGScheduler: Job 20 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Killing all running tasks in stage 30: Stage finished
+26/07/05 01:21:42 INFO DAGScheduler: Job 20 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.038437 s
+26/07/05 01:21:42 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:42 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:42 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#937) will run on GPU
+    *Expression <Sum> sum(PULocationID#937) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#938) will run on GPU
+    *Expression <Sum> sum(DOLocationID#938) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#947) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#947) will run on GPU
+  *Expression <Alias> count(1)#972L AS row_count#973L will run on GPU
+  *Expression <Alias> sum(PULocationID#937)#974L AS sum_pu#975L will run on GPU
+  *Expression <Alias> sum(DOLocationID#938)#976L AS sum_do#977L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#947)#978 AS sum_congestion#979 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#937) will run on GPU
+        *Expression <Sum> sum(PULocationID#937) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#938) will run on GPU
+        *Expression <Sum> sum(DOLocationID#938) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#947) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#947) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:42 INFO GpuOverrides: Plan conversion to the GPU took 4.13 ms
+26/07/05 01:21:42 INFO GpuOverrides: GPU plan transition optimization took 0.69 ms
+26/07/05 01:21:42 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 64054226 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_41 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_41_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Added broadcast_41_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO SparkContext: Created broadcast 41 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:42 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:42 INFO DAGScheduler: Registering RDD 330 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 10
+26/07/05 01:21:42 INFO DAGScheduler: Got job 21 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:42 INFO DAGScheduler: Final stage: ResultStage 32 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:42 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 31)
+26/07/05 01:21:42 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 31)
+26/07/05 01:21:42 INFO DAGScheduler: Submitting ShuffleMapStage 31 (GpuOpTimeTrackingRDD[330] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_42 stored as values in memory (estimated size 59.3 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_42_piece0 stored as bytes in memory (estimated size 25.6 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Added broadcast_42_piece0 in memory on 31900463e94b:39319 (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO SparkContext: Created broadcast 42 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:42 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 31 (GpuOpTimeTrackingRDD[330] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Adding task set 31.0 with 1 tasks resource profile 0
+26/07/05 01:21:42 INFO TaskSetManager: Starting task 0.0 in stage 31.0 (TID 31) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10115 bytes) 
+26/07/05 01:21:42 INFO Executor: Running task 0.0 in stage 31.0 (TID 31)
+26/07/05 01:21:42 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-06.parquet task attemptid: 31
+26/07/05 01:21:42 INFO Executor: Finished task 0.0 in stage 31.0 (TID 31). 14294 bytes result sent to driver
+26/07/05 01:21:42 INFO TaskSetManager: Finished task 0.0 in stage 31.0 (TID 31) in 81 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Removed TaskSet 31.0, whose tasks have all completed, from pool 
+26/07/05 01:21:42 INFO DAGScheduler: ShuffleMapStage 31 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.092 s
+26/07/05 01:21:42 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:42 INFO DAGScheduler: running: Set()
+26/07/05 01:21:42 INFO DAGScheduler: waiting: Set(ResultStage 32)
+26/07/05 01:21:42 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:42 INFO DAGScheduler: Submitting ResultStage 32 (MapPartitionsRDD[340] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_43 stored as values in memory (estimated size 71.9 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_43_piece0 stored as bytes in memory (estimated size 30.9 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Added broadcast_43_piece0 in memory on 31900463e94b:39319 (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO SparkContext: Created broadcast 43 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:42 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 32 (MapPartitionsRDD[340] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Adding task set 32.0 with 1 tasks resource profile 0
+26/07/05 01:21:42 INFO TaskSetManager: Starting task 0.0 in stage 32.0 (TID 32) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:42 INFO Executor: Running task 0.0 in stage 32.0 (TID 32)
+26/07/05 01:21:42 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:42 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:42 INFO Executor: Finished task 0.0 in stage 32.0 (TID 32). 17926 bytes result sent to driver
+26/07/05 01:21:42 INFO TaskSetManager: Finished task 0.0 in stage 32.0 (TID 32) in 27 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Removed TaskSet 32.0, whose tasks have all completed, from pool 
+26/07/05 01:21:42 INFO DAGScheduler: ResultStage 32 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.039 s
+26/07/05 01:21:42 INFO DAGScheduler: Job 21 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Killing all running tasks in stage 32: Stage finished
+26/07/05 01:21:42 INFO DAGScheduler: Job 21 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.134815 s
+26/07/05 01:21:42 INFO InMemoryFileIndex: It took 0 ms to list leaf files for 1 paths.
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_34_piece0 on 31900463e94b:39319 in memory (size: 25.5 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO SparkContext: Starting job: parquet at NativeMethodAccessorImpl.java:0
+26/07/05 01:21:42 INFO DAGScheduler: Got job 22 (parquet at NativeMethodAccessorImpl.java:0) with 1 output partitions
+26/07/05 01:21:42 INFO DAGScheduler: Final stage: ResultStage 33 (parquet at NativeMethodAccessorImpl.java:0)
+26/07/05 01:21:42 INFO DAGScheduler: Parents of final stage: List()
+26/07/05 01:21:42 INFO DAGScheduler: Missing parents: List()
+26/07/05 01:21:42 INFO DAGScheduler: Submitting ResultStage 33 (MapPartitionsRDD[353] at parquet at NativeMethodAccessorImpl.java:0), which has no missing parents
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_28_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_10_piece0 on 31900463e94b:39319 in memory (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_44 stored as values in memory (estimated size 107.3 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_36_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_44_piece0 stored as bytes in memory (estimated size 39.1 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Added broadcast_44_piece0 in memory on 31900463e94b:39319 (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO SparkContext: Created broadcast 44 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:42 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 33 (MapPartitionsRDD[353] at parquet at NativeMethodAccessorImpl.java:0) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Adding task set 33.0 with 1 tasks resource profile 0
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_23_piece0 on 31900463e94b:39319 in memory (size: 31.0 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO TaskSetManager: Starting task 0.0 in stage 33.0 (TID 33) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 9363 bytes) 
+26/07/05 01:21:42 INFO Executor: Running task 0.0 in stage 33.0 (TID 33)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_31_piece0 on 31900463e94b:39319 in memory (size: 31.0 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_20_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_43_piece0 on 31900463e94b:39319 in memory (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_35_piece0 on 31900463e94b:39319 in memory (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_24_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_40_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_7_piece0 on 31900463e94b:39319 in memory (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO Executor: Finished task 0.0 in stage 33.0 (TID 33). 2614 bytes result sent to driver
+26/07/05 01:21:42 INFO TaskSetManager: Finished task 0.0 in stage 33.0 (TID 33) in 12 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Removed TaskSet 33.0, whose tasks have all completed, from pool 
+26/07/05 01:21:42 INFO DAGScheduler: ResultStage 33 (parquet at NativeMethodAccessorImpl.java:0) finished in 0.020 s
+26/07/05 01:21:42 INFO DAGScheduler: Job 22 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Killing all running tasks in stage 33: Stage finished
+26/07/05 01:21:42 INFO DAGScheduler: Job 22 finished: parquet at NativeMethodAccessorImpl.java:0, took 0.021073 s
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_16_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_8_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_14_piece0 on 31900463e94b:39319 in memory (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_27_piece0 on 31900463e94b:39319 in memory (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_19_piece0 on 31900463e94b:39319 in memory (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_11_piece0 on 31900463e94b:39319 in memory (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_22_piece0 on 31900463e94b:39319 in memory (size: 25.7 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_6_piece0 on 31900463e94b:39319 in memory (size: 25.7 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_39_piece0 on 31900463e94b:39319 in memory (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_30_piece0 on 31900463e94b:39319 in memory (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_42_piece0 on 31900463e94b:39319 in memory (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_17_piece0 on 31900463e94b:39319 in memory (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_38_piece0 on 31900463e94b:39319 in memory (size: 25.7 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_13_piece0 on 31900463e94b:39319 in memory (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_26_piece0 on 31900463e94b:39319 in memory (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO FileSourceStrategy: Pushed Filters: 
+26/07/05 01:21:42 INFO FileSourceStrategy: Post-Scan Filters: 
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_12_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_15_piece0 on 31900463e94b:39319 in memory (size: 31.0 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 WARN GpuOverrides: 
+*Exec <HashAggregateExec> will run on GPU
+  *Expression <AggregateExpression> count(1) will run on GPU
+    *Expression <Count> count(1) will run on GPU
+  *Expression <AggregateExpression> sum(PULocationID#1025) will run on GPU
+    *Expression <Sum> sum(PULocationID#1025) will run on GPU
+  *Expression <AggregateExpression> sum(DOLocationID#1026) will run on GPU
+    *Expression <Sum> sum(DOLocationID#1026) will run on GPU
+  *Expression <AggregateExpression> sum(congestion_surcharge#1033) will run on GPU
+    *Expression <Sum> sum(congestion_surcharge#1033) will run on GPU
+  *Expression <Alias> count(1)#1070L AS row_count#1071L will run on GPU
+  *Expression <Alias> sum(PULocationID#1025)#1072L AS sum_pu#1073L will run on GPU
+  *Expression <Alias> sum(DOLocationID#1026)#1074L AS sum_do#1075L will run on GPU
+  *Expression <Alias> sum(congestion_surcharge#1033)#1076 AS sum_congestion#1077 will run on GPU
+  *Exec <ShuffleExchangeExec> will run on GPU
+    *Partitioning <SinglePartition$> will run on GPU
+    *Exec <HashAggregateExec> will run on GPU
+      *Expression <AggregateExpression> partial_count(1) will run on GPU
+        *Expression <Count> count(1) will run on GPU
+      *Expression <AggregateExpression> partial_sum(PULocationID#1025) will run on GPU
+        *Expression <Sum> sum(PULocationID#1025) will run on GPU
+      *Expression <AggregateExpression> partial_sum(DOLocationID#1026) will run on GPU
+        *Expression <Sum> sum(DOLocationID#1026) will run on GPU
+      *Expression <AggregateExpression> partial_sum(congestion_surcharge#1033) will run on GPU
+        *Expression <Sum> sum(congestion_surcharge#1033) will run on GPU
+      *Exec <FileSourceScanExec> will run on GPU
+
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_32_piece0 on 31900463e94b:39319 in memory (size: 39.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO GpuOverrides: Plan conversion to the GPU took 2.70 ms
+26/07/05 01:21:42 INFO BlockManagerInfo: Removed broadcast_18_piece0 on 31900463e94b:39319 in memory (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO GpuOverrides: GPU plan transition optimization took 0.76 ms
+26/07/05 01:21:42 INFO GpuFileSourceScanExec: Planning scan with bin packing, max size: 488612019 bytes, open cost is considered as scanning 4194304 bytes.
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_45 stored as values in memory (estimated size 205.5 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_45_piece0 stored as bytes in memory (estimated size 36.1 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Added broadcast_45_piece0 in memory on 31900463e94b:39319 (size: 36.1 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO SparkContext: Created broadcast 45 from collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:42 INFO SparkContext: Starting job: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89
+26/07/05 01:21:42 INFO DAGScheduler: Registering RDD 362 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) as input to shuffle 11
+26/07/05 01:21:42 INFO DAGScheduler: Got job 23 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) with 1 output partitions
+26/07/05 01:21:42 INFO DAGScheduler: Final stage: ResultStage 35 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89)
+26/07/05 01:21:42 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 34)
+26/07/05 01:21:42 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 34)
+26/07/05 01:21:42 INFO DAGScheduler: Submitting ShuffleMapStage 34 (GpuOpTimeTrackingRDD[362] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_46 stored as values in memory (estimated size 59.5 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_46_piece0 stored as bytes in memory (estimated size 25.6 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Added broadcast_46_piece0 in memory on 31900463e94b:39319 (size: 25.6 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO SparkContext: Created broadcast 46 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:42 INFO DAGScheduler: Submitting 1 missing tasks from ShuffleMapStage 34 (GpuOpTimeTrackingRDD[362] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Adding task set 34.0 with 1 tasks resource profile 0
+26/07/05 01:21:42 INFO TaskSetManager: Starting task 0.0 in stage 34.0 (TID 34) (31900463e94b, executor driver, partition 0, PROCESS_LOCAL, 10128 bytes) 
+26/07/05 01:21:42 INFO Executor: Running task 0.0 in stage 34.0 (TID 34)
+26/07/05 01:21:42 INFO GpuParquetMultiFilePartitionReaderFactory: Using the coalesce multi-file Parquet reader, files: file:///data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-06.parquet task attemptid: 34
+26/07/05 01:21:42 INFO Executor: Finished task 0.0 in stage 34.0 (TID 34). 14294 bytes result sent to driver
+26/07/05 01:21:42 INFO TaskSetManager: Finished task 0.0 in stage 34.0 (TID 34) in 106 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Removed TaskSet 34.0, whose tasks have all completed, from pool 
+26/07/05 01:21:42 INFO DAGScheduler: ShuffleMapStage 34 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.111 s
+26/07/05 01:21:42 INFO DAGScheduler: looking for newly runnable stages
+26/07/05 01:21:42 INFO DAGScheduler: running: Set()
+26/07/05 01:21:42 INFO DAGScheduler: waiting: Set(ResultStage 35)
+26/07/05 01:21:42 INFO DAGScheduler: failed: Set()
+26/07/05 01:21:42 INFO DAGScheduler: Submitting ResultStage 35 (MapPartitionsRDD[372] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89), which has no missing parents
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_47 stored as values in memory (estimated size 72.0 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO MemoryStore: Block broadcast_47_piece0 stored as bytes in memory (estimated size 30.9 KiB, free 14.2 GiB)
+26/07/05 01:21:42 INFO BlockManagerInfo: Added broadcast_47_piece0 in memory on 31900463e94b:39319 (size: 30.9 KiB, free: 14.2 GiB)
+26/07/05 01:21:42 INFO SparkContext: Created broadcast 47 from broadcast at DAGScheduler.scala:1585
+26/07/05 01:21:42 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 35 (MapPartitionsRDD[372] at collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) (first 15 tasks are for partitions Vector(0))
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Adding task set 35.0 with 1 tasks resource profile 0
+26/07/05 01:21:42 INFO TaskSetManager: Starting task 0.0 in stage 35.0 (TID 35) (31900463e94b, executor driver, partition 0, NODE_LOCAL, 9214 bytes) 
+26/07/05 01:21:42 INFO Executor: Running task 0.0 in stage 35.0 (TID 35)
+26/07/05 01:21:42 INFO ShuffleBlockFetcherIterator: Getting 1 (97.0 B) non-empty blocks including 1 (97.0 B) local and 0 (0.0 B) host-local and 0 (0.0 B) push-merged-local and 0 (0.0 B) remote blocks
+26/07/05 01:21:42 INFO ShuffleBlockFetcherIterator: Started 0 remote fetches in 0 ms
+26/07/05 01:21:42 INFO Executor: Finished task 0.0 in stage 35.0 (TID 35). 17928 bytes result sent to driver
+26/07/05 01:21:42 INFO TaskSetManager: Finished task 0.0 in stage 35.0 (TID 35) in 25 ms on 31900463e94b (executor driver) (1/1)
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Removed TaskSet 35.0, whose tasks have all completed, from pool 
+26/07/05 01:21:42 INFO DAGScheduler: ResultStage 35 (collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89) finished in 0.031 s
+26/07/05 01:21:42 INFO DAGScheduler: Job 23 is finished. Cancelling potential speculative or zombie tasks for this job
+26/07/05 01:21:42 INFO TaskSchedulerImpl: Killing all running tasks in stage 35: Stage finished
+26/07/05 01:21:42 INFO DAGScheduler: Job 23 finished: collect at /home/roberte/src/rapids-plugin-4-spark/docs/experiments/cross-dataset-scan-transfer/scripts/benchmark.py:89, took 0.145428 s
+26/07/05 01:21:42 INFO SparkContext: SparkContext is stopping with exitCode 0.
+26/07/05 01:21:42 INFO SparkUI: Stopped Spark web UI at http://31900463e94b:4040
+26/07/05 01:21:42 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+26/07/05 01:21:42 INFO MemoryStore: MemoryStore cleared
+26/07/05 01:21:42 INFO BlockManager: BlockManager stopped
+26/07/05 01:21:42 INFO BlockManagerMaster: BlockManagerMaster stopped
+26/07/05 01:21:42 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+26/07/05 01:21:44 INFO AwsStorageExecutorPlugin: Shutting down S3 Plugin ... 
+26/07/05 01:21:44 INFO SparkContext: Successfully stopped SparkContext
+26/07/05 01:21:45 INFO FileCacheLocalDirsManager: Shutdown hook called
+26/07/05 01:21:45 INFO ShimDiskBlockManager: Shutdown hook called
+26/07/05 01:21:45 INFO ShutdownHookManager: Shutdown hook called
+26/07/05 01:21:45 INFO ShutdownHookManager: Deleting directory /data/tmp/cross-dataset-scan-transfer-run-001/spark-local/spark-21700529-358a-45ba-a482-3f2089951435
+26/07/05 01:21:45 INFO ShutdownHookManager: Deleting directory /data/tmp/cross-dataset-scan-transfer-run-001/spark-local/spark-21700529-358a-45ba-a482-3f2089951435/pyspark-298178cc-02f8-4ff0-9762-11bfe705f0ec
+26/07/05 01:21:45 INFO ShutdownHookManager: Deleting directory /data/tmp/cross-dataset-scan-transfer-run-001/java-tmp/spark-f072ddb0-ccca-4aca-bbb2-4f05ff3edd07

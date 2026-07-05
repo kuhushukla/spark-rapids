@@ -156,6 +156,16 @@ private[rapids] case class DataShapePrediction(
     sampleCount: Int,
     evidenceLevel: String)
 
+private[rapids] case class DecodedWidthRequest(
+    context: PerformanceContext,
+    decodedRows: Long)
+
+private[rapids] case class DecodedWidthPrediction(
+    decodedBytes: Long,
+    empiricalUpperDecodedBytes: Long,
+    sampleCount: Int,
+    evidenceLevel: String)
+
 private[rapids] case class FootprintRequest(
     context: PerformanceContext,
     maxBatchBytes: Long)
@@ -169,6 +179,7 @@ private[rapids] case class FootprintPrediction(
 private[rapids] trait PerformanceHistory extends AutoCloseable {
   def record(observation: PerformanceObservation): Unit
   def predictDataShape(request: DataShapeRequest): Option[DataShapePrediction]
+  def predictDecodedWidth(request: DecodedWidthRequest): Option[DecodedWidthPrediction]
   def predictFootprint(request: FootprintRequest): Option[FootprintPrediction]
   def predict(request: PredictionRequest): Option[PerformancePrediction]
   def observations(context: PerformanceContext): Seq[PerformanceObservation]
@@ -321,6 +332,13 @@ private final class LocalFilePerformanceHistory(path: Path) extends PerformanceH
       ComponentPredictor.predictDataShape(request, records.toSeq)
     }
 
+  override def predictDecodedWidth(
+      request: DecodedWidthRequest): Option[DecodedWidthPrediction] =
+    synchronized {
+      require(!closed, "performance history is closed")
+      ComponentPredictor.predictDecodedWidth(request, records.toSeq)
+    }
+
   override def predictFootprint(request: FootprintRequest): Option[FootprintPrediction] =
     synchronized {
       require(!closed, "performance history is closed")
@@ -406,11 +424,7 @@ private object ComponentPredictor {
         observation.decodedRows > 0
     }
     val sameTable = compatible.filter(_.context.tableId == request.context.tableId)
-    if (sameTable.nonEmpty) {
-      (sameTable, "same-table-compatible-snapshot")
-    } else {
-      (compatible, "cross-table-compatible-shape")
-    }
+    (sameTable, "same-table-compatible-snapshot")
   }
 
   def predictDataShape(
@@ -432,6 +446,41 @@ private object ComponentPredictor {
         scaled(request.compressedReadBytes, median(rowRatios)),
         scaled(request.compressedReadBytes, upper(byteRatios)),
         scaled(request.compressedReadBytes, upper(rowRatios)),
+        evidence.length,
+        level))
+    }
+  }
+
+  private def sameDecodedWidthShape(
+      left: PerformanceContext,
+      right: PerformanceContext): Boolean = {
+    left.rapidsVersion == right.rapidsVersion &&
+      left.schemaFingerprint == right.schemaFingerprint &&
+      left.projectionFingerprint == right.projectionFingerprint
+  }
+
+  def predictDecodedWidth(
+      request: DecodedWidthRequest,
+      records: Seq[PerformanceObservation]): Option[DecodedWidthPrediction] = {
+    require(request.decodedRows >= 0, "decoded rows must not be negative")
+    val compatible = records.filter { observation =>
+      sameDecodedWidthShape(observation.context, request.context) &&
+        observation.decodedRows > 0 &&
+        observation.decodedBytes > 0
+    }
+    val sameTable = compatible.filter(_.context.tableId == request.context.tableId)
+    val (evidence, level) =
+      if (sameTable.nonEmpty) (sameTable, "same-table-compatible-projection")
+      else (compatible, "cross-table-compatible-projected-width")
+    if (request.decodedRows == 0 || evidence.isEmpty) {
+      None
+    } else {
+      val ratios = evidence.map { observation =>
+        observation.decodedBytes.toDouble / observation.decodedRows
+      }
+      Some(DecodedWidthPrediction(
+        scaled(request.decodedRows, median(ratios)),
+        scaled(request.decodedRows, upper(ratios)),
         evidence.length,
         level))
     }

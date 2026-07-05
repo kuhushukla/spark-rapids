@@ -331,6 +331,33 @@ follow-up is required to learn how much downstream prediction can safely transfe
 later stages are not yet planned.
 The trial is documented under `docs/experiments/fresh-query-holdout/`.
 
+## Cross-dataset component transfer evidence
+
+A preregistered holdout trained six monthly observations from yellow taxi and evaluated
+six untouched high-volume-for-hire months using the same projected physical shape: two
+nullable integers and one nullable double. CPU/GPU results matched and no retry or spill
+occurred.
+
+The original direct decoded-output-per-input-byte component failed: median decoded-row
+and byte APE were both 31.23%. Yellow supplied a median 0.55377 decoded rows per input
+byte versus 0.42198 in the holdout. A same projected schema therefore does not imply
+transferable row density or compression.
+
+The post-hoc decomposition did find transferable decoded width. Yellow produced a median
+16.375041 decoded GPU bytes per row versus 16.375008 in the holdout; applying the
+training width to holdout rows had median relative error 0.0002007%. This result caused
+the POC to separate table/data-density prediction from projected decoded width and to
+abstain from cross-table row-density extrapolation.
+
+Batch-normalized task footprint had median holdout error 0.000051%, but the frozen
+training p90 lay about 0.00003--0.00004% below every holdout observation, so strict upper
+coverage was zero. A post-hoc 0.0001% margin covered all tasks, but the preregistered
+verdict remains `NOT SUPPORTED`. Production safety requires an independently calibrated,
+materially conservative margin and more task sizes.
+
+Evidence and the frozen/post-hoc distinction are under
+`docs/experiments/cross-dataset-scan-transfer/`.
+
 ## Bounded selection rule
 
 For each candidate, always predict decoded bytes, rows, batches, and an upper footprint
@@ -357,14 +384,17 @@ Spark's calculated default. If no candidate is demonstrably safer or better, ret
 ## Prototype API and limits
 
 The committed `PerformanceHistory` now exposes independently reusable
-`predictDataShape` and `predictFootprint` component APIs. Data-shape evidence first
-uses compatible same-table observations across snapshots and changed predicate literals,
-then compatible schema/projection/format/codec/predicate-shape observations from other
-tables; hardware and full-query identity do not participate. The request's compressed
-read bytes must still come from current metadata or a separate pruning/selectivity
-estimate. Footprint evidence uses compatible reader/execution and
-downstream mechanisms, first with the same schema/projection and then a batch-size-based
-cross-shape fallback.
+`predictDataShape`, `predictDecodedWidth`, and `predictFootprint` component APIs.
+After the cross-dataset holdout below, rows-per-input-byte evidence is limited to
+compatible observations from the same table across snapshots and changed predicate
+literals. It abstains for a new table instead of applying a generic row-density ratio.
+
+Decoded width is a separate component: given a row estimate, it can reuse compatible
+projected schema/projection observations from other tables; hardware, literal predicates,
+and full-query identity do not participate. The row estimate must come from current
+Parquet/catalog statistics, a table-specific prior, or another explicit component.
+Footprint evidence uses compatible reader/execution and downstream mechanisms, first
+with the same schema/projection and then a batch-size-based cross-shape fallback.
 
 The footprint component currently scales observed task footprint by maximum GPU batch
 bytes. This is a transferable POC feature, not a validated safety bound. Its reported
