@@ -38,7 +38,7 @@ the features that affect its mechanism:
 
 | Component | Primary reusable features | Optional refinements |
 |---|---|---|
-| encoded -> decoded bytes/rows | format, codec when known, projected column types, nullability, schema-evolution state | table/column history, file statistics, predicate selectivity |
+| encoded -> decoded bytes/rows | format, codec when known, projected column types, nullability, schema-evolution state | table/column history, already-supplied statistics, predicate selectivity |
 | decoded -> resident footprint | decoded bytes/rows, types, reader/batch path, RAPIDS/cuDF compatibility epoch | GPU memory architecture and operator temporaries |
 | decode/filter rate | format, projected types, predicate/operator class, RAPIDS/cuDF epoch | GPU class, batch rows/bytes |
 | read service | filesystem/connector/client mode and request policy | recent live throughput, latency, throttling, cache state |
@@ -103,7 +103,7 @@ than being hidden behind an inaccurate claim of universal coverage.
 The first useful policy does not require shuffle, whole-query timing, storage bandwidth,
 or a stable executor count. It requires:
 
-1. Spark's split limit as the baseline and the selected file lengths/layout;
+1. Spark's split limit as the baseline and selected file paths/lengths already produced by normal file listing;
 2. read/data schemas, projection, pushed predicates, format, and codec when known;
 3. predicted decoded rows and bytes per candidate, with error bounds;
 4. an upper task-footprint estimate and a safe per-task/admission budget when increasing
@@ -179,16 +179,17 @@ predictedDecodedBytes =
 A direct robust decoded-bytes/encoded-byte estimate remains a useful table-specific
 measurement and cross-check. The decomposed row/column model is the transfer path when the
 query, projection, snapshot, or schema changes. `dataFeatures` includes only available
-format/codec, file statistics, partition/predicate selectivity, and compatible table
-history. Each `columnFeatures` entry describes logical/physical type, nullability,
+format/codec, compatible table history, partition/predicate features, and statistics
+already supplied to the query. The tuner must not open file footers, launch a metadata
+query, or sample current rows to obtain these features. Each `columnFeatures` entry describes logical/physical type, nullability,
 projection, legal up-cast, variable-width evidence, and whether older files omit the
 column.
 
 A new or missing column therefore contributes a type-based prior and larger uncertainty;
 known columns retain their learned estimates. Predicate literals are normalized into
-column/operator/value features. When file or catalog statistics can estimate selectivity,
-use them; otherwise borrow a compatible historical selectivity distribution and widen
-the interval.
+column/operator/value features. When file or catalog statistics are already present in the reader or analyzed plan at
+negligible incremental cost, they may refine selectivity. Otherwise use compatible
+historical selectivity and widen the interval; do not initiate metadata collection.
 
 Use robust hierarchical estimates and retain residual quantiles at each fallback level.
 Safety uses upper bounds:
@@ -391,8 +392,9 @@ literals. It abstains for a new table instead of applying a generic row-density 
 
 Decoded width is a separate component: given a row estimate, it can reuse compatible
 projected schema/projection observations from other tables; hardware, literal predicates,
-and full-query identity do not participate. The row estimate must come from current
-Parquet/catalog statistics, a table-specific prior, or another explicit component.
+and full-query identity do not participate. The row estimate must come from a table-specific historical component, a statistic
+already supplied to the query, or another explicit cheap component. The planner must
+not scan Parquet metadata to manufacture this input.
 Footprint evidence uses compatible reader/execution and downstream mechanisms, first
 with the same schema/projection and then a batch-size-based cross-shape fallback.
 
