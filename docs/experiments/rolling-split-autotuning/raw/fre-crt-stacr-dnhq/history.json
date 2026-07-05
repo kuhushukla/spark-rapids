@@ -1,0 +1,1406 @@
+{
+  "dataset": "fre-crt-stacr-dnhq",
+  "observations": [
+    {
+      "decoded_bytes": 143866032,
+      "decoded_bytes_per_listed_byte": 0.660319669261003,
+      "decoded_rows": 3941530,
+      "decoded_rows_per_listed_byte": 0.018090926327781958,
+      "elapsed_ms": 307.494651,
+      "listed_file_bytes": 217873310,
+      "selected_mib": 128,
+      "window_id": "fre-crt-stacr-dnhq-2013-07"
+    },
+    {
+      "decoded_bytes": 153210028,
+      "decoded_bytes_per_listed_byte": 0.7032069600448076,
+      "decoded_rows": 4197530,
+      "decoded_rows_per_listed_byte": 0.019265921098825734,
+      "elapsed_ms": 305.791807,
+      "listed_file_bytes": 217873310,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2013-08"
+    },
+    {
+      "decoded_bytes": 198818828,
+      "decoded_bytes_per_listed_byte": 0.9125432940822352,
+      "decoded_rows": 5447090,
+      "decoded_rows_per_listed_byte": 0.0250011807320502,
+      "elapsed_ms": 319.825066,
+      "listed_file_bytes": 217873310,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2013-09"
+    },
+    {
+      "decoded_bytes": 217506828,
+      "decoded_bytes_per_listed_byte": 0.998317912368431,
+      "decoded_rows": 5959090,
+      "decoded_rows_per_listed_byte": 0.027351170274137755,
+      "elapsed_ms": 300.930482,
+      "listed_file_bytes": 217873310,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2013-10"
+    },
+    {
+      "decoded_bytes": 254376524,
+      "decoded_bytes_per_listed_byte": 1.1675433030323907,
+      "decoded_rows": 6969218,
+      "decoded_rows_per_listed_byte": 0.03198747932915693,
+      "elapsed_ms": 276.179711,
+      "listed_file_bytes": 217873310,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2013-11"
+    },
+    {
+      "decoded_bytes": 276221320,
+      "decoded_bytes_per_listed_byte": 1.2678070572297269,
+      "decoded_rows": 7567705,
+      "decoded_rows_per_listed_byte": 0.034734428921100985,
+      "elapsed_ms": 261.764491,
+      "listed_file_bytes": 217873310,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2013-12"
+    },
+    {
+      "decoded_bytes": 257666404,
+      "decoded_bytes_per_listed_byte": 1.32575701360048,
+      "decoded_rows": 7059352,
+      "decoded_rows_per_listed_byte": 0.036322102067581054,
+      "elapsed_ms": 260.28721,
+      "listed_file_bytes": 194354170,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2014-01"
+    },
+    {
+      "decoded_bytes": 357825732,
+      "decoded_bytes_per_listed_byte": 0.5326519843801347,
+      "decoded_rows": 9619352,
+      "decoded_rows_per_listed_byte": 0.014319168447201047,
+      "elapsed_ms": 299.781834,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 880,
+      "window_id": "fre-crt-stacr-dnhq-2014-02"
+    },
+    {
+      "decoded_bytes": 376513732,
+      "decoded_bytes_per_listed_byte": 0.5604705546893711,
+      "decoded_rows": 10131352,
+      "decoded_rows_per_listed_byte": 0.015081321058413002,
+      "elapsed_ms": 311.093278,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2014-03"
+    },
+    {
+      "decoded_bytes": 421369108,
+      "decoded_bytes_per_listed_byte": 0.6272413397387735,
+      "decoded_rows": 10899352,
+      "decoded_rows_per_listed_byte": 0.016224549975230932,
+      "elapsed_ms": 339.392313,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2014-04"
+    },
+    {
+      "decoded_bytes": 496953780,
+      "decoded_bytes_per_listed_byte": 0.7397551192942405,
+      "decoded_rows": 11923352,
+      "decoded_rows_per_listed_byte": 0.01774885519765484,
+      "elapsed_ms": 299.343984,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2014-05"
+    },
+    {
+      "decoded_bytes": 561849780,
+      "decoded_bytes_per_listed_byte": 0.8363579627653557,
+      "decoded_rows": 12691352,
+      "decoded_rows_per_listed_byte": 0.018892084114472775,
+      "elapsed_ms": 308.554062,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2014-06"
+    },
+    {
+      "decoded_bytes": 700857780,
+      "decoded_bytes_per_listed_byte": 1.0432823967094014,
+      "decoded_rows": 14227352,
+      "decoded_rows_per_listed_byte": 0.021178541948108635,
+      "elapsed_ms": 315.161366,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2014-07"
+    },
+    {
+      "decoded_bytes": 784313780,
+      "decoded_bytes_per_listed_byte": 1.16751327233695,
+      "decoded_rows": 15251352,
+      "decoded_rows_per_listed_byte": 0.022702847170532545,
+      "elapsed_ms": 309.048874,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 1024,
+      "window_id": "fre-crt-stacr-dnhq-2014-08"
+    },
+    {
+      "decoded_bytes": 862038388,
+      "decoded_bytes_per_listed_byte": 1.2832125163655155,
+      "decoded_rows": 15942064,
+      "decoded_rows_per_listed_byte": 0.023731026768961123,
+      "elapsed_ms": 306.031402,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 976,
+      "window_id": "fre-crt-stacr-dnhq-2014-09"
+    },
+    {
+      "decoded_bytes": 1009453748,
+      "decoded_bytes_per_listed_byte": 1.5026519725310434,
+      "decoded_rows": 17721144,
+      "decoded_rows_per_listed_byte": 0.026379328463404413,
+      "elapsed_ms": 313.273447,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 976,
+      "window_id": "fre-crt-stacr-dnhq-2014-10"
+    },
+    {
+      "decoded_bytes": 1037101748,
+      "decoded_bytes_per_listed_byte": 1.543808213536489,
+      "decoded_rows": 17721144,
+      "decoded_rows_per_listed_byte": 0.026379328463404413,
+      "elapsed_ms": 322.86297,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 880,
+      "window_id": "fre-crt-stacr-dnhq-2014-11"
+    },
+    {
+      "decoded_bytes": 1133314248,
+      "decoded_bytes_per_listed_byte": 1.6870281512439698,
+      "decoded_rows": 18666858,
+      "decoded_rows_per_listed_byte": 0.02778709876527883,
+      "elapsed_ms": 347.792399,
+      "listed_file_bytes": 671781468,
+      "selected_mib": 800,
+      "window_id": "fre-crt-stacr-dnhq-2014-12"
+    },
+    {
+      "decoded_bytes": 1097176072,
+      "decoded_bytes_per_listed_byte": 2.2981008346112626,
+      "decoded_rows": 17205414,
+      "decoded_rows_per_listed_byte": 0.03603776757649915,
+      "elapsed_ms": 337.108415,
+      "listed_file_bytes": 477427298,
+      "selected_mib": 688,
+      "window_id": "fre-crt-stacr-dnhq-2015-01"
+    },
+    {
+      "decoded_bytes": 1412696332,
+      "decoded_bytes_per_listed_byte": 1.0817450061384346,
+      "decoded_rows": 21557414,
+      "decoded_rows_per_listed_byte": 0.016507174550913165,
+      "elapsed_ms": 375.109671,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 656,
+      "window_id": "fre-crt-stacr-dnhq-2015-02"
+    },
+    {
+      "decoded_bytes": 1551704332,
+      "decoded_bytes_per_listed_byte": 1.1881877046909297,
+      "decoded_rows": 23093414,
+      "decoded_rows_per_listed_byte": 0.01768333696585786,
+      "elapsed_ms": 358.314021,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 688,
+      "window_id": "fre-crt-stacr-dnhq-2015-03"
+    },
+    {
+      "decoded_bytes": 1625688328,
+      "decoded_bytes_per_listed_byte": 1.2448395246145096,
+      "decoded_rows": 23605414,
+      "decoded_rows_per_listed_byte": 0.01807539110417276,
+      "elapsed_ms": 332.675166,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 864,
+      "window_id": "fre-crt-stacr-dnhq-2015-04"
+    },
+    {
+      "decoded_bytes": 1811032328,
+      "decoded_bytes_per_listed_byte": 1.386763122684503,
+      "decoded_rows": 25653414,
+      "decoded_rows_per_listed_byte": 0.019643607657432356,
+      "elapsed_ms": 316.340943,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 816,
+      "window_id": "fre-crt-stacr-dnhq-2015-05"
+    },
+    {
+      "decoded_bytes": 1863964392,
+      "decoded_bytes_per_listed_byte": 1.4272948311625286,
+      "decoded_rows": 26165414,
+      "decoded_rows_per_listed_byte": 0.020035661795747256,
+      "elapsed_ms": 302.839784,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 800,
+      "window_id": "fre-crt-stacr-dnhq-2015-06"
+    },
+    {
+      "decoded_bytes": 1983743832,
+      "decoded_bytes_per_listed_byte": 1.519013630258312,
+      "decoded_rows": 27445414,
+      "decoded_rows_per_listed_byte": 0.021015797141534502,
+      "elapsed_ms": 324.706161,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 736,
+      "window_id": "fre-crt-stacr-dnhq-2015-07"
+    },
+    {
+      "decoded_bytes": 2002303836,
+      "decoded_bytes_per_listed_byte": 1.5332255958351502,
+      "decoded_rows": 27701414,
+      "decoded_rows_per_listed_byte": 0.02121182421069195,
+      "elapsed_ms": 348.499868,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 720,
+      "window_id": "fre-crt-stacr-dnhq-2015-08"
+    },
+    {
+      "decoded_bytes": 2132669308,
+      "decoded_bytes_per_listed_byte": 1.6330504450362733,
+      "decoded_rows": 29416126,
+      "decoded_rows_per_listed_byte": 0.022524831897446283,
+      "elapsed_ms": 376.206467,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 672,
+      "window_id": "fre-crt-stacr-dnhq-2015-09"
+    },
+    {
+      "decoded_bytes": 2180447540,
+      "decoded_bytes_per_listed_byte": 1.6696357059287916,
+      "decoded_rows": 30075133,
+      "decoded_rows_per_listed_byte": 0.02302945381449411,
+      "elapsed_ms": 372.266607,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 672,
+      "window_id": "fre-crt-stacr-dnhq-2015-10"
+    },
+    {
+      "decoded_bytes": 2291807544,
+      "decoded_bytes_per_listed_byte": 1.754907484075205,
+      "decoded_rows": 31611133,
+      "decoded_rows_per_listed_byte": 0.024205616229438804,
+      "elapsed_ms": 385.140738,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 672,
+      "window_id": "fre-crt-stacr-dnhq-2015-11"
+    },
+    {
+      "decoded_bytes": 2257756188,
+      "decoded_bytes_per_listed_byte": 1.7288333140849046,
+      "decoded_rows": 31141458,
+      "decoded_rows_per_listed_byte": 0.02384597164464769,
+      "elapsed_ms": 403.996385,
+      "listed_file_bytes": 1305942088,
+      "selected_mib": 624,
+      "window_id": "fre-crt-stacr-dnhq-2015-12"
+    },
+    {
+      "decoded_bytes": 2028970612,
+      "decoded_bytes_per_listed_byte": 2.448925036087769,
+      "decoded_rows": 27985797,
+      "decoded_rows_per_listed_byte": 0.033778270874319574,
+      "elapsed_ms": 394.970323,
+      "listed_file_bytes": 828514790,
+      "selected_mib": 608,
+      "window_id": "fre-crt-stacr-dnhq-2016-01"
+    },
+    {
+      "decoded_bytes": 2567210616,
+      "decoded_bytes_per_listed_byte": 1.2536262405193688,
+      "decoded_rows": 35409797,
+      "decoded_rows_per_listed_byte": 0.017291394174674145,
+      "elapsed_ms": 446.916417,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 592,
+      "window_id": "fre-crt-stacr-dnhq-2016-02"
+    },
+    {
+      "decoded_bytes": 2604330616,
+      "decoded_bytes_per_listed_byte": 1.2717527649883993,
+      "decoded_rows": 35921797,
+      "decoded_rows_per_listed_byte": 0.017541415201833187,
+      "elapsed_ms": 438.999064,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 608,
+      "window_id": "fre-crt-stacr-dnhq-2016-03"
+    },
+    {
+      "decoded_bytes": 2672055176,
+      "decoded_bytes_per_listed_byte": 1.304824179158505,
+      "decoded_rows": 36855927,
+      "decoded_rows_per_listed_byte": 0.017997571729372396,
+      "elapsed_ms": 492.572979,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 672,
+      "window_id": "fre-crt-stacr-dnhq-2016-04"
+    },
+    {
+      "decoded_bytes": 2801975172,
+      "decoded_bytes_per_listed_byte": 1.3682670128468226,
+      "decoded_rows": 38647927,
+      "decoded_rows_per_listed_byte": 0.018872645324429043,
+      "elapsed_ms": 437.244923,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 784,
+      "window_id": "fre-crt-stacr-dnhq-2016-05"
+    },
+    {
+      "decoded_bytes": 2931895432,
+      "decoded_bytes_per_listed_byte": 1.4317099754522324,
+      "decoded_rows": 40439927,
+      "decoded_rows_per_listed_byte": 0.01974771891948569,
+      "elapsed_ms": 461.098218,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2016-06"
+    },
+    {
+      "decoded_bytes": 2969015172,
+      "decoded_bytes_per_listed_byte": 1.4498363729574602,
+      "decoded_rows": 40951927,
+      "decoded_rows_per_listed_byte": 0.019997739946644732,
+      "elapsed_ms": 426.656585,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2016-07"
+    },
+    {
+      "decoded_bytes": 3080375436,
+      "decoded_bytes_per_listed_byte": 1.5042160752816438,
+      "decoded_rows": 42487927,
+      "decoded_rows_per_listed_byte": 0.020747803028121858,
+      "elapsed_ms": 435.381025,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 720,
+      "window_id": "fre-crt-stacr-dnhq-2016-08"
+    },
+    {
+      "decoded_bytes": 3130452040,
+      "decoded_bytes_per_listed_byte": 1.5286695986580434,
+      "decoded_rows": 43178639,
+      "decoded_rows_per_listed_byte": 0.021085093113495053,
+      "elapsed_ms": 429.031353,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 704,
+      "window_id": "fre-crt-stacr-dnhq-2016-09"
+    },
+    {
+      "decoded_bytes": 3235090700,
+      "decoded_bytes_per_listed_byte": 1.5797669917317656,
+      "decoded_rows": 44621927,
+      "decoded_rows_per_listed_byte": 0.021789882856163647,
+      "elapsed_ms": 493.513435,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 704,
+      "window_id": "fre-crt-stacr-dnhq-2016-10"
+    },
+    {
+      "decoded_bytes": 3300599756,
+      "decoded_bytes_per_listed_byte": 1.6117565258515687,
+      "decoded_rows": 45525503,
+      "decoded_rows_per_listed_byte": 0.022231119183578212,
+      "elapsed_ms": 484.257554,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 688,
+      "window_id": "fre-crt-stacr-dnhq-2016-11"
+    },
+    {
+      "decoded_bytes": 3296181748,
+      "decoded_bytes_per_listed_byte": 1.609599113941106,
+      "decoded_rows": 45464572,
+      "decoded_rows_per_listed_byte": 0.022201365216379332,
+      "elapsed_ms": 500.216398,
+      "listed_file_bytes": 2047827760,
+      "selected_mib": 672,
+      "window_id": "fre-crt-stacr-dnhq-2016-12"
+    },
+    {
+      "decoded_bytes": 2932704012,
+      "decoded_bytes_per_listed_byte": 2.40521021604486,
+      "decoded_rows": 40451079,
+      "decoded_rows_per_listed_byte": 0.033175304450341406,
+      "elapsed_ms": 366.65697,
+      "listed_file_bytes": 1219312970,
+      "selected_mib": 656,
+      "window_id": "fre-crt-stacr-dnhq-2017-01"
+    },
+    {
+      "decoded_bytes": 3627629768,
+      "decoded_bytes_per_listed_byte": 1.231185546787406,
+      "decoded_rows": 50036262,
+      "decoded_rows_per_listed_byte": 0.016981865992248605,
+      "elapsed_ms": 568.820666,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 640,
+      "window_id": "fre-crt-stacr-dnhq-2017-02"
+    },
+    {
+      "decoded_bytes": 3720429508,
+      "decoded_bytes_per_listed_byte": 1.2626809600298163,
+      "decoded_rows": 51316262,
+      "decoded_rows_per_listed_byte": 0.01741628670237436,
+      "elapsed_ms": 585.107719,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 656,
+      "window_id": "fre-crt-stacr-dnhq-2017-03"
+    },
+    {
+      "decoded_bytes": 3813229764,
+      "decoded_bytes_per_listed_byte": 1.2941765483980754,
+      "decoded_rows": 52596262,
+      "decoded_rows_per_listed_byte": 0.01785070741250011,
+      "elapsed_ms": 589.20467,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 688,
+      "window_id": "fre-crt-stacr-dnhq-2017-04"
+    },
+    {
+      "decoded_bytes": 3943149768,
+      "decoded_bytes_per_listed_byte": 1.338270251833404,
+      "decoded_rows": 54388262,
+      "decoded_rows_per_listed_byte": 0.018458896406676164,
+      "elapsed_ms": 513.474,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 784,
+      "window_id": "fre-crt-stacr-dnhq-2017-05"
+    },
+    {
+      "decoded_bytes": 3998829508,
+      "decoded_bytes_per_listed_byte": 1.3571674644821674,
+      "decoded_rows": 55156262,
+      "decoded_rows_per_listed_byte": 0.018719548832751617,
+      "elapsed_ms": 602.475196,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2017-06"
+    },
+    {
+      "decoded_bytes": 4128749508,
+      "decoded_bytes_per_listed_byte": 1.4012611665599313,
+      "decoded_rows": 56948262,
+      "decoded_rows_per_listed_byte": 0.01932773782692767,
+      "elapsed_ms": 534.611852,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2017-07"
+    },
+    {
+      "decoded_bytes": 4221549764,
+      "decoded_bytes_per_listed_byte": 1.4327567549281905,
+      "decoded_rows": 58228262,
+      "decoded_rows_per_listed_byte": 0.019762158537053424,
+      "elapsed_ms": 590.115179,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2017-08"
+    },
+    {
+      "decoded_bytes": 4294010128,
+      "decoded_bytes_per_listed_byte": 1.457349163353855,
+      "decoded_rows": 59227719,
+      "decoded_rows_per_listed_byte": 0.020101365427428543,
+      "elapsed_ms": 568.729723,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 736,
+      "window_id": "fre-crt-stacr-dnhq-2017-09"
+    },
+    {
+      "decoded_bytes": 4450848724,
+      "decoded_bytes_per_listed_byte": 1.5105787994862347,
+      "decoded_rows": 61391007,
+      "decoded_rows_per_listed_byte": 0.020835566293964887,
+      "elapsed_ms": 626.681351,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 736,
+      "window_id": "fre-crt-stacr-dnhq-2017-10"
+    },
+    {
+      "decoded_bytes": 4513938320,
+      "decoded_bytes_per_listed_byte": 1.5319908519048806,
+      "decoded_rows": 62261207,
+      "decoded_rows_per_listed_byte": 0.021130904498614444,
+      "elapsed_ms": 644.46095,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 720,
+      "window_id": "fre-crt-stacr-dnhq-2017-11"
+    },
+    {
+      "decoded_bytes": 4476799272,
+      "decoded_bytes_per_listed_byte": 1.5193861865880411,
+      "decoded_rows": 61748946,
+      "decoded_rows_per_listed_byte": 0.020957047633466216,
+      "elapsed_ms": 607.416943,
+      "listed_file_bytes": 2946452529,
+      "selected_mib": 704,
+      "window_id": "fre-crt-stacr-dnhq-2017-12"
+    },
+    {
+      "decoded_bytes": 3982630000,
+      "decoded_bytes_per_listed_byte": 2.305910937681209,
+      "decoded_rows": 54932819,
+      "decoded_rows_per_listed_byte": 0.03180566313460255,
+      "elapsed_ms": 588.575775,
+      "listed_file_bytes": 1727139559,
+      "selected_mib": 672,
+      "window_id": "fre-crt-stacr-dnhq-2018-01"
+    },
+    {
+      "decoded_bytes": 4882293076,
+      "decoded_bytes_per_listed_byte": 1.2179019150232255,
+      "decoded_rows": 67341967,
+      "decoded_rows_per_listed_byte": 0.01679864549178712,
+      "elapsed_ms": 719.426416,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 672,
+      "window_id": "fre-crt-stacr-dnhq-2018-02"
+    },
+    {
+      "decoded_bytes": 5030773076,
+      "decoded_bytes_per_listed_byte": 1.2549406739686029,
+      "decoded_rows": 69389967,
+      "decoded_rows_per_listed_byte": 0.017309524925516462,
+      "elapsed_ms": 733.106515,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 672,
+      "window_id": "fre-crt-stacr-dnhq-2018-03"
+    },
+    {
+      "decoded_bytes": 5067893076,
+      "decoded_bytes_per_listed_byte": 1.2642003637049473,
+      "decoded_rows": 69901967,
+      "decoded_rows_per_listed_byte": 0.017437244783948796,
+      "elapsed_ms": 677.607805,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 720,
+      "window_id": "fre-crt-stacr-dnhq-2018-04"
+    },
+    {
+      "decoded_bytes": 5253493588,
+      "decoded_bytes_per_listed_byte": 1.3104989401065272,
+      "decoded_rows": 72461967,
+      "decoded_rows_per_listed_byte": 0.018075844076110473,
+      "elapsed_ms": 653.783079,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 816,
+      "window_id": "fre-crt-stacr-dnhq-2018-05"
+    },
+    {
+      "decoded_bytes": 5381329352,
+      "decoded_bytes_per_listed_byte": 1.3423879355765846,
+      "decoded_rows": 74225222,
+      "decoded_rows_per_listed_byte": 0.018515693058493495,
+      "elapsed_ms": 632.126634,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 784,
+      "window_id": "fre-crt-stacr-dnhq-2018-06"
+    },
+    {
+      "decoded_bytes": 5437009352,
+      "decoded_bytes_per_listed_byte": 1.3562774701811011,
+      "decoded_rows": 74993222,
+      "decoded_rows_per_listed_byte": 0.018707272846141997,
+      "elapsed_ms": 651.860042,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 784,
+      "window_id": "fre-crt-stacr-dnhq-2018-07"
+    },
+    {
+      "decoded_bytes": 5585058240,
+      "decoded_bytes_per_listed_byte": 1.3932086870100557,
+      "decoded_rows": 77035277,
+      "decoded_rows_per_listed_byte": 0.019216669282687004,
+      "elapsed_ms": 672.416829,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2018-08"
+    },
+    {
+      "decoded_bytes": 5705895296,
+      "decoded_bytes_per_listed_byte": 1.4233518348336889,
+      "decoded_rows": 78701989,
+      "decoded_rows_per_listed_byte": 0.019632435338717228,
+      "elapsed_ms": 658.064557,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2018-09"
+    },
+    {
+      "decoded_bytes": 5736293440,
+      "decoded_bytes_per_listed_byte": 1.430934738443622,
+      "decoded_rows": 79121277,
+      "decoded_rows_per_listed_byte": 0.01973702792465937,
+      "elapsed_ms": 683.828436,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2018-10"
+    },
+    {
+      "decoded_bytes": 5834602900,
+      "decoded_bytes_per_listed_byte": 1.4554583132751833,
+      "decoded_rows": 80477271,
+      "decoded_rows_per_listed_byte": 0.020075284490509167,
+      "elapsed_ms": 702.170569,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 736,
+      "window_id": "fre-crt-stacr-dnhq-2018-11"
+    },
+    {
+      "decoded_bytes": 5881451676,
+      "decoded_bytes_per_listed_byte": 1.4671448738971522,
+      "decoded_rows": 81123447,
+      "decoded_rows_per_listed_byte": 0.020236474934341928,
+      "elapsed_ms": 751.471835,
+      "listed_file_bytes": 4008773626,
+      "selected_mib": 720,
+      "window_id": "fre-crt-stacr-dnhq-2018-12"
+    },
+    {
+      "decoded_bytes": 5152467492,
+      "decoded_bytes_per_listed_byte": 2.258235694549699,
+      "decoded_rows": 71068505,
+      "decoded_rows_per_listed_byte": 0.03114807322869448,
+      "elapsed_ms": 572.675554,
+      "listed_file_bytes": 2281634067,
+      "selected_mib": 720,
+      "window_id": "fre-crt-stacr-dnhq-2019-01"
+    },
+    {
+      "decoded_bytes": 6349091084,
+      "decoded_bytes_per_listed_byte": 1.1689536648519476,
+      "decoded_rows": 87573653,
+      "decoded_rows_per_listed_byte": 0.01612349567275837,
+      "elapsed_ms": 861.817991,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 704,
+      "window_id": "fre-crt-stacr-dnhq-2019-02"
+    },
+    {
+      "decoded_bytes": 6497571084,
+      "decoded_bytes_per_listed_byte": 1.1962908439632398,
+      "decoded_rows": 89621653,
+      "decoded_rows_per_listed_byte": 0.01650056021222447,
+      "elapsed_ms": 794.620267,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 720,
+      "window_id": "fre-crt-stacr-dnhq-2019-03"
+    },
+    {
+      "decoded_bytes": 6683171080,
+      "decoded_bytes_per_listed_byte": 1.2304623171159013,
+      "decoded_rows": 92181653,
+      "decoded_rows_per_listed_byte": 0.0169718908865571,
+      "elapsed_ms": 742.668294,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 736,
+      "window_id": "fre-crt-stacr-dnhq-2019-04"
+    },
+    {
+      "decoded_bytes": 6865291276,
+      "decoded_bytes_per_listed_byte": 1.2639931119558505,
+      "decoded_rows": 94693653,
+      "decoded_rows_per_listed_byte": 0.01743438411074599,
+      "elapsed_ms": 770.491836,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 832,
+      "window_id": "fre-crt-stacr-dnhq-2019-05"
+    },
+    {
+      "decoded_bytes": 6954611212,
+      "decoded_bytes_per_listed_byte": 1.2804381219817202,
+      "decoded_rows": 95925653,
+      "decoded_rows_per_listed_byte": 0.017661211997768565,
+      "elapsed_ms": 830.747452,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 816,
+      "window_id": "fre-crt-stacr-dnhq-2019-06"
+    },
+    {
+      "decoded_bytes": 7177331212,
+      "decoded_bytes_per_listed_byte": 1.3214438906486587,
+      "decoded_rows": 98997653,
+      "decoded_rows_per_listed_byte": 0.018226808806967715,
+      "elapsed_ms": 801.34904,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 816,
+      "window_id": "fre-crt-stacr-dnhq-2019-07"
+    },
+    {
+      "decoded_bytes": 7322331148,
+      "decoded_bytes_per_listed_byte": 1.3481403428412635,
+      "decoded_rows": 100997653,
+      "decoded_rows_per_listed_byte": 0.01859503589629008,
+      "elapsed_ms": 816.586649,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 800,
+      "window_id": "fre-crt-stacr-dnhq-2019-08"
+    },
+    {
+      "decoded_bytes": 7471412268,
+      "decoded_bytes_per_listed_byte": 1.3755881962865224,
+      "decoded_rows": 103053945,
+      "decoded_rows_per_listed_byte": 0.018973627105268513,
+      "elapsed_ms": 847.442829,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2019-09"
+    },
+    {
+      "decoded_bytes": 7700365260,
+      "decoded_bytes_per_listed_byte": 1.4177415432044258,
+      "decoded_rows": 106211917,
+      "decoded_rows_per_listed_byte": 0.019555052524129275,
+      "elapsed_ms": 931.454089,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2019-10"
+    },
+    {
+      "decoded_bytes": 7880926476,
+      "decoded_bytes_per_listed_byte": 1.4509853087105191,
+      "decoded_rows": 108702421,
+      "decoded_rows_per_listed_byte": 0.02001358804356213,
+      "elapsed_ms": 855.073215,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2019-11"
+    },
+    {
+      "decoded_bytes": 7841623740,
+      "decoded_bytes_per_listed_byte": 1.4437491426706766,
+      "decoded_rows": 108160315,
+      "decoded_rows_per_listed_byte": 0.019913778986320033,
+      "elapsed_ms": 819.11838,
+      "listed_file_bytes": 5431430924,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2019-12"
+    },
+    {
+      "decoded_bytes": 7005900504,
+      "decoded_bytes_per_listed_byte": 2.2242388389049053,
+      "decoded_rows": 96633094,
+      "decoded_rows_per_listed_byte": 0.030679151192003363,
+      "elapsed_ms": 878.98727,
+      "listed_file_bytes": 3149796857,
+      "selected_mib": 720,
+      "window_id": "fre-crt-stacr-dnhq-2020-01"
+    },
+    {
+      "decoded_bytes": 8442578772,
+      "decoded_bytes_per_listed_byte": 1.1777220200016472,
+      "decoded_rows": 116449341,
+      "decoded_rows_per_listed_byte": 0.016244438673788265,
+      "elapsed_ms": 1093.282303,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 704,
+      "window_id": "fre-crt-stacr-dnhq-2020-02"
+    },
+    {
+      "decoded_bytes": 8628178772,
+      "decoded_bytes_per_listed_byte": 1.203612830477381,
+      "decoded_rows": 119009341,
+      "decoded_rows_per_listed_byte": 0.016601553301039764,
+      "elapsed_ms": 1053.650016,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 720,
+      "window_id": "fre-crt-stacr-dnhq-2020-03"
+    },
+    {
+      "decoded_bytes": 8795218772,
+      "decoded_bytes_per_listed_byte": 1.2269145599055413,
+      "decoded_rows": 121313341,
+      "decoded_rows_per_listed_byte": 0.016922956465566116,
+      "elapsed_ms": 1067.71485,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2020-04"
+    },
+    {
+      "decoded_bytes": 8962258516,
+      "decoded_bytes_per_listed_byte": 1.2502162536222392,
+      "decoded_rows": 123617341,
+      "decoded_rows_per_listed_byte": 0.017244359630092465,
+      "elapsed_ms": 1144.769563,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 832,
+      "window_id": "fre-crt-stacr-dnhq-2020-05"
+    },
+    {
+      "decoded_bytes": 9144378708,
+      "decoded_bytes_per_listed_byte": 1.27562163818515,
+      "decoded_rows": 126129341,
+      "decoded_rows_per_listed_byte": 0.017594778358083003,
+      "elapsed_ms": 1044.96465,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 816,
+      "window_id": "fre-crt-stacr-dnhq-2020-06"
+    },
+    {
+      "decoded_bytes": 9314898776,
+      "decoded_bytes_per_listed_byte": 1.2994088297955877,
+      "decoded_rows": 128481341,
+      "decoded_rows_per_listed_byte": 0.01792287742187032,
+      "elapsed_ms": 1066.694298,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 816,
+      "window_id": "fre-crt-stacr-dnhq-2020-07"
+    },
+    {
+      "decoded_bytes": 9537619032,
+      "decoded_bytes_per_listed_byte": 1.330477838077931,
+      "decoded_rows": 131553341,
+      "decoded_rows_per_listed_byte": 0.01835141497457212,
+      "elapsed_ms": 1072.940341,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 800,
+      "window_id": "fre-crt-stacr-dnhq-2020-08"
+    },
+    {
+      "decoded_bytes": 9649579640,
+      "decoded_bytes_per_listed_byte": 1.3460961079188574,
+      "decoded_rows": 133097633,
+      "decoded_rows_per_listed_byte": 0.018566840467520353,
+      "elapsed_ms": 1066.24084,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 784,
+      "window_id": "fre-crt-stacr-dnhq-2020-09"
+    },
+    {
+      "decoded_bytes": 9895587672,
+      "decoded_bytes_per_listed_byte": 1.3804137120784494,
+      "decoded_rows": 136490845,
+      "decoded_rows_per_listed_byte": 0.019040186420084933,
+      "elapsed_ms": 1064.998911,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 784,
+      "window_id": "fre-crt-stacr-dnhq-2020-10"
+    },
+    {
+      "decoded_bytes": 10122832620,
+      "decoded_bytes_per_listed_byte": 1.4121139053986864,
+      "decoded_rows": 139625247,
+      "decoded_rows_per_listed_byte": 0.019477428920821792,
+      "elapsed_ms": 1175.625099,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2020-11"
+    },
+    {
+      "decoded_bytes": 10097457548,
+      "decoded_bytes_per_listed_byte": 1.4085741361101083,
+      "decoded_rows": 139275251,
+      "decoded_rows_per_listed_byte": 0.019428605213368855,
+      "elapsed_ms": 1141.062792,
+      "listed_file_bytes": 7168566630,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2020-12"
+    },
+    {
+      "decoded_bytes": 9061931624,
+      "decoded_bytes_per_listed_byte": 2.2549019067681737,
+      "decoded_rows": 124992143,
+      "decoded_rows_per_listed_byte": 0.031102090953245558,
+      "elapsed_ms": 924.949055,
+      "listed_file_bytes": 4018769773,
+      "selected_mib": 736,
+      "window_id": "fre-crt-stacr-dnhq-2021-01"
+    },
+    {
+      "decoded_bytes": 10755680704,
+      "decoded_bytes_per_listed_byte": 1.2275958275138068,
+      "decoded_rows": 148354185,
+      "decoded_rows_per_listed_byte": 0.016932352634127748,
+      "elapsed_ms": 1281.532466,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 720,
+      "window_id": "fre-crt-stacr-dnhq-2021-02"
+    },
+    {
+      "decoded_bytes": 10996959932,
+      "decoded_bytes_per_listed_byte": 1.2551341471896968,
+      "decoded_rows": 151682185,
+      "decoded_rows_per_listed_byte": 0.017312192741546203,
+      "elapsed_ms": 1246.642334,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 736,
+      "window_id": "fre-crt-stacr-dnhq-2021-03"
+    },
+    {
+      "decoded_bytes": 11173895740,
+      "decoded_bytes_per_listed_byte": 1.2753286532945318,
+      "decoded_rows": 154122681,
+      "decoded_rows_per_listed_byte": 0.01759073789262622,
+      "elapsed_ms": 1217.884105,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2021-04"
+    },
+    {
+      "decoded_bytes": 11360626848,
+      "decoded_bytes_per_listed_byte": 1.2966411425136084,
+      "decoded_rows": 156698277,
+      "decoded_rows_per_listed_byte": 0.01788470263460535,
+      "elapsed_ms": 1207.610302,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 800,
+      "window_id": "fre-crt-stacr-dnhq-2021-05"
+    },
+    {
+      "decoded_bytes": 11560277516,
+      "decoded_bytes_per_listed_byte": 1.3194282011612304,
+      "decoded_rows": 159452074,
+      "decoded_rows_per_listed_byte": 0.01819900628493246,
+      "elapsed_ms": 1317.682841,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 784,
+      "window_id": "fre-crt-stacr-dnhq-2021-06"
+    },
+    {
+      "decoded_bytes": 11730797328,
+      "decoded_bytes_per_listed_byte": 1.338890419823206,
+      "decoded_rows": 161804074,
+      "decoded_rows_per_listed_byte": 0.018467450976233,
+      "elapsed_ms": 1358.660008,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 784,
+      "window_id": "fre-crt-stacr-dnhq-2021-07"
+    },
+    {
+      "decoded_bytes": 11910960960,
+      "decoded_bytes_per_listed_byte": 1.3594533324829952,
+      "decoded_rows": 164289088,
+      "decoded_rows_per_listed_byte": 0.018751077173557628,
+      "elapsed_ms": 1349.081495,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 784,
+      "window_id": "fre-crt-stacr-dnhq-2021-08"
+    },
+    {
+      "decoded_bytes": 12025045152,
+      "decoded_bytes_per_listed_byte": 1.3724742915406958,
+      "decoded_rows": 165862668,
+      "decoded_rows_per_listed_byte": 0.018930677172425275,
+      "elapsed_ms": 1351.318177,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2021-09"
+    },
+    {
+      "decoded_bytes": 12188081320,
+      "decoded_bytes_per_listed_byte": 1.391082367131505,
+      "decoded_rows": 168111436,
+      "decoded_rows_per_listed_byte": 0.019187339515778397,
+      "elapsed_ms": 1525.855614,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2021-10"
+    },
+    {
+      "decoded_bytes": 12224726412,
+      "decoded_bytes_per_listed_byte": 1.395264841795459,
+      "decoded_rows": 168616890,
+      "decoded_rows_per_listed_byte": 0.01924502932997764,
+      "elapsed_ms": 1271.96321,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2021-11"
+    },
+    {
+      "decoded_bytes": 12196770948,
+      "decoded_bytes_per_listed_byte": 1.3920741547615971,
+      "decoded_rows": 168231297,
+      "decoded_rows_per_listed_byte": 0.019201019808781784,
+      "elapsed_ms": 1323.69616,
+      "listed_file_bytes": 8761581347,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2021-12"
+    },
+    {
+      "decoded_bytes": 10798055428,
+      "decoded_bytes_per_listed_byte": 2.2767203080963045,
+      "decoded_rows": 148938673,
+      "decoded_rows_per_listed_byte": 0.03140303397598144,
+      "elapsed_ms": 1034.621811,
+      "listed_file_bytes": 4742811574,
+      "selected_mib": 736,
+      "window_id": "fre-crt-stacr-dnhq-2022-01"
+    },
+    {
+      "decoded_bytes": 12767237448,
+      "decoded_bytes_per_listed_byte": 1.318452257609642,
+      "decoded_rows": 176099801,
+      "decoded_rows_per_listed_byte": 0.01818554570937582,
+      "elapsed_ms": 1406.591157,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 736,
+      "window_id": "fre-crt-stacr-dnhq-2022-02"
+    },
+    {
+      "decoded_bytes": 12841477448,
+      "decoded_bytes_per_listed_byte": 1.3261189040555632,
+      "decoded_rows": 177123801,
+      "decoded_rows_per_listed_byte": 0.018291292556905765,
+      "elapsed_ms": 1404.719298,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 736,
+      "window_id": "fre-crt-stacr-dnhq-2022-03"
+    },
+    {
+      "decoded_bytes": 12900658072,
+      "decoded_bytes_per_listed_byte": 1.3322303927497576,
+      "decoded_rows": 177940083,
+      "decoded_rows_per_listed_byte": 0.018375588697721625,
+      "elapsed_ms": 1443.844915,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2022-04"
+    },
+    {
+      "decoded_bytes": 12965002264,
+      "decoded_bytes_per_listed_byte": 1.3388751148795053,
+      "decoded_rows": 178827587,
+      "decoded_rows_per_listed_byte": 0.01846723982093473,
+      "elapsed_ms": 1289.215815,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2022-05"
+    },
+    {
+      "decoded_bytes": 13049457652,
+      "decoded_bytes_per_listed_byte": 1.3475966881587225,
+      "decoded_rows": 179992486,
+      "decoded_rows_per_listed_byte": 0.018587537083572216,
+      "elapsed_ms": 1310.964539,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2022-06"
+    },
+    {
+      "decoded_bytes": 13120414920,
+      "decoded_bytes_per_listed_byte": 1.3549243321043645,
+      "decoded_rows": 180971209,
+      "decoded_rows_per_listed_byte": 0.018688608247493164,
+      "elapsed_ms": 1303.470212,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2022-07"
+    },
+    {
+      "decoded_bytes": 13148193068,
+      "decoded_bytes_per_listed_byte": 1.35779293716415,
+      "decoded_rows": 181354357,
+      "decoded_rows_per_listed_byte": 0.01872817533063516,
+      "elapsed_ms": 1415.999115,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2022-08"
+    },
+    {
+      "decoded_bytes": 13233838308,
+      "decoded_bytes_per_listed_byte": 1.3666373845625344,
+      "decoded_rows": 182535668,
+      "decoded_rows_per_listed_byte": 0.01885016743434849,
+      "elapsed_ms": 1510.338156,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2022-09"
+    },
+    {
+      "decoded_bytes": 13200632400,
+      "decoded_bytes_per_listed_byte": 1.363208263380533,
+      "decoded_rows": 182077657,
+      "decoded_rows_per_listed_byte": 0.018802869368543765,
+      "elapsed_ms": 1406.120251,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2022-10"
+    },
+    {
+      "decoded_bytes": 13168918012,
+      "decoded_bytes_per_listed_byte": 1.359933169091137,
+      "decoded_rows": 181640223,
+      "decoded_rows_per_listed_byte": 0.018757696256725,
+      "elapsed_ms": 1451.130712,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2022-11"
+    },
+    {
+      "decoded_bytes": 12880695860,
+      "decoded_bytes_per_listed_byte": 1.3301689269404564,
+      "decoded_rows": 177664750,
+      "decoded_rows_per_listed_byte": 0.01834715549774998,
+      "elapsed_ms": 1428.633478,
+      "listed_file_bytes": 9683503801,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2022-12"
+    },
+    {
+      "decoded_bytes": 11285157932,
+      "decoded_bytes_per_listed_byte": 2.284124858117781,
+      "decoded_rows": 155657326,
+      "decoded_rows_per_listed_byte": 0.03150516544004918,
+      "elapsed_ms": 1017.29409,
+      "listed_file_bytes": 4940692227,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-01"
+    },
+    {
+      "decoded_bytes": 13356521268,
+      "decoded_bytes_per_listed_byte": 1.3754700354219729,
+      "decoded_rows": 184227854,
+      "decoded_rows_per_listed_byte": 0.018971997856522566,
+      "elapsed_ms": 1433.833454,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-02"
+    },
+    {
+      "decoded_bytes": 13358190656,
+      "decoded_bytes_per_listed_byte": 1.3756419509324131,
+      "decoded_rows": 184250880,
+      "decoded_rows_per_listed_byte": 0.018974369100681142,
+      "elapsed_ms": 1375.369444,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-03"
+    },
+    {
+      "decoded_bytes": 13299227104,
+      "decoded_bytes_per_listed_byte": 1.369569816030614,
+      "decoded_rows": 183437588,
+      "decoded_rows_per_listed_byte": 0.018890615348218023,
+      "elapsed_ms": 1400.660532,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-04"
+    },
+    {
+      "decoded_bytes": 13262050976,
+      "decoded_bytes_per_listed_byte": 1.3657413752958605,
+      "decoded_rows": 182924812,
+      "decoded_rows_per_listed_byte": 0.01883780908162125,
+      "elapsed_ms": 1392.084538,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-05"
+    },
+    {
+      "decoded_bytes": 13277130912,
+      "decoded_bytes_per_listed_byte": 1.367294324577181,
+      "decoded_rows": 183132812,
+      "decoded_rows_per_listed_byte": 0.01885922916261593,
+      "elapsed_ms": 1384.542527,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-06"
+    },
+    {
+      "decoded_bytes": 13263783276,
+      "decoded_bytes_per_listed_byte": 1.3659197695569523,
+      "decoded_rows": 182948701,
+      "decoded_rows_per_listed_byte": 0.018840269198519718,
+      "elapsed_ms": 1451.76869,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-07"
+    },
+    {
+      "decoded_bytes": 13219811444,
+      "decoded_bytes_per_listed_byte": 1.361391499350584,
+      "decoded_rows": 182342198,
+      "decoded_rows_per_listed_byte": 0.018777810816868187,
+      "elapsed_ms": 1470.02556,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-08"
+    },
+    {
+      "decoded_bytes": 13123794356,
+      "decoded_bytes_per_listed_byte": 1.35150354838023,
+      "decoded_rows": 181017822,
+      "decoded_rows_per_listed_byte": 0.018641425041928693,
+      "elapsed_ms": 1414.128038,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-09"
+    },
+    {
+      "decoded_bytes": 13057202588,
+      "decoded_bytes_per_listed_byte": 1.344645850956484,
+      "decoded_rows": 180099315,
+      "decoded_rows_per_listed_byte": 0.018546836126860502,
+      "elapsed_ms": 1385.814137,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-10"
+    },
+    {
+      "decoded_bytes": 13016193804,
+      "decoded_bytes_per_listed_byte": 1.340422718866227,
+      "decoded_rows": 179533681,
+      "decoded_rows_per_listed_byte": 0.018488586482180953,
+      "elapsed_ms": 1417.985675,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-11"
+    },
+    {
+      "decoded_bytes": 12671745596,
+      "decoded_bytes_per_listed_byte": 1.3049510433189504,
+      "decoded_rows": 174782663,
+      "decoded_rows_per_listed_byte": 0.017999321143877114,
+      "elapsed_ms": 1432.421932,
+      "listed_file_bytes": 9710514169,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2023-12"
+    },
+    {
+      "decoded_bytes": 11044596304,
+      "decoded_bytes_per_listed_byte": 2.3155154297791185,
+      "decoded_rows": 152339243,
+      "decoded_rows_per_listed_byte": 0.0319381404279682,
+      "elapsed_ms": 1092.012576,
+      "listed_file_bytes": 4769821942,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2024-01"
+    },
+    {
+      "decoded_bytes": 10955251872,
+      "decoded_bytes_per_listed_byte": 1.4632359278177627,
+      "decoded_rows": 151106892,
+      "decoded_rows_per_listed_byte": 0.020182560464939207,
+      "elapsed_ms": 1258.870297,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2024-02"
+    },
+    {
+      "decoded_bytes": 10108263752,
+      "decoded_bytes_per_listed_byte": 1.3501081364991165,
+      "decoded_rows": 139424306,
+      "decoded_rows_per_listed_byte": 0.0186221783062495,
+      "elapsed_ms": 1161.215624,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2024-03"
+    },
+    {
+      "decoded_bytes": 9365864008,
+      "decoded_bytes_per_listed_byte": 1.2509496697732216,
+      "decoded_rows": 129184306,
+      "decoded_rows_per_listed_byte": 0.017254474845304933,
+      "elapsed_ms": 1143.0889,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2024-04"
+    },
+    {
+      "decoded_bytes": 8370387616,
+      "decoded_bytes_per_listed_byte": 1.1179890734229274,
+      "decoded_rows": 115453598,
+      "decoded_rows_per_listed_byte": 0.015420535699521795,
+      "elapsed_ms": 1056.839475,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 752,
+      "window_id": "fre-crt-stacr-dnhq-2024-05"
+    },
+    {
+      "decoded_bytes": 7516627356,
+      "decoded_bytes_per_listed_byte": 1.003956762639828,
+      "decoded_rows": 103677598,
+      "decoded_rows_per_listed_byte": 0.01384767671943554,
+      "elapsed_ms": 997.890004,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 768,
+      "window_id": "fre-crt-stacr-dnhq-2024-06"
+    },
+    {
+      "decoded_bytes": 8723654648,
+      "decoded_bytes_per_listed_byte": 1.165173110757304,
+      "decoded_rows": 120326257,
+      "decoded_rows_per_listed_byte": 0.01607135138099667,
+      "elapsed_ms": 1082.507695,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 816,
+      "window_id": "fre-crt-stacr-dnhq-2024-07"
+    },
+    {
+      "decoded_bytes": 8562297256,
+      "decoded_bytes_per_listed_byte": 1.1436214444011135,
+      "decoded_rows": 118100631,
+      "decoded_rows_per_listed_byte": 0.01577408610922243,
+      "elapsed_ms": 1002.539074,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 880,
+      "window_id": "fre-crt-stacr-dnhq-2024-08"
+    },
+    {
+      "decoded_bytes": 8467951176,
+      "decoded_bytes_per_listed_byte": 1.1310201299340674,
+      "decoded_rows": 116799307,
+      "decoded_rows_per_listed_byte": 0.015600275040998774,
+      "elapsed_ms": 1005.448412,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 880,
+      "window_id": "fre-crt-stacr-dnhq-2024-09"
+    },
+    {
+      "decoded_bytes": 8492205056,
+      "decoded_bytes_per_listed_byte": 1.1342595943498226,
+      "decoded_rows": 117133841,
+      "decoded_rows_per_listed_byte": 0.015644957004827254,
+      "elapsed_ms": 995.84665,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 896,
+      "window_id": "fre-crt-stacr-dnhq-2024-10"
+    },
+    {
+      "decoded_bytes": 8342901288,
+      "decoded_bytes_per_listed_byte": 1.114317867765285,
+      "decoded_rows": 115074478,
+      "decoded_rows_per_listed_byte": 0.01536989861591698,
+      "elapsed_ms": 1129.844133,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 896,
+      "window_id": "fre-crt-stacr-dnhq-2024-11"
+    },
+    {
+      "decoded_bytes": 7993248460,
+      "decoded_bytes_per_listed_byte": 1.0676165608331896,
+      "decoded_rows": 110251675,
+      "decoded_rows_per_listed_byte": 0.01472574194066758,
+      "elapsed_ms": 1080.319584,
+      "listed_file_bytes": 7487003062,
+      "selected_mib": 896,
+      "window_id": "fre-crt-stacr-dnhq-2024-12"
+    },
+    {
+      "decoded_bytes": 6322445892,
+      "decoded_bytes_per_listed_byte": 2.3268400643089997,
+      "decoded_rows": 87206141,
+      "decoded_rows_per_listed_byte": 0.03209434231605437,
+      "elapsed_ms": 623.308775,
+      "listed_file_bytes": 2717181120,
+      "selected_mib": 912,
+      "window_id": "fre-crt-stacr-dnhq-2025-01"
+    },
+    {
+      "decoded_bytes": 7213631508,
+      "decoded_bytes_per_listed_byte": 2.303367945977253,
+      "decoded_rows": 99498350,
+      "decoded_rows_per_listed_byte": 0.03177058736829863,
+      "elapsed_ms": 731.978758,
+      "listed_file_bytes": 3131775590,
+      "selected_mib": 896,
+      "window_id": "fre-crt-stacr-dnhq-2025-02"
+    }
+  ],
+  "schema_version": "rolling-split-autotuning/history-v1"
+}

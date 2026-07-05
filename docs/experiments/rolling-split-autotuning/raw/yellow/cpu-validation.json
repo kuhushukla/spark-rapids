@@ -1,0 +1,61 @@
+{
+  "all_match": true,
+  "dataset": "yellow",
+  "records": [
+    {
+      "gpu_result_sha256": "35c3e33533d4e78a714f0c396444cccf6e7860f3cda8b40765e922465262d55c",
+      "match": true,
+      "result": [
+        {
+          "fare_amount_count": "0",
+          "fare_amount_sum": null,
+          "row_count": "170896055",
+          "total_amount_count": "0",
+          "total_amount_sum": null,
+          "trip_distance_count": "170896055",
+          "trip_distance_sum": "462814451.892000"
+        }
+      ],
+      "result_sha256": "35c3e33533d4e78a714f0c396444cccf6e7860f3cda8b40765e922465262d55c",
+      "window_id": "yellow-2009-01",
+      "window_index": 0
+    },
+    {
+      "gpu_result_sha256": "d64a356852744ba78826df2368c178baa35520991d79c4b972c079f9fc0b6924",
+      "match": true,
+      "result": [
+        {
+          "fare_amount_count": "111009086",
+          "fare_amount_sum": "1444197224.450000",
+          "row_count": "111009086",
+          "total_amount_count": "111009086",
+          "total_amount_sum": "1811465242.830000",
+          "trip_distance_count": "111009086",
+          "trip_distance_sum": "324801216.300000"
+        }
+      ],
+      "result_sha256": "d64a356852744ba78826df2368c178baa35520991d79c4b972c079f9fc0b6924",
+      "window_id": "yellow-2017-04",
+      "window_index": 99
+    },
+    {
+      "gpu_result_sha256": "e3eac49d5d3a9bf32581c5834ec6e190796605a1715c3221ae93b070016b707f",
+      "match": true,
+      "result": [
+        {
+          "fare_amount_count": "47961460",
+          "fare_amount_sum": "952911083.630000",
+          "row_count": "47961460",
+          "total_amount_count": "47961460",
+          "total_amount_sum": "1364282659.550000",
+          "trip_distance_count": "47961460",
+          "trip_distance_sum": "310323626.370000"
+        }
+      ],
+      "result_sha256": "e3eac49d5d3a9bf32581c5834ec6e190796605a1715c3221ae93b070016b707f",
+      "window_id": "yellow-2025-06",
+      "window_index": 197
+    }
+  ],
+  "schema_version": "rolling-split-autotuning/cpu-validation-v1"
+}

@@ -1,0 +1,61 @@
+{
+  "all_match": true,
+  "dataset": "high-volume-for-hire",
+  "records": [
+    {
+      "gpu_result_sha256": "fa1af252869dd0bda29668f33d43e14b6445c24088a570fcdc44b8e4e19ef37a",
+      "match": true,
+      "result": [
+        {
+          "base_passenger_fare_count": "255199632",
+          "base_passenger_fare_sum": "4374098571.450000",
+          "driver_pay_count": "255199632",
+          "driver_pay_sum": "3664401277.500000",
+          "row_count": "255199632",
+          "trip_miles_count": "255199632",
+          "trip_miles_sum": "1204258737.202000"
+        }
+      ],
+      "result_sha256": "fa1af252869dd0bda29668f33d43e14b6445c24088a570fcdc44b8e4e19ef37a",
+      "window_id": "high-volume-for-hire-2019-02",
+      "window_index": 0
+    },
+    {
+      "gpu_result_sha256": "19931c90bb1fdaadbaff73bb7a58406759f03fd54b0915af33e720adb80ba71d",
+      "match": true,
+      "result": [
+        {
+          "base_passenger_fare_count": "220045202",
+          "base_passenger_fare_sum": "5264136006.460000",
+          "driver_pay_count": "220045202",
+          "driver_pay_sum": "4145135088.580000",
+          "row_count": "220045202",
+          "trip_miles_count": "220045202",
+          "trip_miles_sum": "1110987833.070000"
+        }
+      ],
+      "result_sha256": "19931c90bb1fdaadbaff73bb7a58406759f03fd54b0915af33e720adb80ba71d",
+      "window_id": "high-volume-for-hire-2022-04",
+      "window_index": 38
+    },
+    {
+      "gpu_result_sha256": "7ae379933151a8fbbed6572386fecaa5c28603f8ef8871d5d019dd2216bbe2cc",
+      "match": true,
+      "result": [
+        {
+          "base_passenger_fare_count": "248458616",
+          "base_passenger_fare_sum": "6785289418.140000",
+          "driver_pay_count": "248458616",
+          "driver_pay_sum": "5250616133.310000",
+          "row_count": "248458616",
+          "trip_miles_count": "248458616",
+          "trip_miles_sum": "1229584726.244000"
+        }
+      ],
+      "result_sha256": "7ae379933151a8fbbed6572386fecaa5c28603f8ef8871d5d019dd2216bbe2cc",
+      "window_id": "high-volume-for-hire-2025-06",
+      "window_index": 76
+    }
+  ],
+  "schema_version": "rolling-split-autotuning/cpu-validation-v1"
+}

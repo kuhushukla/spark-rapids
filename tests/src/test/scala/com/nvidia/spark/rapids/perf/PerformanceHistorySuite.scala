@@ -32,7 +32,8 @@ class PerformanceHistorySuite extends AnyFunSuite {
       partitionPredicateShapeFingerprint: String = "partition-predicate-shape",
       dataPredicateShapeFingerprint: String = "data-predicate-shape",
       instanceType: String = "g7.4xlarge",
-      gpuName: String = "NVIDIA L4"): PerformanceContext =
+      gpuName: String = "NVIDIA L4",
+      codec: String = "snappy"): PerformanceContext =
     PerformanceContext(
       instanceType,
       gpuName,
@@ -45,7 +46,7 @@ class PerformanceHistorySuite extends AnyFunSuite {
       tableId,
       tableVersion,
       "parquet",
-      "snappy",
+      codec,
       schemaFingerprint,
       "reader-and-admission-config-sha256",
       projectionFingerprint,
@@ -70,6 +71,7 @@ class PerformanceHistorySuite extends AnyFunSuite {
     PerformanceObservation(
       ctx,
       1L,
+      listedEncodedBytes = 1000,
       compressedReadBytes = 1000,
       decodedBytes = 2000,
       decodedRows = 100,
@@ -133,7 +135,8 @@ class PerformanceHistorySuite extends AnyFunSuite {
       partitionPredicateFingerprint = "partition-predicate-literal-b",
       dataPredicateFingerprint = "data-predicate-literal-b",
       instanceType = "different-instance",
-      gpuName = "different-gpu")
+      gpuName = "different-gpu",
+      codec = "zstd")
     val prediction = history.predictDataShape(DataShapeRequest(requestContext, 3000)).get
 
     assert(prediction.decodedBytes === 6000)
@@ -141,7 +144,38 @@ class PerformanceHistorySuite extends AnyFunSuite {
     assert(prediction.empiricalUpperDecodedBytes === 6000)
     assert(prediction.empiricalUpperDecodedRows === 300)
     assert(prediction.sampleCount === 1)
-    assert(prediction.evidenceLevel === "same-table-compatible-snapshot")
+    assert(prediction.evidenceLevel === "same-table-compatible-snapshot-latest")
+    history.close()
+  }
+
+  test("data-shape point estimate uses latest listed-byte ratio and residual upper bound") {
+    val path = Files.createTempDirectory("performance-history-data-shape-latest")
+      .resolve("history.log")
+    val history = PerformanceHistory.local(path)
+    val first = observation(context()).copy(
+      observedAtMs = 1L,
+      listedEncodedBytes = 1000,
+      compressedReadBytes = 400,
+      decodedBytes = 2000,
+      decodedRows = 100)
+    val second = first.copy(
+      observedAtMs = 2L,
+      listedEncodedBytes = 2000,
+      compressedReadBytes = 900,
+      decodedBytes = 6000,
+      decodedRows = 240)
+    history.record(first)
+    history.record(second)
+
+    val prediction = history.predictDataShape(DataShapeRequest(
+      context(tableVersion = "next", codec = "unknown"), 1000)).get
+
+    assert(prediction.decodedBytes === 3000)
+    assert(prediction.decodedRows === 120)
+    assert(prediction.empiricalUpperDecodedBytes === 4500)
+    assert(prediction.empiricalUpperDecodedRows === 144)
+    assert(prediction.sampleCount === 2)
+    assert(prediction.evidenceLevel === "same-table-compatible-snapshot-latest")
     history.close()
   }
 
@@ -170,7 +204,7 @@ class PerformanceHistorySuite extends AnyFunSuite {
     history.record(observation(context()))
 
     val sameShape = history.predictFootprint(FootprintRequest(
-      context(tableVersion = "2010"), 1024L * 1024 * 1024)).get
+      context(tableVersion = "2010", codec = "zstd"), 1024L * 1024 * 1024)).get
     assert(sameShape.taskFootprintBytes === 2048)
     assert(sameShape.empiricalUpperTaskFootprintBytes === 2048)
     assert(sameShape.evidenceLevel === "same-reader-and-shape")
@@ -242,7 +276,7 @@ class PerformanceHistorySuite extends AnyFunSuite {
     val history = PerformanceHistory.local(path)
     history.record(first)
     history.close()
-    Files.write(path, "v5\\tpartial".getBytes(StandardCharsets.UTF_8),
+    Files.write(path, "v6\\tpartial".getBytes(StandardCharsets.UTF_8),
       StandardOpenOption.APPEND)
 
     val recovered = PerformanceHistory.local(path)

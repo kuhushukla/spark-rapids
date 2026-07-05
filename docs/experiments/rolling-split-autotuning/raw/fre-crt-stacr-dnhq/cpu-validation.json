@@ -1,0 +1,55 @@
+{
+  "all_match": true,
+  "dataset": "fre-crt-stacr-dnhq",
+  "records": [
+    {
+      "gpu_result_sha256": "f983d80ad86c6d680401906d9e415a14fb1df41abf5339a58536418c59664706",
+      "match": true,
+      "result": [
+        {
+          "credit_score_sum": "2570147059",
+          "history_chars": "40428576",
+          "row_count": "3369048",
+          "upb_count": "3369048",
+          "upb_sum": "782996998220.920000"
+        }
+      ],
+      "result_sha256": "f983d80ad86c6d680401906d9e415a14fb1df41abf5339a58536418c59664706",
+      "window_id": "fre-crt-stacr-dnhq-2013-07",
+      "window_index": 0
+    },
+    {
+      "gpu_result_sha256": "7aa0b5de0e7d363654e1739486b86c567e1a4a2c75009f78d479c70913d9f1df",
+      "match": true,
+      "result": [
+        {
+          "credit_score_sum": "59635989983",
+          "history_chars": "3810562224",
+          "row_count": "79386713",
+          "upb_count": "79386713",
+          "upb_sum": "12742326398549.230000"
+        }
+      ],
+      "result_sha256": "7aa0b5de0e7d363654e1739486b86c567e1a4a2c75009f78d479c70913d9f1df",
+      "window_id": "fre-crt-stacr-dnhq-2019-05",
+      "window_index": 70
+    },
+    {
+      "gpu_result_sha256": "0c7e39f62cbf1730f830b7310a31894684fa779bd0b6db928048173012d0638a",
+      "match": true,
+      "result": [
+        {
+          "credit_score_sum": "74850758928",
+          "history_chars": "4775920800",
+          "row_count": "99498350",
+          "upb_count": "99498350",
+          "upb_sum": "13677293560743.820000"
+        }
+      ],
+      "result_sha256": "0c7e39f62cbf1730f830b7310a31894684fa779bd0b6db928048173012d0638a",
+      "window_id": "fre-crt-stacr-dnhq-2025-02",
+      "window_index": 139
+    }
+  ],
+  "schema_version": "rolling-split-autotuning/cpu-validation-v1"
+}

@@ -1,0 +1,7 @@
+run_id=run-001
+repo_revision=7d8c591abb32343ac71e1ce87a6ebc8d0fb295e9
+spark_home=/home/roberte/src/spark_3.5.5
+rapids_jar=/home/roberte/src/rapids-plugin-4-spark/dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar
+scratch_root=/data/tmp/rolling-split-autotuning-run-001
+dataset_filter=all
+limit_windows=none

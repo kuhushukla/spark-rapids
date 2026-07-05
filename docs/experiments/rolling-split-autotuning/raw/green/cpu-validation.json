@@ -1,0 +1,61 @@
+{
+  "all_match": true,
+  "dataset": "green",
+  "records": [
+    {
+      "gpu_result_sha256": "d876399a3e851b8e0f3b0c1c98339bba4d5b4196f01f6690e0f94b87b5da7eef",
+      "match": true,
+      "result": [
+        {
+          "fare_amount_count": "15837009",
+          "fare_amount_sum": "197623521.450000",
+          "row_count": "15837009",
+          "total_amount_count": "15837009",
+          "total_amount_sum": "230220026.250000",
+          "trip_distance_count": "15837009",
+          "trip_distance_sum": "47150500.550000"
+        }
+      ],
+      "result_sha256": "d876399a3e851b8e0f3b0c1c98339bba4d5b4196f01f6690e0f94b87b5da7eef",
+      "window_id": "green-2014-01",
+      "window_index": 0
+    },
+    {
+      "gpu_result_sha256": "e11b9d151e3478d09592e445ddd634c1c5bcffa1e701bb25af5042acc4910cad",
+      "match": true,
+      "result": [
+        {
+          "fare_amount_count": "2848501",
+          "fare_amount_sum": "45837115.300000",
+          "row_count": "2848501",
+          "total_amount_count": "2848501",
+          "total_amount_sum": "54775105.570000",
+          "trip_distance_count": "2848501",
+          "trip_distance_sum": "26304042.050000"
+        }
+      ],
+      "result_sha256": "e11b9d151e3478d09592e445ddd634c1c5bcffa1e701bb25af5042acc4910cad",
+      "window_id": "green-2019-10",
+      "window_index": 69
+    },
+    {
+      "gpu_result_sha256": "10f2d3e1e93ccb7e571d988f49590cf389f47f5af3d3be0fcc8ff226050adc18",
+      "match": true,
+      "result": [
+        {
+          "fare_amount_count": "548370",
+          "fare_amount_sum": "9712659.480000",
+          "row_count": "548370",
+          "total_amount_count": "548370",
+          "total_amount_sum": "14091727.790000",
+          "trip_distance_count": "548370",
+          "trip_distance_sum": "9637538.930000"
+        }
+      ],
+      "result_sha256": "10f2d3e1e93ccb7e571d988f49590cf389f47f5af3d3be0fcc8ff226050adc18",
+      "window_id": "green-2025-06",
+      "window_index": 137
+    }
+  ],
+  "schema_version": "rolling-split-autotuning/cpu-validation-v1"
+}

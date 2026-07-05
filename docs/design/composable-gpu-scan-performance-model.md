@@ -111,7 +111,7 @@ or a stable executor count. It requires:
 5. empirical lower efficiency bounds in decoded rows and bytes.
 
 The minimum historical quantities are therefore data-description and safety parameters:
-rows per encoded byte, decoded width by compatible column/type, footprint amplification,
+rows per listed encoded byte, decoded width by compatible column/type, footprint amplification,
 and residual quantiles. A generic efficiency prior may seed the decoded-row/byte floor.
 Read/decode/operator throughput and current slots improve performance ranking but are
 optional refinements.
@@ -127,7 +127,8 @@ omit precise wave optimization and use a conservative task-count floor.
 
 For observation `i`:
 
-- `D_i`: compressed bytes actually read, excluding metadata-pruned ranges;
+- `L_i`: selected-file encoded lengths already available from normal file listing;
+- `D_i`: compressed bytes actually read, an execution outcome after pruning;
 - `U_i, R_i`: decoded bytes and rows before the SQL filter;
 - `SBytes_i, SRows_i`: surviving bytes and rows;
 - `N_i, B_i`: useful tasks and output batches;
@@ -164,12 +165,12 @@ refit the footprint relation when data, batching, or software changes.
 
 ## Decoded-size and row prediction
 
-Historical observations and currently available metadata predict a proposed encoded
-partition:
+Historical observations and cheap inputs already present at planning predict a proposed
+encoded partition:
 
 ```text
 predictedDecodedRows =
-  encodedBytes * rowsPerEncodedByte(dataFeatures)
+  listedEncodedBytes * rowsPerListedEncodedByte(dataFeatures)
 
 predictedDecodedBytes =
   sum(predictedDecodedRows * decodedWidth(columnFeatures))
@@ -359,6 +360,72 @@ materially conservative margin and more task sizes.
 Evidence and the frozen/post-hoc distinction are under
 `docs/experiments/cross-dataset-scan-transfer/`.
 
+## Rolling same-table evidence and history policy
+
+A preregistered run evaluated 678 consecutive 12-month windows across Yellow,
+Green, FHV, HVFHV, and Freddie CRT. Every window paired the enabled policy with
+fixed 128-MiB and 1-GiB controls in frozen randomized order. The enabled arm
+used only normal selected-file lengths and its own prior completed observations;
+it did not inspect footers, current controls, or future windows.
+
+The frozen recency-weighted data-shape predictor passed its median and p90 byte
+and row error gates on all five tables. Median byte APE ranged from 0.29% to
+5.63%; p90 ranged from 1.60% to 34.32%. Freddie had a 119% maximum error, so
+passing an aggregate p90 gate is not a safety proof.
+
+Post-hoc prequential replay found that the latest compatible observation
+outperformed rolling mean, rolling median, EWMA, and robust EWMA by median error
+on Yellow. The estimator was then applied unchanged to the other tables and
+also had their lowest median error. This mechanism is specific and
+understandable: each 12-month result already shares 11 months with the next
+result, so averaging several results adds lag to an already smoothed signal.
+
+The leading candidate POC point estimator for these rolling windows is:
+
+```text
+pointRatio = latestCompatibleSuccessfulObservation.decoded / listedEncodedBytes
+predictedCurrentDecoded = currentListedEncodedBytes * pointRatio
+```
+
+Older observations can be retained for one-step forecast residuals, rather than
+averaged blindly into the point. A proposed policy would use those residuals for
+uncertainty, divergence, and abstention; this combination has not yet been frozen
+and prospectively validated:
+
+```text
+error_t = log(actualRatio_t) - log(predictedRatio_t made before t)
+
+if isolatedLarge(error_t):
+  clip update; widen uncertainty
+else if twoOfThreeSameDirection(error) exceed prior p90 and practical floor:
+  begin a new recent regime; rapidly discard a weak transferred prior
+
+if residual interval is too wide or evidence is insufficient:
+  UseSparkDefault
+```
+
+A point estimate can begin after one successful observation and commonly
+stabilizes after 3--5. Residual uncertainty and drift decisions require at
+least 10, preferably 20, prospective errors. Exact thresholds remain
+exploratory until frozen and tested on untouched tables.
+
+The aggregate decoded-byte metric was stable across split treatments in this
+run: worst relative spread was 0.000221%, while decoded rows were exactly
+invariant. Batch counts changed substantially, so this invariance is empirical,
+not definitional. Every new reader/metric path must retest whether the learned
+quantity responds to its own actuator.
+
+The performance result is more limited. Enabled was substantially faster than
+128 MiB on the large Yellow, HVFHV, and Freddie cases, and near 1 GiB at the
+median. Yellow nevertheless failed the frozen p90 robustness gate at 31.75%
+descriptive regret. This rejects the proposition that predicting one
+1-GiB decoded batch is by itself a complete split-performance model. The
+controller must also learn actuator response, fixed task cost, useful task
+shape, and when a larger partition supplies multiple efficient batches.
+
+Full evidence and limitations are under
+`docs/experiments/rolling-split-autotuning/`.
+
 ## Bounded selection rule
 
 For each candidate, always predict decoded bytes, rows, batches, and an upper footprint
@@ -386,13 +453,18 @@ Spark's calculated default. If no candidate is demonstrably safer or better, ret
 
 The committed `PerformanceHistory` now exposes independently reusable
 `predictDataShape`, `predictDecodedWidth`, and `predictFootprint` component APIs.
-After the cross-dataset holdout below, rows-per-input-byte evidence is limited to
-compatible observations from the same table across snapshots and changed predicate
-literals. It abstains for a new table instead of applying a generic row-density ratio.
+Rows-per-listed-encoded-byte evidence is limited to compatible observations from the
+same table across snapshots and changed predicate literals. The point estimate uses the
+latest compatible successful observation; older observations provide one-step residual
+bounds. It abstains for a new table instead of applying generic row density. Listed
+selected-file bytes are a planning input distinct from compressed bytes actually read.
+Codec remains provenance when already known but is not a compatibility requirement,
+because discovering it must not cause footer work.
 
 Decoded width is a separate component: given a row estimate, it can reuse compatible
 projected schema/projection observations from other tables; hardware, literal predicates,
-and full-query identity do not participate. The row estimate must come from a table-specific historical component, a statistic
+and full-query identity do not participate. The row estimate must come from a
+ table-specific historical component, a statistic
 already supplied to the query, or another explicit cheap component. The planner must
 not scan Parquet metadata to manufacture this input.
 Footprint evidence uses compatible reader/execution and downstream mechanisms, first
@@ -434,15 +506,19 @@ uncertainty. Tests must cover changed date literals, added/removed columns, lega
 null-filled missing columns, related tables, missing table IDs, missing hardware/live
 resources, and software compatibility epochs.
 
-Persistence remains hidden behind the API. The current line protocol demonstrates
-truncation recovery but is driver-owned, synchronous, single-instance, and unbounded. It
+Persistence remains hidden behind the API. The current v6 line protocol demonstrates
+truncation recovery but intentionally rejects v5 POC files. A production version needs
+an explicit migration or safe-reset policy. It is also driver-owned, synchronous,
+single-instance, and unbounded. It
 must not be called on the measured critical path. Production needs buffered asynchronous
 writes, record IDs, bounded retention/atomic compaction, multi-process coherence,
 permissions, and schema-versioned component observations.
 
-No public Spark/RAPIDS configuration has yet been added. The eventual opt-in configuration
-controls whether the per-scan planner may replace Spark's calculated split limit; it does
-not provide one application-wide replacement value.
+No public Spark/RAPIDS configuration has yet been added, and `PerformanceHistory` has no
+production call site. The rolling experiment drove an equivalent Python policy through a
+session-wide setting; that validates the algorithm, not per-read actuation. The eventual
+opt-in configuration controls whether a per-scan planner may replace Spark's calculated
+split limit; it does not provide one application-wide replacement value.
 
 ## Implementation path
 

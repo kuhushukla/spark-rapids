@@ -1,0 +1,15 @@
+{
+  "failures": [],
+  "run_count": 2034,
+  "schedule_sha256": "e568a59dacdeda2f710c65e9581d8745ef5e10396588da8d92e3221c0e7a15d8",
+  "schema_version": "rolling-split-autotuning/prereg-validation-v1",
+  "script_sha256": {
+    "analyze.py": "d995ef31d9ba7eedeb03754f5ead06504cbf79b327c7e401ec1fcc4cb12d7526",
+    "benchmark.py": "55a57a413b5c3921c74b63050533ccfdb5ef7aa8fa43d4b780a1f703b65452b5",
+    "prepare_schedule.py": "a613986b083f880a5886b189e0bc714de0f2beaccd0726b5e653e8f8753d2751",
+    "run_experiment.sh": "d92610698864c1e7289a55e00a5a3c66c5e4a6592ba3c3320affd53e569e6457",
+    "validate_cpu.py": "49b826e0d9dd579ccf5cf23268699dcf25e067bb478835883494c4aa6d18b56d"
+  },
+  "valid": true,
+  "window_count": 678
+}

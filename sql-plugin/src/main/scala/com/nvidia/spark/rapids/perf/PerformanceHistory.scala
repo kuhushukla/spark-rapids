@@ -31,6 +31,9 @@ import scala.collection.mutable.ArrayBuffer
  * case-class equality during lookup; the composable planner must instead select evidence
  * independently for data shape, footprint, read, decode, operator, and scheduling components.
  * A serial blocking client, for example, matters to read service but not decoded row width.
+ * schemaFingerprint identifies the projected read schema, not the full evolving table schema.
+ * codec is retained as provenance when already known; component matching must not require a
+ * footer read just to populate it.
  */
 private[rapids] case class PerformanceContext(
     instanceType: String,
@@ -70,11 +73,14 @@ private[rapids] case class PerformanceContext(
  * instrumented launched-task setup demand. sumSqlFilterNs is SQL GpuFilter service only,
  * not Parquet footer/row-group pruning. observedGpuOverlapCapacity is
  * derived from the union of these same host service intervals, never from holder count
- * or CUDA-kernel overlap.
+ * or CUDA-kernel overlap. listedEncodedBytes is the selected-file length available from
+ * normal Spark file listing before split planning. compressedReadBytes is an execution
+ * outcome and must never be substituted as the planning-time data-shape denominator.
  */
 private[rapids] case class PerformanceObservation(
     context: PerformanceContext,
     observedAtMs: Long,
+    listedEncodedBytes: Long,
     compressedReadBytes: Long,
     decodedBytes: Long,
     decodedRows: Long,
@@ -146,7 +152,7 @@ private[rapids] case class PerformancePrediction(
 
 private[rapids] case class DataShapeRequest(
     context: PerformanceContext,
-    compressedReadBytes: Long)
+    listedEncodedBytes: Long)
 
 private[rapids] case class DataShapePrediction(
     decodedBytes: Long,
@@ -196,7 +202,7 @@ private[rapids] object PerformanceHistory {
  * PerformanceHistory, so this is not a public or durable integration contract.
  */
 private object ObservationCodec {
-  private val Version = "v5"
+  private val Version = "v6"
   private val encoder = Base64.getUrlEncoder.withoutPadding()
   private val decoder = Base64.getUrlDecoder
 
@@ -221,7 +227,8 @@ private object ObservationCodec {
       encode(c.clientKind), c.asynchronousRead, c.readerThreads, c.maxOutstandingRequests,
       c.readAheadEnabled, c.rangeMergeGapBytes, encode(c.throttlePolicyId),
       encode(c.cacheState), encode(c.downstreamFingerprint), encode(c.downstreamUnit),
-      observation.observedAtMs, observation.compressedReadBytes, observation.decodedBytes,
+      observation.observedAtMs, observation.listedEncodedBytes,
+      observation.compressedReadBytes, observation.decodedBytes,
       observation.decodedRows, observation.survivorBytes, observation.survivorRows,
       observation.downstreamWorkUnits, observation.outputBatches, observation.maxBatchBytes,
       observation.usefulTasks, observation.launchedTasks,
@@ -255,7 +262,7 @@ private object ObservationCodec {
     def optionalLong(value: String): Option[Long] =
       if (value.isEmpty) None else Some(value.toLong)
     val observation = PerformanceObservation(
-      context, next().toLong, next().toLong, next().toLong, next().toLong,
+      context, next().toLong, next().toLong, next().toLong, next().toLong, next().toLong,
       next().toLong, next().toLong, next().toLong, next().toLong, next().toLong,
       next().toInt, next().toInt, next().toDouble, next().toDouble, next().toDouble,
       next().toLong, next().toLong, next().toLong, next().toLong, next().toLong,
@@ -407,7 +414,6 @@ private object ComponentPredictor {
 
   private def sameDataShape(left: PerformanceContext, right: PerformanceContext): Boolean = {
     left.fileFormat == right.fileFormat &&
-      left.codec == right.codec &&
       left.schemaFingerprint == right.schemaFingerprint &&
       left.projectionFingerprint == right.projectionFingerprint &&
       left.partitionPredicateShapeFingerprint == right.partitionPredicateShapeFingerprint &&
@@ -419,7 +425,7 @@ private object ComponentPredictor {
       records: Seq[PerformanceObservation]): (Seq[PerformanceObservation], String) = {
     val compatible = records.filter { observation =>
       sameDataShape(observation.context, request.context) &&
-        observation.compressedReadBytes > 0 &&
+        observation.listedEncodedBytes > 0 &&
         observation.decodedBytes > 0 &&
         observation.decodedRows > 0
     }
@@ -430,24 +436,41 @@ private object ComponentPredictor {
   def predictDataShape(
       request: DataShapeRequest,
       records: Seq[PerformanceObservation]): Option[DataShapePrediction] = {
-    require(request.compressedReadBytes >= 0, "compressed read bytes must not be negative")
+    require(request.listedEncodedBytes >= 0, "listed encoded bytes must not be negative")
     val (evidence, level) = dataShapeEvidence(request, records)
-    if (request.compressedReadBytes == 0 || evidence.isEmpty) {
+    if (request.listedEncodedBytes == 0 || evidence.isEmpty) {
       None
     } else {
-      val byteRatios = evidence.map { observation =>
-        observation.decodedBytes.toDouble / observation.compressedReadBytes
-      }
-      val rowRatios = evidence.map { observation =>
-        observation.decodedRows.toDouble / observation.compressedReadBytes
+      val chronological = evidence.zipWithIndex
+        .sortBy { case (observation, appendIndex) => (observation.observedAtMs, appendIndex) }
+        .map(_._1)
+      val latest = chronological.last
+      val latestByteRatio = latest.decodedBytes.toDouble / latest.listedEncodedBytes
+      val latestRowRatio = latest.decodedRows.toDouble / latest.listedEncodedBytes
+      def upperOneStepMultiplier(value: PerformanceObservation => Long): Double = {
+        val multipliers = chronological.sliding(2).flatMap {
+          case Seq(previous, current) =>
+            val previousRatio = value(previous).toDouble / previous.listedEncodedBytes
+            val currentRatio = value(current).toDouble / current.listedEncodedBytes
+            val multiplier = currentRatio / previousRatio
+            if (java.lang.Double.isFinite(multiplier) && multiplier > 0) {
+              Some(multiplier)
+            } else {
+              None
+            }
+          case _ => None
+        }.toSeq
+        if (multipliers.isEmpty) 1.0 else Math.max(1.0, upper(multipliers))
       }
       Some(DataShapePrediction(
-        scaled(request.compressedReadBytes, median(byteRatios)),
-        scaled(request.compressedReadBytes, median(rowRatios)),
-        scaled(request.compressedReadBytes, upper(byteRatios)),
-        scaled(request.compressedReadBytes, upper(rowRatios)),
+        scaled(request.listedEncodedBytes, latestByteRatio),
+        scaled(request.listedEncodedBytes, latestRowRatio),
+        scaled(request.listedEncodedBytes,
+          latestByteRatio * upperOneStepMultiplier(_.decodedBytes)),
+        scaled(request.listedEncodedBytes,
+          latestRowRatio * upperOneStepMultiplier(_.decodedRows)),
         evidence.length,
-        level))
+        level + "-latest"))
     }
   }
 
@@ -491,7 +514,6 @@ private object ComponentPredictor {
       right: PerformanceContext): Boolean = {
     left.rapidsVersion == right.rapidsVersion &&
       left.fileFormat == right.fileFormat &&
-      left.codec == right.codec &&
       left.executionFingerprint == right.executionFingerprint &&
       left.downstreamFingerprint == right.downstreamFingerprint &&
       left.downstreamUnit == right.downstreamUnit

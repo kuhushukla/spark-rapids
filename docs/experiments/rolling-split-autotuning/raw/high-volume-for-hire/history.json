@@ -1,0 +1,776 @@
+{
+  "dataset": "high-volume-for-hire",
+  "observations": [
+    {
+      "decoded_bytes": 6220491840,
+      "decoded_bytes_per_listed_byte": 0.9508148640123837,
+      "decoded_rows": 255199632,
+      "decoded_rows_per_listed_byte": 0.03900778421342489,
+      "elapsed_ms": 2776.871122,
+      "listed_file_bytes": 6542274501,
+      "selected_mib": 128,
+      "window_id": "high-volume-for-hire-2019-02"
+    },
+    {
+      "decoded_bytes": 6258662928,
+      "decoded_bytes_per_listed_byte": 0.9499958880069271,
+      "decoded_rows": 256765630,
+      "decoded_rows_per_listed_byte": 0.038974185938378446,
+      "elapsed_ms": 1732.067934,
+      "listed_file_bytes": 6588094756,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2019-03"
+    },
+    {
+      "decoded_bytes": 6003415872,
+      "decoded_bytes_per_listed_byte": 0.9493489477200177,
+      "decoded_rows": 246293960,
+      "decoded_rows_per_listed_byte": 0.038947645264145396,
+      "elapsed_ms": 1867.729648,
+      "listed_file_bytes": 6323718888,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2019-04"
+    },
+    {
+      "decoded_bytes": 5578756776,
+      "decoded_bytes_per_listed_byte": 0.9489461282201469,
+      "decoded_rows": 228872047,
+      "decoded_rows_per_listed_byte": 0.03893111880998583,
+      "elapsed_ms": 1512.224731,
+      "listed_file_bytes": 5878897242,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2019-05"
+    },
+    {
+      "decoded_bytes": 5182925160,
+      "decoded_bytes_per_listed_byte": 0.9477572826736269,
+      "decoded_rows": 212632799,
+      "decoded_rows_per_listed_byte": 0.038882344924217944,
+      "elapsed_ms": 1662.327455,
+      "listed_file_bytes": 5468620769,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2019-06"
+    },
+    {
+      "decoded_bytes": 4855159344,
+      "decoded_bytes_per_listed_byte": 0.9463507342753796,
+      "decoded_rows": 199186002,
+      "decoded_rows_per_listed_byte": 0.03882464114860104,
+      "elapsed_ms": 1629.842233,
+      "listed_file_bytes": 5130401624,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2019-07"
+    },
+    {
+      "decoded_bytes": 4603003392,
+      "decoded_bytes_per_listed_byte": 0.9442744304282279,
+      "decoded_rows": 188841144,
+      "decoded_rows_per_listed_byte": 0.038739459545463435,
+      "elapsed_ms": 1562.41826,
+      "listed_file_bytes": 4874645806,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2019-08"
+    },
+    {
+      "decoded_bytes": 4382915208,
+      "decoded_bytes_per_listed_byte": 0.9398020675472109,
+      "decoded_rows": 179811883,
+      "decoded_rows_per_listed_byte": 0.03855597733319352,
+      "elapsed_ms": 1577.451344,
+      "listed_file_bytes": 4663657763,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2019-09"
+    },
+    {
+      "decoded_bytes": 4188825576,
+      "decoded_bytes_per_listed_byte": 0.9386928946186334,
+      "decoded_rows": 171849231,
+      "decoded_rows_per_listed_byte": 0.038510472484131954,
+      "elapsed_ms": 1555.786027,
+      "listed_file_bytes": 4462402560,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2019-10"
+    },
+    {
+      "decoded_bytes": 3996412224,
+      "decoded_bytes_per_listed_byte": 0.9385192177094918,
+      "decoded_rows": 163955352,
+      "decoded_rows_per_listed_byte": 0.03850334752112007,
+      "elapsed_ms": 1168.414881,
+      "listed_file_bytes": 4258210326,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2019-11"
+    },
+    {
+      "decoded_bytes": 3751718808,
+      "decoded_bytes_per_listed_byte": 0.938151383888483,
+      "decoded_rows": 153916649,
+      "decoded_rows_per_listed_byte": 0.0384882568903943,
+      "elapsed_ms": 1198.21804,
+      "listed_file_bytes": 3999054814,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2019-12"
+    },
+    {
+      "decoded_bytes": 3493178664,
+      "decoded_bytes_per_listed_byte": 0.9375974511640358,
+      "decoded_rows": 143309871,
+      "decoded_rows_per_listed_byte": 0.03846553030940154,
+      "elapsed_ms": 1192.309495,
+      "listed_file_bytes": 3725669966,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-01"
+    },
+    {
+      "decoded_bytes": 3282069000,
+      "decoded_bytes_per_listed_byte": 0.9368456107209673,
+      "decoded_rows": 134648971,
+      "decoded_rows_per_listed_byte": 0.038434687835461355,
+      "elapsed_ms": 926.362242,
+      "listed_file_bytes": 3503318970,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-02"
+    },
+    {
+      "decoded_bytes": 3035609592,
+      "decoded_bytes_per_listed_byte": 0.9348744451496047,
+      "decoded_rows": 124537813,
+      "decoded_rows_per_listed_byte": 0.03835381833531913,
+      "elapsed_ms": 1002.821401,
+      "listed_file_bytes": 3247077303,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-03"
+    },
+    {
+      "decoded_bytes": 3055949712,
+      "decoded_bytes_per_listed_byte": 0.934835739915441,
+      "decoded_rows": 125372278,
+      "decoded_rows_per_listed_byte": 0.0383522300150384,
+      "elapsed_ms": 978.167272,
+      "listed_file_bytes": 3268969704,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-04"
+    },
+    {
+      "decoded_bytes": 3294787296,
+      "decoded_bytes_per_listed_byte": 0.9353413307923966,
+      "decoded_rows": 135170740,
+      "decoded_rows_per_listed_byte": 0.03837297175125232,
+      "elapsed_ms": 943.417922,
+      "listed_file_bytes": 3522550739,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-05"
+    },
+    {
+      "decoded_bytes": 3505123200,
+      "decoded_bytes_per_listed_byte": 0.934884640122478,
+      "decoded_rows": 143799912,
+      "decoded_rows_per_listed_byte": 0.03835423787094388,
+      "elapsed_ms": 836.334784,
+      "listed_file_bytes": 3749257448,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-06"
+    },
+    {
+      "decoded_bytes": 3685661640,
+      "decoded_bytes_per_listed_byte": 0.9341669246766657,
+      "decoded_rows": 151206611,
+      "decoded_rows_per_listed_byte": 0.03832479174313215,
+      "elapsed_ms": 1159.596799,
+      "listed_file_bytes": 3945399417,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-07"
+    },
+    {
+      "decoded_bytes": 3809211528,
+      "decoded_bytes_per_listed_byte": 0.9333754782336035,
+      "decoded_rows": 156275331,
+      "decoded_rows_per_listed_byte": 0.03829232394579681,
+      "elapsed_ms": 1158.435482,
+      "listed_file_bytes": 4081113782,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-08"
+    },
+    {
+      "decoded_bytes": 3892156200,
+      "decoded_bytes_per_listed_byte": 0.9327013844258834,
+      "decoded_rows": 159678175,
+      "decoded_rows_per_listed_byte": 0.03826466545332854,
+      "elapsed_ms": 1191.010607,
+      "listed_file_bytes": 4172992841,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-09"
+    },
+    {
+      "decoded_bytes": 3959903448,
+      "decoded_bytes_per_listed_byte": 0.9313056456505527,
+      "decoded_rows": 162457561,
+      "decoded_rows_per_listed_byte": 0.03820740725745065,
+      "elapsed_ms": 1089.738673,
+      "listed_file_bytes": 4251991241,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-10"
+    },
+    {
+      "decoded_bytes": 4039779120,
+      "decoded_bytes_per_listed_byte": 0.9314837988906067,
+      "decoded_rows": 165734506,
+      "decoded_rows_per_listed_byte": 0.03821471488177256,
+      "elapsed_ms": 1171.905382,
+      "listed_file_bytes": 4336929021,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-11"
+    },
+    {
+      "decoded_bytes": 4148120448,
+      "decoded_bytes_per_listed_byte": 0.9329723627128731,
+      "decoded_rows": 170179280,
+      "decoded_rows_per_listed_byte": 0.038275784644326606,
+      "elapsed_ms": 1313.439093,
+      "listed_file_bytes": 4446134327,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2020-12"
+    },
+    {
+      "decoded_bytes": 4255793952,
+      "decoded_bytes_per_listed_byte": 0.9345579133749423,
+      "decoded_rows": 174596652,
+      "decoded_rows_per_listed_byte": 0.038340832431205764,
+      "elapsed_ms": 1276.101725,
+      "listed_file_bytes": 4553804415,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-01"
+    },
+    {
+      "decoded_bytes": 4325095080,
+      "decoded_bytes_per_listed_byte": 0.936269364429772,
+      "decoded_rows": 177439775,
+      "decoded_rows_per_listed_byte": 0.038411045836202,
+      "elapsed_ms": 1266.144461,
+      "listed_file_bytes": 4619498666,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-02"
+    },
+    {
+      "decoded_bytes": 4432475424,
+      "decoded_bytes_per_listed_byte": 0.9382846958506327,
+      "decoded_rows": 181845116,
+      "decoded_rows_per_listed_byte": 0.038493724845970634,
+      "elapsed_ms": 1111.798322,
+      "listed_file_bytes": 4724019739,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-03"
+    },
+    {
+      "decoded_bytes": 4535487720,
+      "decoded_bytes_per_listed_byte": 0.9396308450464179,
+      "decoded_rows": 186071271,
+      "decoded_rows_per_listed_byte": 0.038548953586096585,
+      "elapsed_ms": 1370.24374,
+      "listed_file_bytes": 4826882540,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-04"
+    },
+    {
+      "decoded_bytes": 4624241976,
+      "decoded_bytes_per_listed_byte": 0.9410312085800239,
+      "decoded_rows": 189712461,
+      "decoded_rows_per_listed_byte": 0.038606402386396364,
+      "elapsed_ms": 1302.599528,
+      "listed_file_bytes": 4914015533,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-05"
+    },
+    {
+      "decoded_bytes": 4708047000,
+      "decoded_bytes_per_listed_byte": 0.9424897223462685,
+      "decoded_rows": 193150625,
+      "decoded_rows_per_listed_byte": 0.038666240784609465,
+      "elapsed_ms": 1305.070503,
+      "listed_file_bytes": 4995329804,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-06"
+    },
+    {
+      "decoded_bytes": 4776740352,
+      "decoded_bytes_per_listed_byte": 0.9441302596401526,
+      "decoded_rows": 195968808,
+      "decoded_rows_per_listed_byte": 0.03873354378597198,
+      "elapsed_ms": 1283.302982,
+      "listed_file_bytes": 5059408173,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-07"
+    },
+    {
+      "decoded_bytes": 4836152760,
+      "decoded_bytes_per_listed_byte": 0.9469336604045924,
+      "decoded_rows": 198406253,
+      "decoded_rows_per_listed_byte": 0.03884855767055002,
+      "elapsed_ms": 1224.178481,
+      "listed_file_bytes": 5107171666,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-08"
+    },
+    {
+      "decoded_bytes": 4901624160,
+      "decoded_bytes_per_listed_byte": 0.9496730400395768,
+      "decoded_rows": 201092244,
+      "decoded_rows_per_listed_byte": 0.03896093956903059,
+      "elapsed_ms": 1180.92306,
+      "listed_file_bytes": 5161380763,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-09"
+    },
+    {
+      "decoded_bytes": 4972494048,
+      "decoded_bytes_per_listed_byte": 0.9515455134014267,
+      "decoded_rows": 203999740,
+      "decoded_rows_per_listed_byte": 0.03903776162590543,
+      "elapsed_ms": 1192.118199,
+      "listed_file_bytes": 5225702794,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-10"
+    },
+    {
+      "decoded_bytes": 5039787120,
+      "decoded_bytes_per_listed_byte": 0.9525800604637553,
+      "decoded_rows": 206760474,
+      "decoded_rows_per_listed_byte": 0.039080203217876135,
+      "elapsed_ms": 1232.106189,
+      "listed_file_bytes": 5290670390,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-11"
+    },
+    {
+      "decoded_bytes": 5089615944,
+      "decoded_bytes_per_listed_byte": 0.9524147414981273,
+      "decoded_rows": 208804731,
+      "decoded_rows_per_listed_byte": 0.03907342048733393,
+      "elapsed_ms": 1322.370456,
+      "listed_file_bytes": 5343907147,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2021-12"
+    },
+    {
+      "decoded_bytes": 5177642568,
+      "decoded_bytes_per_listed_byte": 0.9523594891176992,
+      "decoded_rows": 212416083,
+      "decoded_rows_per_listed_byte": 0.03907115441620859,
+      "elapsed_ms": 1345.173198,
+      "listed_file_bytes": 5436647219,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-01"
+    },
+    {
+      "decoded_bytes": 5268498888,
+      "decoded_bytes_per_listed_byte": 0.9517064160788888,
+      "decoded_rows": 216143523,
+      "decoded_rows_per_listed_byte": 0.03904436197216008,
+      "elapsed_ms": 1190.935291,
+      "listed_file_bytes": 5535844667,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-02"
+    },
+    {
+      "decoded_bytes": 5315827464,
+      "decoded_bytes_per_listed_byte": 0.9513638799199461,
+      "decoded_rows": 218085211,
+      "decoded_rows_per_listed_byte": 0.03903030974861604,
+      "elapsed_ms": 1562.952361,
+      "listed_file_bytes": 5587585966,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-03"
+    },
+    {
+      "decoded_bytes": 5363602416,
+      "decoded_bytes_per_listed_byte": 0.9511894565949087,
+      "decoded_rows": 220045202,
+      "decoded_rows_per_listed_byte": 0.039023152702804084,
+      "elapsed_ms": 1348.756548,
+      "listed_file_bytes": 5638837120,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-04"
+    },
+    {
+      "decoded_bytes": 5397540864,
+      "decoded_bytes_per_listed_byte": 0.9510893225207108,
+      "decoded_rows": 221437544,
+      "decoded_rows_per_listed_byte": 0.039019043859083245,
+      "elapsed_ms": 1306.560964,
+      "listed_file_bytes": 5675114562,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-05"
+    },
+    {
+      "decoded_bytes": 5438743032,
+      "decoded_bytes_per_listed_byte": 0.9508861817568935,
+      "decoded_rows": 223127885,
+      "decoded_rows_per_listed_byte": 0.039010709158862365,
+      "elapsed_ms": 1306.77367,
+      "listed_file_bytes": 5719657238,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-06"
+    },
+    {
+      "decoded_bytes": 5477414904,
+      "decoded_bytes_per_listed_byte": 0.9508965118419138,
+      "decoded_rows": 224714429,
+      "decoded_rows_per_listed_byte": 0.03901113398231032,
+      "elapsed_ms": 1372.281503,
+      "listed_file_bytes": 5760263957,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-07"
+    },
+    {
+      "decoded_bytes": 5518060536,
+      "decoded_bytes_per_listed_byte": 0.9499411840762216,
+      "decoded_rows": 226381941,
+      "decoded_rows_per_listed_byte": 0.038971940899166196,
+      "elapsed_ms": 1295.892213,
+      "listed_file_bytes": 5808844409,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-08"
+    },
+    {
+      "decoded_bytes": 5545761888,
+      "decoded_bytes_per_listed_byte": 0.9524591285018051,
+      "decoded_rows": 227518404,
+      "decoded_rows_per_listed_byte": 0.039075240727674314,
+      "elapsed_ms": 1302.833393,
+      "listed_file_bytes": 5822572037,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-09"
+    },
+    {
+      "decoded_bytes": 5595915072,
+      "decoded_bytes_per_listed_byte": 0.9577732992950576,
+      "decoded_rows": 229575976,
+      "decoded_rows_per_listed_byte": 0.039293258947515876,
+      "elapsed_ms": 1171.726199,
+      "listed_file_bytes": 5842630063,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-10"
+    },
+    {
+      "decoded_bytes": 5617370880,
+      "decoded_bytes_per_listed_byte": 0.9629713484681208,
+      "decoded_rows": 230456216,
+      "decoded_rows_per_listed_byte": 0.03950651253498515,
+      "elapsed_ms": 1107.39334,
+      "listed_file_bytes": 5833372809,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-11"
+    },
+    {
+      "decoded_bytes": 5646215280,
+      "decoded_bytes_per_listed_byte": 0.9678119124746707,
+      "decoded_rows": 231639570,
+      "decoded_rows_per_listed_byte": 0.039705098748291145,
+      "elapsed_ms": 1105.019469,
+      "listed_file_bytes": 5834000602,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2022-12"
+    },
+    {
+      "decoded_bytes": 5666944992,
+      "decoded_bytes_per_listed_byte": 0.9735714019888353,
+      "decoded_rows": 232490020,
+      "decoded_rows_per_listed_byte": 0.03994138553300649,
+      "elapsed_ms": 977.615105,
+      "listed_file_bytes": 5820780048,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2023-01"
+    },
+    {
+      "decoded_bytes": 5695826856,
+      "decoded_bytes_per_listed_byte": 0.9787113327472511,
+      "decoded_rows": 233674919,
+      "decoded_rows_per_listed_byte": 0.04015225483253277,
+      "elapsed_ms": 906.351078,
+      "listed_file_bytes": 5819720959,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2023-02"
+    },
+    {
+      "decoded_bytes": 5729907456,
+      "decoded_bytes_per_listed_byte": 0.9839621288435163,
+      "decoded_rows": 235073096,
+      "decoded_rows_per_listed_byte": 0.04036767186035269,
+      "elapsed_ms": 945.892009,
+      "listed_file_bytes": 5823300804,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2023-03"
+    },
+    {
+      "decoded_bytes": 5751046680,
+      "decoded_bytes_per_listed_byte": 0.9900650312920485,
+      "decoded_rows": 235940345,
+      "decoded_rows_per_listed_byte": 0.04061804712311633,
+      "elapsed_ms": 936.837815,
+      "listed_file_bytes": 5808756494,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2023-04"
+    },
+    {
+      "decoded_bytes": 5765382336,
+      "decoded_bytes_per_listed_byte": 0.9952247353785834,
+      "decoded_rows": 236528480,
+      "decoded_rows_per_listed_byte": 0.04082972822940611,
+      "elapsed_ms": 945.674426,
+      "listed_file_bytes": 5793045662,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2023-05"
+    },
+    {
+      "decoded_bytes": 5786268240,
+      "decoded_bytes_per_listed_byte": 1.0013420457333622,
+      "decoded_rows": 237385342,
+      "decoded_rows_per_listed_byte": 0.0410806955581779,
+      "elapsed_ms": 914.556234,
+      "listed_file_bytes": 5778513211,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2023-06"
+    },
+    {
+      "decoded_bytes": 5804710584,
+      "decoded_bytes_per_listed_byte": 1.0070400022796984,
+      "decoded_rows": 238141949,
+      "decoded_rows_per_listed_byte": 0.0413144575243567,
+      "elapsed_ms": 938.030678,
+      "listed_file_bytes": 5764131088,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2023-07"
+    },
+    {
+      "decoded_bytes": 5805948864,
+      "decoded_bytes_per_listed_byte": 1.0114439305387757,
+      "decoded_rows": 238192752,
+      "decoded_rows_per_listed_byte": 0.041495131795347445,
+      "elapsed_ms": 887.148153,
+      "listed_file_bytes": 5740257753,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2023-08"
+    },
+    {
+      "decoded_bytes": 5825601072,
+      "decoded_bytes_per_listed_byte": 1.0120944333057025,
+      "decoded_rows": 238998994,
+      "decoded_rows_per_listed_byte": 0.04152181867647511,
+      "elapsed_ms": 960.639484,
+      "listed_file_bytes": 5755985687,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2023-09"
+    },
+    {
+      "decoded_bytes": 5809968648,
+      "decoded_bytes_per_listed_byte": 1.0114164785505715,
+      "decoded_rows": 238357659,
+      "decoded_rows_per_listed_byte": 0.04149400430660257,
+      "elapsed_ms": 970.298678,
+      "listed_file_bytes": 5744387966,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2023-10"
+    },
+    {
+      "decoded_bytes": 5806116168,
+      "decoded_bytes_per_listed_byte": 1.0108732107126088,
+      "decoded_rows": 238199611,
+      "decoded_rows_per_listed_byte": 0.04147171682322848,
+      "elapsed_ms": 920.988745,
+      "listed_file_bytes": 5743664098,
+      "selected_mib": 1008,
+      "window_id": "high-volume-for-hire-2023-11"
+    },
+    {
+      "decoded_bytes": 5823624144,
+      "decoded_bytes_per_listed_byte": 1.0112273627602097,
+      "decoded_rows": 238917894,
+      "decoded_rows_per_listed_byte": 0.0414862473765174,
+      "elapsed_ms": 935.243211,
+      "listed_file_bytes": 5758966142,
+      "selected_mib": 1008,
+      "window_id": "high-volume-for-hire-2023-12"
+    },
+    {
+      "decoded_bytes": 5837092800,
+      "decoded_bytes_per_listed_byte": 1.010568851151048,
+      "decoded_rows": 239470448,
+      "decoded_rows_per_listed_byte": 0.04145923044430384,
+      "elapsed_ms": 932.970339,
+      "listed_file_bytes": 5776046623,
+      "selected_mib": 1008,
+      "window_id": "high-volume-for-hire-2024-01"
+    },
+    {
+      "decoded_bytes": 5855172480,
+      "decoded_bytes_per_listed_byte": 1.0104941187628365,
+      "decoded_rows": 240212184,
+      "decoded_rows_per_listed_byte": 0.041456165470154745,
+      "elapsed_ms": 921.105159,
+      "listed_file_bytes": 5794365718,
+      "selected_mib": 1008,
+      "window_id": "high-volume-for-hire-2024-02"
+    },
+    {
+      "decoded_bytes": 5854692696,
+      "decoded_bytes_per_listed_byte": 1.0105583695472715,
+      "decoded_rows": 240192497,
+      "decoded_rows_per_listed_byte": 0.04145880078584536,
+      "elapsed_ms": 914.92726,
+      "listed_file_bytes": 5793522544,
+      "selected_mib": 1008,
+      "window_id": "high-volume-for-hire-2024-03"
+    },
+    {
+      "decoded_bytes": 5836559904,
+      "decoded_bytes_per_listed_byte": 1.008500266808176,
+      "decoded_rows": 239448588,
+      "decoded_rows_per_listed_byte": 0.04137436586907016,
+      "elapsed_ms": 920.427258,
+      "listed_file_bytes": 5787365751,
+      "selected_mib": 1008,
+      "window_id": "high-volume-for-hire-2024-04"
+    },
+    {
+      "decoded_bytes": 5837070456,
+      "decoded_bytes_per_listed_byte": 1.0066570602308988,
+      "decoded_rows": 239469533,
+      "decoded_rows_per_listed_byte": 0.04129874702075144,
+      "elapsed_ms": 945.917418,
+      "listed_file_bytes": 5798469694,
+      "selected_mib": 1008,
+      "window_id": "high-volume-for-hire-2024-05"
+    },
+    {
+      "decoded_bytes": 5846494944,
+      "decoded_bytes_per_listed_byte": 1.005022041640242,
+      "decoded_rows": 239856188,
+      "decoded_rows_per_listed_byte": 0.041231670953755926,
+      "elapsed_ms": 945.920283,
+      "listed_file_bytes": 5817280320,
+      "selected_mib": 1008,
+      "window_id": "high-volume-for-hire-2024-06"
+    },
+    {
+      "decoded_bytes": 5840273928,
+      "decoded_bytes_per_listed_byte": 1.0028490306948297,
+      "decoded_rows": 239600971,
+      "decoded_rows_per_listed_byte": 0.0411425225054769,
+      "elapsed_ms": 911.765093,
+      "listed_file_bytes": 5823682079,
+      "selected_mib": 1008,
+      "window_id": "high-volume-for-hire-2024-07"
+    },
+    {
+      "decoded_bytes": 5851732248,
+      "decoded_bytes_per_listed_byte": 1.0015857530985541,
+      "decoded_rows": 240071049,
+      "decoded_rows_per_listed_byte": 0.04109069455322504,
+      "elapsed_ms": 902.745731,
+      "listed_file_bytes": 5842467537,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2024-08"
+    },
+    {
+      "decoded_bytes": 5855219472,
+      "decoded_bytes_per_listed_byte": 0.9998580910461268,
+      "decoded_rows": 240214118,
+      "decoded_rows_per_listed_byte": 0.04101981669762575,
+      "elapsed_ms": 938.884681,
+      "listed_file_bytes": 5856050498,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2024-09"
+    },
+    {
+      "decoded_bytes": 5860700232,
+      "decoded_bytes_per_listed_byte": 0.9983422873372008,
+      "decoded_rows": 240438971,
+      "decoded_rows_per_listed_byte": 0.04095763010749103,
+      "elapsed_ms": 951.893015,
+      "listed_file_bytes": 5870431721,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2024-10"
+    },
+    {
+      "decoded_bytes": 5891910672,
+      "decoded_bytes_per_listed_byte": 0.9979835492570468,
+      "decoded_rows": 241719390,
+      "decoded_rows_per_listed_byte": 0.04094291108364046,
+      "elapsed_ms": 925.659507,
+      "listed_file_bytes": 5903815425,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2024-11"
+    },
+    {
+      "decoded_bytes": 5912159064,
+      "decoded_bytes_per_listed_byte": 0.9968110374140438,
+      "decoded_rows": 242550097,
+      "decoded_rows_per_listed_byte": 0.04089480868125826,
+      "elapsed_ms": 935.704701,
+      "listed_file_bytes": 5931073034,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2024-12"
+    },
+    {
+      "decoded_bytes": 5937499104,
+      "decoded_bytes_per_listed_byte": 0.9963427531762509,
+      "decoded_rows": 243589684,
+      "decoded_rows_per_listed_byte": 0.040875596299187744,
+      "elapsed_ms": 910.54848,
+      "listed_file_bytes": 5959293712,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2025-01"
+    },
+    {
+      "decoded_bytes": 5950532712,
+      "decoded_bytes_per_listed_byte": 0.9960574576937136,
+      "decoded_rows": 244124391,
+      "decoded_rows_per_listed_byte": 0.040863891021071005,
+      "elapsed_ms": 947.81909,
+      "listed_file_bytes": 5974085798,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2025-02"
+    },
+    {
+      "decoded_bytes": 5963603328,
+      "decoded_bytes_per_listed_byte": 0.9957206122196822,
+      "decoded_rows": 244660616,
+      "decoded_rows_per_listed_byte": 0.040850070829788865,
+      "elapsed_ms": 968.519933,
+      "listed_file_bytes": 5989233581,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2025-03"
+    },
+    {
+      "decoded_bytes": 6000689256,
+      "decoded_bytes_per_listed_byte": 0.9967814005995103,
+      "decoded_rows": 246182095,
+      "decoded_rows_per_listed_byte": 0.04089359121725228,
+      "elapsed_ms": 969.554838,
+      "listed_file_bytes": 6020065435,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2025-04"
+    },
+    {
+      "decoded_bytes": 6030962328,
+      "decoded_bytes_per_listed_byte": 0.9980556595886921,
+      "decoded_rows": 247424065,
+      "decoded_rows_per_listed_byte": 0.04094586816521903,
+      "elapsed_ms": 960.845014,
+      "listed_file_bytes": 6042711416,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2025-05"
+    },
+    {
+      "decoded_bytes": 6056179392,
+      "decoded_bytes_per_listed_byte": 0.9988912958325888,
+      "decoded_rows": 248458616,
+      "decoded_rows_per_listed_byte": 0.0409801514837643,
+      "elapsed_ms": 1156.441572,
+      "listed_file_bytes": 6062901356,
+      "selected_mib": 1024,
+      "window_id": "high-volume-for-hire-2025-06"
+    }
+  ],
+  "schema_version": "rolling-split-autotuning/history-v1"
+}

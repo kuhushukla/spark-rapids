@@ -66,7 +66,36 @@ Trace the exact code path. Classify the actuator as:
 
 Prove it can affect the measured work before running a costly experiment. `spark.conf.set` is not evidence that already-running operators or executors observe a value.
 
-For each metric document producer, scope, cadence, aggregation, units, retries/speculation, and blind spots. Add instrumentation validation cases when counters do not reconcile.
+For every decision input and metric, document producer, scope, cadence, aggregation,
+units, retries/speculation, blind spots, and acquisition cost at the exact actuator
+boundary. Classify availability as:
+
+- already present in the normal planning/execution path with negligible incremental cost;
+- available only after the current action completes and therefore history-only;
+- optional active collection with measured cost;
+- unavailable or too expensive for the decision.
+
+Never let a model silently initiate file-footer scans, catalog-statistics queries, row
+sampling, profilers, network probes, or additional Spark jobs. If active collection may
+be worthwhile for an unusually large workload, model it as a separate explicit action
+whose cost participates in the decision.
+
+Distinguish similarly named metric domains, such as selected files' listed encoded bytes,
+compressed bytes actually read after pruning, decoded logical bytes, device allocation
+bytes, and resident task footprint. They are not interchangeable. Record metric presence and completeness separately from
+numeric value. A missing or sparse accumulator is not zero unless the pinned producer
+contract has been inspected and establishes that meaning.
+
+Add instrumentation validation cases when counters do not reconcile. Test whether each
+learned signal is invariant to the actuator when the underlying data is unchanged. If
+split size changes a purported data-shape metric through batch boundaries or allocation
+rounding, model that dependence or reject the metric.
+
+Before treating an experiment as implementation evidence, prove that it executes the same
+feature construction, compatibility rules, selector, actuator scope, and history-update
+lifecycle as the production prototype. A launcher or Python reimplementation can validate
+an algorithm, but it is not evidence for a per-read plugin integration; label that boundary
+explicitly.
 
 ## Step 3: Versioned Artifacts
 
@@ -113,6 +142,11 @@ Copy [the bundled manifest template](templates/experiment-manifest.yaml) into th
 
 For a replay, record the base manifest hash and any experiment-specific invariant extensions. Regardless of that extension list, mandatory replay invariants are the resolved dataset snapshot/layout, query source and parameters, software/build artifacts, frozen schedule, runtime-profile definition, complete expected and observed effective Spark/RAPIDS configuration, and relevant storage/cache policy. The validator must fail replay on any mandatory or declared invariant mismatch. For a replication, record intentional deltas, create a new result stratum, and state the pooling policy. Record expected runtime constraints separately from the probed environment artifact. The metric contract must include event-time-aligned volatile storage/network capacity observations when those lanes can affect the result.
 
+Immediately before costly execution, rerun and preserve validation of immutable inputs,
+dataset inventory, code/config hashes, and schedule identity. Run and preserve a
+postflight identity check as well; preregistration-time validation alone does not prove
+that external data remained unchanged during execution.
+
 Before production or shared-cluster use, publish a versioned schema and validator for the manifest and common artifact envelopes. The validator must reject unknown or ill-typed fields, unresolved artifact references, replay identity mismatches, and replication results without a distinct stratum.
 
 ## Step 4: Small Validation
@@ -157,7 +191,17 @@ Report individual runs and distributions. Include:
 - the pre-registered multiplicity or simultaneous-interval method for every family of candidate comparisons; if it was not pre-registered, label the family-wise conclusion exploratory;
 - for noninferiority/equivalence, the pre-registered bound relative to the practical margin—never infer “no meaningful benefit/difference” only because superiority was not detected.
 
-Separate exploratory findings from pre-registered confirmation. A model fit on a case is not validated on that same case.
+For historical/online estimators, replay prequentially: the forecast and any
+hyperparameter choice for episode t may use only observations completed before t. Compare
+last-value, rolling, and exponentially weighted alternatives when the observation itself
+is already a rolling aggregate; extra averaging can increase lag rather than reduce useful
+noise. Estimate uncertainty from prior one-step forecast errors, not in-sample dispersion.
+Analyze practical directional divergence, history shortening, weak-prior discard, and
+abstention. Freeze estimator selection on a training table before applying it unchanged to
+untouched tables; otherwise label the comparison exploratory.
+
+Separate exploratory findings from pre-registered confirmation. A model fit on a case is
+not validated on that same case.
 
 ## Step 7: Conclusion
 

@@ -1,0 +1,61 @@
+{
+  "all_match": true,
+  "dataset": "for-hire",
+  "records": [
+    {
+      "gpu_result_sha256": "13328516e9a61aaca39c54c2f7dc1767100975c26f51371224fa969f5a481878",
+      "match": true,
+      "result": [
+        {
+          "affiliate_chars": "380672050",
+          "affiliate_count": "63388526",
+          "dispatch_chars": "380421316",
+          "dispatch_count": "63388532",
+          "pickup_max": "2015-12-31 23:59:55",
+          "pickup_min": "2015-01-01 00:00:00",
+          "row_count": "63388532"
+        }
+      ],
+      "result_sha256": "13328516e9a61aaca39c54c2f7dc1767100975c26f51371224fa969f5a481878",
+      "window_id": "for-hire-2015-01",
+      "window_index": 0
+    },
+    {
+      "gpu_result_sha256": "7f81100084258b783b22d92a2cb720900dda8dc579793798d20656fc54c64edc",
+      "match": true,
+      "result": [
+        {
+          "affiliate_chars": "82007978",
+          "affiliate_count": "13174942",
+          "dispatch_chars": "82285822",
+          "dispatch_count": "13195187",
+          "pickup_max": "2021-02-28 23:59:55",
+          "pickup_min": "2020-03-01 00:00:00",
+          "row_count": "13195187"
+        }
+      ],
+      "result_sha256": "7f81100084258b783b22d92a2cb720900dda8dc579793798d20656fc54c64edc",
+      "window_id": "for-hire-2020-03",
+      "window_index": 62
+    },
+    {
+      "gpu_result_sha256": "af8931b181689565c4cfe3b16df4d75cc8d0f39f704ca288a1a63ed75b515a73",
+      "match": true,
+      "result": [
+        {
+          "affiliate_chars": "148954287",
+          "affiliate_count": "25542345",
+          "dispatch_chars": "156388890",
+          "dispatch_count": "26064815",
+          "pickup_max": "2026-04-30 23:59:49",
+          "pickup_min": "2025-05-01 00:00:00",
+          "row_count": "26064815"
+        }
+      ],
+      "result_sha256": "af8931b181689565c4cfe3b16df4d75cc8d0f39f704ca288a1a63ed75b515a73",
+      "window_id": "for-hire-2025-05",
+      "window_index": 124
+    }
+  ],
+  "schema_version": "rolling-split-autotuning/cpu-validation-v1"
+}

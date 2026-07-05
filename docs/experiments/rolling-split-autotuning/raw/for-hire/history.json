@@ -1,0 +1,1256 @@
+{
+  "dataset": "for-hire",
+  "observations": [
+    {
+      "decoded_bytes": 1799081038,
+      "decoded_bytes_per_listed_byte": 7.544814960089412,
+      "decoded_rows": 63388532,
+      "decoded_rows_per_listed_byte": 0.26583279709477237,
+      "elapsed_ms": 609.975265,
+      "listed_file_bytes": 238452639,
+      "selected_mib": 128,
+      "window_id": "for-hire-2015-01"
+    },
+    {
+      "decoded_bytes": 1963374271,
+      "decoded_bytes_per_listed_byte": 7.53032155696014,
+      "decoded_rows": 69178549,
+      "decoded_rows_per_listed_byte": 0.2653272615967388,
+      "elapsed_ms": 615.223178,
+      "listed_file_bytes": 260729141,
+      "selected_mib": 128,
+      "window_id": "for-hire-2015-02"
+    },
+    {
+      "decoded_bytes": 2144259377,
+      "decoded_bytes_per_listed_byte": 7.524298331325488,
+      "decoded_rows": 75553191,
+      "decoded_rows_per_listed_byte": 0.2651193950999408,
+      "elapsed_ms": 609.847432,
+      "listed_file_bytes": 284977985,
+      "selected_mib": 128,
+      "window_id": "for-hire-2015-03"
+    },
+    {
+      "decoded_bytes": 2324974241,
+      "decoded_bytes_per_listed_byte": 7.395051427395441,
+      "decoded_rows": 81921114,
+      "decoded_rows_per_listed_byte": 0.26056669374494146,
+      "elapsed_ms": 633.144951,
+      "listed_file_bytes": 314395953,
+      "selected_mib": 128,
+      "window_id": "for-hire-2015-04"
+    },
+    {
+      "decoded_bytes": 2502714418,
+      "decoded_bytes_per_listed_byte": 7.265206095875435,
+      "decoded_rows": 88184764,
+      "decoded_rows_per_listed_byte": 0.2559942438371075,
+      "elapsed_ms": 627.492601,
+      "listed_file_bytes": 344479480,
+      "selected_mib": 144,
+      "window_id": "for-hire-2015-05"
+    },
+    {
+      "decoded_bytes": 2687365956,
+      "decoded_bytes_per_listed_byte": 7.142548053772528,
+      "decoded_rows": 94692174,
+      "decoded_rows_per_listed_byte": 0.2516752143864658,
+      "elapsed_ms": 681.938109,
+      "listed_file_bytes": 376247515,
+      "selected_mib": 144,
+      "window_id": "for-hire-2015-06"
+    },
+    {
+      "decoded_bytes": 2872625598,
+      "decoded_bytes_per_listed_byte": 7.036399657413721,
+      "decoded_rows": 101220236,
+      "decoded_rows_per_listed_byte": 0.24793555916566612,
+      "elapsed_ms": 706.566746,
+      "listed_file_bytes": 408252194,
+      "selected_mib": 144,
+      "window_id": "for-hire-2015-07"
+    },
+    {
+      "decoded_bytes": 3059698302,
+      "decoded_bytes_per_listed_byte": 7.051259059039065,
+      "decoded_rows": 107812608,
+      "decoded_rows_per_listed_byte": 0.24846064997379197,
+      "elapsed_ms": 680.753102,
+      "listed_file_bytes": 433922265,
+      "selected_mib": 144,
+      "window_id": "for-hire-2015-08"
+    },
+    {
+      "decoded_bytes": 3228853939,
+      "decoded_bytes_per_listed_byte": 7.063390923195082,
+      "decoded_rows": 113776183,
+      "decoded_rows_per_listed_byte": 0.24889501769376338,
+      "elapsed_ms": 780.080762,
+      "listed_file_bytes": 457125193,
+      "selected_mib": 144,
+      "window_id": "for-hire-2015-09"
+    },
+    {
+      "decoded_bytes": 3375687077,
+      "decoded_bytes_per_listed_byte": 7.029630946002842,
+      "decoded_rows": 118953003,
+      "decoded_rows_per_listed_byte": 0.24771126349540157,
+      "elapsed_ms": 717.040807,
+      "listed_file_bytes": 480208293,
+      "selected_mib": 144,
+      "window_id": "for-hire-2015-10"
+    },
+    {
+      "decoded_bytes": 3491163191,
+      "decoded_bytes_per_listed_byte": 6.988260813082469,
+      "decoded_rows": 123025615,
+      "decoded_rows_per_listed_byte": 0.2462603542928655,
+      "elapsed_ms": 962.172784,
+      "listed_file_bytes": 499575400,
+      "selected_mib": 144,
+      "window_id": "for-hire-2015-11"
+    },
+    {
+      "decoded_bytes": 3607995263,
+      "decoded_bytes_per_listed_byte": 6.9576325210368335,
+      "decoded_rows": 127144132,
+      "decoded_rows_per_listed_byte": 0.24518384398505236,
+      "elapsed_ms": 857.442506,
+      "listed_file_bytes": 518566517,
+      "selected_mib": 144,
+      "window_id": "for-hire-2015-12"
+    },
+    {
+      "decoded_bytes": 3748983145,
+      "decoded_bytes_per_listed_byte": 6.940564694843002,
+      "decoded_rows": 132114083,
+      "decoded_rows_per_listed_byte": 0.24458534613159963,
+      "elapsed_ms": 970.905215,
+      "listed_file_bytes": 540155349,
+      "selected_mib": 144,
+      "window_id": "for-hire-2016-01"
+    },
+    {
+      "decoded_bytes": 3895008531,
+      "decoded_bytes_per_listed_byte": 6.914440923807404,
+      "decoded_rows": 137260819,
+      "decoded_rows_per_listed_byte": 0.2436661734050823,
+      "elapsed_ms": 954.52943,
+      "listed_file_bytes": 563315035,
+      "selected_mib": 144,
+      "window_id": "for-hire-2016-02"
+    },
+    {
+      "decoded_bytes": 4004446166,
+      "decoded_bytes_per_listed_byte": 6.882868530785768,
+      "decoded_rows": 141117954,
+      "decoded_rows_per_listed_byte": 0.24255447181743275,
+      "elapsed_ms": 908.542413,
+      "listed_file_bytes": 581799020,
+      "selected_mib": 144,
+      "window_id": "for-hire-2016-03"
+    },
+    {
+      "decoded_bytes": 4177237778,
+      "decoded_bytes_per_listed_byte": 6.8470032391595606,
+      "decoded_rows": 147207657,
+      "decoded_rows_per_listed_byte": 0.24129134080336512,
+      "elapsed_ms": 992.736577,
+      "listed_file_bytes": 610082635,
+      "selected_mib": 144,
+      "window_id": "for-hire-2016-04"
+    },
+    {
+      "decoded_bytes": 4308514894,
+      "decoded_bytes_per_listed_byte": 6.815973749171103,
+      "decoded_rows": 151834412,
+      "decoded_rows_per_listed_byte": 0.24019862803631517,
+      "elapsed_ms": 928.783436,
+      "listed_file_bytes": 632120230,
+      "selected_mib": 144,
+      "window_id": "for-hire-2016-05"
+    },
+    {
+      "decoded_bytes": 4440659411,
+      "decoded_bytes_per_listed_byte": 6.773834937372389,
+      "decoded_rows": 156492273,
+      "decoded_rows_per_listed_byte": 0.23871518352665166,
+      "elapsed_ms": 997.37014,
+      "listed_file_bytes": 655560617,
+      "selected_mib": 144,
+      "window_id": "for-hire-2016-06"
+    },
+    {
+      "decoded_bytes": 4571122930,
+      "decoded_bytes_per_listed_byte": 6.0814889137591575,
+      "decoded_rows": 161088771,
+      "decoded_rows_per_listed_byte": 0.2143148609148404,
+      "elapsed_ms": 971.99359,
+      "listed_file_bytes": 751645361,
+      "selected_mib": 144,
+      "window_id": "for-hire-2016-07"
+    },
+    {
+      "decoded_bytes": 4704593774,
+      "decoded_bytes_per_listed_byte": 5.534661807175563,
+      "decoded_rows": 165784087,
+      "decoded_rows_per_listed_byte": 0.19503466157424088,
+      "elapsed_ms": 1318.790401,
+      "listed_file_bytes": 850023712,
+      "selected_mib": 144,
+      "window_id": "for-hire-2016-08"
+    },
+    {
+      "decoded_bytes": 4837602176,
+      "decoded_bytes_per_listed_byte": 5.094937074332659,
+      "decoded_rows": 170465388,
+      "decoded_rows_per_listed_byte": 0.17953324676437835,
+      "elapsed_ms": 1471.237698,
+      "listed_file_bytes": 949492036,
+      "selected_mib": 144,
+      "window_id": "for-hire-2016-09"
+    },
+    {
+      "decoded_bytes": 4975678482,
+      "decoded_bytes_per_listed_byte": 4.732313807044188,
+      "decoded_rows": 175327216,
+      "decoded_rows_per_listed_byte": 0.1667518124470766,
+      "elapsed_ms": 1571.880454,
+      "listed_file_bytes": 1051426149,
+      "selected_mib": 176,
+      "window_id": "for-hire-2016-10"
+    },
+    {
+      "decoded_bytes": 5124654131,
+      "decoded_bytes_per_listed_byte": 4.41342420469114,
+      "decoded_rows": 180562288,
+      "decoded_rows_per_listed_byte": 0.15550278164003817,
+      "elapsed_ms": 1567.203834,
+      "listed_file_bytes": 1161151499,
+      "selected_mib": 192,
+      "window_id": "for-hire-2016-11"
+    },
+    {
+      "decoded_bytes": 5284618295,
+      "decoded_bytes_per_listed_byte": 4.148803823591443,
+      "decoded_rows": 186179101,
+      "decoded_rows_per_listed_byte": 0.14616392764496108,
+      "elapsed_ms": 1410.189807,
+      "listed_file_bytes": 1273769144,
+      "selected_mib": 208,
+      "window_id": "for-hire-2016-12"
+    },
+    {
+      "decoded_bytes": 5459225370,
+      "decoded_bytes_per_listed_byte": 3.9043965333951745,
+      "decoded_rows": 192309558,
+      "decoded_rows_per_listed_byte": 0.13753833569870705,
+      "elapsed_ms": 1723.110016,
+      "listed_file_bytes": 1398225135,
+      "selected_mib": 224,
+      "window_id": "for-hire-2017-01"
+    },
+    {
+      "decoded_bytes": 5633390654,
+      "decoded_bytes_per_listed_byte": 3.7033709529519045,
+      "decoded_rows": 198460113,
+      "decoded_rows_per_listed_byte": 0.13046697148224307,
+      "elapsed_ms": 1569.433181,
+      "listed_file_bytes": 1521152141,
+      "selected_mib": 240,
+      "window_id": "for-hire-2017-02"
+    },
+    {
+      "decoded_bytes": 5804307153,
+      "decoded_bytes_per_listed_byte": 3.5405828362875402,
+      "decoded_rows": 204525846,
+      "decoded_rows_per_listed_byte": 0.12475919706463347,
+      "elapsed_ms": 1394.415433,
+      "listed_file_bytes": 1639364879,
+      "selected_mib": 240,
+      "window_id": "for-hire-2017-03"
+    },
+    {
+      "decoded_bytes": 5981498494,
+      "decoded_bytes_per_listed_byte": 3.3779954293064525,
+      "decoded_rows": 210808018,
+      "decoded_rows_per_listed_byte": 0.11905185999452537,
+      "elapsed_ms": 1728.826466,
+      "listed_file_bytes": 1770724271,
+      "selected_mib": 256,
+      "window_id": "for-hire-2017-04"
+    },
+    {
+      "decoded_bytes": 6161291182,
+      "decoded_bytes_per_listed_byte": 3.244002416009968,
+      "decoded_rows": 217092696,
+      "decoded_rows_per_listed_byte": 0.11430221515573835,
+      "elapsed_ms": 1675.788232,
+      "listed_file_bytes": 1899286866,
+      "selected_mib": 272,
+      "window_id": "for-hire-2017-05"
+    },
+    {
+      "decoded_bytes": 6338092234,
+      "decoded_bytes_per_listed_byte": 3.124694912960573,
+      "decoded_rows": 223261055,
+      "decoded_rows_per_listed_byte": 0.11006824404958804,
+      "elapsed_ms": 1595.118195,
+      "listed_file_bytes": 2028387542,
+      "selected_mib": 288,
+      "window_id": "for-hire-2017-06"
+    },
+    {
+      "decoded_bytes": 6503473146,
+      "decoded_bytes_per_listed_byte": 3.1263346657094244,
+      "decoded_rows": 229033885,
+      "decoded_rows_per_listed_byte": 0.11010064287541624,
+      "elapsed_ms": 1325.086856,
+      "listed_file_bytes": 2080222958,
+      "selected_mib": 304,
+      "window_id": "for-hire-2017-07"
+    },
+    {
+      "decoded_bytes": 6672924033,
+      "decoded_bytes_per_listed_byte": 3.1269720616968724,
+      "decoded_rows": 234960925,
+      "decoded_rows_per_listed_byte": 0.11010409296314766,
+      "elapsed_ms": 1350.136156,
+      "listed_file_bytes": 2133989016,
+      "selected_mib": 320,
+      "window_id": "for-hire-2017-08"
+    },
+    {
+      "decoded_bytes": 6850385081,
+      "decoded_bytes_per_listed_byte": 3.1273516889412476,
+      "decoded_rows": 241175254,
+      "decoded_rows_per_listed_byte": 0.11010181603070299,
+      "elapsed_ms": 1712.416877,
+      "listed_file_bytes": 2190474805,
+      "selected_mib": 320,
+      "window_id": "for-hire-2017-09"
+    },
+    {
+      "decoded_bytes": 7011425290,
+      "decoded_bytes_per_listed_byte": 3.128833741840403,
+      "decoded_rows": 246705504,
+      "decoded_rows_per_listed_byte": 0.11009181062142395,
+      "elapsed_ms": 1604.137352,
+      "listed_file_bytes": 2240906954,
+      "selected_mib": 320,
+      "window_id": "for-hire-2017-10"
+    },
+    {
+      "decoded_bytes": 7174412368,
+      "decoded_bytes_per_listed_byte": 3.1311938460883373,
+      "decoded_rows": 252102215,
+      "decoded_rows_per_listed_byte": 0.11002725571143793,
+      "elapsed_ms": 1518.041248,
+      "listed_file_bytes": 2291270589,
+      "selected_mib": 320,
+      "window_id": "for-hire-2017-11"
+    },
+    {
+      "decoded_bytes": 7313246917,
+      "decoded_bytes_per_listed_byte": 3.1306382996127042,
+      "decoded_rows": 256959888,
+      "decoded_rows_per_listed_byte": 0.10999881119383664,
+      "elapsed_ms": 1828.32134,
+      "listed_file_bytes": 2336024228,
+      "selected_mib": 320,
+      "window_id": "for-hire-2017-12"
+    },
+    {
+      "decoded_bytes": 7425313587,
+      "decoded_bytes_per_listed_byte": 3.1309614794975875,
+      "decoded_rows": 260874753,
+      "decoded_rows_per_listed_byte": 0.11000058018377235,
+      "elapsed_ms": 1881.374709,
+      "listed_file_bytes": 2371576155,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-01"
+    },
+    {
+      "decoded_bytes": 7508648015,
+      "decoded_bytes_per_listed_byte": 3.1262474385917036,
+      "decoded_rows": 264225723,
+      "decoded_rows_per_listed_byte": 0.11001114822383787,
+      "elapsed_ms": 1714.746582,
+      "listed_file_bytes": 2401808610,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-02"
+    },
+    {
+      "decoded_bytes": 7010011168,
+      "decoded_bytes_per_listed_byte": 3.126016089844067,
+      "decoded_rows": 246582680,
+      "decoded_rows_per_listed_byte": 0.1099600851815463,
+      "elapsed_ms": 1668.405542,
+      "listed_file_bytes": 2242474436,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-03"
+    },
+    {
+      "decoded_bytes": 6430293295,
+      "decoded_bytes_per_listed_byte": 3.1246232847433344,
+      "decoded_rows": 226072979,
+      "decoded_rows_per_listed_byte": 0.10985391518361386,
+      "elapsed_ms": 1666.697066,
+      "listed_file_bytes": 2057941937,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-04"
+    },
+    {
+      "decoded_bytes": 5887671130,
+      "decoded_bytes_per_listed_byte": 3.125803563001377,
+      "decoded_rows": 206961208,
+      "decoded_rows_per_listed_byte": 0.10987707483747806,
+      "elapsed_ms": 1550.254586,
+      "listed_file_bytes": 1883570420,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-05"
+    },
+    {
+      "decoded_bytes": 5333808831,
+      "decoded_bytes_per_listed_byte": 3.127495786524661,
+      "decoded_rows": 187468501,
+      "decoded_rows_per_listed_byte": 0.10992275230712974,
+      "elapsed_ms": 1211.379413,
+      "listed_file_bytes": 1705456760,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-06"
+    },
+    {
+      "decoded_bytes": 4790625908,
+      "decoded_bytes_per_listed_byte": 3.128490926980001,
+      "decoded_rows": 168340438,
+      "decoded_rows_per_listed_byte": 0.1099337629447061,
+      "elapsed_ms": 1306.748276,
+      "listed_file_bytes": 1531289692,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-07"
+    },
+    {
+      "decoded_bytes": 4232388188,
+      "decoded_bytes_per_listed_byte": 3.132276607142909,
+      "decoded_rows": 148688467,
+      "decoded_rows_per_listed_byte": 0.1100403333173749,
+      "elapsed_ms": 1104.657924,
+      "listed_file_bytes": 1351217890,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-08"
+    },
+    {
+      "decoded_bytes": 3657997605,
+      "decoded_bytes_per_listed_byte": 3.1352126173469475,
+      "decoded_rows": 128448282,
+      "decoded_rows_per_listed_byte": 0.11009101642179418,
+      "elapsed_ms": 997.739106,
+      "listed_file_bytes": 1166746263,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-09"
+    },
+    {
+      "decoded_bytes": 3061464963,
+      "decoded_bytes_per_listed_byte": 3.1317602756366036,
+      "decoded_rows": 107545066,
+      "decoded_rows_per_listed_byte": 0.11001444393780466,
+      "elapsed_ms": 958.569391,
+      "listed_file_bytes": 977554057,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-10"
+    },
+    {
+      "decoded_bytes": 2445246817,
+      "decoded_bytes_per_listed_byte": 3.121497316420275,
+      "decoded_rows": 86153154,
+      "decoded_rows_per_listed_byte": 0.10997942503901548,
+      "elapsed_ms": 673.458583,
+      "listed_file_bytes": 783357014,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-11"
+    },
+    {
+      "decoded_bytes": 1847989200,
+      "decoded_bytes_per_listed_byte": 3.116538140534714,
+      "decoded_rows": 65121162,
+      "decoded_rows_per_listed_byte": 0.10982346927619482,
+      "elapsed_ms": 554.190544,
+      "listed_file_bytes": 592962164,
+      "selected_mib": 320,
+      "window_id": "for-hire-2018-12"
+    },
+    {
+      "decoded_bytes": 1227123330,
+      "decoded_bytes_per_listed_byte": 3.1016238096004067,
+      "decoded_rows": 43261276,
+      "decoded_rows_per_listed_byte": 0.10934532853783706,
+      "elapsed_ms": 389.5355,
+      "listed_file_bytes": 395638996,
+      "selected_mib": 320,
+      "window_id": "for-hire-2019-01"
+    },
+    {
+      "decoded_bytes": 640747887,
+      "decoded_bytes_per_listed_byte": 3.1344115333653915,
+      "decoded_rows": 22130799,
+      "decoded_rows_per_listed_byte": 0.10825947776897042,
+      "elapsed_ms": 258.10783,
+      "listed_file_bytes": 204423663,
+      "selected_mib": 336,
+      "window_id": "for-hire-2019-02"
+    },
+    {
+      "decoded_bytes": 646744104,
+      "decoded_bytes_per_listed_byte": 3.1152703854158066,
+      "decoded_rows": 22336644,
+      "decoded_rows_per_listed_byte": 0.10759229984843535,
+      "elapsed_ms": 269.288711,
+      "listed_file_bytes": 207604485,
+      "selected_mib": 320,
+      "window_id": "for-hire-2019-03"
+    },
+    {
+      "decoded_bytes": 645196188,
+      "decoded_bytes_per_listed_byte": 3.0966438349908545,
+      "decoded_rows": 22302939,
+      "decoded_rows_per_listed_byte": 0.10704381061303961,
+      "elapsed_ms": 264.028934,
+      "listed_file_bytes": 208353373,
+      "selected_mib": 336,
+      "window_id": "for-hire-2019-04"
+    },
+    {
+      "decoded_bytes": 605284917,
+      "decoded_bytes_per_listed_byte": 3.060598570610747,
+      "decoded_rows": 20931515,
+      "decoded_rows_per_listed_byte": 0.10583935447662478,
+      "elapsed_ms": 259.364252,
+      "listed_file_bytes": 197766843,
+      "selected_mib": 336,
+      "window_id": "for-hire-2019-05"
+    },
+    {
+      "decoded_bytes": 567774538,
+      "decoded_bytes_per_listed_byte": 3.0196788767346003,
+      "decoded_rows": 19633440,
+      "decoded_rows_per_listed_byte": 0.10441941312563081,
+      "elapsed_ms": 258.201646,
+      "listed_file_bytes": 188024807,
+      "selected_mib": 336,
+      "window_id": "for-hire-2019-06"
+    },
+    {
+      "decoded_bytes": 538715243,
+      "decoded_bytes_per_listed_byte": 2.9777656524611236,
+      "decoded_rows": 18635419,
+      "decoded_rows_per_listed_byte": 0.1030078716696372,
+      "elapsed_ms": 253.671593,
+      "listed_file_bytes": 180912572,
+      "selected_mib": 336,
+      "window_id": "for-hire-2019-07"
+    },
+    {
+      "decoded_bytes": 515059480,
+      "decoded_bytes_per_listed_byte": 2.9374840417508006,
+      "decoded_rows": 17815165,
+      "decoded_rows_per_listed_byte": 0.10160333887778826,
+      "elapsed_ms": 258.721588,
+      "listed_file_bytes": 175340350,
+      "selected_mib": 336,
+      "window_id": "for-hire-2019-08"
+    },
+    {
+      "decoded_bytes": 494633197,
+      "decoded_bytes_per_listed_byte": 2.9033768385268615,
+      "decoded_rows": 17118793,
+      "decoded_rows_per_listed_byte": 0.10048316085775327,
+      "elapsed_ms": 264.359184,
+      "listed_file_bytes": 170364794,
+      "selected_mib": 336,
+      "window_id": "for-hire-2019-09"
+    },
+    {
+      "decoded_bytes": 495028054,
+      "decoded_bytes_per_listed_byte": 2.8931530470068587,
+      "decoded_rows": 17141309,
+      "decoded_rows_per_listed_byte": 0.10018105027040769,
+      "elapsed_ms": 257.427784,
+      "listed_file_bytes": 171103307,
+      "selected_mib": 336,
+      "window_id": "for-hire-2019-10"
+    },
+    {
+      "decoded_bytes": 476374012,
+      "decoded_bytes_per_listed_byte": 2.8771130714274733,
+      "decoded_rows": 16498187,
+      "decoded_rows_per_listed_byte": 0.09964260911981658,
+      "elapsed_ms": 252.347818,
+      "listed_file_bytes": 165573615,
+      "selected_mib": 352,
+      "window_id": "for-hire-2019-11"
+    },
+    {
+      "decoded_bytes": 456806461,
+      "decoded_bytes_per_listed_byte": 2.8595734485700093,
+      "decoded_rows": 15825056,
+      "decoded_rows_per_listed_byte": 0.09906363815579552,
+      "elapsed_ms": 248.365636,
+      "listed_file_bytes": 159746364,
+      "selected_mib": 352,
+      "window_id": "for-hire-2019-12"
+    },
+    {
+      "decoded_bytes": 431328486,
+      "decoded_bytes_per_listed_byte": 2.8351623414343967,
+      "decoded_rows": 14945465,
+      "decoded_rows_per_listed_byte": 0.09823793447119054,
+      "elapsed_ms": 260.083359,
+      "listed_file_bytes": 152135375,
+      "selected_mib": 352,
+      "window_id": "for-hire-2020-01"
+    },
+    {
+      "decoded_bytes": 405775201,
+      "decoded_bytes_per_listed_byte": 2.807558446605717,
+      "decoded_rows": 14070990,
+      "decoded_rows_per_listed_byte": 0.09735717394569063,
+      "elapsed_ms": 241.958058,
+      "listed_file_bytes": 144529565,
+      "selected_mib": 352,
+      "window_id": "for-hire-2020-02"
+    },
+    {
+      "decoded_bytes": 380365024,
+      "decoded_bytes_per_listed_byte": 2.7822445141495082,
+      "decoded_rows": 13195187,
+      "decoded_rows_per_listed_byte": 0.09651843447079642,
+      "elapsed_ms": 252.682041,
+      "listed_file_bytes": 136711573,
+      "selected_mib": 352,
+      "window_id": "for-hire-2020-03"
+    },
+    {
+      "decoded_bytes": 376310855,
+      "decoded_bytes_per_listed_byte": 2.7761058630313746,
+      "decoded_rows": 13055988,
+      "decoded_rows_per_listed_byte": 0.09631612894734932,
+      "elapsed_ms": 245.058325,
+      "listed_file_bytes": 135553496,
+      "selected_mib": 368,
+      "window_id": "for-hire-2020-04"
+    },
+    {
+      "decoded_bytes": 396497227,
+      "decoded_bytes_per_listed_byte": 2.793748676923514,
+      "decoded_rows": 13756580,
+      "decoded_rows_per_listed_byte": 0.09692987631914125,
+      "elapsed_ms": 252.1182,
+      "listed_file_bytes": 141923012,
+      "selected_mib": 368,
+      "window_id": "for-hire-2020-05"
+    },
+    {
+      "decoded_bytes": 410763302,
+      "decoded_bytes_per_listed_byte": 2.8078577331253576,
+      "decoded_rows": 14245270,
+      "decoded_rows_per_listed_byte": 0.09737649720704275,
+      "elapsed_ms": 248.859214,
+      "listed_file_bytes": 146290639,
+      "selected_mib": 368,
+      "window_id": "for-hire-2020-06"
+    },
+    {
+      "decoded_bytes": 419331555,
+      "decoded_bytes_per_listed_byte": 2.8173015886954205,
+      "decoded_rows": 14544749,
+      "decoded_rows_per_listed_byte": 0.09771967784507925,
+      "elapsed_ms": 250.142896,
+      "listed_file_bytes": 148841557,
+      "selected_mib": 368,
+      "window_id": "for-hire-2020-07"
+    },
+    {
+      "decoded_bytes": 422518239,
+      "decoded_bytes_per_listed_byte": 2.821475294759655,
+      "decoded_rows": 14657274,
+      "decoded_rows_per_listed_byte": 0.09787775452581829,
+      "elapsed_ms": 248.362701,
+      "listed_file_bytes": 149750820,
+      "selected_mib": 368,
+      "window_id": "for-hire-2020-08"
+    },
+    {
+      "decoded_bytes": 422844731,
+      "decoded_bytes_per_listed_byte": 2.825235030445803,
+      "decoded_rows": 14676256,
+      "decoded_rows_per_listed_byte": 0.09805933366824995,
+      "elapsed_ms": 239.610987,
+      "listed_file_bytes": 149667099,
+      "selected_mib": 368,
+      "window_id": "for-hire-2020-09"
+    },
+    {
+      "decoded_bytes": 419894188,
+      "decoded_bytes_per_listed_byte": 2.8239240046580933,
+      "decoded_rows": 14584632,
+      "decoded_rows_per_listed_byte": 0.0980863598043052,
+      "elapsed_ms": 252.564028,
+      "listed_file_bytes": 148691745,
+      "selected_mib": 368,
+      "window_id": "for-hire-2020-10"
+    },
+    {
+      "decoded_bytes": 420124697,
+      "decoded_bytes_per_listed_byte": 2.8243036110992197,
+      "decoded_rows": 14607291,
+      "decoded_rows_per_listed_byte": 0.09819804694718323,
+      "elapsed_ms": 245.27552,
+      "listed_file_bytes": 148753376,
+      "selected_mib": 368,
+      "window_id": "for-hire-2020-11"
+    },
+    {
+      "decoded_bytes": 420423030,
+      "decoded_bytes_per_listed_byte": 2.8256849265857507,
+      "decoded_rows": 14629897,
+      "decoded_rows_per_listed_byte": 0.09832829431442443,
+      "elapsed_ms": 240.517382,
+      "listed_file_bytes": 148786238,
+      "selected_mib": 368,
+      "window_id": "for-hire-2020-12"
+    },
+    {
+      "decoded_bytes": 424732976,
+      "decoded_bytes_per_listed_byte": 2.8249823961124876,
+      "decoded_rows": 14805265,
+      "decoded_rows_per_listed_byte": 0.09847272370671861,
+      "elapsed_ms": 245.105683,
+      "listed_file_bytes": 150348893,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-01"
+    },
+    {
+      "decoded_bytes": 423816936,
+      "decoded_bytes_per_listed_byte": 2.823077922289952,
+      "decoded_rows": 14794844,
+      "decoded_rows_per_listed_byte": 0.09854961874417392,
+      "elapsed_ms": 243.490702,
+      "listed_file_bytes": 150125837,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-02"
+    },
+    {
+      "decoded_bytes": 429147790,
+      "decoded_bytes_per_listed_byte": 2.823757079234604,
+      "decoded_rows": 15008656,
+      "decoded_rows_per_listed_byte": 0.09875571916564435,
+      "elapsed_ms": 247.740283,
+      "listed_file_bytes": 151977588,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-03"
+    },
+    {
+      "decoded_bytes": 430339827,
+      "decoded_bytes_per_listed_byte": 2.8208103403342406,
+      "decoded_rows": 15086807,
+      "decoded_rows_per_listed_byte": 0.0988916630954239,
+      "elapsed_ms": 236.91996,
+      "listed_file_bytes": 152558937,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-04"
+    },
+    {
+      "decoded_bytes": 428741997,
+      "decoded_bytes_per_listed_byte": 2.8120079209920883,
+      "decoded_rows": 15066458,
+      "decoded_rows_per_listed_byte": 0.09881700307818135,
+      "elapsed_ms": 244.445273,
+      "listed_file_bytes": 152468275,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-05"
+    },
+    {
+      "decoded_bytes": 427242717,
+      "decoded_bytes_per_listed_byte": 2.8051711508247825,
+      "decoded_rows": 15058626,
+      "decoded_rows_per_listed_byte": 0.09887125407982085,
+      "elapsed_ms": 247.415358,
+      "listed_file_bytes": 152305401,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-06"
+    },
+    {
+      "decoded_bytes": 422865565,
+      "decoded_bytes_per_listed_byte": 2.7941652272966935,
+      "decoded_rows": 14942694,
+      "decoded_rows_per_listed_byte": 0.09873671311338614,
+      "elapsed_ms": 252.693092,
+      "listed_file_bytes": 151338783,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-07"
+    },
+    {
+      "decoded_bytes": 419594218,
+      "decoded_bytes_per_listed_byte": 2.7872651845354737,
+      "decoded_rows": 14862259,
+      "decoded_rows_per_listed_byte": 0.09872647261847875,
+      "elapsed_ms": 238.659431,
+      "listed_file_bytes": 150539755,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-08"
+    },
+    {
+      "decoded_bytes": 417332464,
+      "decoded_bytes_per_listed_byte": 2.7800528412761008,
+      "decoded_rows": 14810396,
+      "decoded_rows_per_listed_byte": 0.09865919148869329,
+      "elapsed_ms": 247.896356,
+      "listed_file_bytes": 150116738,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-09"
+    },
+    {
+      "decoded_bytes": 416085321,
+      "decoded_bytes_per_listed_byte": 2.776318981199514,
+      "decoded_rows": 14791477,
+      "decoded_rows_per_listed_byte": 0.0986957633025368,
+      "elapsed_ms": 235.728557,
+      "listed_file_bytes": 149869422,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-10"
+    },
+    {
+      "decoded_bytes": 412494718,
+      "decoded_bytes_per_listed_byte": 2.7675872694508223,
+      "decoded_rows": 14689072,
+      "decoded_rows_per_listed_byte": 0.09855468904997355,
+      "elapsed_ms": 246.595946,
+      "listed_file_bytes": 149044882,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-11"
+    },
+    {
+      "decoded_bytes": 408380690,
+      "decoded_bytes_per_listed_byte": 2.759781124411646,
+      "decoded_rows": 14566194,
+      "decoded_rows_per_listed_byte": 0.09843635666445975,
+      "elapsed_ms": 240.608173,
+      "listed_file_bytes": 147975753,
+      "selected_mib": 368,
+      "window_id": "for-hire-2021-12"
+    },
+    {
+      "decoded_bytes": 406712890,
+      "decoded_bytes_per_listed_byte": 2.7620808753211215,
+      "decoded_rows": 14511664,
+      "decoded_rows_per_listed_byte": 0.09855205130942865,
+      "elapsed_ms": 259.292106,
+      "listed_file_bytes": 147248726,
+      "selected_mib": 368,
+      "window_id": "for-hire-2022-01"
+    },
+    {
+      "decoded_bytes": 406005679,
+      "decoded_bytes_per_listed_byte": 2.7639274243928527,
+      "decoded_rows": 14482293,
+      "decoded_rows_per_listed_byte": 0.09858977068838645,
+      "elapsed_ms": 251.95515,
+      "listed_file_bytes": 146894479,
+      "selected_mib": 368,
+      "window_id": "for-hire-2022-02"
+    },
+    {
+      "decoded_bytes": 402265180,
+      "decoded_bytes_per_listed_byte": 2.7333548183788747,
+      "decoded_rows": 14341586,
+      "decoded_rows_per_listed_byte": 0.09744975490121967,
+      "elapsed_ms": 261.776141,
+      "listed_file_bytes": 147169031,
+      "selected_mib": 368,
+      "window_id": "for-hire-2022-03"
+    },
+    {
+      "decoded_bytes": 401154806,
+      "decoded_bytes_per_listed_byte": 2.7022781592451257,
+      "decoded_rows": 14289012,
+      "decoded_rows_per_listed_byte": 0.09625432493208498,
+      "elapsed_ms": 255.228887,
+      "listed_file_bytes": 148450597,
+      "selected_mib": 368,
+      "window_id": "for-hire-2022-04"
+    },
+    {
+      "decoded_bytes": 401603081,
+      "decoded_bytes_per_listed_byte": 2.678763188505227,
+      "decoded_rows": 14288822,
+      "decoded_rows_per_listed_byte": 0.09530895601048349,
+      "elapsed_ms": 259.883571,
+      "listed_file_bytes": 149921084,
+      "selected_mib": 368,
+      "window_id": "for-hire-2022-05"
+    },
+    {
+      "decoded_bytes": 405785239,
+      "decoded_bytes_per_listed_byte": 2.6542267229928282,
+      "decoded_rows": 14418820,
+      "decoded_rows_per_listed_byte": 0.09431298549039496,
+      "elapsed_ms": 248.729173,
+      "listed_file_bytes": 152882659,
+      "selected_mib": 368,
+      "window_id": "for-hire-2022-06"
+    },
+    {
+      "decoded_bytes": 406953703,
+      "decoded_bytes_per_listed_byte": 2.631017128130933,
+      "decoded_rows": 14442851,
+      "decoded_rows_per_listed_byte": 0.09337521216766756,
+      "elapsed_ms": 260.033681,
+      "listed_file_bytes": 154675429,
+      "selected_mib": 384,
+      "window_id": "for-hire-2022-07"
+    },
+    {
+      "decoded_bytes": 413431998,
+      "decoded_bytes_per_listed_byte": 2.6008430646498595,
+      "decoded_rows": 14654115,
+      "decoded_rows_per_listed_byte": 0.09218699459815753,
+      "elapsed_ms": 246.984821,
+      "listed_file_bytes": 158960763,
+      "selected_mib": 384,
+      "window_id": "for-hire-2022-08"
+    },
+    {
+      "decoded_bytes": 422119109,
+      "decoded_bytes_per_listed_byte": 2.5733921034285854,
+      "decoded_rows": 14943312,
+      "decoded_rows_per_listed_byte": 0.09109988218957796,
+      "elapsed_ms": 263.93077,
+      "listed_file_bytes": 164032177,
+      "selected_mib": 384,
+      "window_id": "for-hire-2022-09"
+    },
+    {
+      "decoded_bytes": 426393838,
+      "decoded_bytes_per_listed_byte": 2.5426328164995686,
+      "decoded_rows": 15076122,
+      "decoded_rows_per_listed_byte": 0.08990055466690659,
+      "elapsed_ms": 264.353512,
+      "listed_file_bytes": 167697764,
+      "selected_mib": 384,
+      "window_id": "for-hire-2022-10"
+    },
+    {
+      "decoded_bytes": 439848906,
+      "decoded_bytes_per_listed_byte": 2.5274721477163093,
+      "decoded_rows": 15529572,
+      "decoded_rows_per_listed_byte": 0.08923646315936287,
+      "elapsed_ms": 261.956083,
+      "listed_file_bytes": 174027202,
+      "selected_mib": 400,
+      "window_id": "for-hire-2022-11"
+    },
+    {
+      "decoded_bytes": 447067553,
+      "decoded_bytes_per_listed_byte": 2.5101867046854762,
+      "decoded_rows": 15767334,
+      "decoded_rows_per_listed_byte": 0.08853013802845869,
+      "elapsed_ms": 323.505688,
+      "listed_file_bytes": 178101315,
+      "selected_mib": 400,
+      "window_id": "for-hire-2022-12"
+    },
+    {
+      "decoded_bytes": 450079066,
+      "decoded_bytes_per_listed_byte": 2.4862788889587195,
+      "decoded_rows": 15858639,
+      "decoded_rows_per_listed_byte": 0.08760460623893451,
+      "elapsed_ms": 250.763343,
+      "listed_file_bytes": 181025173,
+      "selected_mib": 400,
+      "window_id": "for-hire-2023-01"
+    },
+    {
+      "decoded_bytes": 455378455,
+      "decoded_bytes_per_listed_byte": 2.4649723789862694,
+      "decoded_rows": 16034435,
+      "decoded_rows_per_listed_byte": 0.08679470658674596,
+      "elapsed_ms": 184.676431,
+      "listed_file_bytes": 184739780,
+      "selected_mib": 400,
+      "window_id": "for-hire-2023-02"
+    },
+    {
+      "decoded_bytes": 457485469,
+      "decoded_bytes_per_listed_byte": 2.4652062881170718,
+      "decoded_rows": 16099731,
+      "decoded_rows_per_listed_byte": 0.08675501362906315,
+      "elapsed_ms": 197.738373,
+      "listed_file_bytes": 185576952,
+      "selected_mib": 400,
+      "window_id": "for-hire-2023-03"
+    },
+    {
+      "decoded_bytes": 461846058,
+      "decoded_bytes_per_listed_byte": 2.465937156300568,
+      "decoded_rows": 16240841,
+      "decoded_rows_per_listed_byte": 0.08671481022247823,
+      "elapsed_ms": 198.068927,
+      "listed_file_bytes": 187290279,
+      "selected_mib": 416,
+      "window_id": "for-hire-2023-04"
+    },
+    {
+      "decoded_bytes": 467548914,
+      "decoded_bytes_per_listed_byte": 2.4663860369488537,
+      "decoded_rows": 16438988,
+      "decoded_rows_per_listed_byte": 0.08671796522399743,
+      "elapsed_ms": 197.863198,
+      "listed_file_bytes": 189568424,
+      "selected_mib": 416,
+      "window_id": "for-hire-2023-05"
+    },
+    {
+      "decoded_bytes": 466695745,
+      "decoded_bytes_per_listed_byte": 2.457607089204215,
+      "decoded_rows": 16405664,
+      "decoded_rows_per_listed_byte": 0.08639178004398214,
+      "elapsed_ms": 185.61772,
+      "listed_file_bytes": 189898437,
+      "selected_mib": 416,
+      "window_id": "for-hire-2023-06"
+    },
+    {
+      "decoded_bytes": 471576384,
+      "decoded_bytes_per_listed_byte": 2.4574820709731977,
+      "decoded_rows": 16572758,
+      "decoded_rows_per_listed_byte": 0.08636406960442199,
+      "elapsed_ms": 184.843957,
+      "listed_file_bytes": 191894130,
+      "selected_mib": 416,
+      "window_id": "for-hire-2023-07"
+    },
+    {
+      "decoded_bytes": 471929356,
+      "decoded_bytes_per_listed_byte": 2.461621724634991,
+      "decoded_rows": 16584654,
+      "decoded_rows_per_listed_byte": 0.08650689782890854,
+      "elapsed_ms": 189.014729,
+      "listed_file_bytes": 191714816,
+      "selected_mib": 416,
+      "window_id": "for-hire-2023-08"
+    },
+    {
+      "decoded_bytes": 473096187,
+      "decoded_bytes_per_listed_byte": 2.467744051056247,
+      "decoded_rows": 16628773,
+      "decoded_rows_per_listed_byte": 0.08673829291952154,
+      "elapsed_ms": 188.428729,
+      "listed_file_bytes": 191712016,
+      "selected_mib": 416,
+      "window_id": "for-hire-2023-09"
+    },
+    {
+      "decoded_bytes": 485172884,
+      "decoded_bytes_per_listed_byte": 2.4827103562824515,
+      "decoded_rows": 17053845,
+      "decoded_rows_per_listed_byte": 0.08726736178424947,
+      "elapsed_ms": 190.276942,
+      "listed_file_bytes": 195420655,
+      "selected_mib": 416,
+      "window_id": "for-hire-2023-10"
+    },
+    {
+      "decoded_bytes": 479101490,
+      "decoded_bytes_per_listed_byte": 2.4746928704438935,
+      "decoded_rows": 16846638,
+      "decoded_rows_per_listed_byte": 0.08701758566759868,
+      "elapsed_ms": 184.856935,
+      "listed_file_bytes": 193600384,
+      "selected_mib": 416,
+      "window_id": "for-hire-2023-11"
+    },
+    {
+      "decoded_bytes": 485935524,
+      "decoded_bytes_per_listed_byte": 2.474911629347823,
+      "decoded_rows": 17093874,
+      "decoded_rows_per_listed_byte": 0.08706057792392717,
+      "elapsed_ms": 193.090259,
+      "listed_file_bytes": 196344596,
+      "selected_mib": 416,
+      "window_id": "for-hire-2023-12"
+    },
+    {
+      "decoded_bytes": 501055659,
+      "decoded_bytes_per_listed_byte": 2.489865875836619,
+      "decoded_rows": 17630326,
+      "decoded_rows_per_listed_byte": 0.08760932303386101,
+      "elapsed_ms": 190.33986,
+      "listed_file_bytes": 201238012,
+      "selected_mib": 416,
+      "window_id": "for-hire-2024-01"
+    },
+    {
+      "decoded_bytes": 518071549,
+      "decoded_bytes_per_listed_byte": 2.5051786520887083,
+      "decoded_rows": 18238318,
+      "decoded_rows_per_listed_byte": 0.0881929243012826,
+      "elapsed_ms": 184.86538,
+      "listed_file_bytes": 206800241,
+      "selected_mib": 416,
+      "window_id": "for-hire-2024-02"
+    },
+    {
+      "decoded_bytes": 529262241,
+      "decoded_bytes_per_listed_byte": 2.514416590146002,
+      "decoded_rows": 18640947,
+      "decoded_rows_per_listed_byte": 0.08855932421000413,
+      "elapsed_ms": 198.771105,
+      "listed_file_bytes": 210491071,
+      "selected_mib": 416,
+      "window_id": "for-hire-2024-03"
+    },
+    {
+      "decoded_bytes": 549172899,
+      "decoded_bytes_per_listed_byte": 2.533532026114844,
+      "decoded_rows": 19354587,
+      "decoded_rows_per_listed_byte": 0.08928966834673688,
+      "elapsed_ms": 191.093855,
+      "listed_file_bytes": 216761775,
+      "selected_mib": 416,
+      "window_id": "for-hire-2024-04"
+    },
+    {
+      "decoded_bytes": 556200105,
+      "decoded_bytes_per_listed_byte": 2.5372472108282063,
+      "decoded_rows": 19609439,
+      "decoded_rows_per_listed_byte": 0.08945340707667765,
+      "elapsed_ms": 190.386193,
+      "listed_file_bytes": 219213998,
+      "selected_mib": 416,
+      "window_id": "for-hire-2024-05"
+    },
+    {
+      "decoded_bytes": 580254598,
+      "decoded_bytes_per_listed_byte": 2.551377309838881,
+      "decoded_rows": 20467658,
+      "decoded_rows_per_listed_byte": 0.08999621612087982,
+      "elapsed_ms": 192.082249,
+      "listed_file_bytes": 227427984,
+      "selected_mib": 400,
+      "window_id": "for-hire-2024-06"
+    },
+    {
+      "decoded_bytes": 603736819,
+      "decoded_bytes_per_listed_byte": 2.561495864274404,
+      "decoded_rows": 21312850,
+      "decoded_rows_per_listed_byte": 0.09042479340803751,
+      "elapsed_ms": 200.387818,
+      "listed_file_bytes": 235696972,
+      "selected_mib": 400,
+      "window_id": "for-hire-2024-07"
+    },
+    {
+      "decoded_bytes": 625896173,
+      "decoded_bytes_per_listed_byte": 2.569215349486951,
+      "decoded_rows": 22117647,
+      "decoded_rows_per_listed_byte": 0.09078981565674794,
+      "elapsed_ms": 204.000811,
+      "listed_file_bytes": 243613745,
+      "selected_mib": 400,
+      "window_id": "for-hire-2024-08"
+    },
+    {
+      "decoded_bytes": 647345446,
+      "decoded_bytes_per_listed_byte": 2.578006043595956,
+      "decoded_rows": 22890030,
+      "decoded_rows_per_listed_byte": 0.09115787566395074,
+      "elapsed_ms": 197.749928,
+      "listed_file_bytes": 251103153,
+      "selected_mib": 400,
+      "window_id": "for-hire-2024-09"
+    },
+    {
+      "decoded_bytes": 658857138,
+      "decoded_bytes_per_listed_byte": 2.5827531567342286,
+      "decoded_rows": 23320947,
+      "decoded_rows_per_listed_byte": 0.09141928653170582,
+      "elapsed_ms": 209.183015,
+      "listed_file_bytes": 255098764,
+      "selected_mib": 400,
+      "window_id": "for-hire-2024-10"
+    },
+    {
+      "decoded_bytes": 687192420,
+      "decoded_bytes_per_listed_byte": 2.5946862406941555,
+      "decoded_rows": 24346331,
+      "decoded_rows_per_listed_byte": 0.09192634874681181,
+      "elapsed_ms": 205.242771,
+      "listed_file_bytes": 264846057,
+      "selected_mib": 400,
+      "window_id": "for-hire-2024-11"
+    },
+    {
+      "decoded_bytes": 706002038,
+      "decoded_bytes_per_listed_byte": 2.5974431880569524,
+      "decoded_rows": 25033853,
+      "decoded_rows_per_listed_byte": 0.0921017326378725,
+      "elapsed_ms": 218.589471,
+      "listed_file_bytes": 271806537,
+      "selected_mib": 400,
+      "window_id": "for-hire-2024-12"
+    },
+    {
+      "decoded_bytes": 705550635,
+      "decoded_bytes_per_listed_byte": 2.589213584816212,
+      "decoded_rows": 25047544,
+      "decoded_rows_per_listed_byte": 0.09191890414935534,
+      "elapsed_ms": 223.303264,
+      "listed_file_bytes": 272496112,
+      "selected_mib": 400,
+      "window_id": "for-hire-2025-01"
+    },
+    {
+      "decoded_bytes": 706118571,
+      "decoded_bytes_per_listed_byte": 2.5819600036210115,
+      "decoded_rows": 25091158,
+      "decoded_rows_per_listed_byte": 0.09174714992807542,
+      "elapsed_ms": 212.321665,
+      "listed_file_bytes": 273481607,
+      "selected_mib": 400,
+      "window_id": "for-hire-2025-02"
+    },
+    {
+      "decoded_bytes": 716691066,
+      "decoded_bytes_per_listed_byte": 2.586984750327105,
+      "decoded_rows": 25460965,
+      "decoded_rows_per_listed_byte": 0.09190449177946382,
+      "elapsed_ms": 216.408814,
+      "listed_file_bytes": 277037221,
+      "selected_mib": 400,
+      "window_id": "for-hire-2025-03"
+    },
+    {
+      "decoded_bytes": 720838612,
+      "decoded_bytes_per_listed_byte": 2.577827976770594,
+      "decoded_rows": 25638663,
+      "decoded_rows_per_listed_byte": 0.09168773934711628,
+      "elapsed_ms": 215.423386,
+      "listed_file_bytes": 279630223,
+      "selected_mib": 400,
+      "window_id": "for-hire-2025-04"
+    },
+    {
+      "decoded_bytes": 732154596,
+      "decoded_bytes_per_listed_byte": 2.5794679753072463,
+      "decoded_rows": 26064815,
+      "decoded_rows_per_listed_byte": 0.09182945233441919,
+      "elapsed_ms": 224.533903,
+      "listed_file_bytes": 283839382,
+      "selected_mib": 400,
+      "window_id": "for-hire-2025-05"
+    }
+  ],
+  "schema_version": "rolling-split-autotuning/history-v1"
+}
