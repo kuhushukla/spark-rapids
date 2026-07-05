@@ -1,0 +1,78 @@
+schema_version: "cross-dataset-scan-transfer/manifest-v1"
+experiment_id: "cross-dataset-scan-transfer-20260705"
+lifecycle:
+  state: "PREREGISTERED"
+  treatment_examined: false
+hypothesis: >
+  A component model trained only on yellow-taxi scans can predict decoded rows,
+  decoded GPU output bytes, and task GPU footprint for high-volume-for-hire scans
+  when the projected physical schema, predicate shape, codec, reader mechanism,
+  and RAPIDS execution epoch are compatible.
+scope:
+  training:
+    dataset: "NYC TLC yellow taxi"
+    months: "2024-01 through 2024-06"
+  untouched_holdout:
+    dataset: "NYC TLC high-volume for-hire"
+    months: "2024-01 through 2024-06"
+  projection:
+    - "PULocationID:int"
+    - "DOLocationID:int"
+    - "congestion_surcharge:double"
+  query: "count and sums over all three projected columns"
+model:
+  data_shape:
+    observation_unit: "one monthly scan"
+    decoded_byte_rate: "sum(output_batch_bytes) / sum(task_input_bytes)"
+    decoded_row_rate: "sum(output_rows) / sum(task_input_bytes)"
+    center: "training median"
+    empirical_upper: "training p90 because six observations are planned"
+  footprint:
+    observation_unit: "one output-producing scan task"
+    rate: "gpuMaxTaskFootprint / max_output_batch_bytes"
+    center: "training median"
+    empirical_upper: "training p90 when at least five observations exist, otherwise maximum"
+  frozen_selection: >
+    Use only training observations. Do not tune features or thresholds after
+    examining high-volume-for-hire measurements.
+decision_gates:
+  decoded_bytes_median_ape_le_20pct: true
+  decoded_bytes_p90_ape_le_35pct: true
+  decoded_rows_median_ape_le_20pct: true
+  decoded_rows_p90_ape_le_35pct: true
+  footprint_median_ape_le_30pct: true
+  footprint_empirical_upper_coverage_ge_90pct: true
+correctness:
+  rule: "CPU and GPU canonical aggregate result SHA-256 must match for every run"
+  failure_action: "abort analysis"
+safety:
+  abort_conditions:
+    - "fatal GPU OOM or executor loss"
+    - "nonzero GPU retry, split-and-retry, host spill, or disk spill"
+    - "missing required scan metrics"
+execution:
+  spark: "3.5.5 local[8]"
+  aqe: false
+  shuffle_manager: "Spark SortShuffleManager default"
+  shuffle_partitions: 32
+  max_partition_mib: 512
+  rapids_batch_mib: 1024
+  reader_batch_mib: 2048
+  concurrent_gpu_tasks: 2
+  dynamic_concurrency: false
+  data_root: "/data/public/tlc-trip-record-data"
+  scratch_and_shuffle_root: "/data/tmp"
+  note: >
+    Query-wide timing is secondary and local-shuffle-specific. Component
+    predictions use scan task metrics only.
+artifacts:
+  schedule: "schedule.json"
+  benchmark: "scripts/benchmark.py"
+  analysis: "scripts/analyze.py"
+  metric_extractor: "../uncompressed-size-shmoo/scripts/extract_scan_metrics.py"
+  preregistration_checksums: "provenance/preregistration.sha256"
+limitations:
+  - "One GPU, local mode, local storage, one projected physical schema"
+  - "The footprint upper value is empirical, not a production safety guarantee"
+  - "Spark task input bytes may include reader/accounting effects beyond Parquet column payload"
+  - "This validates component transfer, not active per-read split selection"

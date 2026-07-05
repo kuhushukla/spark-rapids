@@ -1,0 +1,149 @@
+{
+  "schema_version": "cross-dataset-scan-transfer/schedule-v1",
+  "runs": [
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "train-yellow-2024-01",
+      "role": "train",
+      "phase": "train",
+      "dataset": "yellow",
+      "month": "2024-01",
+      "path": "/data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-01.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "holdout-hvfhv-2024-01",
+      "role": "holdout",
+      "phase": "holdout",
+      "dataset": "high-volume-for-hire",
+      "month": "2024-01",
+      "path": "/data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-01.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "train-yellow-2024-02",
+      "role": "train",
+      "phase": "train",
+      "dataset": "yellow",
+      "month": "2024-02",
+      "path": "/data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-02.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "holdout-hvfhv-2024-02",
+      "role": "holdout",
+      "phase": "holdout",
+      "dataset": "high-volume-for-hire",
+      "month": "2024-02",
+      "path": "/data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-02.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "train-yellow-2024-03",
+      "role": "train",
+      "phase": "train",
+      "dataset": "yellow",
+      "month": "2024-03",
+      "path": "/data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-03.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "holdout-hvfhv-2024-03",
+      "role": "holdout",
+      "phase": "holdout",
+      "dataset": "high-volume-for-hire",
+      "month": "2024-03",
+      "path": "/data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-03.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "train-yellow-2024-04",
+      "role": "train",
+      "phase": "train",
+      "dataset": "yellow",
+      "month": "2024-04",
+      "path": "/data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-04.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "holdout-hvfhv-2024-04",
+      "role": "holdout",
+      "phase": "holdout",
+      "dataset": "high-volume-for-hire",
+      "month": "2024-04",
+      "path": "/data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-04.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "train-yellow-2024-05",
+      "role": "train",
+      "phase": "train",
+      "dataset": "yellow",
+      "month": "2024-05",
+      "path": "/data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-05.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "holdout-hvfhv-2024-05",
+      "role": "holdout",
+      "phase": "holdout",
+      "dataset": "high-volume-for-hire",
+      "month": "2024-05",
+      "path": "/data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-05.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "train-yellow-2024-06",
+      "role": "train",
+      "phase": "train",
+      "dataset": "yellow",
+      "month": "2024-06",
+      "path": "/data/public/tlc-trip-record-data/yellow/year=2024/yellow_tripdata_2024-06.parquet"
+    },
+    {
+      "query": "common-location-surcharge-aggregate",
+      "max_partition_mib": 512,
+      "rapids_batch_mib": 1024,
+      "reader_batch_mib": 2048,
+      "run_id": "holdout-hvfhv-2024-06",
+      "role": "holdout",
+      "phase": "holdout",
+      "dataset": "high-volume-for-hire",
+      "month": "2024-06",
+      "path": "/data/public/tlc-trip-record-data/high-volume-for-hire/year=2024/fhvhv_tripdata_2024-06.parquet"
+    }
+  ]
+}
