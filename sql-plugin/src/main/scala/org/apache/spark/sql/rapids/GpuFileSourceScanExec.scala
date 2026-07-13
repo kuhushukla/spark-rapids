@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit.NANOSECONDS
 import scala.collection.mutable.HashMap
 
 import com.nvidia.spark.rapids._
+import com.nvidia.spark.rapids.perf.ScanSplitAutotuner
 import com.nvidia.spark.rapids.Arm.closeOnExcept
 import com.nvidia.spark.rapids.filecache.FileCacheLocalityManager
 import com.nvidia.spark.rapids.shims.{GpuDataSourceRDD, PartitionedFileUtilsShim, SparkShimImpl, StaticPartitionShims}
@@ -575,8 +576,24 @@ case class GpuFileSourceScanExec(
       fsRelation: HadoopFsRelation): RDD[InternalRow] = {
     val partitions = StaticPartitionShims.getStaticPartitions(fsRelation).getOrElse {
       val openCostInBytes = fsRelation.sparkSession.sessionState.conf.filesOpenCostInBytes
-      val maxSplitBytes =
+      val sparkDefault =
         FilePartition.maxSplitBytes(fsRelation.sparkSession, dynamicallySelectedPartitions)
+      val label = ScanSplitAutotuner.tableLabel(
+        tableIdentifier.map(_.unquotedString),
+        relation.location.rootPaths.headOption.map(_.toString))
+      val listedBytes = dynamicallySelectedPartitions.flatMap(_.files.map(_.getLen)).sum
+      // Split ceiling: the encoded/on-disk split may legitimately need to exceed batchSizeBytes
+      // to decode a full batch when data compresses/projects (ratio < 1). Ceiling defaults to
+      // batchSizeBytes (config 0); set spark.rapids.sql.scan.splitAutotuner.maxSplitBytes to
+      // allow larger splits so tasks actually decode to ~batchSizeBytes.
+      val batchSizeBytes = rapidsConf.gpuTargetBatchSizeBytes
+      val maxSplitCeiling = rapidsConf.scanSplitAutotunerMaxSplitBytes match {
+        case v if v > 0 => v
+        case _ => batchSizeBytes
+      }
+      val maxSplitBytes = ScanSplitAutotuner.decide(
+        label, listedBytes, sparkDefault, batchSizeBytes, maxSplitCeiling)
+      ScanSplitAutotuner.registerPendingScan(label, listedBytes, this)
       logInfo(s"Planning scan with bin packing, max size: $maxSplitBytes bytes, " +
         s"open cost is considered as scanning $openCostInBytes bytes.")
 
