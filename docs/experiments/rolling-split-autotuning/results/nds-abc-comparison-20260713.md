@@ -1,5 +1,13 @@
 # NDS Autotuner — A/B/C Comparison (2026-07-13)
 
+> ⛔ **RETRACTED conclusions (2026-07-14).** This doc's "split barely matters / cold→warm is
+> caching" reasoning measured the wrong stages. Grounded fact: query9 store_sales scan (stage 31,
+> sqlExec 24) went **cold 1232 → warm 174 tasks** — the autotuner split works. The wall-clock
+> "within noise" comparison here was never a clean split A/B (all runs used
+> `spark.sql.files.maxPartitionBytes=128m`; only the autotuner override varied, and its effect on
+> the scans wasn't isolated). Re-run with the `scanMaxSplitBytes` metric before trusting any timing
+> conclusion. See `nds-time-breakdown-20260713.md` (retraction banner).
+
 NDS SF100, queries `query9,query67,query76`, A5000, `local[16]`, batchSizeBytes=1 GiB,
 filecache off. Each run is cold (128 MiB) → warm (autotuned). All on the same rebuilt JAR.
 
@@ -40,9 +48,13 @@ Wanted split to fill a 1 GiB batch: `1 GiB / 0.30 ≈ 3.5 GiB` — still clamped
    smaller splits → more tasks → 24s. Reverted.
 2. **The split is measured in full-file bytes**, so heavy projection (small ratio_full) correctly
    wants a *larger* split. A/C do this; the clamp is what limits it.
-3. **Raising the ceiling (C) works but pays little here.** Splits doubled, task counts ~halved,
-   wall-clock improved only ~1s (~5%). Past ~1 GiB the scan is GPU-decode-bound, not
-   task-overhead-bound. The dominant win is 128 MiB → 1 GiB (~1.8×); 1 → 2 GiB is diminishing.
+3. **Raising the ceiling (C) works but pays nothing here.** CORRECTIONS from follow-up analysis:
+   (a) GPU-util sampling (`nds-gpu-util-20260713.md`) shows the GPU is only ~38% utilized during
+   warm queries — NOT GPU-decode-bound as originally inferred. (b) `nds-time-breakdown-20260713.md`
+   shows the split is **INERT** — cold and warm scan task counts are identical (store_sales = 1824 =
+   its date-partition count; the split can't coalesce across date-partition dirs). So the "128 MiB →
+   1 GiB ~1.8×" is page-cache/JIT warming, not the split. The limiter is per-task overhead from
+   one-task-per-date-partition, plus aggregate/shuffle compute.
 4. **Even C still clamps store_sales** (wants ~3.5 GiB). Chasing it further has flat returns on
    this workload, but would matter for smaller files / higher per-task open cost.
 

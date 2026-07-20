@@ -79,7 +79,6 @@ run_pass() {
     --conf spark.rapids.sql.batchSizeBytes="${BATCH:-1g}" \
     --conf spark.rapids.sql.metrics.level=DEBUG \
     --conf spark.rapids.sql.scan.splitAutotuner.historyPath="$HIST" \
-    --conf spark.rapids.sql.scan.splitAutotuner.maxSplitBytes="${MAXSPLIT:-0}" \
     --conf spark.sql.catalogImplementation=in-memory \
     --conf spark.eventLog.enabled=true \
     --conf spark.eventLog.dir="$EVENTLOG_DIR" \

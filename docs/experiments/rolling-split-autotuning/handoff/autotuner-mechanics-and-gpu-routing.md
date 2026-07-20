@@ -255,8 +255,10 @@ confirms 2 GiB is safe on this all-decimal (no wide-string) dataset.
 | web_sales   | 1024 MiB     | 2048 MiB (clamped)| 19.2s          | 18.8s          | 39.0s          |
 
 **Finding:** doubling the batch (1→2 GiB) **halved scan-stage task count** (store_sales
-180→90, web_sales 148→74) but moved wall-clock only ~1s (2–5%). At 1 GiB the scan is already
-past the task/file-open-overhead regime — the workload is GPU decode+aggregate bound. The
+180→90, web_sales 148→74) but moved wall-clock only ~1s (2–5%). CORRECTION: later GPU-util
+sampling (`../results/nds-gpu-util-20260713.md`) showed the GPU is only ~38% utilized during
+warm queries — so this is NOT GPU decode+aggregate bound as originally inferred; the limiter is
+the non-GPU path (CPU-side small-file coalescing / shuffle). The
 entire win is the first jump (128 MiB → autotuned = 1.85–2.08×); pushing the ceiling higher
 gives diminishing returns for this dataset. A dataset with smaller files or higher per-task
 open cost would benefit more from the larger ceiling. **2 GiB is the safe upper bound** —

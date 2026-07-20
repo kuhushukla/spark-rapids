@@ -1479,8 +1479,12 @@ abstract class GpuParquetPartitionReaderFactoryBase(
   protected val debugDumpPrefix = rapidsConf.parquetDebugDumpPrefix
   protected val debugDumpAlways = rapidsConf.parquetDebugDumpAlways
   protected val maxReadBatchSizeRows = rapidsConf.maxReadBatchSizeRows
-  protected val maxReadBatchSizeBytes = rapidsConf.maxReadBatchSizeBytes
-  protected val targetSizeBytes = rapidsConf.gpuTargetBatchSizeBytes
+  // Reader-scoped batch size (falls back to gpuTargetBatchSizeBytes). targetSizeBytes = the emitted
+  // batch; maxReadBatchSizeBytes = the read/decode cap, raised to at least the target so the reader
+  // can actually read enough row groups to fill a target-sized batch (never lowered below default).
+  protected val targetSizeBytes = rapidsConf.scanTargetDecodedBytesPerTask
+  protected val maxReadBatchSizeBytes =
+    math.max(rapidsConf.maxReadBatchSizeBytes, rapidsConf.scanTargetDecodedBytesPerTask)
   protected val maxGpuColumnSizeBytes = rapidsConf.maxGpuColumnSizeBytes
   protected val useChunkedReader = rapidsConf.chunkedReaderEnabled
   protected val maxChunkedReaderMemoryUsageSizeBytes =

@@ -404,6 +404,8 @@ case class GpuFileSourceScanExec(
     "numFiles" -> createMetric(ESSENTIAL_LEVEL, "number of files read"),
     "metadataTime" -> createTimingMetric(ESSENTIAL_LEVEL, "metadata time"),
     "filesSize" -> createSizeMetric(ESSENTIAL_LEVEL, "size of files read"),
+    "scanMaxSplitBytes" -> createSizeMetric(ESSENTIAL_LEVEL, "scan max split bytes (effective)"),
+    "sparkDefaultSplitBytes" -> createSizeMetric(DEBUG_LEVEL, "scan split bytes (spark default)"),
     GPU_DECODE_TIME -> createNanoTimingMetric(MODERATE_LEVEL, DESCRIPTION_GPU_DECODE_TIME),
     BUFFER_TIME -> createNanoTimingMetric(MODERATE_LEVEL, DESCRIPTION_BUFFER_TIME),
     FILTER_TIME -> createNanoTimingMetric(DEBUG_LEVEL, DESCRIPTION_FILTER_TIME),
@@ -428,7 +430,9 @@ case class GpuFileSourceScanExec(
         if (relation.fileFormat.isInstanceOf[GpuReadParquetFileFormat]) {
           // Track the actual data size read from the file system, excluding data being pruned
           // by meta-level pruning.
-          bf += "readBufferSize" -> createSizeMetric(DEBUG_LEVEL, "size of read buffer")
+          // MODERATE (not DEBUG) so the scan autotuner can read the actual compressed bytes read
+          // (projected columns of surviving row groups) at the default metrics level.
+          bf += "readBufferSize" -> createSizeMetric(MODERATE_LEVEL, "size of read buffer")
         }
         if (ExternalSource.isSupportedFormat(relation.fileFormat.getClass)) {
           // This metric is used to post the time spent in generating the `skip_row` column
@@ -582,17 +586,23 @@ case class GpuFileSourceScanExec(
         tableIdentifier.map(_.unquotedString),
         relation.location.rootPaths.headOption.map(_.toString))
       val listedBytes = dynamicallySelectedPartitions.flatMap(_.files.map(_.getLen)).sum
-      // Split ceiling: the encoded/on-disk split may legitimately need to exceed batchSizeBytes
-      // to decode a full batch when data compresses/projects (ratio < 1). Ceiling defaults to
-      // batchSizeBytes (config 0); set spark.rapids.sql.scan.splitAutotuner.maxSplitBytes to
-      // allow larger splits so tasks actually decode to ~batchSizeBytes.
-      val batchSizeBytes = rapidsConf.gpuTargetBatchSizeBytes
-      val maxSplitCeiling = rapidsConf.scanSplitAutotunerMaxSplitBytes match {
-        case v if v > 0 => v
-        case _ => batchSizeBytes
+      // Reader-scoped target decoded bytes per task drives the split (split = target / ratio); falls
+      // back to gpuTargetBatchSizeBytes so downstream operators are unaffected.
+      val batchSizeBytes = rapidsConf.scanTargetDecodedBytesPerTask
+      // Spark's own minPartitionNum, for the parcap ceiling A/B (listedBytes/minPartitionNum).
+      val minPartitionNum = fsRelation.sparkSession.sessionState.conf.filesMinPartitionNum
+        .getOrElse(fsRelation.sparkSession.leafNodeDefaultParallelism)
+      val maxSplitBytes = ScanSplitAutotuner.decide(label, listedBytes, sparkDefault,
+        batchSizeBytes, minPartitionNum.toLong)
+      // Debuggability: record the effective split actually used to bin-pack this scan (and the
+      // Spark default it would otherwise have used) as driver metrics, so they land in the event
+      // log next to numPartitions. Previously the autotuner's choice was only in driver log4j.
+      driverMetrics("scanMaxSplitBytes") = maxSplitBytes
+      // sparkDefaultSplitBytes is a DEBUG-level metric, so it is absent from `metrics` at lower
+      // metrics levels; only stash it when registered, else sendDriverMetrics' metrics(key) throws.
+      if (metrics.contains("sparkDefaultSplitBytes")) {
+        driverMetrics("sparkDefaultSplitBytes") = sparkDefault
       }
-      val maxSplitBytes = ScanSplitAutotuner.decide(
-        label, listedBytes, sparkDefault, batchSizeBytes, maxSplitCeiling)
       ScanSplitAutotuner.registerPendingScan(label, listedBytes, this)
       logInfo(s"Planning scan with bin packing, max size: $maxSplitBytes bytes, " +
         s"open cost is considered as scanning $openCostInBytes bytes.")

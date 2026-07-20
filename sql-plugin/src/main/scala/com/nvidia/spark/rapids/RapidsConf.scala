@@ -674,6 +674,19 @@ val GPU_COREDUMP_PIPE_PATTERN = conf("spark.rapids.gpu.coreDump.pipePattern")
     .checkValue(v => v > 0, "Batch size must be positive")
     .createWithDefault(1 * 1024 * 1024 * 1024) // 1 GiB is the default
 
+  val SCAN_TARGET_DECODED_BYTES_PER_TASK =
+    conf("spark.rapids.sql.scan.targetDecodedBytesPerTask")
+      .doc("Reader-scoped target decoded bytes per scan task. When set it drives the scan-split " +
+        "autotuner (split = target / decodeRatio), the reader's output batch size, AND the reader's " +
+        "read/decode cap (maxReadBatchSizeBytes is raised to at least this) — so the reader can " +
+        "actually read and emit ~this many bytes per batch. Downstream operators (joins, aggregates) " +
+        s"still use '${GPU_BATCH_SIZE_BYTES.key}'. Unset (default) falls back to it (no change). Note " +
+        "a single GPU batch cannot exceed the cudf per-column limit (~2 GiB).")
+      .internal()
+      .bytesConf(ByteUnit.BYTE)
+      .checkValue(v => v > 0, "must be positive")
+      .createOptional
+
   val SCAN_SPLIT_AUTOTUNER_HISTORY_PATH =
     conf("spark.rapids.sql.scan.splitAutotuner.historyPath")
       .doc("Local file path for persisting per-table scan split observations. " +
@@ -682,17 +695,6 @@ val GPU_COREDUMP_PIPE_PATTERN = conf("spark.rapids.gpu.coreDump.pipePattern")
       .internal()
       .stringConf
       .createOptional
-
-  val SCAN_SPLIT_AUTOTUNER_MAX_SPLIT_BYTES =
-    conf("spark.rapids.sql.scan.splitAutotuner.maxSplitBytes")
-      .doc("Ceiling for the autotuner's chosen split size, in bytes. The autotuner sizes a split " +
-        "so each task decodes to ~batchSizeBytes (split = batchSizeBytes / expansionRatio); when " +
-        "data compresses or projects (ratio < 1) that split must exceed batchSizeBytes to fill a " +
-        "batch. This ceiling caps how large the split may grow (bounded by host/GPU memory). " +
-        "0 (default) means use batchSizeBytes as the ceiling (legacy behavior).")
-      .internal()
-      .bytesConf(ByteUnit.BYTE)
-      .createWithDefault(0L)
 
   val CHUNKED_READER = conf("spark.rapids.sql.reader.chunked")
     .doc("Enable a chunked reader where possible. A chunked reader allows " +
@@ -3551,11 +3553,13 @@ class RapidsConf(conf: Map[String, String]) extends Logging {
 
   lazy val gpuTargetBatchSizeBytes: Long = get(GPU_BATCH_SIZE_BYTES)
 
+  // Reader-scoped target decoded bytes per scan task; falls back to the query-wide batch size so
+  // downstream operators are unaffected when this is unset.
+  lazy val scanTargetDecodedBytesPerTask: Long =
+    get(SCAN_TARGET_DECODED_BYTES_PER_TASK).getOrElse(get(GPU_BATCH_SIZE_BYTES))
+
   lazy val scanSplitAutotunerHistoryPath: Option[String] =
     get(SCAN_SPLIT_AUTOTUNER_HISTORY_PATH)
-
-  lazy val scanSplitAutotunerMaxSplitBytes: Long =
-    get(SCAN_SPLIT_AUTOTUNER_MAX_SPLIT_BYTES)
 
   lazy val isWindowCollectListEnabled: Boolean = get(ENABLE_WINDOW_COLLECT_LIST)
 
