@@ -39,6 +39,32 @@ svg.append(f'<text x="{sx(1024):.0f}" y="{sy(favg)+16:.0f}" font-size="10.5" fil
 svg.append('</svg>')
 SVG="\n".join(svg)
 
+# --- GPU work vs split (gpuTime / scan / decode), warm 2-5 (from overture_warm_parse.py) ---
+GPUWORK=[(128,100.9,74.3,116.0),(256,94.3,67.0,95.1),(512,79.7,51.9,77.6),(1024,70.2,41.2,73.8),(2048,87.3,44.8,69.5),(4096,94.3,37.4,59.8)]
+def svg_gpuwork():
+    W,H,PL,PR,PT,PB=720,300,52,90,16,40
+    xs=[math.log10(m) for m,*_ in GPUWORK]; gx0,gx1=min(xs),max(xs)
+    gymax=max(v for _,*r in GPUWORK for v in r)*1.08
+    def gsx(mb): return PL+(math.log10(mb)-gx0)/(gx1-gx0)*(W-PL-PR)
+    def gsy(v): return H-PB-(v/gymax)*(H-PT-PB)
+    o=[f'<svg viewBox="0 0 {W} {H}" width="100%" role="img" aria-label="gpu work vs split">',
+       f'<rect width="{W}" height="{H}" fill="var(--surf)"/>']
+    gy=0
+    while gy<=gymax:
+        o.append(f'<line x1="{PL}" y1="{gsy(gy):.0f}" x2="{W-PR}" y2="{gsy(gy):.0f}" stroke="var(--line)"/>')
+        o.append(f'<text x="{PL-6}" y="{gsy(gy)+3:.0f}" text-anchor="end" font-size="10" fill="var(--mut)">{gy:.0f}s</text>')
+        gy+=20
+    for mb,lab in [(128,"128m"),(256,"256m"),(512,"512m"),(1024,"1g"),(2048,"2g"),(4096,"4g")]:
+        o.append(f'<text x="{gsx(mb):.0f}" y="{H-PB+15}" text-anchor="middle" font-size="10" fill="var(--mut)">{lab}</text>')
+    o.append(f'<text x="{(PL+W-PR)/2:.0f}" y="{H-3}" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>')
+    for k,(idx,lab,col) in enumerate([(3,"gpuTime","var(--blue)"),(1,"scan time","var(--orange)"),(2,"GPU decode","var(--aqua)")]):
+        pts=" ".join(f"{gsx(r[0]):.1f},{gsy(r[idx]):.1f}" for r in GPUWORK)
+        o.append(f'<polyline points="{pts}" fill="none" stroke="{col}" stroke-width="2"/>')
+        for r in GPUWORK: o.append(f'<circle cx="{gsx(r[0]):.1f}" cy="{gsy(r[idx]):.1f}" r="3.5" fill="{col}"><title>{lab} {r[0]}m: {r[idx]}s</title></circle>')
+        o.append(f'<text x="{W-PR+6}" y="{PT+14+k*16}" font-size="10.5" fill="{col}">{lab}</text>')
+    o.append('</svg>'); return "\n".join(o)
+SVG_GPU=svg_gpuwork()
+
 def tbl(head, rows, lc=1):
     h="".join(f"<th{' style=text-align:left' if i<lc else ''}>{c}</th>" for i,c in enumerate(head))
     b="".join("<tr>"+"".join(f"<td{' style=text-align:left' if i<lc else ''}>{c}</td>" for i,c in enumerate(r))+"</tr>" for r in rows)
@@ -134,6 +160,7 @@ HashAggregate</code> global reduction (~127 partial rows → 1), not scan-relate
 <figure>{SVG}<figcaption>OFF (blue) is a U-shape you must tune per dataset; fill-to-target (aqua) converges to the
 same ~741&nbsp;MB split and ~6.6–6.8&nbsp;s warm regardless of the starting maxPartitionBytes — rescuing a mistuned
 setting and landing ~2% above the tuned optimum. Hover for values.</figcaption></figure>
+<figure>{SVG_GPU}<figcaption>GPU work vs split (warm 2–5, summed over scan-stage tasks): <b>gpuTime</b> and <b>decode</b> fall as the split grows (fuller batches → less GPU work), while <b>wall</b> above is a U bottoming at 1g. Lower gpuTime ≠ faster — the decay diverges from the wall U-curve.</figcaption></figure>
 
 <h2>Self-tuning — converges to ~741 MB from any start, near-optimal</h2>
 {tbl(["start maxPartBytes","fixed OFF warm","ftt warm (→~741 MB)","ftt vs fixed"],[["128m (mistuned)","9165 ms","6576 ms","<b>1.39× faster</b>"],["4g (mistuned)","8552 ms","6760 ms","<b>1.27× faster</b>"],["1g (already optimal)","6558 ms","~6.6–6.8 s","≈ tie (~2% slower)"]])}

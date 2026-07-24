@@ -122,6 +122,54 @@ HashAggregate</code> global reduction (~127 partial rows → 1), not scan-relate
 </svg><figcaption>OFF (blue) is a U-shape you must tune per dataset; fill-to-target (aqua) converges to the
 same ~741&nbsp;MB split and ~6.6–6.8&nbsp;s warm regardless of the starting maxPartitionBytes — rescuing a mistuned
 setting and landing ~2% above the tuned optimum. Hover for values.</figcaption></figure>
+<figure><svg viewBox="0 0 720 300" width="100%" role="img" aria-label="gpu work vs split">
+<rect width="720" height="300" fill="var(--surf)"/>
+<line x1="52" y1="260" x2="630" y2="260" stroke="var(--line)"/>
+<text x="46" y="263" text-anchor="end" font-size="10" fill="var(--mut)">0s</text>
+<line x1="52" y1="221" x2="630" y2="221" stroke="var(--line)"/>
+<text x="46" y="224" text-anchor="end" font-size="10" fill="var(--mut)">20s</text>
+<line x1="52" y1="182" x2="630" y2="182" stroke="var(--line)"/>
+<text x="46" y="185" text-anchor="end" font-size="10" fill="var(--mut)">40s</text>
+<line x1="52" y1="143" x2="630" y2="143" stroke="var(--line)"/>
+<text x="46" y="146" text-anchor="end" font-size="10" fill="var(--mut)">60s</text>
+<line x1="52" y1="104" x2="630" y2="104" stroke="var(--line)"/>
+<text x="46" y="107" text-anchor="end" font-size="10" fill="var(--mut)">80s</text>
+<line x1="52" y1="65" x2="630" y2="65" stroke="var(--line)"/>
+<text x="46" y="68" text-anchor="end" font-size="10" fill="var(--mut)">100s</text>
+<line x1="52" y1="26" x2="630" y2="26" stroke="var(--line)"/>
+<text x="46" y="29" text-anchor="end" font-size="10" fill="var(--mut)">120s</text>
+<text x="52" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">128m</text>
+<text x="168" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="283" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="399" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="514" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="630" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="341" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,34.1 167.6,74.8 283.2,108.9 398.8,116.3 514.4,124.6 630.0,143.5" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="34.1" r="3.5" fill="var(--blue)"><title>gpuTime 128m: 116.0s</title></circle>
+<circle cx="167.6" cy="74.8" r="3.5" fill="var(--blue)"><title>gpuTime 256m: 95.1s</title></circle>
+<circle cx="283.2" cy="108.9" r="3.5" fill="var(--blue)"><title>gpuTime 512m: 77.6s</title></circle>
+<circle cx="398.8" cy="116.3" r="3.5" fill="var(--blue)"><title>gpuTime 1024m: 73.8s</title></circle>
+<circle cx="514.4" cy="124.6" r="3.5" fill="var(--blue)"><title>gpuTime 2048m: 69.5s</title></circle>
+<circle cx="630.0" cy="143.5" r="3.5" fill="var(--blue)"><title>gpuTime 4096m: 59.8s</title></circle>
+<text x="636" y="30" font-size="10.5" fill="var(--blue)">gpuTime</text>
+<polyline points="52.0,63.5 167.6,76.3 283.2,104.8 398.8,123.3 514.4,90.0 630.0,76.3" fill="none" stroke="var(--orange)" stroke-width="2"/>
+<circle cx="52.0" cy="63.5" r="3.5" fill="var(--orange)"><title>scan time 128m: 100.9s</title></circle>
+<circle cx="167.6" cy="76.3" r="3.5" fill="var(--orange)"><title>scan time 256m: 94.3s</title></circle>
+<circle cx="283.2" cy="104.8" r="3.5" fill="var(--orange)"><title>scan time 512m: 79.7s</title></circle>
+<circle cx="398.8" cy="123.3" r="3.5" fill="var(--orange)"><title>scan time 1024m: 70.2s</title></circle>
+<circle cx="514.4" cy="90.0" r="3.5" fill="var(--orange)"><title>scan time 2048m: 87.3s</title></circle>
+<circle cx="630.0" cy="76.3" r="3.5" fill="var(--orange)"><title>scan time 4096m: 94.3s</title></circle>
+<text x="636" y="46" font-size="10.5" fill="var(--orange)">scan time</text>
+<polyline points="52.0,115.3 167.6,129.5 283.2,158.9 398.8,179.8 514.4,172.7 630.0,187.2" fill="none" stroke="var(--aqua)" stroke-width="2"/>
+<circle cx="52.0" cy="115.3" r="3.5" fill="var(--aqua)"><title>GPU decode 128m: 74.3s</title></circle>
+<circle cx="167.6" cy="129.5" r="3.5" fill="var(--aqua)"><title>GPU decode 256m: 67.0s</title></circle>
+<circle cx="283.2" cy="158.9" r="3.5" fill="var(--aqua)"><title>GPU decode 512m: 51.9s</title></circle>
+<circle cx="398.8" cy="179.8" r="3.5" fill="var(--aqua)"><title>GPU decode 1024m: 41.2s</title></circle>
+<circle cx="514.4" cy="172.7" r="3.5" fill="var(--aqua)"><title>GPU decode 2048m: 44.8s</title></circle>
+<circle cx="630.0" cy="187.2" r="3.5" fill="var(--aqua)"><title>GPU decode 4096m: 37.4s</title></circle>
+<text x="636" y="62" font-size="10.5" fill="var(--aqua)">GPU decode</text>
+</svg><figcaption>GPU work vs split (warm 2–5, summed over scan-stage tasks): <b>gpuTime</b> and <b>decode</b> fall as the split grows (fuller batches → less GPU work), while <b>wall</b> above is a U bottoming at 1g. Lower gpuTime ≠ faster — the decay diverges from the wall U-curve.</figcaption></figure>
 
 <h2>Self-tuning — converges to ~741 MB from any start, near-optimal</h2>
 <table><thead><tr><th style=text-align:left>start maxPartBytes</th><th>fixed OFF warm</th><th>ftt warm (→~741 MB)</th><th>ftt vs fixed</th></tr></thead><tbody><tr><td style=text-align:left>128m (mistuned)</td><td>9165 ms</td><td>6576 ms</td><td><b>1.39× faster</b></td></tr><tr><td style=text-align:left>4g (mistuned)</td><td>8552 ms</td><td>6760 ms</td><td><b>1.27× faster</b></td></tr><tr><td style=text-align:left>1g (already optimal)</td><td>6558 ms</td><td>~6.6–6.8 s</td><td>≈ tie (~2% slower)</td></tr></tbody></table>

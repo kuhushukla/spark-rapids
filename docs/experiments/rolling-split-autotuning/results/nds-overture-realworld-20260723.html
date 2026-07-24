@@ -111,6 +111,50 @@ FROM segment GROUP BY subtype, class ORDER BY segments DESC</pre>
 OFF (blue) has <b>twin minima at 512m and 2g</b> with a <b>+7% bump at 1g</b> (file-alignment skew). Fill-to-target
 (aqua) converges to 1.22&nbsp;GiB — ~5% above the optimum but past the 1g bump. Hover for values.</figcaption></figure>
 <table><thead><tr><th style=text-align:left>maxPartitionBytes</th><th>tasks</th><th>max batch</th><th>warm mean (ms)</th><th>vs optimum</th></tr></thead><tbody><tr><td style=text-align:left>128m</td><td>550</td><td>—</td><td>7380</td><td>+60%</td></tr><tr><td style=text-align:left><b>512m</b></td><td><b>143</b></td><td>510 MB</td><td><b>4621</b></td><td>≈ opt</td></tr><tr><td style=text-align:left>1g</td><td>99</td><td>766 MB</td><td>4914</td><td><b>+7% (skew)</b></td></tr><tr><td style=text-align:left><b>2g</b></td><td><b>40</b></td><td>766 MB</td><td><b>4601</b></td><td>≈ opt</td></tr><tr><td style=text-align:left>4g</td><td>18</td><td>766 MB</td><td>5459</td><td>+19%</td></tr></tbody></table>
+<figure><svg viewBox="0 0 720 300" width="100%" role="img" aria-label="gpu work vs split">
+<rect width="720" height="300" fill="var(--surf)"/>
+<line x1="52" y1="260" x2="630" y2="260" stroke="var(--line)"/>
+<text x="46" y="263" text-anchor="end" font-size="10" fill="var(--mut)">0s</text>
+<line x1="52" y1="209" x2="630" y2="209" stroke="var(--line)"/>
+<text x="46" y="212" text-anchor="end" font-size="10" fill="var(--mut)">20s</text>
+<line x1="52" y1="157" x2="630" y2="157" stroke="var(--line)"/>
+<text x="46" y="160" text-anchor="end" font-size="10" fill="var(--mut)">40s</text>
+<line x1="52" y1="106" x2="630" y2="106" stroke="var(--line)"/>
+<text x="46" y="109" text-anchor="end" font-size="10" fill="var(--mut)">60s</text>
+<line x1="52" y1="55" x2="630" y2="55" stroke="var(--line)"/>
+<text x="46" y="58" text-anchor="end" font-size="10" fill="var(--mut)">80s</text>
+<text x="52" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">128m</text>
+<text x="168" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="283" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="399" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="514" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="630" y="275" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="341" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,34.1 167.6,101.5 283.2,134.3 398.8,114.9 514.4,162.3 630.0,171.5" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="34.1" r="3.5" fill="var(--blue)"><title>gpuTime 128m: 88.1s</title></circle>
+<circle cx="167.6" cy="101.5" r="3.5" fill="var(--blue)"><title>gpuTime 256m: 61.8s</title></circle>
+<circle cx="283.2" cy="134.3" r="3.5" fill="var(--blue)"><title>gpuTime 512m: 49.0s</title></circle>
+<circle cx="398.8" cy="114.9" r="3.5" fill="var(--blue)"><title>gpuTime 1024m: 56.6s</title></circle>
+<circle cx="514.4" cy="162.3" r="3.5" fill="var(--blue)"><title>gpuTime 2048m: 38.1s</title></circle>
+<circle cx="630.0" cy="171.5" r="3.5" fill="var(--blue)"><title>gpuTime 4096m: 34.5s</title></circle>
+<text x="636" y="30" font-size="10.5" fill="var(--blue)">gpuTime</text>
+<polyline points="52.0,66.1 167.6,105.4 283.2,128.7 398.8,116.1 514.4,124.6 630.0,108.2" fill="none" stroke="var(--orange)" stroke-width="2"/>
+<circle cx="52.0" cy="66.1" r="3.5" fill="var(--orange)"><title>scan time 128m: 75.6s</title></circle>
+<circle cx="167.6" cy="105.4" r="3.5" fill="var(--orange)"><title>scan time 256m: 60.3s</title></circle>
+<circle cx="283.2" cy="128.7" r="3.5" fill="var(--orange)"><title>scan time 512m: 51.2s</title></circle>
+<circle cx="398.8" cy="116.1" r="3.5" fill="var(--orange)"><title>scan time 1024m: 56.1s</title></circle>
+<circle cx="514.4" cy="124.6" r="3.5" fill="var(--orange)"><title>scan time 2048m: 52.8s</title></circle>
+<circle cx="630.0" cy="108.2" r="3.5" fill="var(--orange)"><title>scan time 4096m: 59.2s</title></circle>
+<text x="636" y="46" font-size="10.5" fill="var(--orange)">scan time</text>
+<polyline points="52.0,119.7 167.6,154.1 283.2,175.1 398.8,166.1 514.4,198.2 630.0,201.3" fill="none" stroke="var(--aqua)" stroke-width="2"/>
+<circle cx="52.0" cy="119.7" r="3.5" fill="var(--aqua)"><title>GPU decode 128m: 54.7s</title></circle>
+<circle cx="167.6" cy="154.1" r="3.5" fill="var(--aqua)"><title>GPU decode 256m: 41.3s</title></circle>
+<circle cx="283.2" cy="175.1" r="3.5" fill="var(--aqua)"><title>GPU decode 512m: 33.1s</title></circle>
+<circle cx="398.8" cy="166.1" r="3.5" fill="var(--aqua)"><title>GPU decode 1024m: 36.6s</title></circle>
+<circle cx="514.4" cy="198.2" r="3.5" fill="var(--aqua)"><title>GPU decode 2048m: 24.1s</title></circle>
+<circle cx="630.0" cy="201.3" r="3.5" fill="var(--aqua)"><title>GPU decode 4096m: 22.9s</title></circle>
+<text x="636" y="62" font-size="10.5" fill="var(--aqua)">GPU decode</text>
+</svg><figcaption>GPU work vs split (warm 2–5, summed over scan-stage tasks): <b>gpuTime</b> and <b>decode</b> fall as the split grows (fuller batches → less GPU work), while <b>wall</b> above is a W (twin optima 512m≈2g). Lower gpuTime ≠ faster — the 1g gpuTime bump is the skew effect.</figcaption></figure>
 
 <h2>Why 1g is a skew bump — the W-curve explained (all measured)</h2>
 <p>The 1g inversion shows up in <b>gpuTime and scan time too</b>, so it is real GPU work, not scheduling noise.

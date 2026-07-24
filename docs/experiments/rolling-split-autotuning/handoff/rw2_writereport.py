@@ -203,6 +203,52 @@ DATA = {
     "one 2.4 GB / 18.9 s straggler task — and wall to <b>+49%</b>. On a big geometry scan, ftt is the safe way to "
     "harvest the GPU savings.",
 ),
+"gf1": dict(
+  title="Road full-profile: geometry complexity + attribute completeness + integrity", size="56.4 GiB scanned (geometry + ~15 attribute columns)",
+  slug="nds-overture-gf1-roadprofile-20260724",
+  question="A complete data-quality + geometry profile of the world road network, by class: how complete is each "
+           "class's attribution (fill rates), how geometrically complex are its shapes (WKB byte size ~ vertex "
+           "count), and are there duplicate/copied geometries (integrity)? The profile a team builds before trusting a layer.",
+  scanheavy="one scan of <b>segment</b> reading the geometry (WKB) column <b>plus every attribute column</b> "
+            "(~56 GiB / 348.7 M rows) + a tiny GROUP BY class. Heaviest per-task work of any query here. All ops "
+            "(<code>length</code>/<code>md5</code> on binary, GPU HyperLogLog for <code>approx_count_distinct</code>) "
+            "run on GPU (0 CPU fallbacks, verified post-AQE).",
+  sql="""SELECT class, COUNT(*) AS segments,
+    ROUND(AVG(length(geometry)),1) AS avg_wkb_bytes, MAX(length(geometry)) AS max_wkb_bytes,
+    (COUNT(*) - approx_count_distinct(md5(geometry))) AS approx_dup_geoms,   -- HLL, see caveat
+    ROUND(100.0*AVG(CASE WHEN names.primary IS NOT NULL THEN 1 ELSE 0 END),1) AS pct_named,
+    ... 12 more fill-rate columns (connectors/speed/access/surface/flags/width/turns/routes/…) ...
+  FROM segment WHERE class IS NOT NULL GROUP BY class ORDER BY segments DESC""",
+  res_hdr=["class","segments","avg WKB bytes","% named","% speed"],
+  res_rows=[["residential","127.9 M","94.1","42.0","8.8"],["service","61.5 M","117.4","4.1","1.8"],
+    ["unclassified","30.2 M","238.8","18.0","5.1"],["track","26.4 M","347.8","4.8","0.6"],
+    ["footway","24.3 M","131.2","3.4","0.0"],["tertiary","20.8 M","154.1","55.1","20.6"],
+    ["secondary","11.4 M","134.2","68.9","33.3"],["primary","7.4 M","124.9","69.2","41.3"],
+    ["trunk","4.2 M","138.3","61.6","38.8"]],
+  res_note="Genuine insight: <b>geometry complexity varies by class</b> — <b>track (348 B) and unclassified (239 B) "
+    "have the most complex shapes</b> (long winding rural paths → more vertices), while residential (94 B) is "
+    "simplest; and higher road classes are best-attributed (primary/secondary ~69% named, ~40% speed vs track ~5%). "
+    "<b>Honest caveat:</b> the <code>approx_dup_geoms</code> column uses <code>approx_count_distinct</code> "
+    "(GPU HyperLogLog, ~1–2% error), so on tens of millions of rows it is <b>noisy and can go slightly negative</b> "
+    "(e.g. service −0.76 M) — only <i>large</i> duplicate counts are meaningful; small ones are within the sketch's error band.",
+  data_read=[["on disk (segment, listed)","66.3 GiB","128 files"],
+    ["scanned off disk","56.4 GiB","measured (Spark input) — geometry + all ~15 attribute columns (read_selectivity 0.85)"],
+    ["decoded on GPU","~68 GiB","decode_expansion ~1.2× (reads almost everything, little to expand)"],
+    ["rows","348.7 M","segments"]],
+  sweep=[("128m",128,550,1.16,295,366.7,97.0,575.8,43617),("256m",256,286,1.08,403,432.2,76.0,404.0,42161),
+    ("512m",512,143,1.08,445,527.9,60.7,294.4,44165),("1g",1024,99,1.52,445,549.1,54.6,252.9,45392),
+    ("2g",2048,40,1.24,537,555.5,44.1,209.6,48616),("4g",4096,18,1.10,567,561.3,32.6,161.2,62750)],
+  opt_label="256m", opt_wall=42161, noisy=False,
+  ftt=dict(split="0.45 GB", split_short="0.45 GB", plot_mb=440, tasks=171, skew=1.07, avgB=455, scan=470.6,
+    decode=67.55, gpu=347.6, wall=42541, opt_cfg="256m", opt=(432.2,76.0,404.0,286,1.08)),
+  verdict="tie",
+  headline="GF1 is the clean <b>goal-met</b> case: ftt picks a <b>small 0.45 GB split</b> (because it reads geometry "
+    "+ all ~15 columns → high selectivity → high decoded/listed ratio → small split) → 171 tasks, <b>within +0.9% "
+    "of the 256m optimum on wall</b> while cutting <b>gpuTime 14% (404→348 s) and decode 11%</b>. It's the "
+    "counterexample to the rw7/rw8/gf2 overshoot: when a query reads a lot, ftt correctly sizes <i>down</i> and "
+    "lands on the optimum. (Wall rises steadily with bigger splits here — 42→63 s — as fewer, heavier tasks starve "
+    "the 16 cores; low skew ≤1.5× means it's pure parallelism, not stragglers.)",
+),
 }
 
 def pct(new,old): return (new-old)/old*100 if old else 0
@@ -351,7 +397,7 @@ def gen_html(q,d):
     dw,ds,dg=pct(f["wall"],d["opt_wall"]),pct(f["scan"],sc),pct(f["gpu"],gp)
     vclass="o" if d["verdict"]=="overshoot" else ""
     vtile={"win":("aqua","≈ / beats optimum"),"overshoot":("orange",f"gpu {dg:+.0f}%, wall {dw:+.0f}%"),
-           "tie":("aqua","≈ tie (flat)")}[d["verdict"]]
+           "tie":("aqua",f"gpu {dg:+.0f}%, wall {dw:+.0f}%")}[d["verdict"]]
     srows=[[f"<b>{lab}</b>" if lab==f["opt_cfg"] else lab,tk,f"{sk:.2f}×",f"{ab}M",f"{scn:.1f}s",f"{dec:.1f}s",f"{g:.1f}s",
             (f"<b>{w}</b>" if lab==f["opt_cfg"] else w)] for lab,mb,tk,sk,ab,scn,dec,g,w in d["sweep"]]
     fttrows=[[lab,w,f"{pct(f['wall'],w):+.0f}%",f"{scn:.1f}s",f"{pct(f['scan'],scn):+.0f}%",f"{g:.1f}s",f"{pct(f['gpu'],g):+.0f}%"]

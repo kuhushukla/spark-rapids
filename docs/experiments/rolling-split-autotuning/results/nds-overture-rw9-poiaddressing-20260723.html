@@ -20,7 +20,7 @@ th{background:var(--surf);color:var(--mut);font-weight:600}a{color:var(--blue)}.
 <div class=tiles>
 <div class=tile><div class=lab>optimum (OFF sweep)</div><div class="big blue">flat (≥1g) → 1.51s</div></div>
 <div class=tile><div class=lab>ftt converges to</div><div class="big aqua">1.92 GB</div><div class=lab>start-independent</div></div>
-<div class=tile><div class=lab>ftt vs optimum</div><div class="big aqua">≈ tie (flat)</div></div>
+<div class=tile><div class=lab>ftt vs optimum</div><div class="big aqua">gpu -77%, wall +1%</div></div>
 <div class=tile><div class=lab>byte skew opt→ftt</div><div class="big">1.27× → 1.36×</div></div>
 </div>
 <h2>The query &amp; the question</h2><p><b>Question:</b> Which kinds of business carry a usable street address vs only a point? For each category, what share of POIs have both a locality and a postcode in their embedded address (geocodable)? <b>Scan-heavy:</b> one scan of <code>places</code> categories + embedded addresses (74.2 M POIs) + a tiny GROUP BY category.</p>

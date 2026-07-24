@@ -40,6 +40,33 @@ svg.append(f'<text x="{sx(FTT_MB)+8:.0f}" y="{sy(FTT_MS)+14:.0f}" font-size="10.
 svg.append('</svg>')
 SVG="\n".join(svg)
 
+# --- GPU work vs split (gpuTime / scan / decode), warm 2-5 (from overture_warm_parse.py) ---
+# (mb, scan_s, decode_s, gpu_s)
+GPUWORK=[(128,75.6,54.7,88.1),(256,60.3,41.3,61.8),(512,51.2,33.1,49.0),(1024,56.1,36.6,56.6),(2048,52.8,24.1,38.1),(4096,59.2,22.9,34.5)]
+def svg_gpuwork():
+    W,H,PL,PR,PT,PB=720,300,52,90,16,40
+    xs=[math.log10(m) for m,*_ in GPUWORK]; gx0,gx1=min(xs),max(xs)
+    gymax=max(v for _,*r in GPUWORK for v in r)*1.08
+    def gsx(mb): return PL+(math.log10(mb)-gx0)/(gx1-gx0)*(W-PL-PR)
+    def gsy(v): return H-PB-(v/gymax)*(H-PT-PB)
+    o=[f'<svg viewBox="0 0 {W} {H}" width="100%" role="img" aria-label="gpu work vs split">',
+       f'<rect width="{W}" height="{H}" fill="var(--surf)"/>']
+    gy=0
+    while gy<=gymax:
+        o.append(f'<line x1="{PL}" y1="{gsy(gy):.0f}" x2="{W-PR}" y2="{gsy(gy):.0f}" stroke="var(--line)"/>')
+        o.append(f'<text x="{PL-6}" y="{gsy(gy)+3:.0f}" text-anchor="end" font-size="10" fill="var(--mut)">{gy:.0f}s</text>')
+        gy+=20
+    for mb,lab in [(128,"128m"),(256,"256m"),(512,"512m"),(1024,"1g"),(2048,"2g"),(4096,"4g")]:
+        o.append(f'<text x="{gsx(mb):.0f}" y="{H-PB+15}" text-anchor="middle" font-size="10" fill="var(--mut)">{lab}</text>')
+    o.append(f'<text x="{(PL+W-PR)/2:.0f}" y="{H-3}" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>')
+    for k,(idx,lab,col) in enumerate([(3,"gpuTime","var(--blue)"),(1,"scan time","var(--orange)"),(2,"GPU decode","var(--aqua)")]):
+        pts=" ".join(f"{gsx(r[0]):.1f},{gsy(r[idx]):.1f}" for r in GPUWORK)
+        o.append(f'<polyline points="{pts}" fill="none" stroke="{col}" stroke-width="2"/>')
+        for r in GPUWORK: o.append(f'<circle cx="{gsx(r[0]):.1f}" cy="{gsy(r[idx]):.1f}" r="3.5" fill="{col}"><title>{lab} {r[0]}m: {r[idx]}s</title></circle>')
+        o.append(f'<text x="{W-PR+6}" y="{PT+14+k*16}" font-size="10.5" fill="{col}">{lab}</text>')
+    o.append('</svg>'); return "\n".join(o)
+SVG_GPU=svg_gpuwork()
+
 def tbl(head, rows, lc=1):
     h="".join(f"<th{' style=text-align:left' if i<lc else ''}>{c}</th>" for i,c in enumerate(head))
     b="".join("<tr>"+"".join(f"<td{' style=text-align:left' if i<lc else ''}>{c}</td>" for i,c in enumerate(r))+"</tr>" for r in rows)
@@ -120,6 +147,7 @@ FROM segment GROUP BY subtype, class ORDER BY segments DESC</pre>
 OFF (blue) has <b>twin minima at 512m and 2g</b> with a <b>+7% bump at 1g</b> (file-alignment skew). Fill-to-target
 (aqua) converges to 1.22&nbsp;GiB — ~5% above the optimum but past the 1g bump. Hover for values.</figcaption></figure>
 {tbl(["maxPartitionBytes","tasks","max batch","warm mean (ms)","vs optimum"],[["128m","550","—","7380","+60%"],["<b>512m</b>","<b>143</b>","510 MB","<b>4621</b>","≈ opt"],["1g","99","766 MB","4914","<b>+7% (skew)</b>"],["<b>2g</b>","<b>40</b>","766 MB","<b>4601</b>","≈ opt"],["4g","18","766 MB","5459","+19%"]])}
+<figure>{SVG_GPU}<figcaption>GPU work vs split (warm 2–5, summed over scan-stage tasks): <b>gpuTime</b> and <b>decode</b> fall as the split grows (fuller batches → less GPU work), while <b>wall</b> above is a W (twin optima 512m≈2g). Lower gpuTime ≠ faster — the 1g gpuTime bump is the skew effect.</figcaption></figure>
 
 <h2>Why 1g is a skew bump — the W-curve explained (all measured)</h2>
 <p>The 1g inversion shows up in <b>gpuTime and scan time too</b>, so it is real GPU work, not scheduling noise.
