@@ -1,0 +1,148 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Overture real-world query — sweep + fill-to-target</title><style>
+:root{--bg:#fcfcfb;--surf:#fff;--ink:#0b0b0b;--mut:#52514e;--line:#e6e5e2;--blue:#2a78d6;--orange:#eb6834;--aqua:#1baf7a;--code:#f4f3f0}
+@media(prefers-color-scheme:dark){:root{--bg:#151513;--surf:#1f1f1d;--ink:#fff;--mut:#c3c2b7;--line:#33322f;--blue:#3987e5;--orange:#d95926;--aqua:#199e70;--code:#26261f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 20px 64px}
+h1{font-size:23px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 18px}
+h2{font-size:17px;margin:30px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+p{margin:9px 0}code{background:var(--code);padding:1px 5px;border-radius:4px;font:13px ui-monospace,Menlo,monospace}
+.concl{background:var(--surf);border:1px solid var(--orange);border-left:5px solid var(--orange);border-radius:10px;padding:16px 20px;margin:14px 0}
+.concl h3{margin:0 0 8px;font-size:16px}
+.tiles{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}
+.tile{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:14px 18px;min-width:160px;flex:1}
+.tile .lab{color:var(--mut);font-size:12.5px}.tile .big{font-size:22px;font-weight:600;margin-top:3px}
+.blue{color:var(--blue)}.aqua{color:var(--aqua)}.orange{color:var(--orange)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:12px 15px;overflow-x:auto;font:12px/1.55 ui-monospace,Menlo,monospace}
+figure{margin:14px 0;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:12px}
+figcaption{color:var(--mut);font-size:12.5px;padding:8px 2px 0}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0}
+th,td{padding:6px 11px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--surf);color:var(--mut);font-weight:600}
+a{color:var(--blue)}
+</style></head><body><div class=wrap>
+<h1>Overture real-world query — maxPartitionBytes sweep + fill-to-target (local, Spark 3.5.3)</h1>
+<p class=sub>Road-network coverage by class · scan-heavy · RTX A5000 · local[16] · 2026-07-23</p>
+
+<div class=concl>
+<h3>Conclusion — the autotuner rescues mistuned settings and sidesteps the 1g skew bump, landing ~5% above the twin optimum</h3>
+<p>The <b>best</b> splits are a <b>twin optimum at 512m ≈ 2g (~4.61 s)</b> — and the curve is a <b>W, not a U</b>:
+<b>1g is a reproducible +7% "skew bump"</b> between them (file-alignment skew, see below). The autotuner converges to
+<b>1.22 GiB from any start</b> (~4.84 s): it <b>rescues a badly-set</b> <code>maxPartitionBytes</code> and even
+<b>beats a hand-set 1g</b>, but lands ~5% above the twin optimum.</p>
+<table>
+<tr><td>if you set it to…</td><td><b>you get</b></td><td><b>autotuner gives</b></td><td><b>autotuner is</b></td></tr>
+<tr><td>128m (bad)</td><td>7.4 s</td><td>4.8 s</td><td class=aqua><b>1.52× faster</b></td></tr>
+<tr><td>4g (bad)</td><td>5.5 s</td><td>4.8 s</td><td class=aqua><b>1.13× faster</b></td></tr>
+<tr><td>1g (skew bump)</td><td>4.91 s</td><td>4.84 s</td><td class=aqua><b>1.02× faster</b></td></tr>
+<tr><td>512m / 2g (the best)</td><td>4.61 s</td><td>4.84 s</td><td class=orange><b>~5% slower</b></td></tr>
+</table>
+<p style="margin:6px 0 0">The optimal split is <b>query-dependent</b> (512m/2g here vs 1g for the profiling query) and
+even <b>non-monotonic</b>. The autotuner's single "fill one 1&nbsp;GiB batch/task" target can't hit every optimum, but
+ftt is <b>not</b> skew-aware — it feeds the same Spark bin-packer and never looks at file sizes; it only dodged the 1g
+resonance because its computed 1.22&nbsp;GiB landed <i>off</i> the 888&nbsp;MB file boundary. Round powers-of-two
+(512m/1g/2g) more often coincide with a file boundary; ftt's odd content-derived value incidentally less so.
+Value: avoid a bad setting, not beat a tuned one.</p>
+</div>
+
+<div class=tiles>
+<div class=tile><div class=lab>optimum (OFF sweep)</div><div class="big blue">512m ≈ 2g → 4.61 s</div><div class=lab>twin minima — a W, not a U</div></div>
+<div class=tile><div class=lab>1g skew bump</div><div class="big orange">+7%</div><div class=lab>byte skew 2.18× at file-size alignment</div></div>
+<div class=tile><div class=lab>autotuner converges to</div><div class="big aqua">1.22 GiB</div><div class=lab>from any start; ~5% above optimum</div></div>
+<div class=tile><div class=lab>vs mistuned baseline</div><div class="big aqua">1.13–1.52×</div><div class=lab>faster</div></div>
+</div>
+
+<h2>The query &amp; the question it poses</h2>
+<p><b>Real-world question:</b> <i>road-network coverage by class</i> — for each road subtype+class: how many segments,
+% named, % with a speed limit, avg connectors. A genuine data-coverage analysis (null-safe). <b>Scan-heavy:</b> one
+66&nbsp;GiB scan + a tiny <code>GROUP BY subtype,class</code> (~20 groups), so scan+decode dominate.</p>
+<pre>SELECT subtype, class, COUNT(*) AS segments,
+  ROUND(100.0*COUNT(names.primary)/COUNT(*),1)                                  AS pct_named,
+  ROUND(100.0*SUM(CASE WHEN size(speed_limits)>0 THEN 1 ELSE 0 END)/COUNT(*),1) AS pct_speed_limit,
+  ROUND(AVG(CASE WHEN size(connectors)>0 THEN size(connectors) ELSE 0 END),2)   AS avg_connectors
+FROM segment GROUP BY subtype, class ORDER BY segments DESC</pre>
+<p><b>Result</b> (real insight — major roads are far better annotated):</p>
+<table><thead><tr><th style=text-align:left>subtype</th><th style=text-align:left>class</th><th>segments</th><th>% named</th><th>% speed_limit</th><th>avg connectors</th></tr></thead><tbody><tr><td style=text-align:left>road</td><td style=text-align:left>residential</td><td>127.9 M</td><td>42.0</td><td>8.8</td><td>2.28</td></tr><tr><td style=text-align:left>road</td><td style=text-align:left>service</td><td>61.5 M</td><td>4.1</td><td>1.8</td><td>2.70</td></tr><tr><td style=text-align:left>road</td><td style=text-align:left>tertiary</td><td>20.8 M</td><td>55.1</td><td>20.6</td><td>2.66</td></tr><tr><td style=text-align:left>road</td><td style=text-align:left>secondary</td><td>11.4 M</td><td>68.9</td><td>33.3</td><td>2.70</td></tr><tr><td style=text-align:left>road</td><td style=text-align:left>primary</td><td>7.4 M</td><td>69.2</td><td>41.3</td><td>2.64</td></tr><tr><td style=text-align:left>road</td><td style=text-align:left>trunk</td><td>4.2 M</td><td>61.6</td><td>38.8</td><td>2.45</td></tr><tr><td style=text-align:left>road</td><td style=text-align:left>motorway</td><td>1.1 M</td><td>34.8</td><td>41.8</td><td>2.17</td></tr><tr><td style=text-align:left>rail</td><td style=text-align:left>standard_gauge</td><td>1.5 M</td><td>13.6</td><td>0.0</td><td>3.69</td></tr></tbody></table>
+
+<h2>Data read (per query execution)</h2>
+<table><thead><tr><th style=text-align:left>stage</th><th>bytes</th><th>note</th></tr></thead><tbody><tr><td style=text-align:left>on disk (listed)</td><td>66.3 GiB</td><td>128 files</td></tr><tr><td style=text-align:left>read off disk</td><td>12.2 GiB</td><td>read_selectivity 0.184 (fewer/smaller cols than profiling query)</td></tr><tr><td style=text-align:left>decoded on GPU</td><td>54.3 GiB</td><td>decode_expansion 4.45×</td></tr><tr><td style=text-align:left>rows</td><td>348.7 M</td><td>segments</td></tr></tbody></table>
+
+<h2>Baseline sweep (autotuner OFF) → twin optima 512m ≈ 2g; 1g is a skew bump</h2>
+<figure><svg viewBox="0 0 720 340" width="100%" role="img" aria-label="real-world query sweep vs fill-to-target">
+<rect width="720" height="340" fill="var(--surf)"/>
+<line x1="54" y1="283" x2="704" y2="283" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="286" text-anchor="end" font-size="10" fill="var(--mut)">4.5s</text>
+<line x1="54" y1="240" x2="704" y2="240" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="243" text-anchor="end" font-size="10" fill="var(--mut)">5.0s</text>
+<line x1="54" y1="197" x2="704" y2="197" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="200" text-anchor="end" font-size="10" fill="var(--mut)">5.5s</text>
+<line x1="54" y1="155" x2="704" y2="155" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="158" text-anchor="end" font-size="10" fill="var(--mut)">6.0s</text>
+<line x1="54" y1="112" x2="704" y2="112" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="115" text-anchor="end" font-size="10" fill="var(--mut)">6.5s</text>
+<line x1="54" y1="69" x2="704" y2="69" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="72" text-anchor="end" font-size="10" fill="var(--mut)">7.0s</text>
+<line x1="54" y1="27" x2="704" y2="27" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="30" text-anchor="end" font-size="10" fill="var(--mut)">7.5s</text>
+<text x="54" y="315" text-anchor="middle" font-size="10" fill="var(--mut)">128m</text>
+<text x="184" y="315" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="314" y="315" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="444" y="315" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="574" y="315" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="704" y="315" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="379" y="336" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<text x="13" y="159" text-anchor="middle" font-size="11" fill="var(--ink)" transform="rotate(-90 13 159)">warm runtime</text>
+<polyline points="54.0,36.8 184.0,205.4 314.0,272.6 444.0,247.5 574.0,274.3 704.0,201.0" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="54.0" cy="36.8" r="4" fill="var(--blue)"><title>OFF 128m: 7380 ms</title></circle>
+<circle cx="184.0" cy="205.4" r="4" fill="var(--blue)"><title>OFF 256m: 5407 ms</title></circle>
+<circle cx="314.0" cy="272.6" r="4" fill="var(--blue)"><title>OFF 512m: 4621 ms</title></circle>
+<circle cx="444.0" cy="247.5" r="4" fill="var(--blue)"><title>OFF 1024m: 4914 ms</title></circle>
+<circle cx="574.0" cy="274.3" r="4" fill="var(--blue)"><title>OFF 2048m: 4601 ms</title></circle>
+<circle cx="704.0" cy="201.0" r="4" fill="var(--blue)"><title>OFF 4096m: 5459 ms</title></circle>
+<circle cx="314.0" cy="272.6" r="7" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="574.0" cy="274.3" r="7" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<text x="314" y="291" text-anchor="middle" font-size="10" fill="var(--blue)">optimum</text>
+<text x="574" y="292" text-anchor="middle" font-size="10" fill="var(--blue)">optimum</text>
+<text x="444" y="239" text-anchor="middle" font-size="10" fill="var(--orange)">1g skew bump (2.18×)</text>
+<circle cx="481.4" cy="253.9" r="6" fill="var(--aqua)" stroke="var(--surf)" stroke-width="1.4"><title>ftt -> 1.22 GiB: 4840 ms</title></circle>
+<text x="489" y="268" font-size="10.5" fill="var(--aqua)">ftt (1.22 GiB) — ~5% above optimum</text>
+</svg><figcaption>Drift-cancelled interleaved probe (10 warm rounds, all configs back-to-back each round).
+OFF (blue) has <b>twin minima at 512m and 2g</b> with a <b>+7% bump at 1g</b> (file-alignment skew). Fill-to-target
+(aqua) converges to 1.22&nbsp;GiB — ~5% above the optimum but past the 1g bump. Hover for values.</figcaption></figure>
+<table><thead><tr><th style=text-align:left>maxPartitionBytes</th><th>tasks</th><th>max batch</th><th>warm mean (ms)</th><th>vs optimum</th></tr></thead><tbody><tr><td style=text-align:left>128m</td><td>550</td><td>—</td><td>7380</td><td>+60%</td></tr><tr><td style=text-align:left><b>512m</b></td><td><b>143</b></td><td>510 MB</td><td><b>4621</b></td><td>≈ opt</td></tr><tr><td style=text-align:left>1g</td><td>99</td><td>766 MB</td><td>4914</td><td><b>+7% (skew)</b></td></tr><tr><td style=text-align:left><b>2g</b></td><td><b>40</b></td><td>766 MB</td><td><b>4601</b></td><td>≈ opt</td></tr><tr><td style=text-align:left>4g</td><td>18</td><td>766 MB</td><td>5459</td><td>+19%</td></tr></tbody></table>
+
+<h2>Why 1g is a skew bump — the W-curve explained (all measured)</h2>
+<p>The 1g inversion shows up in <b>gpuTime and scan time too</b>, so it is real GPU work, not scheduling noise.
+<b>Byte skew</b> = <code>max(bytes/task) ÷ median(bytes/task)</code> for the scan stage — how far the fattest task's
+input stretches above the typical one (1.0 = balanced; a stage ends on its slowest task, so high skew → straggler).</p>
+<table><thead><tr><th style=text-align:left>config</th><th>tasks</th><th>byte skew</th><th>avg batch</th><th>scan time</th><th>GPU decode</th><th>gpuTime</th><th>wall ms</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>286</td><td>1.73×</td><td>194 M</td><td>60.3 s</td><td>41.3 s</td><td>61.8 s</td><td>5407</td></tr><tr><td style=text-align:left><b>512m</b></td><td>143</td><td>1.59×</td><td><b>389 M</b></td><td>51.2 s</td><td>33.1 s</td><td>49.0 s</td><td><b>4621</b></td></tr><tr><td style=text-align:left><b>1g</b></td><td>99</td><td><b>2.18×</b></td><td><b>354 M ↓</b></td><td><b>56.1 s ↑</b></td><td>36.6 s ↑</td><td><b>56.6 s ↑</b></td><td><b>4914 ↑</b></td></tr><tr><td style=text-align:left><b>2g</b></td><td>40</td><td>1.37×</td><td>381 M</td><td>52.8 s</td><td>24.1 s</td><td>38.1 s</td><td><b>4601</b></td></tr><tr><td style=text-align:left>4g</td><td>18</td><td>1.22×</td><td>409 M</td><td>59.2 s</td><td>22.9 s</td><td>34.5 s</td><td>5459</td></tr></tbody></table>
+<p><b>The measured chain at 1g:</b> byte skew <b>peaks at 2.18×</b> → avg batch <b>drops to 354 M</b>, below 512m's
+389 M <i>even though splits are bigger</i> → decode <b>less efficient (36.6 s > 33.1 s)</b> → gpuTime <b>rises (56.6 s)</b>
+→ scan time <b>rises (56.1 s)</b> → wall clock <b>rises (4914 ms)</b>.</p>
+<p><b>Why skew peaks at 1g — file alignment.</b> The 128 files are <b>611–1125 MB, median 888 MB</b> (row groups are
+small &amp; uniform: 2.6–23 MB, <i>not</i> fat). Spark bin-packs files into splits capped at <code>maxPartitionBytes</code>:
+<b>512m &lt; file</b> → each file halves into ~2 even tasks (skew 1.59×); <b>1g ≈ file (888 MB)</b> → splits align to
+file boundaries → a 1125 MB file → one ~1g task <b>+ a small remainder</b> → fat right tail + remainder shoulder
+(skew 2.18×), and the remainders decode as small batches; <b>2g &gt; file</b> → 2–3 files combine per split, variance
+averages out (skew 1.37×). So 1g is the <b>file-size resonance point</b>: worst packing → emptiest average batch → the bump.
+<span style="color:var(--mut)">(Skew-peaks-at-1g and runtime-peaks-at-1g are directly measured; the file-alignment cause is inferred from the
+file-size histogram + Spark's bin-packing.)</span></p>
+
+<h2>ftt vs fixed settings — wall, gpuTime &amp; scan-time diffs (iters 2–5)</h2>
+<p>ftt converges to 1.22&nbsp;GiB: <b>scan 54.2 s, gpuTime 46.9 s, wall 4840 ms</b>. Δ = ftt − baseline.</p>
+<table><thead><tr><th style=text-align:left>baseline</th><th>wall</th><th>Δ wall</th><th>scan s</th><th>Δ scan</th><th>gpuTime s</th><th>Δ gpuTime</th></tr></thead><tbody><tr><td style=text-align:left>128m (mistuned)</td><td>7380</td><td><b>−34%</b></td><td>60.3</td><td>−10%</td><td>61.8</td><td><b>−24%</b></td></tr><tr><td style=text-align:left>4g (mistuned)</td><td>5459</td><td><b>−11%</b></td><td>59.2</td><td>−8%</td><td>34.5</td><td>+36%</td></tr><tr><td style=text-align:left><b>512m (optimum)</b></td><td><b>4621</b></td><td>+5%</td><td>51.2</td><td>+6%</td><td>49.0</td><td>−4%</td></tr><tr><td style=text-align:left><b>2g (optimum)</b></td><td><b>4601</b></td><td>+5%</td><td>52.8</td><td>+3%</td><td>38.1</td><td>+23%</td></tr><tr><td style=text-align:left>1g (skew bump)</td><td>4914</td><td><b>−2%</b></td><td>56.1</td><td>−3%</td><td>56.6</td><td><b>−17%</b></td></tr></tbody></table>
+<p>ftt <b>cuts gpuTime &amp; scan time vs the small-split configs</b> (128m, 512m, 1g — where skew / small batches bloat
+GPU work) but runs <b>higher gpuTime than 2g/4g</b> (few large tasks decode very efficiently). Vs the 1g skew bump it
+wins on wall (−2%) and gpuTime (−17%); vs the twin optimum it's ~5% slower on wall despite comparable GPU work — the
+optima win on <b>parallelism</b>, not GPU efficiency.</p>
+
+<h2>Warm-to-warm: fuller batches, fewer tasks — but slower (iters 2–5)</h2>
+<table><thead><tr><th style=text-align:left>metric (warm/iter)</th><th>512m (optimum)</th><th>ftt (→1.22 GiB)</th></tr></thead><tbody><tr><td style=text-align:left>scan-stage tasks</td><td>143</td><td>73</td></tr><tr><td style=text-align:left>avg output batch</td><td>389 MB (38%)</td><td>323 MB (32%)</td></tr><tr><td style=text-align:left>max output batch</td><td>510 MB</td><td>766 MB</td></tr><tr><td style=text-align:left>GPU decode</td><td>33.1 s</td><td>29.9–32.1 s</td></tr><tr><td style=text-align:left>scan-stage gpuTime</td><td>49.0 s</td><td>45.6–48.1 s</td></tr></tbody></table>
+<p>ftt makes <b>fuller batches</b> (766 vs 510 MB) with <b>fewer tasks</b> (73 vs 143) and marginally lower GPU work,
+yet is <b>~5% slower</b> — this query is bottlenecked on <b>parallelism</b>, not GPU work. Fuller ≠ faster.</p>
+
+<h2>Full report</h2>
+<ul><li><a href="nds-overture-realworld-20260723.md">Result doc</a> — query, result, sweep, ftt, warm-to-warm, sources.</li>
+<li>Companion (profiling query, ftt near-optimal): <a href="nds-overture-ftt-local-20260723.md">nds-overture-ftt-local-20260723</a>.</li></ul>
+</div></body></html>

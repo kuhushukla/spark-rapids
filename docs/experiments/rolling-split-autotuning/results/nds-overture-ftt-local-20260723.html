@@ -1,0 +1,153 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Overture fill-to-target (local) — scan-split POC</title><style>
+:root{--bg:#fcfcfb;--surf:#fff;--ink:#0b0b0b;--mut:#52514e;--line:#e6e5e2;--blue:#2a78d6;--orange:#eb6834;--aqua:#1baf7a;--code:#f4f3f0}
+@media(prefers-color-scheme:dark){:root{--bg:#151513;--surf:#1f1f1d;--ink:#fff;--mut:#c3c2b7;--line:#33322f;--blue:#3987e5;--orange:#d95926;--aqua:#199e70;--code:#26261f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 20px 64px}
+h1{font-size:24px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 20px}
+h2{font-size:17px;margin:32px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+p{margin:9px 0}code{background:var(--code);padding:1px 5px;border-radius:4px;font:13px ui-monospace,Menlo,monospace}
+.tiles{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}
+.tile{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:14px 18px;min-width:160px;flex:1}
+.tile .lab{color:var(--mut);font-size:12.5px}.tile .big{font-size:22px;font-weight:600;margin-top:3px}
+.blue{color:var(--blue)}.aqua{color:var(--aqua)}.orange{color:var(--orange)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:12px 15px;overflow-x:auto;font:12.5px/1.6 ui-monospace,Menlo,monospace}
+figure{margin:14px 0;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:12px}
+figcaption{color:var(--mut);font-size:12.5px;padding:8px 2px 0}
+.tblwrap{overflow:auto;border:1px solid var(--line);border-radius:10px;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:6px 11px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--surf);color:var(--mut);font-weight:600}
+a{color:var(--blue)}ul{margin:8px 0}
+.concl{background:var(--surf);border:1px solid var(--aqua);border-left:5px solid var(--aqua);border-radius:10px;padding:16px 20px;margin:14px 0}
+.concl h3{margin:0 0 8px;font-size:16px}.concl table{width:auto;margin:10px 0}.concl td{padding:4px 14px 4px 0;border:none;text-align:left}
+</style></head><body><div class=wrap>
+<h1>Overture scan-heavy query — fill-to-target vs tuned baseline (local, Spark 3.5.3)</h1>
+<p class=sub>Single-scan, wide-nested-column query · RTX A5000 · local[16] · 2026-07-23</p>
+
+<div class=concl>
+<h3>Conclusion — the autotuner lands you near the best split automatically, no tuning needed</h3>
+<p>The <b>best</b> split for this query (found by trying every <code>maxPartitionBytes</code>) is <b>1 GiB → 6.56 s</b>.
+The autotuner picks <b>~741 MB on its own — from <i>any</i> starting <code>maxPartitionBytes</code> — and runs ~6.6 s,
+within ~2% of that best.</b> So you don't need to sweep <code>maxPartitionBytes</code>:</p>
+<table>
+<tr><td>if you set it to…</td><td><b>you get</b></td><td><b>autotuner gives</b></td><td><b>autotuner is</b></td></tr>
+<tr><td>128m (a bad guess)</td><td>9.2 s</td><td>6.6 s</td><td class=aqua><b>1.39× faster</b></td></tr>
+<tr><td>4g (a bad guess)</td><td>8.6 s</td><td>6.8 s</td><td class=aqua><b>1.27× faster</b></td></tr>
+<tr><td>1g (already the best)</td><td>6.56 s</td><td>6.6 s</td><td>≈ same (−2%)</td></tr>
+</table>
+<p style="margin:6px 0 0">Guess badly → the autotuner is 27–39% faster; guess perfectly → it ties. Either way it converges
+to the same ~741 MB split. (It doesn't <i>beat</i> a perfectly-tuned value because the batch is already as full as
+this data allows — details below.)</p>
+</div>
+
+<p><code>fill-to-target</code> (ftt) sizes the split so each task decodes ~one 1&nbsp;GiB GPU batch
+(<code>maxSplitBytes = batchSize/(decoded/listed)</code>). Does it beat a tuned <code>maxPartitionBytes</code>, and
+can it <b>self-tune</b> without a sweep?</p>
+
+<div class=tiles>
+<div class=tile><div class=lab>autotuner vs tuning</div><div class="big aqua">no sweep needed</div><div class=lab>lands within ~2% of the best split, from any maxPartBytes</div></div>
+<div class=tile><div class=lab>ftt vs mistuned baseline</div><div class="big aqua">1.27–1.39×</div><div class=lab>faster (recovers from 128m / 4g)</div></div>
+<div class=tile><div class=lab>ftt vs tuned optimum (1g)</div><div class="big">≈ tie (−2%)</div><div class=lab>ftt's 741 MB is in the plateau</div></div>
+<div class=tile><div class=lab>converged split</div><div class="big aqua">~741 MB</div><div class=lab>from any start maxPartBytes</div></div>
+</div>
+
+<h2>The query &amp; the question it poses</h2>
+<p><b>Question:</b> <i>profile the global Overture transportation-segment network</i> — across all 348.7&nbsp;M
+segments, how big is it, how connected, how much regulatory metadata (access restrictions, speed limits) does it
+carry, how many roads are named, how much provenance exists, and how large is a typical segment geographically.</p>
+<p>It is a <b>scan-heavy query</b>: a single Parquet scan, <b>no join and no GROUP BY</b>, over deeply nested
+array/struct columns (5× decode expansion). Essentially all the work is the scan + decode (only a trivial 1-row
+final aggregate) — so it is ~100% scan-dominated, which is exactly the case the split lever is meant to affect.</p>
+<pre>SELECT
+  COUNT(*)                        AS segments,             -- how many road/path segments
+  SUM(size(connectors))           AS total_connector_refs, -- total junction/connection points
+  AVG(size(access_restrictions))  AS avg_access_restr,     -- avg regulatory restrictions / segment
+  AVG(size(speed_limits))         AS avg_speed_limits,     -- avg speed-limit records / segment
+  COUNT(names.primary)            AS named_segments,       -- segments with a primary name
+  SUM(size(sources))              AS total_sources,        -- total provenance/source records
+  AVG(bbox.xmax - bbox.xmin)      AS avg_bbox_width_deg     -- avg geographic span (degrees)
+FROM segment</pre>
+<p><b>Result</b> (measured, all 348.7&nbsp;M segments) — with honest caveats:</p>
+<table><thead><tr><th style=text-align:left>profile</th><th>result</th><th>reading</th></tr></thead><tbody><tr><td style=text-align:left>segments</td><td>348,672,901</td><td>348.7 M road/path segments</td></tr><tr><td style=text-align:left>connectors</td><td>897,200,683</td><td>~2.57 per segment (well connected)</td></tr><tr><td style=text-align:left>named</td><td>94,113,420</td><td><b>27%</b> of segments are named</td></tr><tr><td style=text-align:left>sources</td><td>407,039,736</td><td>~1.17 provenance records/segment</td></tr><tr><td style=text-align:left>avg access restr.</td><td><b>−0.68</b></td><td>artifact: size(NULL)=−1 → most segments have none</td></tr><tr><td style=text-align:left>avg speed limits</td><td><b>−0.84</b></td><td>artifact: most segments carry no speed-limit data</td></tr><tr><td style=text-align:left>avg bbox width</td><td><b>0.00183°</b></td><td>bbox longitude span (~200 m), not a true length</td></tr></tbody></table>
+<p>Valid outputs (count, connectivity, 27% named, ~1.2 sources) profile the network shape, but <b>3 of the 7
+aggregates are artifacts</b> (negative averages from <code>size(NULL)=−1</code>; bbox-degrees isn't a length). Fine
+as a <b>benchmark</b> probe, weak as an <b>analytical</b> query — a null-safe <code>GROUP BY class</code> rewrite is
+in <code>handoff/overture-realworld.scala</code>.</p>
+
+<h2>Data read (per query execution)</h2>
+<table><thead><tr><th style=text-align:left>stage</th><th>bytes</th><th>note</th></tr></thead><tbody><tr><td style=text-align:left>on disk (listed)</td><td>66.3 GiB</td><td>128 files, 332–761 MB</td></tr><tr><td style=text-align:left>read off disk</td><td>18.2 GiB</td><td>read_selectivity 0.275 (6 nested cols projected)</td></tr><tr><td style=text-align:left>decoded on GPU</td><td>91.6 GiB</td><td>decode_expansion 5.03× (array/struct)</td></tr><tr><td style=text-align:left>rows</td><td>348.7 M</td><td>segment rows</td></tr></tbody></table>
+
+<h2>Sanity — scan pipeline is fully GPU</h2>
+<p>Executed plan: <code>GpuScan parquet → GpuProject → GpuHashAggregate → GpuColumnarExchange → GpuShuffleCoalesce</code>
+— all GPU (GpuScan does 348.7&nbsp;M rows / 91.6&nbsp;GiB decode). Only CPU work: the final <code>GpuColumnarToRow →
+HashAggregate</code> global reduction (~127 partial rows → 1), not scan-related. No OOM.</p>
+
+<h2>Baseline sweep (autotuner OFF) → optimal = 1g, and how ftt flattens it</h2>
+<figure><svg viewBox="0 0 720 360" width="100%" role="img" aria-label="OFF sweep vs fill-to-target warm runtime">
+<rect width="720" height="360" fill="var(--surf)"/>
+<line x1="54" y1="300" x2="704" y2="300" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="303" text-anchor="end" font-size="10" fill="var(--mut)">6.5s</text>
+<line x1="54" y1="250" x2="704" y2="250" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="253" text-anchor="end" font-size="10" fill="var(--mut)">7.0s</text>
+<line x1="54" y1="199" x2="704" y2="199" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="202" text-anchor="end" font-size="10" fill="var(--mut)">7.5s</text>
+<line x1="54" y1="149" x2="704" y2="149" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="152" text-anchor="end" font-size="10" fill="var(--mut)">8.0s</text>
+<line x1="54" y1="99" x2="704" y2="99" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="102" text-anchor="end" font-size="10" fill="var(--mut)">8.5s</text>
+<line x1="54" y1="48" x2="704" y2="48" stroke="var(--line)" stroke-width="1"/>
+<text x="48" y="51" text-anchor="end" font-size="10" fill="var(--mut)">9.0s</text>
+<text x="54" y="335" text-anchor="middle" font-size="10" fill="var(--mut)">128m</text>
+<text x="184" y="335" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="314" y="335" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="444" y="335" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="574" y="335" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="704" y="335" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="379" y="356" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<text x="13" y="169" text-anchor="middle" font-size="11" fill="var(--ink)" transform="rotate(-90 13 169)">warm runtime</text>
+<polyline points="54.0,31.6 184.0,160.1 314.0,265.2 444.0,294.0 574.0,208.8 704.0,93.3" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="54.0" cy="31.6" r="4" fill="var(--blue)"><title>OFF 128m: 9165 ms</title></circle>
+<circle cx="184.0" cy="160.1" r="4" fill="var(--blue)"><title>OFF 256m: 7888 ms</title></circle>
+<circle cx="314.0" cy="265.2" r="4" fill="var(--blue)"><title>OFF 512m: 6844 ms</title></circle>
+<circle cx="444.0" cy="294.0" r="4" fill="var(--blue)"><title>OFF 1024m: 6558 ms</title></circle>
+<circle cx="574.0" cy="208.8" r="4" fill="var(--blue)"><title>OFF 2048m: 7405 ms</title></circle>
+<circle cx="704.0" cy="93.3" r="4" fill="var(--blue)"><title>OFF 4096m: 8552 ms</title></circle>
+<text x="184" y="152" font-size="10.5" fill="var(--blue)">OFF (fixed) — a U you must tune</text>
+<line x1="54.0" y1="283.0" x2="704.0" y2="283.0" stroke="var(--aqua)" stroke-width="2" stroke-dasharray="5 3"/>
+<circle cx="54.0" cy="292.2" r="5" fill="var(--aqua)" stroke="var(--surf)" stroke-width="1.4"><title>ftt from 128m -> ~741MB: 6576 ms</title></circle>
+<circle cx="704.0" cy="273.7" r="5" fill="var(--aqua)" stroke="var(--surf)" stroke-width="1.4"><title>ftt from 4096m -> ~741MB: 6760 ms</title></circle>
+<text x="444" y="299" font-size="10.5" fill="var(--aqua)">fill-to-target — ~741 MB &amp; near-optimal from any start</text>
+</svg><figcaption>OFF (blue) is a U-shape you must tune per dataset; fill-to-target (aqua) converges to the
+same ~741&nbsp;MB split and ~6.6–6.8&nbsp;s warm regardless of the starting maxPartitionBytes — rescuing a mistuned
+setting and landing ~2% above the tuned optimum. Hover for values.</figcaption></figure>
+
+<h2>Self-tuning — converges to ~741 MB from any start, near-optimal</h2>
+<table><thead><tr><th style=text-align:left>start maxPartBytes</th><th>fixed OFF warm</th><th>ftt warm (→~741 MB)</th><th>ftt vs fixed</th></tr></thead><tbody><tr><td style=text-align:left>128m (mistuned)</td><td>9165 ms</td><td>6576 ms</td><td><b>1.39× faster</b></td></tr><tr><td style=text-align:left>4g (mistuned)</td><td>8552 ms</td><td>6760 ms</td><td><b>1.27× faster</b></td></tr><tr><td style=text-align:left>1g (already optimal)</td><td>6558 ms</td><td>~6.6–6.8 s</td><td>≈ tie (~2% slower)</td></tr></tbody></table>
+<p>Both suboptimal starts DECIDE the same ~741&nbsp;MB split (<code>bound_by=ratio</code>); only iter1 (cold)
+reflects the start. So no per-dataset <code>maxPartitionBytes</code> sweep is needed — ftt lands near-optimal automatically.</p>
+
+<h2>Warm-to-warm: ftt ties the optimum on GPU work (batch plateaus)</h2>
+<p>Apples-to-apples, <b>iters 2–5 only</b> (iter1 = COLD_START, no memory yet → default split; excluded). Scan
+metrics attributed per SQL execution:</p>
+<table><thead><tr><th style=text-align:left>metric (warm/iter)</th><th>off-1g (1 GiB)</th><th>ftt (→741 MB)</th></tr></thead><tbody><tr><td style=text-align:left>scan-stage tasks</td><td>99</td><td>127 (+28%)</td></tr><tr><td style=text-align:left>avg output batch</td><td>413 MB (40%)</td><td>401 MB (39%)</td></tr><tr><td style=text-align:left>max output batch/task</td><td><b>722 MB</b></td><td><b>722 MB</b></td></tr><tr><td style=text-align:left>GPU decode</td><td>42.1 s</td><td>41.5–43.4 s</td></tr><tr><td style=text-align:left>scan-stage gpuTime</td><td>72.0 s</td><td>72.6–73.6 s</td></tr></tbody></table>
+<p><b>ftt matches the tuned optimum on decode, gpuTime, and batch</b> — the only difference is +28% tasks, costing
+the ~2% runtime. ftt's lever is batch fullness, but here the batch <b>grows with the split only up to ~512m, then
+plateaus at 722&nbsp;MB</b> (71% of the 1&nbsp;GiB target). ftt's ~741&nbsp;MB sits <b>in the plateau</b> — no
+fullness left to gain, so it correctly stops there.</p>
+<p><b>Mechanism</b> (<code>GpuParquetScan.scala</code>): <code>maxSplitBytes</code> only picks which row groups per
+task. <code>populateCurrentBlockChunk</code> (2140–2174) accumulates row groups to <code>maxReadBatchSizeBytes</code>
+(2&nbsp;GiB); the cuDF chunked reader emits batches ≤ <code>gpuTargetBatchSize</code> (1&nbsp;GiB) on row-group
+boundaries — largest aligned chunk here is 722&nbsp;MB. To exceed it, tune
+<code>spark.rapids.sql.batchSizeBytes</code> / <code>reader.batchSizeBytes</code>, not the split.</p>
+
+<h2>Appendix — batch size vs maxPartitionBytes (OFF sweep)</h2>
+<table><thead><tr><th style=text-align:left>maxPartitionBytes</th><th>tasks</th><th>avg batch</th><th>max batch/task</th></tr></thead><tbody><tr><td style=text-align:left>128m</td><td>550</td><td>170 MB (17%)</td><td><b>273 MB (27%)</b></td></tr><tr><td style=text-align:left>256m</td><td>286</td><td>327 MB (32%)</td><td><b>524 MB (51%)</b></td></tr><tr><td style=text-align:left>512m</td><td>143</td><td>460 MB (45%)</td><td><b>722 MB (71%)</b></td></tr><tr><td style=text-align:left>1g</td><td>99</td><td>413 MB (40%)</td><td><b>722 MB (71%)</b></td></tr><tr><td style=text-align:left>2g</td><td>40</td><td>423 MB (41%)</td><td><b>725 MB (71%)</b></td></tr><tr><td style=text-align:left>4g</td><td>18</td><td>427 MB (42%)</td><td><b>722 MB (71%)</b></td></tr></tbody></table>
+<p>Max batch grows with the split up to ~512m, then plateaus at ~722&nbsp;MB (split-limited below ~512m,
+reader-capped above). ftt's ~741&nbsp;MB is in the plateau. % of the 1&nbsp;GiB <code>gpuTargetBatchSize</code>.</p>
+
+<h2>Full report</h2>
+<ul><li><a href="nds-overture-ftt-local-20260723.md">Result doc</a> — setup, data read, sanity, sweep, self-tuning, batch-plateau mechanism, appendix, sources.</li>
+<li>Contrast: <a href="nds-sf3k-scandominance-poc-final-20260722.md">NDS scan-dominance POC</a> (where the split <i>did</i> control fullness).</li></ul>
+</div></body></html>

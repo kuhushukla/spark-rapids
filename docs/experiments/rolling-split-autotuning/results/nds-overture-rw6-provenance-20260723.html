@@ -1,0 +1,115 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>Basemap provenance audit (who mapped the world) — sweep + fill-to-target</title><style>:root{--bg:#fcfcfb;--surf:#fff;--ink:#0b0b0b;--mut:#52514e;--line:#e6e5e2;--blue:#2a78d6;--orange:#eb6834;--aqua:#1baf7a;--code:#f4f3f0}
+@media(prefers-color-scheme:dark){:root{--bg:#151513;--surf:#1f1f1d;--ink:#fff;--mut:#c3c2b7;--line:#33322f;--blue:#3987e5;--orange:#d95926;--aqua:#199e70;--code:#26261f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 20px 64px}h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 18px}
+h2{font-size:17px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}p{margin:9px 0}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font:13px ui-monospace,Menlo,monospace}
+.concl{background:var(--surf);border:1px solid var(--blue);border-left:5px solid var(--blue);border-radius:10px;padding:16px 20px;margin:14px 0}
+.concl.o{border-color:var(--orange);border-left-color:var(--orange)}.concl h3{margin:0 0 8px;font-size:16px}
+.tiles{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.tile{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:14px 18px;min-width:150px;flex:1}
+.tile .lab{color:var(--mut);font-size:12.5px}.tile .big{font-size:20px;font-weight:600;margin-top:3px}
+.blue{color:var(--blue)}.aqua{color:var(--aqua)}.orange{color:var(--orange)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:12px 15px;overflow-x:auto;font:12px/1.5 ui-monospace,Menlo,monospace}
+figure{margin:14px 0;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:12px}figcaption{color:var(--mut);font-size:12.5px;padding:8px 2px 0}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0}th,td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--surf);color:var(--mut);font-weight:600}a{color:var(--blue)}.warn{color:var(--orange)}</style></head><body><div class=wrap>
+<h1>Basemap provenance audit (who mapped the world) — maxPartitionBytes sweep + fill-to-target (local, Spark 3.5.3)</h1>
+<p class=sub>Overture <b>RW6</b> · 10.75 GiB scanned across 5 themes · scan-heavy · RTX A5000 · local[16] · 2026-07-23</p>
+<div class="concl "><h3>Conclusion</h3><p>ftt's <b>per-table split sizing</b> is the win a single global maxPartitionBytes can't match: it collapses cross-table byte skew <b>7.65× → 1.85×</b>, cuts gpuTime <b>106 → 89 s</b>, and matches/slightly beats the best fixed split on wall.</p></div>
+<div class=tiles>
+<div class=tile><div class=lab>optimum (OFF sweep)</div><div class="big blue">1g → 8.48s</div></div>
+<div class=tile><div class=lab>ftt converges to</div><div class="big aqua">per-table 0.4–2.1 GB</div><div class=lab>start-independent</div></div>
+<div class=tile><div class=lab>ftt vs optimum</div><div class="big aqua">≈ / beats optimum</div></div>
+<div class=tile><div class=lab>byte skew opt→ftt</div><div class="big">7.65× → 1.85×</div></div>
+</div>
+<h2>The query &amp; the question</h2><p><b>Question:</b> Across roads, connectors, POIs, addresses and admin areas, which upstream datasets contribute the world's basemap, how much of each, how confident are they, and how fresh? A provenance-bias audit. <b>Scan-heavy:</b> one exploded scan of the <code>sources</code> array across <b>all 5 Overture themes</b> (UNION ALL), then a tiny GROUP BY dataset. Scan+explode dominate.</p>
+<pre>WITH src AS (
+    SELECT s.dataset, s.confidence AS conf, s.update_time AS ut FROM segment   LATERAL VIEW explode(sources) t AS s
+    UNION ALL ... connector, places, address, division ... )
+  SELECT dataset, COUNT(*) AS records, ROUND(AVG(conf),3) AS avg_confidence,
+    MIN(SUBSTRING(ut,1,4)) AS oldest_year, MAX(SUBSTRING(ut,1,4)) AS newest_year,
+    ROUND(100.0*AVG(CASE WHEN SUBSTRING(ut,1,4)>='2024' THEN 1 ELSE 0 END),1) AS pct_updated_2024plus
+  FROM src GROUP BY dataset ORDER BY records DESC</pre>
+<p><b>Result (real insight):</b></p><table><thead><tr><th style=text-align:left>dataset</th><th style=text-align:left>records</th><th>avg_conf</th><th>oldest</th><th>newest</th><th>% upd 2024+</th></tr></thead><tbody><tr><td style=text-align:left>br_ibge</td><td style=text-align:left>89.9 M</td><td>—</td><td>—</td><td>—</td><td>0.0</td></tr><tr><td style=text-align:left>NAD</td><td style=text-align:left>84.6 M</td><td>—</td><td>—</td><td>—</td><td>0.0</td></tr><tr><td style=text-align:left>Overture-signals</td><td style=text-align:left>80.2 M</td><td>1.0</td><td>2026</td><td>2026</td><td>100.0</td></tr><tr><td style=text-align:left>Overture</td><td style=text-align:left>74.2 M</td><td>—</td><td>2026</td><td>2026</td><td>100.0</td></tr><tr><td style=text-align:left>meta</td><td style=text-align:left>60.6 M</td><td>0.678</td><td>2026</td><td>2026</td><td>100.0</td></tr><tr><td style=text-align:left>OpenAddresses/…/INEGI</td><td style=text-align:left>30.7 M</td><td>—</td><td>—</td><td>—</td><td>0.0</td></tr><tr><td style=text-align:left>TomTom</td><td style=text-align:left>9.9 M</td><td>—</td><td>—</td><td>—</td><td>0.0</td></tr></tbody></table>
+<p>Genuine insight: the basemap leans on <b>government/OpenAddresses bulk imports</b> (br_ibge = Brazil IBGE, NAD = US National Address Database, OpenAddresses/*) plus <b>meta</b> and <b>TomTom</b>. <b>Honest caveat:</b> most bulk sources carry <b>no confidence or update_time</b> (blank cells) — only Overture's own signals/records are timestamped+scored, so freshness/confidence is only meaningful for those.</p>
+<h2>Data read (per execution)</h2><table><thead><tr><th style=text-align:left>stage</th><th>bytes</th><th>note</th></tr></thead><tbody><tr><td style=text-align:left>on disk (5 themes, listed)</td><td>120.6 GiB</td><td>sum of file sizes across all 5 datasets</td></tr><tr><td style=text-align:left>scanned off disk</td><td>10.75 GiB</td><td>measured (Spark input) — sources column of each theme</td></tr><tr><td style=text-align:left>decoded on GPU</td><td>~133 GiB</td><td>explode blows the arrays up (decode_expansion 10–3192× per theme)</td></tr><tr><td style=text-align:left>rows after explode</td><td>~1.3 B</td><td>source records</td></tr></tbody></table>
+<h2>1. Sweep (autotuner OFF) → optimum 1g</h2>
+<figure><svg viewBox="0 0 680 300" width="100%" role="img" aria-label="Basemap provenance audit (who mapped the world) sweep">
+<rect width="680" height="300" fill="var(--surf)"/>
+<line x1="52" y1="219" x2="666" y2="219" stroke="var(--line)"/>
+<text x="46" y="222" text-anchor="end" font-size="10" fill="var(--mut)">8.5s</text>
+<line x1="52" y1="168" x2="666" y2="168" stroke="var(--line)"/>
+<text x="46" y="171" text-anchor="end" font-size="10" fill="var(--mut)">9.0s</text>
+<line x1="52" y1="117" x2="666" y2="117" stroke="var(--line)"/>
+<text x="46" y="120" text-anchor="end" font-size="10" fill="var(--mut)">9.5s</text>
+<line x1="52" y1="66" x2="666" y2="66" stroke="var(--line)"/>
+<text x="46" y="69" text-anchor="end" font-size="10" fill="var(--mut)">10.0s</text>
+<text x="52" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="206" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="359" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="512" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="666" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="359" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,57.3 205.5,113.8 359.0,220.7 512.5,102.7 666.0,211.0" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="57.3" r="4" fill="var(--blue)"><title>OFF 256m: 10082 ms</title></circle>
+<circle cx="205.5" cy="113.8" r="4" fill="var(--blue)"><title>OFF 512m: 9530 ms</title></circle>
+<circle cx="359.0" cy="220.7" r="4" fill="var(--blue)"><title>OFF 1024m: 8485 ms</title></circle>
+<circle cx="512.5" cy="102.7" r="4" fill="var(--blue)"><title>OFF 2048m: 9638 ms</title></circle>
+<circle cx="666.0" cy="211.0" r="4" fill="var(--blue)"><title>OFF 4096m: 8580 ms</title></circle>
+<circle cx="359.0" cy="220.7" r="7.5" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<text x="359" y="239" text-anchor="middle" font-size="9.5" fill="var(--blue)">optimum</text>
+<circle cx="523.3" cy="227.5" r="6" fill="var(--aqua)" stroke="var(--surf)" stroke-width="1.4"><title>ftt per-table 0.4–2.1 GB: 8418 ms</title></circle>
+<text x="523" y="219" text-anchor="middle" font-size="9.5" fill="var(--aqua)">ftt per-table 0.4–2.1 GB</text>
+</svg><figcaption>Warm iters 2–5. Blue = OFF sweep (ring = optimum); aqua = fill-to-target converged split. Hover for values. <b>Noisy</b> — outliers; interleave candidate.</figcaption></figure>
+<table><thead><tr><th style=text-align:left>mpb</th><th>tasks</th><th>byte skew</th><th>avg batch</th><th>scan</th><th>decode</th><th>gpuTime</th><th>wall ms</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>532</td><td>7.62×</td><td>233M</td><td>74.1s</td><td>59.0s</td><td>136.4s</td><td>10082</td></tr><tr><td style=text-align:left>512m</td><td>272</td><td>7.76×</td><td>416M</td><td>66.0s</td><td>51.4s</td><td>129.4s</td><td>9530</td></tr><tr><td style=text-align:left><b>1g</b></td><td>196</td><td>7.65×</td><td>446M</td><td>65.0s</td><td>42.4s</td><td>105.9s</td><td><b>8485</b></td></tr><tr><td style=text-align:left>2g</td><td>124</td><td>3.03×</td><td>497M</td><td>87.5s</td><td>42.8s</td><td>100.8s</td><td>9638</td></tr><tr><td style=text-align:left>4g</td><td>102</td><td>3.28×</td><td>530M</td><td>95.1s</td><td>28.5s</td><td>63.6s</td><td>8580</td></tr></tbody></table>
+<figure><svg viewBox="0 0 680 300" width="100%" role="img" aria-label="gpu work vs split">
+<rect width="680" height="300" fill="var(--surf)"/>
+<line x1="52" y1="262" x2="590" y2="262" stroke="var(--line)"/>
+<text x="46" y="265" text-anchor="end" font-size="10" fill="var(--mut)">0s</text>
+<line x1="52" y1="212" x2="590" y2="212" stroke="var(--line)"/>
+<text x="46" y="215" text-anchor="end" font-size="10" fill="var(--mut)">30s</text>
+<line x1="52" y1="162" x2="590" y2="162" stroke="var(--line)"/>
+<text x="46" y="165" text-anchor="end" font-size="10" fill="var(--mut)">60s</text>
+<line x1="52" y1="112" x2="590" y2="112" stroke="var(--line)"/>
+<text x="46" y="115" text-anchor="end" font-size="10" fill="var(--mut)">90s</text>
+<line x1="52" y1="62" x2="590" y2="62" stroke="var(--line)"/>
+<text x="46" y="65" text-anchor="end" font-size="10" fill="var(--mut)">120s</text>
+<text x="52" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="186" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="321" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="456" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="590" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="321" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,34.2 186.5,45.9 321.0,85.2 455.5,93.7 590.0,155.8" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="34.2" r="3.5" fill="var(--blue)"><title>gpuTime 256m: 136.4s</title></circle>
+<circle cx="186.5" cy="45.9" r="3.5" fill="var(--blue)"><title>gpuTime 512m: 129.4s</title></circle>
+<circle cx="321.0" cy="85.2" r="3.5" fill="var(--blue)"><title>gpuTime 1g: 105.9s</title></circle>
+<circle cx="455.5" cy="93.7" r="3.5" fill="var(--blue)"><title>gpuTime 2g: 100.8s</title></circle>
+<circle cx="590.0" cy="155.8" r="3.5" fill="var(--blue)"><title>gpuTime 4g: 63.6s</title></circle>
+<text x="596" y="30" font-size="10.5" fill="var(--blue)">gpuTime</text>
+<polyline points="52.0,138.3 186.5,151.8 321.0,153.5 455.5,115.9 590.0,103.2" fill="none" stroke="var(--orange)" stroke-width="2"/>
+<circle cx="52.0" cy="138.3" r="3.5" fill="var(--orange)"><title>scan time 256m: 74.1s</title></circle>
+<circle cx="186.5" cy="151.8" r="3.5" fill="var(--orange)"><title>scan time 512m: 66.0s</title></circle>
+<circle cx="321.0" cy="153.5" r="3.5" fill="var(--orange)"><title>scan time 1g: 65.0s</title></circle>
+<circle cx="455.5" cy="115.9" r="3.5" fill="var(--orange)"><title>scan time 2g: 87.5s</title></circle>
+<circle cx="590.0" cy="103.2" r="3.5" fill="var(--orange)"><title>scan time 4g: 95.1s</title></circle>
+<text x="596" y="46" font-size="10.5" fill="var(--orange)">scan time</text>
+<polyline points="52.0,163.5 186.5,176.2 321.0,191.2 455.5,190.5 590.0,214.4" fill="none" stroke="var(--aqua)" stroke-width="2"/>
+<circle cx="52.0" cy="163.5" r="3.5" fill="var(--aqua)"><title>GPU decode 256m: 59.0s</title></circle>
+<circle cx="186.5" cy="176.2" r="3.5" fill="var(--aqua)"><title>GPU decode 512m: 51.4s</title></circle>
+<circle cx="321.0" cy="191.2" r="3.5" fill="var(--aqua)"><title>GPU decode 1g: 42.4s</title></circle>
+<circle cx="455.5" cy="190.5" r="3.5" fill="var(--aqua)"><title>GPU decode 2g: 42.8s</title></circle>
+<circle cx="590.0" cy="214.4" r="3.5" fill="var(--aqua)"><title>GPU decode 4g: 28.5s</title></circle>
+<text x="596" y="62" font-size="10.5" fill="var(--aqua)">GPU decode</text>
+</svg><figcaption>GPU work vs split (warm 2–5, summed over scan-stage tasks): <b>gpuTime</b> (semaphore-holding) and <b>decode</b> <i>fall</i> as the split grows (fuller batches → less GPU work), while <b>wall</b> above is set by parallelism/skew — the divergence is why lower gpuTime ≠ faster.</figcaption></figure>
+<p><b>byte skew</b> = max÷median bytes-read per scan task (1.0 = balanced; high → straggler).</p>
+<h2>2. Autotuner ON (fill-to-target) — per-table 0.4–2.1 GB</h2>
+<p>Converges <b>start-independently</b> (128m &amp; 4g → same split): <b>per-table (segment 2.06 / connector 0.70 / place 0.42 / address 0.81 / division 1.065 GB)</b> (<code>bound_by=ratio</code>).
+ftt warm: 141 tasks, skew 1.85×, scan 72.8s, decode 37.9s, gpuTime 89.3s, wall 8418 ms.</p>
+<p><b>ftt vs fixed settings</b> (Δ = ftt − baseline):</p>
+<table><thead><tr><th style=text-align:left>baseline</th><th>wall</th><th>Δ wall</th><th>scan</th><th>Δ scan</th><th>gpuTime</th><th>Δ gpuTime</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>10082</td><td>-17%</td><td>74.1s</td><td>-2%</td><td>136.4s</td><td>-34%</td></tr><tr><td style=text-align:left>512m</td><td>9530</td><td>-12%</td><td>66.0s</td><td>+10%</td><td>129.4s</td><td>-31%</td></tr><tr><td style=text-align:left>1g</td><td>8485</td><td>-1%</td><td>65.0s</td><td>+12%</td><td>105.9s</td><td>-16%</td></tr><tr><td style=text-align:left>2g</td><td>9638</td><td>-13%</td><td>87.5s</td><td>-17%</td><td>100.8s</td><td>-11%</td></tr><tr><td style=text-align:left>4g</td><td>8580</td><td>-2%</td><td>95.1s</td><td>-23%</td><td>63.6s</td><td>+40%</td></tr></tbody></table>
+<p>Vs the <b>1g optimum</b>: wall -1%, scan +12%, gpuTime -16%; byte skew 7.65× → 1.85×.</p>
+<h2>Full report</h2><ul><li><a href="nds-overture-rw6-provenance-20260723.md">Result doc (markdown)</a></li>
+<li>Companion queries: <a href="nds-overture-rw2-index-20260723.html">RW6–RW9 index</a> · method <code>BENCHMARK-METHOD.md</code></li></ul>
+</div></body></html>

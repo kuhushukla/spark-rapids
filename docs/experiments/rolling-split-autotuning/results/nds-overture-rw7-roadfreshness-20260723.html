@@ -1,0 +1,113 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>Road-network freshness by class — sweep + fill-to-target</title><style>:root{--bg:#fcfcfb;--surf:#fff;--ink:#0b0b0b;--mut:#52514e;--line:#e6e5e2;--blue:#2a78d6;--orange:#eb6834;--aqua:#1baf7a;--code:#f4f3f0}
+@media(prefers-color-scheme:dark){:root{--bg:#151513;--surf:#1f1f1d;--ink:#fff;--mut:#c3c2b7;--line:#33322f;--blue:#3987e5;--orange:#d95926;--aqua:#199e70;--code:#26261f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 20px 64px}h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 18px}
+h2{font-size:17px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}p{margin:9px 0}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font:13px ui-monospace,Menlo,monospace}
+.concl{background:var(--surf);border:1px solid var(--blue);border-left:5px solid var(--blue);border-radius:10px;padding:16px 20px;margin:14px 0}
+.concl.o{border-color:var(--orange);border-left-color:var(--orange)}.concl h3{margin:0 0 8px;font-size:16px}
+.tiles{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.tile{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:14px 18px;min-width:150px;flex:1}
+.tile .lab{color:var(--mut);font-size:12.5px}.tile .big{font-size:20px;font-weight:600;margin-top:3px}
+.blue{color:var(--blue)}.aqua{color:var(--aqua)}.orange{color:var(--orange)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:12px 15px;overflow-x:auto;font:12px/1.5 ui-monospace,Menlo,monospace}
+figure{margin:14px 0;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:12px}figcaption{color:var(--mut);font-size:12.5px;padding:8px 2px 0}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0}th,td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--surf);color:var(--mut);font-weight:600}a{color:var(--blue)}.warn{color:var(--orange)}</style></head><body><div class=wrap>
+<h1>Road-network freshness by class — maxPartitionBytes sweep + fill-to-target (local, Spark 3.5.3)</h1>
+<p class=sub>Overture <b>RW7</b> · 2.11 GiB scanned · scan-heavy · RTX A5000 · local[16] · 2026-07-23</p>
+<div class="concl o"><h3>Conclusion</h3><p>ftt sizes a 4.99 GB split (segment's class+sources columns are highly compressible, decoded/listed 0.22) → 16 fuller tasks that <b>cut gpuTime 45% (22.8 → 12.7 s) and decode 43% (6.3 → 3.6 s)</b> vs the 2g optimum — a real GPU-efficiency win. The trade is <b>+6% wall</b>: with only 16 tasks this query is mildly parallelism-bound, so less GPU work doesn't translate to faster wall here.</p></div>
+<div class=tiles>
+<div class=tile><div class=lab>optimum (OFF sweep)</div><div class="big blue">2g → 2.34s</div></div>
+<div class=tile><div class=lab>ftt converges to</div><div class="big orange">4.99 GB</div><div class=lab>start-independent</div></div>
+<div class=tile><div class=lab>ftt vs optimum</div><div class="big orange">gpu -45%, wall +7%</div></div>
+<div class=tile><div class=lab>byte skew opt→ftt</div><div class="big">1.48× → 1.25×</div></div>
+</div>
+<h2>The query &amp; the question</h2><p><b>Question:</b> How stale is each part of the road network? For each road class, what share of its source records were updated 2024+ vs frozen before 2022 — which classes are actively maintained? <b>Scan-heavy:</b> one exploded scan of <code>segment.sources</code> (348.7 M segments) + a tiny GROUP BY class.</p>
+<pre>WITH s AS ( SELECT seg.class, SUBSTRING(src.update_time,1,4) AS yr
+    FROM segment seg LATERAL VIEW explode(seg.sources) t AS src WHERE seg.class IS NOT NULL )
+  SELECT class, COUNT(*) AS source_records,
+    ROUND(100.0*AVG(CASE WHEN yr>='2024' THEN 1 ELSE 0 END),1) AS pct_2024plus,
+    ROUND(100.0*AVG(CASE WHEN yr<'2022' THEN 1 ELSE 0 END),1) AS pct_before_2022,
+    MIN(yr) AS oldest_year, MAX(yr) AS newest_year
+  FROM s GROUP BY class ORDER BY source_records DESC</pre>
+<p><b>Result (real insight):</b></p><table><thead><tr><th style=text-align:left>class</th><th>source records</th><th>% 2024+</th><th>% before 2022</th><th>oldest</th><th>newest</th></tr></thead><tbody><tr><td style=text-align:left>service</td><td>67.0 M</td><td>34.1</td><td>46.9</td><td>2006</td><td>2026</td></tr><tr><td style=text-align:left>unclassified</td><td>34.5 M</td><td>35.4</td><td>43.7</td><td>2006</td><td>2026</td></tr><tr><td style=text-align:left>footway</td><td>32.5 M</td><td>55.9</td><td>23.9</td><td>2006</td><td>2026</td></tr><tr><td style=text-align:left>track</td><td>30.0 M</td><td>30.6</td><td>49.6</td><td>2006</td><td>2026</td></tr><tr><td style=text-align:left>tertiary</td><td>25.8 M</td><td>56.2</td><td>19.4</td><td>2007</td><td>2026</td></tr><tr><td style=text-align:left>secondary</td><td>17.0 M</td><td>57.5</td><td>10.2</td><td>2008</td><td>2026</td></tr><tr><td style=text-align:left>primary</td><td>13.7 M</td><td>51.7</td><td>6.7</td><td>2008</td><td>2026</td></tr><tr><td style=text-align:left>trunk</td><td>9.7 M</td><td>41.1</td><td>5.9</td><td>2008</td><td>2026</td></tr><tr><td style=text-align:left>motorway</td><td>3.3 M</td><td>55.3</td><td>9.5</td><td>2008</td><td>2026</td></tr><tr><td style=text-align:left>cycleway</td><td>2.2 M</td><td>68.2</td><td>13.2</td><td>2006</td><td>2026</td></tr></tbody></table>
+<p>Genuine insight: higher-class roads are <b>freshest</b> (cycleway 68%, secondary 58%, tertiary 56% updated 2024+), while <b>service/track</b> are stalest (~47–50% frozen before 2022). All classes span 2006–2026. A real maintenance-coverage signal, no artifacts.</p>
+<h2>Data read (per execution)</h2><table><thead><tr><th style=text-align:left>stage</th><th>bytes</th><th>note</th></tr></thead><tbody><tr><td style=text-align:left>on disk (segment, listed)</td><td>66.3 GiB</td><td>128 files — whole segment dataset is the scan unit</td></tr><tr><td style=text-align:left>scanned off disk</td><td>2.11 GiB</td><td>measured (Spark input) — only class + sources columns</td></tr><tr><td style=text-align:left>decoded on GPU</td><td>~14.3 GiB</td><td>explode expands sources (decode_expansion 13.6×)</td></tr><tr><td style=text-align:left>rows after explode</td><td>~330 M</td><td>source records</td></tr></tbody></table>
+<h2>1. Sweep (autotuner OFF) → optimum 2g</h2>
+<figure><svg viewBox="0 0 680 300" width="100%" role="img" aria-label="Road-network freshness by class sweep">
+<rect width="680" height="300" fill="var(--surf)"/>
+<line x1="52" y1="222" x2="666" y2="222" stroke="var(--line)"/>
+<text x="46" y="225" text-anchor="end" font-size="10" fill="var(--mut)">2.4s</text>
+<line x1="52" y1="169" x2="666" y2="169" stroke="var(--line)"/>
+<text x="46" y="172" text-anchor="end" font-size="10" fill="var(--mut)">2.6s</text>
+<line x1="52" y1="117" x2="666" y2="117" stroke="var(--line)"/>
+<text x="46" y="120" text-anchor="end" font-size="10" fill="var(--mut)">2.8s</text>
+<line x1="52" y1="65" x2="666" y2="65" stroke="var(--line)"/>
+<text x="46" y="68" text-anchor="end" font-size="10" fill="var(--mut)">3.0s</text>
+<text x="52" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="206" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="359" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="512" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="666" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="359" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,48.1 205.5,168.7 359.0,198.0 512.5,237.5 666.0,199.6" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="48.1" r="4" fill="var(--blue)"><title>OFF 256m: 3063 ms</title></circle>
+<circle cx="205.5" cy="168.7" r="4" fill="var(--blue)"><title>OFF 512m: 2602 ms</title></circle>
+<circle cx="359.0" cy="198.0" r="4" fill="var(--blue)"><title>OFF 1024m: 2490 ms</title></circle>
+<circle cx="512.5" cy="237.5" r="4" fill="var(--blue)"><title>OFF 2048m: 2339 ms</title></circle>
+<circle cx="666.0" cy="199.6" r="4" fill="var(--blue)"><title>OFF 4096m: 2484 ms</title></circle>
+<circle cx="512.5" cy="237.5" r="7.5" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<text x="512" y="256" text-anchor="middle" font-size="9.5" fill="var(--blue)">optimum</text>
+<circle cx="666.0" cy="196.7" r="6" fill="var(--orange)" stroke="var(--surf)" stroke-width="1.4"><title>ftt 4.99 GB: 2495 ms</title></circle>
+<text x="666" y="188" text-anchor="middle" font-size="9.5" fill="var(--orange)">ftt 4.99 GB</text>
+</svg><figcaption>Warm iters 2–5. Blue = OFF sweep (ring = optimum); orange = fill-to-target converged split. Hover for values.</figcaption></figure>
+<table><thead><tr><th style=text-align:left>mpb</th><th>tasks</th><th>byte skew</th><th>avg batch</th><th>scan</th><th>decode</th><th>gpuTime</th><th>wall ms</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>286</td><td>1.62×</td><td>51M</td><td>19.7s</td><td>11.2s</td><td>33.5s</td><td>3063</td></tr><tr><td style=text-align:left>512m</td><td>143</td><td>1.24×</td><td>102M</td><td>15.9s</td><td>8.9s</td><td>27.5s</td><td>2602</td></tr><tr><td style=text-align:left>1g</td><td>99</td><td>2.06×</td><td>148M</td><td>14.6s</td><td>8.3s</td><td>26.4s</td><td>2490</td></tr><tr><td style=text-align:left><b>2g</b></td><td>40</td><td>1.48×</td><td>365M</td><td>13.6s</td><td>6.3s</td><td>22.8s</td><td><b>2339</b></td></tr><tr><td style=text-align:left>4g</td><td>18</td><td>1.18×</td><td>812M</td><td>16.4s</td><td>3.8s</td><td>13.6s</td><td>2484</td></tr></tbody></table>
+<figure><svg viewBox="0 0 680 300" width="100%" role="img" aria-label="gpu work vs split">
+<rect width="680" height="300" fill="var(--surf)"/>
+<line x1="52" y1="262" x2="590" y2="262" stroke="var(--line)"/>
+<text x="46" y="265" text-anchor="end" font-size="10" fill="var(--mut)">0s</text>
+<line x1="52" y1="194" x2="590" y2="194" stroke="var(--line)"/>
+<text x="46" y="197" text-anchor="end" font-size="10" fill="var(--mut)">10s</text>
+<line x1="52" y1="126" x2="590" y2="126" stroke="var(--line)"/>
+<text x="46" y="129" text-anchor="end" font-size="10" fill="var(--mut)">20s</text>
+<line x1="52" y1="58" x2="590" y2="58" stroke="var(--line)"/>
+<text x="46" y="61" text-anchor="end" font-size="10" fill="var(--mut)">30s</text>
+<text x="52" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="186" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="321" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="456" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="590" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="321" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,34.2 186.5,75.0 321.0,82.5 455.5,107.0 590.0,169.5" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="34.2" r="3.5" fill="var(--blue)"><title>gpuTime 256m: 33.5s</title></circle>
+<circle cx="186.5" cy="75.0" r="3.5" fill="var(--blue)"><title>gpuTime 512m: 27.5s</title></circle>
+<circle cx="321.0" cy="82.5" r="3.5" fill="var(--blue)"><title>gpuTime 1g: 26.4s</title></circle>
+<circle cx="455.5" cy="107.0" r="3.5" fill="var(--blue)"><title>gpuTime 2g: 22.8s</title></circle>
+<circle cx="590.0" cy="169.5" r="3.5" fill="var(--blue)"><title>gpuTime 4g: 13.6s</title></circle>
+<text x="596" y="30" font-size="10.5" fill="var(--blue)">gpuTime</text>
+<polyline points="52.0,128.1 186.5,153.9 321.0,162.7 455.5,169.5 590.0,150.5" fill="none" stroke="var(--orange)" stroke-width="2"/>
+<circle cx="52.0" cy="128.1" r="3.5" fill="var(--orange)"><title>scan time 256m: 19.7s</title></circle>
+<circle cx="186.5" cy="153.9" r="3.5" fill="var(--orange)"><title>scan time 512m: 15.9s</title></circle>
+<circle cx="321.0" cy="162.7" r="3.5" fill="var(--orange)"><title>scan time 1g: 14.6s</title></circle>
+<circle cx="455.5" cy="169.5" r="3.5" fill="var(--orange)"><title>scan time 2g: 13.6s</title></circle>
+<circle cx="590.0" cy="150.5" r="3.5" fill="var(--orange)"><title>scan time 4g: 16.4s</title></circle>
+<text x="596" y="46" font-size="10.5" fill="var(--orange)">scan time</text>
+<polyline points="52.0,185.8 186.5,201.5 321.0,205.6 455.5,219.2 590.0,236.2" fill="none" stroke="var(--aqua)" stroke-width="2"/>
+<circle cx="52.0" cy="185.8" r="3.5" fill="var(--aqua)"><title>GPU decode 256m: 11.2s</title></circle>
+<circle cx="186.5" cy="201.5" r="3.5" fill="var(--aqua)"><title>GPU decode 512m: 8.9s</title></circle>
+<circle cx="321.0" cy="205.6" r="3.5" fill="var(--aqua)"><title>GPU decode 1g: 8.3s</title></circle>
+<circle cx="455.5" cy="219.2" r="3.5" fill="var(--aqua)"><title>GPU decode 2g: 6.3s</title></circle>
+<circle cx="590.0" cy="236.2" r="3.5" fill="var(--aqua)"><title>GPU decode 4g: 3.8s</title></circle>
+<text x="596" y="62" font-size="10.5" fill="var(--aqua)">GPU decode</text>
+</svg><figcaption>GPU work vs split (warm 2–5, summed over scan-stage tasks): <b>gpuTime</b> (semaphore-holding) and <b>decode</b> <i>fall</i> as the split grows (fuller batches → less GPU work), while <b>wall</b> above is set by parallelism/skew — the divergence is why lower gpuTime ≠ faster.</figcaption></figure>
+<p><b>byte skew</b> = max÷median bytes-read per scan task (1.0 = balanced; high → straggler).</p>
+<h2>2. Autotuner ON (fill-to-target) — 4.99 GB</h2>
+<p>Converges <b>start-independently</b> (128m &amp; 4g → same split): <b>4.99 GB</b> (<code>bound_by=ratio</code>).
+ftt warm: 16 tasks, skew 1.25×, scan 15.6s, decode 3.7s, gpuTime 12.6s, wall 2495 ms.</p>
+<p><b>ftt vs fixed settings</b> (Δ = ftt − baseline):</p>
+<table><thead><tr><th style=text-align:left>baseline</th><th>wall</th><th>Δ wall</th><th>scan</th><th>Δ scan</th><th>gpuTime</th><th>Δ gpuTime</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>3063</td><td>-19%</td><td>19.7s</td><td>-21%</td><td>33.5s</td><td>-63%</td></tr><tr><td style=text-align:left>512m</td><td>2602</td><td>-4%</td><td>15.9s</td><td>-2%</td><td>27.5s</td><td>-54%</td></tr><tr><td style=text-align:left>1g</td><td>2490</td><td>+0%</td><td>14.6s</td><td>+7%</td><td>26.4s</td><td>-52%</td></tr><tr><td style=text-align:left>2g</td><td>2339</td><td>+7%</td><td>13.6s</td><td>+15%</td><td>22.8s</td><td>-45%</td></tr><tr><td style=text-align:left>4g</td><td>2484</td><td>+0%</td><td>16.4s</td><td>-5%</td><td>13.6s</td><td>-8%</td></tr></tbody></table>
+<p>Vs the <b>2g optimum</b>: wall +7%, scan +15%, gpuTime -45%; byte skew 1.48× → 1.25×.</p>
+<h2>Full report</h2><ul><li><a href="nds-overture-rw7-roadfreshness-20260723.md">Result doc (markdown)</a></li>
+<li>Companion queries: <a href="nds-overture-rw2-index-20260723.html">RW6–RW9 index</a> · method <code>BENCHMARK-METHOD.md</code></li></ul>
+</div></body></html>

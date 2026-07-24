@@ -1,0 +1,116 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>Geometry types by theme (WKB header, no coordinate decode) — sweep + fill-to-target</title><style>:root{--bg:#fcfcfb;--surf:#fff;--ink:#0b0b0b;--mut:#52514e;--line:#e6e5e2;--blue:#2a78d6;--orange:#eb6834;--aqua:#1baf7a;--code:#f4f3f0}
+@media(prefers-color-scheme:dark){:root{--bg:#151513;--surf:#1f1f1d;--ink:#fff;--mut:#c3c2b7;--line:#33322f;--blue:#3987e5;--orange:#d95926;--aqua:#199e70;--code:#26261f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 20px 64px}h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 18px}
+h2{font-size:17px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}p{margin:9px 0}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font:13px ui-monospace,Menlo,monospace}
+.concl{background:var(--surf);border:1px solid var(--blue);border-left:5px solid var(--blue);border-radius:10px;padding:16px 20px;margin:14px 0}
+.concl.o{border-color:var(--orange);border-left-color:var(--orange)}.concl h3{margin:0 0 8px;font-size:16px}
+.tiles{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.tile{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:14px 18px;min-width:150px;flex:1}
+.tile .lab{color:var(--mut);font-size:12.5px}.tile .big{font-size:20px;font-weight:600;margin-top:3px}
+.blue{color:var(--blue)}.aqua{color:var(--aqua)}.orange{color:var(--orange)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:12px 15px;overflow-x:auto;font:12px/1.5 ui-monospace,Menlo,monospace}
+figure{margin:14px 0;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:12px}figcaption{color:var(--mut);font-size:12.5px;padding:8px 2px 0}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0}th,td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--surf);color:var(--mut);font-weight:600}a{color:var(--blue)}.warn{color:var(--orange)}</style></head><body><div class=wrap>
+<h1>Geometry types by theme (WKB header, no coordinate decode) — maxPartitionBytes sweep + fill-to-target (local, Spark 3.5.3)</h1>
+<p class=sub>Overture <b>GF2</b> · 48.1 GiB scanned (geometry column, 5 themes) · scan-heavy · RTX A5000 · local[16] · 2026-07-23</p>
+<div class="concl o"><h3>Conclusion</h3><p>ftt sizes each of the 5 themes' geometry scan <b>separately</b> (1.3–6.0 GB, per its decoded/listed ratio) → 96 balanced tasks that <b>cut gpuTime 26% (126→94 s) and decode 23% (43→33 s)</b> vs the 512m optimum, at <b>+5.7% wall</b>. The real win is <b>skew control</b>: per-theme sizing holds byte skew to <b>1.50×</b>, while a naive global 4g split (the other way to get low gpuTime) explodes skew to <b>13.3×</b> — one 2.4 GB / 18.9 s straggler task — and wall to <b>+49%</b>. On a big geometry scan, ftt is the safe way to harvest the GPU savings.</p></div>
+<div class=tiles>
+<div class=tile><div class=lab>optimum (OFF sweep)</div><div class="big blue">512m → 18.35s</div></div>
+<div class=tile><div class=lab>ftt converges to</div><div class="big orange">per-theme 1.3–6.0 GB</div><div class=lab>start-independent</div></div>
+<div class=tile><div class=lab>ftt vs optimum</div><div class="big orange">gpu -26%, wall +6%</div></div>
+<div class=tile><div class=lab>byte skew opt→ftt</div><div class="big">2.00× → 1.50×</div></div>
+</div>
+<h2>The query &amp; the question</h2><p><b>Question:</b> What geometry TYPES make up each Overture theme? Read straight from the 5-byte WKB header (byte-order + type code) WITHOUT decoding any coordinates — the shape vocabulary of the basemap. <b>Scan-heavy:</b> one scan of the <code>geometry</code> (WKB binary) column across <b>all 5 themes</b> (~48 GiB) + a tiny GROUP BY theme,header. All geometry ops (<code>substring</code>/<code>hex</code> on binary) run on GPU (0 CPU fallbacks, verified post-AQE).</p>
+<pre>WITH g AS (
+    SELECT 'segment' AS theme, hex(substring(geometry,1,5)) AS hdr FROM segment
+    UNION ALL SELECT 'connector', hex(substring(geometry,1,5)) FROM connector
+    UNION ALL ... address, place, division ... )
+  SELECT theme, hdr AS wkb_header,
+    CASE hdr WHEN '0101000000' THEN 'Point' WHEN '0102000000' THEN 'LineString' ... END AS geometry_type,
+    COUNT(*) AS features
+  FROM g GROUP BY theme, hdr ORDER BY theme, features DESC</pre>
+<p><b>Result (real insight):</b></p><table><thead><tr><th style=text-align:left>theme</th><th>wkb_header</th><th>geometry_type</th><th>features</th></tr></thead><tbody><tr><td style=text-align:left>segment</td><td>0102000000</td><td>LineString</td><td>348.7 M</td></tr><tr><td style=text-align:left>address</td><td>0101000000</td><td>Point</td><td>472.7 M</td></tr><tr><td style=text-align:left>connector</td><td>0101000000</td><td>Point</td><td>416.8 M</td></tr><tr><td style=text-align:left>place</td><td>0101000000</td><td>Point</td><td>74.2 M</td></tr><tr><td style=text-align:left>division</td><td>0101000000</td><td>Point</td><td>4.66 M</td></tr></tbody></table>
+<p>Clean result: the basemap's geometry vocabulary is just <b>two shapes</b> — <b>roads (segment) are LineStrings</b>, everything else (addresses, connectors, POIs, division points) is a <b>Point</b>. No non-standard/EWKB headers appeared (all standard OGC little-endian WKB). <b>Honest note:</b> <code>division</code> here is the type=division <i>reference point</i>, not the boundary polygon (those live in a separate division_area theme).</p>
+<h2>Data read (per execution)</h2><table><thead><tr><th style=text-align:left>stage</th><th>bytes</th><th>note</th></tr></thead><tbody><tr><td style=text-align:left>on disk (5 themes, listed)</td><td>120.6 GiB</td><td>sum of all 5 datasets</td></tr><tr><td style=text-align:left>scanned off disk</td><td>48.1 GiB</td><td>measured (Spark input) — the geometry (WKB) column across 5 themes</td></tr><tr><td style=text-align:left>decoded on GPU</td><td>~77 GiB</td><td>decode_expansion 1.4–2.1× per theme (WKB binary is already compact)</td></tr><tr><td style=text-align:left>rows</td><td>1.32 B</td><td>features across 5 themes</td></tr></tbody></table>
+<h2>1. Sweep (autotuner OFF) → optimum 512m</h2>
+<figure><svg viewBox="0 0 680 300" width="100%" role="img" aria-label="Geometry types by theme (WKB header, no coordinate decode) sweep">
+<rect width="680" height="300" fill="var(--surf)"/>
+<line x1="52" y1="212" x2="666" y2="212" stroke="var(--line)"/>
+<text x="46" y="215" text-anchor="end" font-size="10" fill="var(--mut)">19.8s</text>
+<line x1="52" y1="162" x2="666" y2="162" stroke="var(--line)"/>
+<text x="46" y="165" text-anchor="end" font-size="10" fill="var(--mut)">22.0s</text>
+<line x1="52" y1="111" x2="666" y2="111" stroke="var(--line)"/>
+<text x="46" y="114" text-anchor="end" font-size="10" fill="var(--mut)">24.2s</text>
+<line x1="52" y1="61" x2="666" y2="61" stroke="var(--line)"/>
+<text x="46" y="64" text-anchor="end" font-size="10" fill="var(--mut)">26.4s</text>
+<text x="52" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="206" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="359" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="512" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="666" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="359" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,215.9 205.5,245.2 359.0,239.9 512.5,154.8 666.0,41.0" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="215.9" r="4" fill="var(--blue)"><title>OFF 256m: 19633 ms</title></circle>
+<circle cx="205.5" cy="245.2" r="4" fill="var(--blue)"><title>OFF 512m: 18352 ms</title></circle>
+<circle cx="359.0" cy="239.9" r="4" fill="var(--blue)"><title>OFF 1024m: 18585 ms</title></circle>
+<circle cx="512.5" cy="154.8" r="4" fill="var(--blue)"><title>OFF 2048m: 22304 ms</title></circle>
+<circle cx="666.0" cy="41.0" r="4" fill="var(--blue)"><title>OFF 4096m: 27279 ms</title></circle>
+<circle cx="205.5" cy="245.2" r="7.5" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<text x="206" y="263" text-anchor="middle" font-size="9.5" fill="var(--blue)">optimum</text>
+<circle cx="443.5" cy="221.4" r="6" fill="var(--orange)" stroke="var(--surf)" stroke-width="1.4"><title>ftt per-theme 1.3–6.0 GB: 19392 ms</title></circle>
+<text x="444" y="212" text-anchor="middle" font-size="9.5" fill="var(--orange)">ftt per-theme 1.3–6.0 GB</text>
+</svg><figcaption>Warm iters 2–5. Blue = OFF sweep (ring = optimum); orange = fill-to-target converged split. Hover for values.</figcaption></figure>
+<table><thead><tr><th style=text-align:left>mpb</th><th>tasks</th><th>byte skew</th><th>avg batch</th><th>scan</th><th>decode</th><th>gpuTime</th><th>wall ms</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>532</td><td>2.18×</td><td>141M</td><td>218.8s</td><td>53.6s</td><td>140.2s</td><td>19633</td></tr><tr><td style=text-align:left><b>512m</b></td><td>272</td><td>2.00×</td><td>275M</td><td>203.5s</td><td>42.8s</td><td>126.5s</td><td><b>18352</b></td></tr><tr><td style=text-align:left>1g</td><td>196</td><td>2.81×</td><td>380M</td><td>223.4s</td><td>37.9s</td><td>106.1s</td><td>18585</td></tr><tr><td style=text-align:left>2g</td><td>124</td><td>6.40×</td><td>411M</td><td>312.5s</td><td>19.4s</td><td>60.7s</td><td>22304</td></tr><tr><td style=text-align:left>4g</td><td>102</td><td>13.33×</td><td>396M</td><td>400.8s</td><td>10.8s</td><td>50.6s</td><td>27279</td></tr></tbody></table>
+<figure><svg viewBox="0 0 680 300" width="100%" role="img" aria-label="gpu work vs split">
+<rect width="680" height="300" fill="var(--surf)"/>
+<line x1="52" y1="262" x2="590" y2="262" stroke="var(--line)"/>
+<text x="46" y="265" text-anchor="end" font-size="10" fill="var(--mut)">0s</text>
+<line x1="52" y1="211" x2="590" y2="211" stroke="var(--line)"/>
+<text x="46" y="214" text-anchor="end" font-size="10" fill="var(--mut)">90s</text>
+<line x1="52" y1="160" x2="590" y2="160" stroke="var(--line)"/>
+<text x="46" y="163" text-anchor="end" font-size="10" fill="var(--mut)">180s</text>
+<line x1="52" y1="109" x2="590" y2="109" stroke="var(--line)"/>
+<text x="46" y="112" text-anchor="end" font-size="10" fill="var(--mut)">270s</text>
+<line x1="52" y1="57" x2="590" y2="57" stroke="var(--line)"/>
+<text x="46" y="60" text-anchor="end" font-size="10" fill="var(--mut)">360s</text>
+<text x="52" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="186" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="321" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="456" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="590" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="321" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,182.3 186.5,190.1 321.0,201.7 455.5,227.5 590.0,233.2" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="182.3" r="3.5" fill="var(--blue)"><title>gpuTime 256m: 140.2s</title></circle>
+<circle cx="186.5" cy="190.1" r="3.5" fill="var(--blue)"><title>gpuTime 512m: 126.5s</title></circle>
+<circle cx="321.0" cy="201.7" r="3.5" fill="var(--blue)"><title>gpuTime 1g: 106.1s</title></circle>
+<circle cx="455.5" cy="227.5" r="3.5" fill="var(--blue)"><title>gpuTime 2g: 60.7s</title></circle>
+<circle cx="590.0" cy="233.2" r="3.5" fill="var(--blue)"><title>gpuTime 4g: 50.6s</title></circle>
+<text x="596" y="30" font-size="10.5" fill="var(--blue)">gpuTime</text>
+<polyline points="52.0,137.7 186.5,146.3 321.0,135.0 455.5,84.4 590.0,34.2" fill="none" stroke="var(--orange)" stroke-width="2"/>
+<circle cx="52.0" cy="137.7" r="3.5" fill="var(--orange)"><title>scan time 256m: 218.8s</title></circle>
+<circle cx="186.5" cy="146.3" r="3.5" fill="var(--orange)"><title>scan time 512m: 203.5s</title></circle>
+<circle cx="321.0" cy="135.0" r="3.5" fill="var(--orange)"><title>scan time 1g: 223.4s</title></circle>
+<circle cx="455.5" cy="84.4" r="3.5" fill="var(--orange)"><title>scan time 2g: 312.5s</title></circle>
+<circle cx="590.0" cy="34.2" r="3.5" fill="var(--orange)"><title>scan time 4g: 400.8s</title></circle>
+<text x="596" y="46" font-size="10.5" fill="var(--orange)">scan time</text>
+<polyline points="52.0,231.5 186.5,237.7 321.0,240.5 455.5,251.0 590.0,255.9" fill="none" stroke="var(--aqua)" stroke-width="2"/>
+<circle cx="52.0" cy="231.5" r="3.5" fill="var(--aqua)"><title>GPU decode 256m: 53.6s</title></circle>
+<circle cx="186.5" cy="237.7" r="3.5" fill="var(--aqua)"><title>GPU decode 512m: 42.8s</title></circle>
+<circle cx="321.0" cy="240.5" r="3.5" fill="var(--aqua)"><title>GPU decode 1g: 37.9s</title></circle>
+<circle cx="455.5" cy="251.0" r="3.5" fill="var(--aqua)"><title>GPU decode 2g: 19.4s</title></circle>
+<circle cx="590.0" cy="255.9" r="3.5" fill="var(--aqua)"><title>GPU decode 4g: 10.8s</title></circle>
+<text x="596" y="62" font-size="10.5" fill="var(--aqua)">GPU decode</text>
+</svg><figcaption>GPU work vs split (warm 2–5, summed over scan-stage tasks): <b>gpuTime</b> (semaphore-holding) and <b>decode</b> <i>fall</i> as the split grows (fuller batches → less GPU work), while <b>wall</b> above is set by parallelism/skew — the divergence is why lower gpuTime ≠ faster.</figcaption></figure>
+<p><b>byte skew</b> = max÷median bytes-read per scan task (1.0 = balanced; high → straggler).</p>
+<h2>2. Autotuner ON (fill-to-target) — per-theme 1.3–6.0 GB</h2>
+<p>Converges <b>start-independently</b> (128m &amp; 4g → same split): <b>per-theme (segment 1.32 / connector 2.34 / address 1.84 / place 6.03 / division 4.93 GB)</b> (<code>bound_by=ratio</code>).
+ftt warm: 96 tasks, skew 1.50×, scan 238.9s, decode 33.0s, gpuTime 93.7s, wall 19392 ms.</p>
+<p><b>ftt vs fixed settings</b> (Δ = ftt − baseline):</p>
+<table><thead><tr><th style=text-align:left>baseline</th><th>wall</th><th>Δ wall</th><th>scan</th><th>Δ scan</th><th>gpuTime</th><th>Δ gpuTime</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>19633</td><td>-1%</td><td>218.8s</td><td>+9%</td><td>140.2s</td><td>-33%</td></tr><tr><td style=text-align:left>512m</td><td>18352</td><td>+6%</td><td>203.5s</td><td>+17%</td><td>126.5s</td><td>-26%</td></tr><tr><td style=text-align:left>1g</td><td>18585</td><td>+4%</td><td>223.4s</td><td>+7%</td><td>106.1s</td><td>-12%</td></tr><tr><td style=text-align:left>2g</td><td>22304</td><td>-13%</td><td>312.5s</td><td>-24%</td><td>60.7s</td><td>+54%</td></tr><tr><td style=text-align:left>4g</td><td>27279</td><td>-29%</td><td>400.8s</td><td>-40%</td><td>50.6s</td><td>+85%</td></tr></tbody></table>
+<p>Vs the <b>512m optimum</b>: wall +6%, scan +17%, gpuTime -26%; byte skew 2.00× → 1.50×.</p>
+<h2>Full report</h2><ul><li><a href="nds-overture-gf2-geometrytypes-20260724.md">Result doc (markdown)</a></li>
+<li>Companion queries: <a href="nds-overture-rw2-index-20260723.html">RW6–RW9 index</a> · method <code>BENCHMARK-METHOD.md</code></li></ul>
+</div></body></html>

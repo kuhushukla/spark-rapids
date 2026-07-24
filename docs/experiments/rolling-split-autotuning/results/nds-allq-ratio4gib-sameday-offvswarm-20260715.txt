@@ -1,0 +1,100 @@
+NDS SF100 — SAME-DAY OFF (128 MiB) vs WARM (ratio-driven autotuner, 4 GiB cap), 2026-07-15, A5000
+query      off_s  warm_s  speedup   fact-table split (MiB) [ss/cs/ws=sales sr/cr/wr=returns inv]
+query9      15.6     3.7    4.19x   ss=1678
+query59     22.0     6.9    3.19x   ss=3378
+query66      8.0     2.6    3.09x   cs=4096  ws=2534
+query28     42.9    14.5    2.96x   ss=2272
+query62     13.3     4.8    2.74x   ws=4096
+query2      19.9     7.6    2.63x   cs=4096  ws=4096
+query13      4.2     1.6    2.62x   ss=1509
+query95     22.4     8.8    2.53x   ws=4096  wr=3896
+query88     42.1    16.7    2.52x   ss=4096
+query43      2.9     1.2    2.47x   ss=1515
+query85      9.9     4.5    2.21x   ws=4096  wr=4096
+query76     16.6     7.6    2.19x   ss=2664  cs=4096  ws=4096
+query90      9.3     4.5    2.07x   ws=2535
+query94     14.8     7.2    2.05x   ws=2535  wr=4096
+query27      3.4     1.8    1.92x   ss=4096
+query82      4.9     2.6    1.91x   ss=4096  inv=333
+query89      3.1     1.6    1.89x   ss=4096
+query75     20.7    11.0    1.88x   ss=1510  cs=4096  ws=4096  sr=4096  cr=4096  wr=4096
+query78     16.5     9.0    1.82x   ss=1993  cs=4096  ws=2819  sr=3271  cr=4096  wr=4096
+query86      3.0     1.7    1.77x   ws=2535
+query30      4.9     2.8    1.72x   wr=4096
+query74      7.6     4.5    1.71x   ss=4096  ws=4096
+query49     10.4     6.2    1.69x   ss=4096  cs=4096  ws=4096  sr=3158  cr=4096  wr=4096
+query11      8.6     5.1    1.68x   ss=4096  ws=4096
+query93     12.4     7.4    1.67x   ss=3398  sr=4096
+query64     13.1     8.0    1.65x   ss=4096  cs=4096  sr=4096  cr=4096
+query80     11.4     7.2    1.58x   ss=1953  cs=3163  ws=3387  sr=3154  cr=4096  wr=4096
+query31      3.6     2.3    1.57x   ss=3364  ws=2777
+query84      4.6     3.0    1.53x   sr=4096
+query47      3.9     2.6    1.51x   ss=1748
+query96      7.3     4.9    1.50x   ss=4096
+query46      2.6     1.8    1.49x   ss=3484
+query63      2.3     1.6    1.46x   ss=4096
+query38      4.0     2.8    1.46x   ss=1751  cs=2694  ws=4096
+query50      9.7     6.7    1.46x   ss=4096  sr=4096
+query87      4.2     2.9    1.45x   ss=4096  cs=4096  ws=4096
+query65      4.5     3.2    1.40x   ss=3425
+query36      2.8     2.0    1.39x   ss=4096
+query7       3.6     2.6    1.39x   ss=4096
+query58      1.2     0.9    1.38x   ss=1509  cs=2366  ws=4096
+query48      3.4     2.5    1.36x   ss=3332
+query35      2.8     2.1    1.36x   ss=4096  cs=3817  ws=4096
+query51      5.0     3.7    1.33x   ss=4096  ws=4096
+query53      2.3     1.7    1.32x   ss=3484
+query70      4.5     3.4    1.32x   ss=4096
+query67      9.1     6.9    1.32x   ss=4096
+query1       0.3     0.2    1.32x   (dims only)
+query18      2.1     1.6    1.30x   cs=2101
+query10      1.7     1.3    1.29x   ss=1508  cs=4096  ws=4096
+query5       6.8     5.3    1.29x   ss=2664  cs=3777  ws=4096  sr=4096  cr=4096  wr=4096
+query72      6.8     5.3    1.28x   cs=3804  cr=4096  inv=333
+query3       1.0     0.8    1.23x   ss=1748
+query54      1.4     1.1    1.22x   ss=2270  cs=4096  ws=4096
+query69      1.6     1.4    1.19x   ss=3397  cs=4096  ws=4096
+query16      3.5     3.0    1.19x   cs=4096  cr=4096
+query91      1.0     0.9    1.15x   cr=4096
+query20      0.6     0.6    1.14x   cs=4096
+query17      2.5     2.2    1.12x   ss=4096  cs=2366  sr=4096
+query60      1.4     1.3    1.11x   ss=4096  cs=4096  ws=4096
+query25      2.1     1.9    1.11x   ss=2671  cs=4096  sr=3769
+query79      1.5     1.4    1.10x   ss=3400
+query77      1.6     1.5    1.09x   ss=4096  cs=4096  ws=4096  sr=4093  cr=4096  wr=4096
+query37      0.7     0.7    1.08x   cs=4096  inv=266
+query97      2.1     2.0    1.07x   ss=2687  cs=4096
+query99      2.0     1.9    1.06x   cs=1890
+query92      1.2     1.2    1.05x   ws=4096
+query19      0.9     0.9    1.04x   ss=1687
+query45      1.2     1.2    0.98x   ws=4096
+query44      2.3     2.3    0.98x   ss=1953
+query56      1.2     1.2    0.98x   ss=4096  cs=4096  ws=4096
+query57      1.2     1.2    0.96x   cs=4096
+query6       1.0     1.0    0.96x   ss=3399
+query81      1.9     2.0    0.95x   cr=4096
+query33      1.2     1.2    0.94x   ss=4096  cs=4096  ws=4096
+query40      1.5     1.6    0.94x   cs=2101  cr=4096
+query73      1.1     1.2    0.93x   ss=3378
+query22      1.5     1.7    0.92x   inv=333
+query41      0.3     0.3    0.89x   (dims only)
+query98      1.1     1.3    0.88x   ss=4096
+query26      0.7     0.9    0.87x   cs=4096
+query32      0.6     0.7    0.86x   cs=2689
+query15      0.5     0.6    0.84x   cs=4096
+query61      1.2     1.5    0.76x   ss=2260
+query8       1.3     1.7    0.74x   ss=4096
+query55      0.5     0.7    0.70x   ss=4096
+query34      0.3     0.4    0.67x   (dims only)
+query29      2.3     3.5    0.66x   ss=1924  cs=2694  sr=3154
+query12      0.7     1.2    0.59x   ws=4096
+query52      0.5     0.8    0.59x   ss=4096
+query71      1.4     2.6    0.55x   ss=3400  cs=4096  ws=4096
+query4      12.5    25.1    0.50x   ss=2237  cs=1890  ws=4096
+query21      0.6     1.4    0.46x   inv=266
+query83      1.1     3.0    0.36x   sr=4096  cr=4096  wr=4096
+query68      0.3     0.8    0.33x   (dims only)
+query42      0.5     2.4    0.19x   ss=2271
+
+TOTAL OFF=528.5s WARM=318.3s overall=1.66x  median=1.30x
+faster>5%=65 slower>5%=23 same=7  |  baseline reproducibility: OFF-day1=525.5s OFF-day2=528.5s

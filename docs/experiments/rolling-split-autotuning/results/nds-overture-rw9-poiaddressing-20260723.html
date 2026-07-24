@@ -1,0 +1,105 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>POI address completeness by category — sweep + fill-to-target</title><style>:root{--bg:#fcfcfb;--surf:#fff;--ink:#0b0b0b;--mut:#52514e;--line:#e6e5e2;--blue:#2a78d6;--orange:#eb6834;--aqua:#1baf7a;--code:#f4f3f0}
+@media(prefers-color-scheme:dark){:root{--bg:#151513;--surf:#1f1f1d;--ink:#fff;--mut:#c3c2b7;--line:#33322f;--blue:#3987e5;--orange:#d95926;--aqua:#199e70;--code:#26261f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 20px 64px}h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 18px}
+h2{font-size:17px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}p{margin:9px 0}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font:13px ui-monospace,Menlo,monospace}
+.concl{background:var(--surf);border:1px solid var(--blue);border-left:5px solid var(--blue);border-radius:10px;padding:16px 20px;margin:14px 0}
+.concl.o{border-color:var(--orange);border-left-color:var(--orange)}.concl h3{margin:0 0 8px;font-size:16px}
+.tiles{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.tile{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:14px 18px;min-width:150px;flex:1}
+.tile .lab{color:var(--mut);font-size:12.5px}.tile .big{font-size:20px;font-weight:600;margin-top:3px}
+.blue{color:var(--blue)}.aqua{color:var(--aqua)}.orange{color:var(--orange)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:12px 15px;overflow-x:auto;font:12px/1.5 ui-monospace,Menlo,monospace}
+figure{margin:14px 0;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:12px}figcaption{color:var(--mut);font-size:12.5px;padding:8px 2px 0}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0}th,td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--surf);color:var(--mut);font-weight:600}a{color:var(--blue)}.warn{color:var(--orange)}</style></head><body><div class=wrap>
+<h1>POI address completeness by category — maxPartitionBytes sweep + fill-to-target (local, Spark 3.5.3)</h1>
+<p class=sub>Overture <b>RW9</b> · 1.16 GiB scanned · scan-heavy · RTX A5000 · local[16] · 2026-07-23</p>
+<div class="concl "><h3>Conclusion</h3><p>ftt lands at 1.92 GB — inside rw9's <b>flat region</b> (the ~1 GB data can't subdivide past ~18 tasks, so any split ≥1g is identical) → <b>≈ tie</b> with the optimum on wall, while cutting gpuTime 11.6 → 2.6 s. The knob barely matters here; ftt does no harm and lands right.</p></div>
+<div class=tiles>
+<div class=tile><div class=lab>optimum (OFF sweep)</div><div class="big blue">flat (≥1g) → 1.51s</div></div>
+<div class=tile><div class=lab>ftt converges to</div><div class="big aqua">1.92 GB</div><div class=lab>start-independent</div></div>
+<div class=tile><div class=lab>ftt vs optimum</div><div class="big aqua">≈ tie (flat)</div></div>
+<div class=tile><div class=lab>byte skew opt→ftt</div><div class="big">1.27× → 1.36×</div></div>
+</div>
+<h2>The query &amp; the question</h2><p><b>Question:</b> Which kinds of business carry a usable street address vs only a point? For each category, what share of POIs have both a locality and a postcode in their embedded address (geocodable)? <b>Scan-heavy:</b> one scan of <code>places</code> categories + embedded addresses (74.2 M POIs) + a tiny GROUP BY category.</p>
+<pre>SELECT categories.primary AS category, COUNT(*) AS pois,
+    ROUND(100.0*AVG(CASE WHEN element_at(addresses,1).locality IS NOT NULL THEN 1 ELSE 0 END),1) AS pct_locality,
+    ROUND(100.0*AVG(CASE WHEN element_at(addresses,1).postcode IS NOT NULL THEN 1 ELSE 0 END),1) AS pct_postcode,
+    ROUND(100.0*AVG(CASE WHEN element_at(addresses,1).locality IS NOT NULL
+                          AND element_at(addresses,1).postcode IS NOT NULL THEN 1 ELSE 0 END),1) AS pct_addressable
+  FROM places WHERE categories.primary IS NOT NULL GROUP BY categories.primary HAVING COUNT(*)>=5000
+  ORDER BY pct_addressable DESC</pre>
+<p><b>Result (real insight):</b></p><table><thead><tr><th style=text-align:left>category</th><th>pois</th><th>% locality</th><th>% postcode</th><th>% addressable</th></tr></thead><tbody><tr><td style=text-align:left>propane_supplier</td><td>47.0 K</td><td>100.0</td><td>100.0</td><td>100.0</td></tr><tr><td style=text-align:left>courier_and_delivery</td><td>53.4 K</td><td>100.0</td><td>100.0</td><td>100.0</td></tr><tr><td style=text-align:left>tax_services</td><td>37.9 K</td><td>100.0</td><td>100.0</td><td>100.0</td></tr><tr><td style=text-align:left>auto_insurance</td><td>37.9 K</td><td>100.0</td><td>100.0</td><td>100.0</td></tr><tr><td style=text-align:left>tire_shop</td><td>22.6 K</td><td>100.0</td><td>100.0</td><td>100.0</td></tr><tr><td style=text-align:left>rental_services</td><td>17.1 K</td><td>100.0</td><td>100.0</td><td>100.0</td></tr><tr><td style=text-align:left>builders</td><td>15.1 K</td><td>100.0</td><td>100.0</td><td>100.0</td></tr><tr><td style=text-align:left>home_decor</td><td>12.2 K</td><td>100.0</td><td>100.0</td><td>100.0</td></tr></tbody></table>
+<p><b>Honest caveat:</b> sorted by addressability <b>descending</b>, so the top-20 (of <b>874</b> categories with ≥5000 POIs) are all <b>saturated at 100%</b> — many service/retail categories are fully addressed. The informative variation is in the <b>tail</b> (categories with partial addressing), not shown here. The genuine takeaway: a large share of Overture POI categories carry complete embedded street addresses.</p>
+<h2>Data read (per execution)</h2><table><thead><tr><th style=text-align:left>stage</th><th>bytes</th><th>note</th></tr></thead><tbody><tr><td style=text-align:left>on disk (places, listed)</td><td>10.5 GiB</td><td>16 files</td></tr><tr><td style=text-align:left>scanned off disk</td><td>1.16 GiB</td><td>measured (Spark input) — categories + addresses columns</td></tr><tr><td style=text-align:left>decoded on GPU</td><td>~5.9 GiB</td><td>decode_expansion 7.5×</td></tr><tr><td style=text-align:left>rows</td><td>74.2 M</td><td>POIs (874 categories ≥5000)</td></tr></tbody></table>
+<h2>1. Sweep (autotuner OFF) → optimum flat (≥1g)</h2>
+<figure><svg viewBox="0 0 680 300" width="100%" role="img" aria-label="POI address completeness by category sweep">
+<rect width="680" height="300" fill="var(--surf)"/>
+<line x1="52" y1="216" x2="666" y2="216" stroke="var(--line)"/>
+<text x="46" y="219" text-anchor="end" font-size="10" fill="var(--mut)">1.5s</text>
+<line x1="52" y1="114" x2="666" y2="114" stroke="var(--line)"/>
+<text x="46" y="117" text-anchor="end" font-size="10" fill="var(--mut)">1.6s</text>
+<text x="52" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="206" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="359" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="512" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="666" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="359" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,114.9 205.5,82.4 359.0,200.4 512.5,173.9 666.0,185.1" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="114.9" r="4" fill="var(--blue)"><title>OFF 256m: 1599 ms</title></circle>
+<circle cx="205.5" cy="82.4" r="4" fill="var(--blue)"><title>OFF 512m: 1631 ms</title></circle>
+<circle cx="359.0" cy="200.4" r="4" fill="var(--blue)"><title>OFF 1024m: 1515 ms</title></circle>
+<circle cx="512.5" cy="173.9" r="4" fill="var(--blue)"><title>OFF 2048m: 1541 ms</title></circle>
+<circle cx="666.0" cy="185.1" r="4" fill="var(--blue)"><title>OFF 4096m: 1530 ms</title></circle>
+<circle cx="359.0" cy="200.4" r="7.5" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<text x="359" y="218" text-anchor="middle" font-size="9.5" fill="var(--blue)">optimum</text>
+<circle cx="503.5" cy="191.2" r="6" fill="var(--aqua)" stroke="var(--surf)" stroke-width="1.4"><title>ftt 1.92 GB: 1524 ms</title></circle>
+<text x="503" y="182" text-anchor="middle" font-size="9.5" fill="var(--aqua)">ftt 1.92 GB</text>
+</svg><figcaption>Warm iters 2–5. Blue = OFF sweep (ring = optimum); aqua = fill-to-target converged split. Hover for values. <b>Flat</b>: split ≥1g gives identical ~18 tasks.</figcaption></figure>
+<table><thead><tr><th style=text-align:left>mpb</th><th>tasks</th><th>byte skew</th><th>avg batch</th><th>scan</th><th>decode</th><th>gpuTime</th><th>wall ms</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>44</td><td>1.47×</td><td>136M</td><td>9.7s</td><td>4.6s</td><td>12.7s</td><td>1599</td></tr><tr><td style=text-align:left>512m</td><td>22</td><td>1.37×</td><td>273M</td><td>8.8s</td><td>3.6s</td><td>11.9s</td><td>1631</td></tr><tr><td style=text-align:left><b>1g</b></td><td>18</td><td>1.27×</td><td>333M</td><td>8.7s</td><td>3.3s</td><td>11.6s</td><td><b>1515</b></td></tr><tr><td style=text-align:left>2g</td><td>18</td><td>1.27×</td><td>333M</td><td>8.9s</td><td>3.4s</td><td>11.3s</td><td>1541</td></tr><tr><td style=text-align:left>4g</td><td>18</td><td>1.27×</td><td>333M</td><td>8.4s</td><td>3.3s</td><td>11.9s</td><td>1530</td></tr></tbody></table>
+<figure><svg viewBox="0 0 680 300" width="100%" role="img" aria-label="gpu work vs split">
+<rect width="680" height="300" fill="var(--surf)"/>
+<line x1="52" y1="262" x2="590" y2="262" stroke="var(--line)"/>
+<text x="46" y="265" text-anchor="end" font-size="10" fill="var(--mut)">0s</text>
+<line x1="52" y1="83" x2="590" y2="83" stroke="var(--line)"/>
+<text x="46" y="86" text-anchor="end" font-size="10" fill="var(--mut)">10s</text>
+<text x="52" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="186" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="321" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="456" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="590" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="321" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,34.2 186.5,48.6 321.0,54.0 455.5,59.3 590.0,48.6" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="34.2" r="3.5" fill="var(--blue)"><title>gpuTime 256m: 12.7s</title></circle>
+<circle cx="186.5" cy="48.6" r="3.5" fill="var(--blue)"><title>gpuTime 512m: 11.9s</title></circle>
+<circle cx="321.0" cy="54.0" r="3.5" fill="var(--blue)"><title>gpuTime 1g: 11.6s</title></circle>
+<circle cx="455.5" cy="59.3" r="3.5" fill="var(--blue)"><title>gpuTime 2g: 11.3s</title></circle>
+<circle cx="590.0" cy="48.6" r="3.5" fill="var(--blue)"><title>gpuTime 4g: 11.9s</title></circle>
+<text x="596" y="30" font-size="10.5" fill="var(--blue)">gpuTime</text>
+<polyline points="52.0,88.0 186.5,104.2 321.0,106.0 455.5,102.4 590.0,111.3" fill="none" stroke="var(--orange)" stroke-width="2"/>
+<circle cx="52.0" cy="88.0" r="3.5" fill="var(--orange)"><title>scan time 256m: 9.7s</title></circle>
+<circle cx="186.5" cy="104.2" r="3.5" fill="var(--orange)"><title>scan time 512m: 8.8s</title></circle>
+<circle cx="321.0" cy="106.0" r="3.5" fill="var(--orange)"><title>scan time 1g: 8.7s</title></circle>
+<circle cx="455.5" cy="102.4" r="3.5" fill="var(--orange)"><title>scan time 2g: 8.9s</title></circle>
+<circle cx="590.0" cy="111.3" r="3.5" fill="var(--orange)"><title>scan time 4g: 8.4s</title></circle>
+<text x="596" y="46" font-size="10.5" fill="var(--orange)">scan time</text>
+<polyline points="52.0,179.5 186.5,197.4 321.0,202.8 455.5,201.0 590.0,202.8" fill="none" stroke="var(--aqua)" stroke-width="2"/>
+<circle cx="52.0" cy="179.5" r="3.5" fill="var(--aqua)"><title>GPU decode 256m: 4.6s</title></circle>
+<circle cx="186.5" cy="197.4" r="3.5" fill="var(--aqua)"><title>GPU decode 512m: 3.6s</title></circle>
+<circle cx="321.0" cy="202.8" r="3.5" fill="var(--aqua)"><title>GPU decode 1g: 3.3s</title></circle>
+<circle cx="455.5" cy="201.0" r="3.5" fill="var(--aqua)"><title>GPU decode 2g: 3.4s</title></circle>
+<circle cx="590.0" cy="202.8" r="3.5" fill="var(--aqua)"><title>GPU decode 4g: 3.3s</title></circle>
+<text x="596" y="62" font-size="10.5" fill="var(--aqua)">GPU decode</text>
+</svg><figcaption>GPU work vs split (warm 2–5, summed over scan-stage tasks): <b>gpuTime</b> (semaphore-holding) and <b>decode</b> <i>fall</i> as the split grows (fuller batches → less GPU work), while <b>wall</b> above is set by parallelism/skew — the divergence is why lower gpuTime ≠ faster.</figcaption></figure>
+<p><b>byte skew</b> = max÷median bytes-read per scan task (1.0 = balanced; high → straggler).</p>
+<h2>2. Autotuner ON (fill-to-target) — 1.92 GB</h2>
+<p>Converges <b>start-independently</b> (128m &amp; 4g → same split): <b>1.92 GB</b> (<code>bound_by=ratio</code>).
+ftt warm: 7 tasks, skew 1.36×, scan 3.9s, decode 0.9s, gpuTime 2.6s, wall 1524 ms.</p>
+<p><b>ftt vs fixed settings</b> (Δ = ftt − baseline):</p>
+<table><thead><tr><th style=text-align:left>baseline</th><th>wall</th><th>Δ wall</th><th>scan</th><th>Δ scan</th><th>gpuTime</th><th>Δ gpuTime</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>1599</td><td>-5%</td><td>9.7s</td><td>-60%</td><td>12.7s</td><td>-79%</td></tr><tr><td style=text-align:left>512m</td><td>1631</td><td>-7%</td><td>8.8s</td><td>-56%</td><td>11.9s</td><td>-78%</td></tr><tr><td style=text-align:left>1g</td><td>1515</td><td>+1%</td><td>8.7s</td><td>-56%</td><td>11.6s</td><td>-77%</td></tr><tr><td style=text-align:left>2g</td><td>1541</td><td>-1%</td><td>8.9s</td><td>-57%</td><td>11.3s</td><td>-77%</td></tr><tr><td style=text-align:left>4g</td><td>1530</td><td>-0%</td><td>8.4s</td><td>-54%</td><td>11.9s</td><td>-78%</td></tr></tbody></table>
+<p>Vs the <b>1g optimum</b>: wall +1%, scan -56%, gpuTime -77%; byte skew 1.27× → 1.36×.</p>
+<h2>Full report</h2><ul><li><a href="nds-overture-rw9-poiaddressing-20260723.md">Result doc (markdown)</a></li>
+<li>Companion queries: <a href="nds-overture-rw2-index-20260723.html">RW6–RW9 index</a> · method <code>BENCHMARK-METHOD.md</code></li></ul>
+</div></body></html>

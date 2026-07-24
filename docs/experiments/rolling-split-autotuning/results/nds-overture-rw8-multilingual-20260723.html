@@ -1,0 +1,111 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>Multilingual naming coverage of the road network — sweep + fill-to-target</title><style>:root{--bg:#fcfcfb;--surf:#fff;--ink:#0b0b0b;--mut:#52514e;--line:#e6e5e2;--blue:#2a78d6;--orange:#eb6834;--aqua:#1baf7a;--code:#f4f3f0}
+@media(prefers-color-scheme:dark){:root{--bg:#151513;--surf:#1f1f1d;--ink:#fff;--mut:#c3c2b7;--line:#33322f;--blue:#3987e5;--orange:#d95926;--aqua:#199e70;--code:#26261f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 20px 64px}h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 18px}
+h2{font-size:17px;margin:28px 0 10px;border-bottom:1px solid var(--line);padding-bottom:6px}p{margin:9px 0}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font:13px ui-monospace,Menlo,monospace}
+.concl{background:var(--surf);border:1px solid var(--blue);border-left:5px solid var(--blue);border-radius:10px;padding:16px 20px;margin:14px 0}
+.concl.o{border-color:var(--orange);border-left-color:var(--orange)}.concl h3{margin:0 0 8px;font-size:16px}
+.tiles{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.tile{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:14px 18px;min-width:150px;flex:1}
+.tile .lab{color:var(--mut);font-size:12.5px}.tile .big{font-size:20px;font-weight:600;margin-top:3px}
+.blue{color:var(--blue)}.aqua{color:var(--aqua)}.orange{color:var(--orange)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:12px 15px;overflow-x:auto;font:12px/1.5 ui-monospace,Menlo,monospace}
+figure{margin:14px 0;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:12px}figcaption{color:var(--mut);font-size:12.5px;padding:8px 2px 0}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0}th,td{padding:6px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--surf);color:var(--mut);font-weight:600}a{color:var(--blue)}.warn{color:var(--orange)}</style></head><body><div class=wrap>
+<h1>Multilingual naming coverage of the road network — maxPartitionBytes sweep + fill-to-target (local, Spark 3.5.3)</h1>
+<p class=sub>Overture <b>RW8</b> · 1.68 GiB scanned · scan-heavy · RTX A5000 · local[16] · 2026-07-23</p>
+<div class="concl o"><h3>Conclusion</h3><p>ftt sizes a <b>7.9 GB</b> split (names.common map is highly compressible, decoded/listed 0.14) → 10 fuller tasks that <b>cut gpuTime 49% (5.5 → 2.8 s) and decode 41% (2.9 → 1.7 s)</b> vs the 2g optimum. The trade is <b>+11% wall</b>: 10 tasks under-fills the 16 cores, so this parallelism-bound query is slightly slower on wall despite doing less GPU work.</p></div>
+<div class=tiles>
+<div class=tile><div class=lab>optimum (OFF sweep)</div><div class="big blue">2g → 1.13s</div></div>
+<div class=tile><div class=lab>ftt converges to</div><div class="big orange">7.9 GB</div><div class=lab>start-independent</div></div>
+<div class=tile><div class=lab>ftt vs optimum</div><div class="big orange">gpu -50%, wall +11%</div></div>
+<div class=tile><div class=lab>byte skew opt→ftt</div><div class="big">1.54× → 1.16×</div></div>
+</div>
+<h2>The query &amp; the question</h2><p><b>Question:</b> How multilingual is road naming? For each class, of the named roads, what share also carry alternate-language names (names.common map)? <b>Scan-heavy:</b> one scan of <code>segment</code> class + names (348.7 M rows) + a tiny GROUP BY class.</p>
+<pre>SELECT class, COUNT(*) AS named_segments,
+    ROUND(AVG(size(map_keys(names.common))),2) AS avg_languages,   -- see caveat
+    ROUND(100.0*AVG(CASE WHEN size(map_keys(names.common))>=2 THEN 1 ELSE 0 END),1) AS pct_multilingual
+  FROM segment WHERE class IS NOT NULL AND names.primary IS NOT NULL
+  GROUP BY class ORDER BY named_segments DESC</pre>
+<p><b>Result (real insight):</b></p><table><thead><tr><th style=text-align:left>class</th><th>named segments</th><th>pct_multilingual</th><th>avg_languages ⚠</th></tr></thead><tbody><tr><td style=text-align:left>motorway</td><td>0.39 M</td><td>26.2</td><td>(−0.26)</td></tr><tr><td style=text-align:left>trunk</td><td>2.57 M</td><td>22.4</td><td>(−0.06)</td></tr><tr><td style=text-align:left>standard_gauge (rail)</td><td>0.20 M</td><td>16.5</td><td>(−0.15)</td></tr><tr><td style=text-align:left>primary</td><td>5.14 M</td><td>13.8</td><td>(−0.38)</td></tr><tr><td style=text-align:left>secondary</td><td>7.85 M</td><td>10.5</td><td>(−0.53)</td></tr><tr><td style=text-align:left>tertiary</td><td>11.43 M</td><td>8.2</td><td>(−0.64)</td></tr><tr><td style=text-align:left>living_street</td><td>1.29 M</td><td>6.1</td><td>(−0.71)</td></tr><tr><td style=text-align:left>unclassified</td><td>5.43 M</td><td>4.7</td><td>(−0.78)</td></tr><tr><td style=text-align:left>service</td><td>2.54 M</td><td>3.6</td><td>(−0.84)</td></tr><tr><td style=text-align:left>track</td><td>1.26 M</td><td>1.5</td><td>(−0.88)</td></tr></tbody></table>
+<p>Genuine insight (from <b>pct_multilingual</b>): the <b>most important roads are the most multilingual</b> — motorway 26%, trunk 22%, rail 17%, primary 14% — tapering to &lt;5% for service/track. <b>Honest caveat:</b> <code>avg_languages</code> is <b>corrupt</b> — <code>size(map_keys(NULL))</code> returns <b>−1</b> for roads with no <code>names.common</code>, so the AVG goes negative and is meaningless. Only <b>pct_multilingual</b> (which treats −1 as &lt;2 → not multilingual) is valid. Reported honestly; avg_languages shown struck-through.</p>
+<h2>Data read (per execution)</h2><table><thead><tr><th style=text-align:left>stage</th><th>bytes</th><th>note</th></tr></thead><tbody><tr><td style=text-align:left>on disk (segment, listed)</td><td>66.3 GiB</td><td>128 files</td></tr><tr><td style=text-align:left>scanned off disk</td><td>1.68 GiB</td><td>measured (Spark input) — only class + names columns</td></tr><tr><td style=text-align:left>decoded on GPU</td><td>~9.0 GiB</td><td>names.common map decodes (decode_expansion 16.1×)</td></tr><tr><td style=text-align:left>rows</td><td>348.7 M</td><td>segments (named subset aggregated)</td></tr></tbody></table>
+<h2>1. Sweep (autotuner OFF) → optimum 2g</h2>
+<figure><svg viewBox="0 0 680 300" width="100%" role="img" aria-label="Multilingual naming coverage of the road network sweep">
+<rect width="680" height="300" fill="var(--surf)"/>
+<line x1="52" y1="237" x2="666" y2="237" stroke="var(--line)"/>
+<text x="46" y="240" text-anchor="end" font-size="10" fill="var(--mut)">1.2s</text>
+<line x1="52" y1="194" x2="666" y2="194" stroke="var(--line)"/>
+<text x="46" y="197" text-anchor="end" font-size="10" fill="var(--mut)">1.4s</text>
+<line x1="52" y1="151" x2="666" y2="151" stroke="var(--line)"/>
+<text x="46" y="154" text-anchor="end" font-size="10" fill="var(--mut)">1.6s</text>
+<line x1="52" y1="108" x2="666" y2="108" stroke="var(--line)"/>
+<text x="46" y="111" text-anchor="end" font-size="10" fill="var(--mut)">1.8s</text>
+<line x1="52" y1="65" x2="666" y2="65" stroke="var(--line)"/>
+<text x="46" y="68" text-anchor="end" font-size="10" fill="var(--mut)">2.0s</text>
+<line x1="52" y1="22" x2="666" y2="22" stroke="var(--line)"/>
+<text x="46" y="25" text-anchor="end" font-size="10" fill="var(--mut)">2.2s</text>
+<text x="52" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="206" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="359" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="512" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="666" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="359" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,34.5 205.5,192.5 359.0,236.1 512.5,252.2 666.0,238.4" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="34.5" r="4" fill="var(--blue)"><title>OFF 256m: 2141 ms</title></circle>
+<circle cx="205.5" cy="192.5" r="4" fill="var(--blue)"><title>OFF 512m: 1408 ms</title></circle>
+<circle cx="359.0" cy="236.1" r="4" fill="var(--blue)"><title>OFF 1024m: 1206 ms</title></circle>
+<circle cx="512.5" cy="252.2" r="4" fill="var(--blue)"><title>OFF 2048m: 1131 ms</title></circle>
+<circle cx="666.0" cy="238.4" r="4" fill="var(--blue)"><title>OFF 4096m: 1195 ms</title></circle>
+<circle cx="512.5" cy="252.2" r="7.5" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<text x="512" y="270" text-anchor="middle" font-size="9.5" fill="var(--blue)">optimum</text>
+<circle cx="666.0" cy="224.4" r="6" fill="var(--orange)" stroke="var(--surf)" stroke-width="1.4"><title>ftt 7.9 GB: 1260 ms</title></circle>
+<text x="666" y="215" text-anchor="middle" font-size="9.5" fill="var(--orange)">ftt 7.9 GB</text>
+</svg><figcaption>Warm iters 2–5. Blue = OFF sweep (ring = optimum); orange = fill-to-target converged split. Hover for values.</figcaption></figure>
+<table><thead><tr><th style=text-align:left>mpb</th><th>tasks</th><th>byte skew</th><th>avg batch</th><th>scan</th><th>decode</th><th>gpuTime</th><th>wall ms</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>286</td><td>1.90×</td><td>32M</td><td>17.8s</td><td>7.9s</td><td>17.5s</td><td>2141</td></tr><tr><td style=text-align:left>512m</td><td>143</td><td>1.54×</td><td>65M</td><td>11.0s</td><td>4.2s</td><td>8.6s</td><td>1408</td></tr><tr><td style=text-align:left>1g</td><td>99</td><td>2.04×</td><td>93M</td><td>9.6s</td><td>3.5s</td><td>7.2s</td><td>1206</td></tr><tr><td style=text-align:left><b>2g</b></td><td>40</td><td>1.54×</td><td>231M</td><td>8.8s</td><td>2.9s</td><td>5.5s</td><td><b>1131</b></td></tr><tr><td style=text-align:left>4g</td><td>18</td><td>1.16×</td><td>369M</td><td>10.2s</td><td>3.2s</td><td>5.0s</td><td>1195</td></tr></tbody></table>
+<figure><svg viewBox="0 0 680 300" width="100%" role="img" aria-label="gpu work vs split">
+<rect width="680" height="300" fill="var(--surf)"/>
+<line x1="52" y1="262" x2="590" y2="262" stroke="var(--line)"/>
+<text x="46" y="265" text-anchor="end" font-size="10" fill="var(--mut)">0s</text>
+<line x1="52" y1="134" x2="590" y2="134" stroke="var(--line)"/>
+<text x="46" y="137" text-anchor="end" font-size="10" fill="var(--mut)">10s</text>
+<text x="52" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">256m</text>
+<text x="186" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">512m</text>
+<text x="321" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">1g</text>
+<text x="456" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">2g</text>
+<text x="590" y="277" text-anchor="middle" font-size="10" fill="var(--mut)">4g</text>
+<text x="321" y="297" text-anchor="middle" font-size="11" fill="var(--ink)">maxPartitionBytes (log)</text>
+<polyline points="52.0,38.1 186.5,152.0 321.0,169.9 455.5,191.6 590.0,198.0" fill="none" stroke="var(--blue)" stroke-width="2"/>
+<circle cx="52.0" cy="38.1" r="3.5" fill="var(--blue)"><title>gpuTime 256m: 17.5s</title></circle>
+<circle cx="186.5" cy="152.0" r="3.5" fill="var(--blue)"><title>gpuTime 512m: 8.6s</title></circle>
+<circle cx="321.0" cy="169.9" r="3.5" fill="var(--blue)"><title>gpuTime 1g: 7.2s</title></circle>
+<circle cx="455.5" cy="191.6" r="3.5" fill="var(--blue)"><title>gpuTime 2g: 5.5s</title></circle>
+<circle cx="590.0" cy="198.0" r="3.5" fill="var(--blue)"><title>gpuTime 4g: 5.0s</title></circle>
+<text x="596" y="30" font-size="10.5" fill="var(--blue)">gpuTime</text>
+<polyline points="52.0,34.2 186.5,121.2 321.0,139.2 455.5,149.4 590.0,131.5" fill="none" stroke="var(--orange)" stroke-width="2"/>
+<circle cx="52.0" cy="34.2" r="3.5" fill="var(--orange)"><title>scan time 256m: 17.8s</title></circle>
+<circle cx="186.5" cy="121.2" r="3.5" fill="var(--orange)"><title>scan time 512m: 11.0s</title></circle>
+<circle cx="321.0" cy="139.2" r="3.5" fill="var(--orange)"><title>scan time 1g: 9.6s</title></circle>
+<circle cx="455.5" cy="149.4" r="3.5" fill="var(--orange)"><title>scan time 2g: 8.8s</title></circle>
+<circle cx="590.0" cy="131.5" r="3.5" fill="var(--orange)"><title>scan time 4g: 10.2s</title></circle>
+<text x="596" y="46" font-size="10.5" fill="var(--orange)">scan time</text>
+<polyline points="52.0,160.9 186.5,208.3 321.0,217.2 455.5,224.9 590.0,221.1" fill="none" stroke="var(--aqua)" stroke-width="2"/>
+<circle cx="52.0" cy="160.9" r="3.5" fill="var(--aqua)"><title>GPU decode 256m: 7.9s</title></circle>
+<circle cx="186.5" cy="208.3" r="3.5" fill="var(--aqua)"><title>GPU decode 512m: 4.2s</title></circle>
+<circle cx="321.0" cy="217.2" r="3.5" fill="var(--aqua)"><title>GPU decode 1g: 3.5s</title></circle>
+<circle cx="455.5" cy="224.9" r="3.5" fill="var(--aqua)"><title>GPU decode 2g: 2.9s</title></circle>
+<circle cx="590.0" cy="221.1" r="3.5" fill="var(--aqua)"><title>GPU decode 4g: 3.2s</title></circle>
+<text x="596" y="62" font-size="10.5" fill="var(--aqua)">GPU decode</text>
+</svg><figcaption>GPU work vs split (warm 2–5, summed over scan-stage tasks): <b>gpuTime</b> (semaphore-holding) and <b>decode</b> <i>fall</i> as the split grows (fuller batches → less GPU work), while <b>wall</b> above is set by parallelism/skew — the divergence is why lower gpuTime ≠ faster.</figcaption></figure>
+<p><b>byte skew</b> = max÷median bytes-read per scan task (1.0 = balanced; high → straggler).</p>
+<h2>2. Autotuner ON (fill-to-target) — 7.9 GB</h2>
+<p>Converges <b>start-independently</b> (128m &amp; 4g → same split): <b>7.9 GB</b> (<code>bound_by=ratio</code>).
+ftt warm: 10 tasks, skew 1.16×, scan 6.8s, decode 1.7s, gpuTime 2.8s, wall 1260 ms.</p>
+<p><b>ftt vs fixed settings</b> (Δ = ftt − baseline):</p>
+<table><thead><tr><th style=text-align:left>baseline</th><th>wall</th><th>Δ wall</th><th>scan</th><th>Δ scan</th><th>gpuTime</th><th>Δ gpuTime</th></tr></thead><tbody><tr><td style=text-align:left>256m</td><td>2141</td><td>-41%</td><td>17.8s</td><td>-62%</td><td>17.5s</td><td>-84%</td></tr><tr><td style=text-align:left>512m</td><td>1408</td><td>-11%</td><td>11.0s</td><td>-39%</td><td>8.6s</td><td>-68%</td></tr><tr><td style=text-align:left>1g</td><td>1206</td><td>+4%</td><td>9.6s</td><td>-30%</td><td>7.2s</td><td>-62%</td></tr><tr><td style=text-align:left>2g</td><td>1131</td><td>+11%</td><td>8.8s</td><td>-23%</td><td>5.5s</td><td>-50%</td></tr><tr><td style=text-align:left>4g</td><td>1195</td><td>+5%</td><td>10.2s</td><td>-34%</td><td>5.0s</td><td>-45%</td></tr></tbody></table>
+<p>Vs the <b>2g optimum</b>: wall +11%, scan -23%, gpuTime -50%; byte skew 1.54× → 1.16×.</p>
+<h2>Full report</h2><ul><li><a href="nds-overture-rw8-multilingual-20260723.md">Result doc (markdown)</a></li>
+<li>Companion queries: <a href="nds-overture-rw2-index-20260723.html">RW6–RW9 index</a> · method <code>BENCHMARK-METHOD.md</code></li></ul>
+</div></body></html>

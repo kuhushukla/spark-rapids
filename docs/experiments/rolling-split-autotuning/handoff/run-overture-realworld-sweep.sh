@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# maxPartitionBytes sweep (512m/1g/2g/4g) for the REAL-WORLD Overture query (road-network coverage by class),
+# autotuner OFF, local Spark 3.5.3 + 353 jar, A5000 only. Finds the optimal split for this GROUP-BY query.
+set -uo pipefail
+REPO=/home/kuhu/Reps/spark-rapids
+export SPARK_HOME=/home/kuhu/Downloads/spark-3.5.3-bin-hadoop3
+export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+export CUDA_VISIBLE_DEVICES=GPU-1aaa66fd-0c1e-935b-fe65-2c9ca7357504   # A5000 only, never T400
+JAR="$REPO/dist/target/rapids-4-spark_2.12-26.08.0-SNAPSHOT-cuda12.jar"
+SCRIPT="$REPO/docs/experiments/rolling-split-autotuning/handoff/overture_realworld_bench.scala"
+ITERS="${ITERS:-5}"
+for MPB in 512m 1g 2g 4g; do
+  OUT="$REPO/data/overture-rw-$MPB"; EL="$OUT/el"; mkdir -p "$EL"
+  echo "########## realworld maxPartitionBytes=$MPB ($(date +%H:%M:%S)) ##########"
+  "$SPARK_HOME/bin/spark-shell" --master 'local[16]' --driver-memory 32G \
+    --conf spark.driver.maxResultSize=2GB \
+    --conf spark.plugins=com.nvidia.spark.SQLPlugin --conf spark.rapids.sql.enabled=true \
+    --conf spark.sql.files.maxPartitionBytes=$MPB \
+    --conf spark.rapids.sql.metrics.level=DEBUG \
+    --conf spark.rapids.filecache.enabled=false --conf spark.rapids.memory.pinnedPool.size=8g \
+    --conf spark.rapids.sql.concurrentGpuTasks=2 \
+    --conf spark.shuffle.manager=com.nvidia.spark.rapids.spark353.RapidsShuffleManager \
+    --conf spark.eventLog.enabled=true --conf "spark.eventLog.dir=file:$EL" \
+    --driver-java-options "-Dbench.iters=$ITERS" \
+    --jars "$JAR" --driver-class-path "$JAR" \
+    -i "$SCRIPT" < /dev/null > "$OUT/run.log" 2>&1
+  echo "  $MPB times: $(grep -oE 'OVERTURE_ITER [0-9]+ [0-9]+' "$OUT/run.log" | awk '{print $3}' | tr '\n' ' ')"
+done
+echo "ALL DONE $(date +%H:%M:%S)"

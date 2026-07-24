@@ -1,0 +1,96 @@
+query     OFF_sec 4GiB_sec ParCap_sec  4GiB_speedup  ParCap_speedup   per-table split 4GiB->ParCap (MiB)
+query28      42.9     14.7       17.5         2.91x           2.45x   store_sales=2272->923
+query88      42.1     18.7       17.9         2.26x           2.36x   store_sales=4096->923
+query95      22.4      8.4       14.0         2.67x           1.60x   web_sales=4096->347, web_returns=3896->128
+query59      22.0      7.3        8.6         3.00x           2.57x   store_sales=3378->891
+query75      20.7     10.6       20.3         1.95x           1.02x   store_sales=1510->179, catalog_sales=4096->129, web_sales=4096->128, store_returns=4096->129, catalog_returns=4096->128, web_returns=4096->128
+query2       19.9      7.5       11.2         2.65x           1.78x   catalog_sales=4096->646, web_sales=4096->347
+query76      16.6      5.7        8.4         2.93x           1.97x   store_sales=3374->891, catalog_sales=4096->646, web_sales=4096->347
+query78      16.5      9.0       15.7         1.82x           1.05x   store_sales=1993->177, catalog_sales=4096->128, web_sales=2819->128, store_returns=3271->129, catalog_returns=4096->128, web_returns=4096->128
+query9       15.6      3.4        3.5         4.54x           4.44x   store_sales=1678->923
+query94      14.8      7.5       11.5         1.98x           1.29x   web_sales=4096->347, web_returns=4096->128
+query62      13.3      4.1        7.6         3.22x           1.75x   web_sales=4096->347
+query64      13.1      8.5       12.2         1.55x           1.07x   store_sales=4096->179, catalog_sales=4096->649, store_returns=4096->129, catalog_returns=4096->128
+query4       12.5      8.9       13.9         1.40x           0.90x   store_sales=2237->178, catalog_sales=1890->128, web_sales=4096->128
+query93      12.4      7.4       12.5         1.66x           0.99x   store_sales=3398->923, store_returns=4096->129
+query80      11.4      7.2       11.6         1.60x           0.98x   store_sales=1953->128, catalog_sales=3163->64, web_sales=3387->128, store_returns=3154->129, catalog_returns=4096->128, web_returns=4096->128
+query49      10.4      6.2        9.7         1.68x           1.07x   store_sales=4096->128, catalog_sales=4096->64, web_sales=4096->128, store_returns=3158->129, catalog_returns=4096->128, web_returns=4096->128
+query85       9.9      4.5        9.8         2.21x           1.01x   web_sales=4096->128, web_returns=4096->128
+query50       9.7      6.8        6.5         1.42x           1.50x   store_sales=4096->891, store_returns=4096->128
+query90       9.3      4.5        5.4         2.04x           1.71x   web_sales=2535->347
+query67       9.1      6.7        8.0         1.35x           1.14x   store_sales=4096->178
+query11       8.6      5.0        7.7         1.72x           1.11x   store_sales=4096->178, web_sales=4096->128
+query66       8.0      2.4        8.0         3.28x           1.00x   catalog_sales=4096->128, web_sales=2534->128
+query74       7.6      4.7        7.3         1.63x           1.05x   store_sales=1699->178, web_sales=4096->128
+query96       7.3      4.8        4.7         1.51x           1.55x   store_sales=3398->923
+query72       6.8      5.4        5.8         1.25x           1.18x   catalog_sales=3804->129, catalog_returns=4096->128, inventory=333->128
+query5        6.8      3.3        5.5         2.06x           1.24x   store_sales=2664->84, catalog_sales=3777->64, web_sales=3370->347, store_returns=4096->75, catalog_returns=4096->64, web_returns=4096->75
+query51       5.0      3.6        4.6         1.40x           1.08x   store_sales=4096->178, web_sales=4096->128
+query82       4.9      2.7        2.5         1.81x           1.99x   store_sales=4096->923, inventory=333->64
+query30       4.9      2.9        6.1         1.66x           0.81x   web_returns=4096->128
+query84       4.6      2.8        4.5         1.61x           1.02x   store_returns=4096->129
+query70       4.5      3.0        3.6         1.49x           1.26x   store_sales=4096->178
+query65       4.5      3.5        3.8         1.27x           1.17x   store_sales=3425->178
+query13       4.2      2.2        3.3         1.94x           1.30x   store_sales=1509->177
+query87       4.2      2.7        3.9         1.55x           1.09x   store_sales=4096->178, catalog_sales=4096->128, web_sales=4096->128
+query38       4.0      2.9        3.7         1.38x           1.08x   store_sales=1751->178, catalog_sales=4096->128, web_sales=4096->128
+query47       3.9      2.5        3.1         1.54x           1.23x   store_sales=1748->217
+query7        3.6      2.6        3.2         1.37x           1.11x   store_sales=4096->177
+query31       3.6      2.4        3.6         1.48x           0.98x   store_sales=3364->128, web_sales=2777->128
+query16       3.5      2.5        2.7         1.41x           1.33x   catalog_sales=4096->649, catalog_returns=4096->128
+query48       3.4      1.7        2.5         2.00x           1.37x   store_sales=3332->178
+query27       3.4      1.9        2.8         1.77x           1.20x   store_sales=4096->178
+query89       3.1      1.7        3.2         1.84x           0.97x   store_sales=4096->178
+query86       3.0      1.4        2.7         2.17x           1.13x   web_sales=2535->128
+query43       2.9      1.2        2.1         2.36x           1.37x   store_sales=1515->179
+query35       2.8      2.0        2.8         1.39x           0.99x   store_sales=4096->128, catalog_sales=3817->128, web_sales=4096->128
+query36       2.8      1.6        2.2         1.78x           1.26x   store_sales=1043->178
+query46       2.6      1.8        2.2         1.46x           1.18x   store_sales=3484->153
+query17       2.5      2.2        2.5         1.12x           0.98x   store_sales=4096->128, catalog_sales=2366->128, store_returns=4096->128
+query63       2.3      1.7        2.2         1.40x           1.06x   store_sales=4096->178
+query29       2.3      3.0        3.4         0.77x           0.67x   store_sales=1924->128, catalog_sales=2694->386, store_returns=3154->128
+query53       2.3      1.5        1.9         1.48x           1.20x   store_sales=3484->177
+query44       2.3      2.7        2.3         0.85x           0.97x   store_sales=1953->923
+query25       2.1      1.9        2.3         1.08x           0.94x   store_sales=2671->128, catalog_sales=4096->121, store_returns=3769->128
+query97       2.1      2.0        2.1         1.04x           1.01x   store_sales=2687->178, catalog_sales=4096->128
+query18       2.1      1.7        1.9         1.18x           1.07x   catalog_sales=2101->128
+query99       2.0      1.5        1.4         1.33x           1.49x   catalog_sales=1890->649
+query81       1.9      2.1        2.1         0.88x           0.92x   catalog_returns=4096->128
+query10       1.7      1.4        1.7         1.24x           0.99x   store_sales=1508->128, catalog_sales=4096->64, web_sales=4048->128
+query69       1.6      1.4        1.5         1.19x           1.12x   store_sales=3397->128, catalog_sales=4096->64, web_sales=4096->128
+query77       1.6      1.4        1.6         1.15x           1.03x   store_sales=4096->128, catalog_sales=4096->64, web_sales=4096->128, store_returns=4093->128, catalog_returns=4096->64, web_returns=4096->128
+query79       1.5      1.5        1.5         1.06x           1.05x   store_sales=3400->128
+query22       1.5      1.8        1.9         0.84x           0.81x   inventory=333->64
+query40       1.5      1.6        1.6         0.94x           0.95x   catalog_sales=2101->64, catalog_returns=4096->128
+query71       1.4      1.3        1.8         1.12x           0.79x   store_sales=3400->128, catalog_sales=4096->64, web_sales=4096->128
+query60       1.4      1.3        1.2         1.08x           1.20x   store_sales=4096->128, catalog_sales=4096->64, web_sales=4096->128
+query54       1.4      1.3        1.3         1.02x           1.01x   store_sales=2270->128, catalog_sales=4096->64, web_sales=4096->128
+query8        1.3      1.6        1.9         0.79x           0.68x   store_sales=4096->128
+query58       1.2      0.9        1.0         1.33x           1.24x   store_sales=1509->64, catalog_sales=2366->64, web_sales=4096->64
+query92       1.2      1.1        1.1         1.10x           1.07x   web_sales=4096->128
+query45       1.2      1.3        1.5         0.92x           0.81x   web_sales=4096->128
+query61       1.2      1.2        1.7         0.95x           0.70x   store_sales=2260->128
+query33       1.2      1.3        1.1         0.91x           1.02x   store_sales=2713->128, catalog_sales=4096->64, web_sales=4096->128
+query56       1.2      1.5        1.0         0.78x           1.15x   store_sales=4096->128, catalog_sales=4096->64, web_sales=4096->128
+query57       1.2      1.3        1.1         0.92x           1.01x   catalog_sales=4096->156
+query98       1.1      1.2        1.4         0.98x           0.79x   store_sales=4096->128
+query73       1.1      1.1        0.9         0.99x           1.24x   store_sales=3378->128
+query83       1.1      2.0        2.8         0.53x           0.38x   store_returns=4096->106, catalog_returns=4096->64, web_returns=4096->105
+query91       1.0      0.8        0.7         1.21x           1.47x   catalog_returns=4096->64
+query3        1.0      0.8        1.0         1.18x           1.04x   store_sales=3393->140
+query6        1.0      1.1        1.3         0.87x           0.75x   store_sales=3399->128
+query19       0.9      0.8        0.9         1.22x           1.00x   store_sales=1687->128
+query26       0.7      0.9        0.6         0.82x           1.14x   catalog_sales=4096->128
+query37       0.7      0.7        1.2         1.11x           0.58x   catalog_sales=4096->649, inventory=266->64
+query12       0.7      0.8        0.9         0.85x           0.84x   web_sales=4096->128
+query20       0.6      0.5        0.5         1.35x           1.17x   catalog_sales=4096->64
+query21       0.6      0.4        0.4         1.41x           1.60x   inventory=266->64
+query32       0.6      0.5        0.6         1.15x           0.99x   catalog_sales=2689->64
+query15       0.5      0.5        0.8         0.98x           0.59x   catalog_sales=4096->64
+query55       0.5      0.9        0.5         0.52x           0.91x   store_sales=4096->128
+query42       0.5      1.2        0.7         0.38x           0.68x   store_sales=4096->128
+query52       0.5      0.9        0.8         0.51x           0.57x   store_sales=4096->128
+query1        0.3      0.2        0.2         1.42x           1.64x   (dims only)
+query68       0.3      0.4        0.3         0.70x           1.00x   (dims only)
+query41       0.3      0.3        0.4         0.75x           0.66x   (dims only)
+query34       0.3      0.2        0.2         1.25x           1.25x   (dims only)
