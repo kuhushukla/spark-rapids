@@ -269,6 +269,7 @@ class GpuTaskMetrics extends Serializable with Logging {
   private val readSpillFromDiskTimeNs = new NanoSecondAccumulator
   private val spillToHostBytes = new SizeInBytesAccumulator
   private val spillToDiskBytes = new SizeInBytesAccumulator
+  private val outputBatchBytes = new SizeInBytesAccumulator
 
   private val maxDeviceMemoryBytes = new HighWatermarkAccumulator
   private val maxHostMemoryBytes = new HighWatermarkAccumulator
@@ -344,6 +345,7 @@ class GpuTaskMetrics extends Serializable with Logging {
     "gpuReadSpillFromDiskTime" -> readSpillFromDiskTimeNs,
     "gpuSpillToHostBytes" -> spillToHostBytes,
     "gpuSpillToDiskBytes" -> spillToDiskBytes,
+    "gpuOutputBatchBytes" -> outputBatchBytes,
     "gpuMaxDeviceMemoryBytes" -> maxDeviceMemoryBytes,
     "gpuMaxHostMemoryBytes" -> maxHostMemoryBytes,
     "gpuMaxDiskMemoryBytes" -> maxDiskMemoryBytes,
@@ -436,6 +438,10 @@ class GpuTaskMetrics extends Serializable with Logging {
 
   def recordSpillToHost(sizeInBytes: Long): Unit = {
     spillToHostBytes.add(sizeInBytes)
+  }
+
+  def recordOutputBatchBytes(bytes: Long): Unit = {
+    outputBatchBytes.add(bytes)
   }
 
   def recordSpillToDisk(sizeInBytes: Long): Unit = {

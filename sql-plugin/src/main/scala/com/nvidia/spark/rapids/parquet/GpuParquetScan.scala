@@ -3388,6 +3388,7 @@ object MakeParquetTableProducer extends Logging {
         }
       }
       metrics(NUM_OUTPUT_BATCHES) += 1
+      GpuMetric.recordOutputBatchBytes(table, metrics.get(GPU_OUTPUT_BATCH_BYTES))
       val evolvedSchemaTable = ParquetSchemaUtils.evolveSchemaIfNeededAndClose(table,
         clippedParquetSchema, readDataSchema, isSchemaCaseSensitive, useFieldId)
       val outputTable = GpuParquetScan.rebaseDateTime(evolvedSchemaTable, dateRebaseMode,
@@ -3472,6 +3473,7 @@ abstract class AbstractParquetTableReader(
       }
     }
     metrics(NUM_OUTPUT_BATCHES) += 1
+    GpuMetric.recordOutputBatchBytes(postProcessedTable, metrics.get(GPU_OUTPUT_BATCH_BYTES))
     val evolvedSchemaTable = ParquetSchemaUtils.evolveSchemaIfNeededAndClose(postProcessedTable,
       clippedParquetSchema, readDataSchema, isSchemaCaseSensitive, useFieldId)
     GpuParquetScan.rebaseDateTime(evolvedSchemaTable, dateRebaseMode, timestampRebaseMode)

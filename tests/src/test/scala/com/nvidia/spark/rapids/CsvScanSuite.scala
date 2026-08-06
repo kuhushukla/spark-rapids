@@ -128,5 +128,15 @@ class CsvScanSuite extends SparkQueryCompareTestSuite {
     )))(_)
   }
 
+  test("gpuOutputBatchBytes metric is recorded for CSV scan") {
+    withGpuSparkSession({ spark =>
+      val df = intsFromCsv(spark)
+      df.collect()
+      val scan = df.queryExecution.executedPlan
+        .find(_.metrics.contains(GpuMetric.GPU_OUTPUT_BATCH_BYTES))
+      assert(scan.isDefined)
+      assert(scan.get.metrics(GpuMetric.GPU_OUTPUT_BATCH_BYTES).value > 0)
+    })
+  }
 
 }

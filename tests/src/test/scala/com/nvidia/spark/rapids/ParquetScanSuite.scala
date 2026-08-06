@@ -196,4 +196,15 @@ class ParquetScanSuite extends SparkQueryCompareTestSuite {
     assumeCondition = (_ => (VersionUtils.isSpark320OrLater, "Spark version not 3.2.0+"))) {
     frame => frame.select(col("*"))
   }
+
+  test("gpuOutputBatchBytes metric is recorded for Parquet scan") {
+    withGpuSparkSession({ spark =>
+      val df = frameFromParquet("file-splits.parquet")(spark)
+      df.collect()
+      val scan = df.queryExecution.executedPlan
+        .find(_.metrics.contains(GpuMetric.GPU_OUTPUT_BATCH_BYTES))
+      assert(scan.isDefined)
+      assert(scan.get.metrics(GpuMetric.GPU_OUTPUT_BATCH_BYTES).value > 0)
+    })
+  }
 }

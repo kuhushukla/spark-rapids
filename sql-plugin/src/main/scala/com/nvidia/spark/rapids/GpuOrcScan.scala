@@ -3020,6 +3020,7 @@ object MakeOrcTableProducer extends Logging {
         }
       }
       metrics(NUM_OUTPUT_BATCHES) += 1
+      GpuMetric.recordOutputBatchBytes(table, metrics.get(GPU_OUTPUT_BATCH_BYTES))
       val rebased = GpuOrcTimezoneUtils.rebaseOrcTimestamps(table, writerTimezone)
       val evolvedSchemaTable = SchemaUtils.evolveSchemaIfNeededAndClose(rebased, tableSchema,
         readDataSchema, isSchemaCaseSensitive, Some(GpuOrcScan.castColumnTo))
@@ -3077,6 +3078,7 @@ case class OrcTableReader(
       }
     }
     metrics(NUM_OUTPUT_BATCHES) += 1
+    GpuMetric.recordOutputBatchBytes(table, metrics.get(GPU_OUTPUT_BATCH_BYTES))
     val rebased = GpuOrcTimezoneUtils.rebaseOrcTimestamps(table, writerTimezone)
     SchemaUtils.evolveSchemaIfNeededAndClose(rebased, tableSchema,
       readDataSchema, isSchemaCaseSensitive, Some(GpuOrcScan.castColumnTo))

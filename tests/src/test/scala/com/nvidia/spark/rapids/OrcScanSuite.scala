@@ -277,4 +277,15 @@ class OrcScanSuite extends SparkQueryCompareTestSuite {
     withCpuSparkSession(check, conf)
   }
 
+  test("gpuOutputBatchBytes metric is recorded for ORC scan") {
+    withGpuSparkSession({ spark =>
+      val df = frameFromOrc("file-splits.orc")(spark)
+      df.collect()
+      val scan = df.queryExecution.executedPlan
+        .find(_.metrics.contains(GpuMetric.GPU_OUTPUT_BATCH_BYTES))
+      assert(scan.isDefined)
+      assert(scan.get.metrics(GpuMetric.GPU_OUTPUT_BATCH_BYTES).value > 0)
+    })
+  }
+
 }
