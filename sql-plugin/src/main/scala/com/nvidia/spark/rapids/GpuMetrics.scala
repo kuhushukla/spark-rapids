@@ -237,7 +237,7 @@ object GpuMetric extends Logging {
     TreeMap.apply((ret ++ companions).toSeq: _*)
   }
 
-  /** Records decoded table bytes on the SQL metric and the task accumulator, before evolution. */
+  /** Records decoded table bytes on the SQL metric and the task accumulator. */
   def recordOutputBatchBytes(table: Table, metric: Option[GpuMetric]): Long = {
     val bytes = GpuColumnVector.getTotalDeviceMemoryUsed(table)
     metric.foreach(_ += bytes)

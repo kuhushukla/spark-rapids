@@ -3075,10 +3075,10 @@ object MakeOrcTableProducer extends Logging {
         }
       }
       metrics(NUM_OUTPUT_BATCHES) += 1
-      GpuMetric.recordOutputBatchBytes(table, metrics.get(GPU_OUTPUT_BATCH_BYTES))
       val rebased = GpuOrcTimezoneUtils.rebaseOrcTimestamps(table, writerTimezone)
       val evolvedSchemaTable = SchemaUtils.evolveSchemaIfNeededAndClose(rebased, tableSchema,
         readDataSchema, isSchemaCaseSensitive, Some(GpuOrcScan.castColumnTo))
+      GpuMetric.recordOutputBatchBytes(evolvedSchemaTable, metrics.get(GPU_OUTPUT_BATCH_BYTES))
       new SingleGpuDataProducer(evolvedSchemaTable)
     }
   }
@@ -3133,10 +3133,11 @@ case class OrcTableReader(
       }
     }
     metrics(NUM_OUTPUT_BATCHES) += 1
-    GpuMetric.recordOutputBatchBytes(table, metrics.get(GPU_OUTPUT_BATCH_BYTES))
     val rebased = GpuOrcTimezoneUtils.rebaseOrcTimestamps(table, writerTimezone)
-    SchemaUtils.evolveSchemaIfNeededAndClose(rebased, tableSchema,
+    val evolvedSchemaTable = SchemaUtils.evolveSchemaIfNeededAndClose(rebased, tableSchema,
       readDataSchema, isSchemaCaseSensitive, Some(GpuOrcScan.castColumnTo))
+    GpuMetric.recordOutputBatchBytes(evolvedSchemaTable, metrics.get(GPU_OUTPUT_BATCH_BYTES))
+    evolvedSchemaTable
   }
 
   override def close(): Unit = {
