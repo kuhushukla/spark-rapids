@@ -752,6 +752,17 @@ val GPU_COREDUMP_PIPE_PATTERN = conf("spark.rapids.gpu.coreDump.pipePattern")
     .bytesConf(ByteUnit.BYTE)
     .createWithDefault(Integer.MAX_VALUE)
 
+  val READER_USE_READ_ESTIMATE_FROM_SCHEMA =
+    conf("spark.rapids.sql.reader.useReadEstimateFromSchema")
+      .doc("Use a schema based estimate of GPU memory to enforce " +
+        s"'${MAX_READER_BATCH_SIZE_BYTES.key}'. The estimate is a worst case guess that can " +
+        "make batches much smaller than requested. This only applies without a chunked " +
+        s"reader, since a chunked reader (see '${CHUNKED_READER.key}') bounds its own memory " +
+        "and never uses the estimate. Turn this on if a non chunked reader runs out of " +
+        "GPU memory.")
+      .booleanConf
+      .createWithDefault(false)
+
   val DRIVER_TIMEZONE = conf("spark.rapids.driver.user.timezone")
     .doc("This config is used to inform the executor plugin about the driver's timezone " +
       "and is not intended to be set by the user.")
@@ -3593,6 +3604,8 @@ class RapidsConf(conf: Map[String, String]) extends Logging {
   lazy val maxReadBatchSizeRows: Int = get(MAX_READER_BATCH_SIZE_ROWS)
 
   lazy val maxReadBatchSizeBytes: Long = get(MAX_READER_BATCH_SIZE_BYTES)
+
+  lazy val useReadEstimateFromSchema: Boolean = get(READER_USE_READ_ESTIMATE_FROM_SCHEMA)
 
   lazy val maxGpuColumnSizeBytes: Long = get(MAX_GPU_COLUMN_SIZE_BYTES)
 

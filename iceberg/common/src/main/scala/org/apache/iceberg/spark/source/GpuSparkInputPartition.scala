@@ -42,6 +42,9 @@ class GpuSparkInputPartition(val cpuPartition: InputPartition,
   val gpuTargetBatchSizeBytes: Long = rapidsConf.gpuTargetBatchSizeBytes
   val maxGpuColumnSizeBytes: Long = rapidsConf.maxGpuColumnSizeBytes
   val chunkedReaderEnabled: Boolean = rapidsConf.chunkedReaderEnabled
+  // The chunked reader bounds its own memory usage, so the estimate is never needed there.
+  // Without it the estimate is used only when it has been explicitly asked for.
+  val skipReadEstimate: Boolean = chunkedReaderEnabled || !rapidsConf.useReadEstimateFromSchema
   val parquetDebugDumpPrefix: Option[String] = rapidsConf.parquetDebugDumpPrefix
   val parquetDebugDumpAlways: Boolean = rapidsConf.parquetDebugDumpAlways
 
