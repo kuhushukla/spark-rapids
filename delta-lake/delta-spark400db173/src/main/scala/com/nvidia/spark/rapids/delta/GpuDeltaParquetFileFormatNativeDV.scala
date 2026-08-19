@@ -1582,8 +1582,10 @@ object MakeParquetTableWithDVProducer extends Logging {
         clippedParquetSchema, readDataSchema, isSchemaCaseSensitive, useFieldId)
       val outputTable = GpuParquetScan.rebaseDateTime(evolvedSchemaTable, dateRebaseMode,
         timestampRebaseMode)
-      new SingleGpuDataProducer(
-        materializeDeletionVectorSkipRowColumnsAsFalseIfNeeded(outputTable, skipRowIndexes))
+      val finalTable =
+        materializeDeletionVectorSkipRowColumnsAsFalseIfNeeded(outputTable, skipRowIndexes)
+      GpuMetric.recordOutputBatchBytes(finalTable, metrics.get(GPU_OUTPUT_BATCH_BYTES))
+      new SingleGpuDataProducer(finalTable)
     }
   }
 }

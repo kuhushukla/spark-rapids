@@ -1192,4 +1192,55 @@ class GpuPostProcessorSuite extends AnyFunSuite with BeforeAndAfterAll {
       s"expected FillNull for outer missing struct in plan:\n$plan")
   }
 
+  test("Output batch bytes metric counts fabricated columns only") {
+    import com.nvidia.spark.rapids.Arm.{closeOnExcept, withResource}
+    import com.nvidia.spark.rapids.{FuzzerUtils, GpuColumnVector, LocalGpuMetric}
+    import com.nvidia.spark.rapids.{SpillableColumnarBatch, SpillPriorities}
+    import com.nvidia.spark.rapids.GpuMetric.GPU_OUTPUT_BATCH_BYTES
+    import org.apache.spark.sql.types.{LongType, StructField}
+    import org.apache.spark.sql.vectorized.{ColumnarBatch, ColumnVector => SparkColumnVector}
+
+    val fieldId = 1
+    val longField = Types.NestedField.optional(fieldId, "long_col", Types.LongType.get())
+    val expectedSchema = new Schema(longField)
+
+    def processorFor(parquetSchema: ShadedMessageType, metric: LocalGpuMetric) = {
+      val (parquetInfo, shadedSchema) = createParquetInfo(parquetSchema)
+      new GpuParquetReaderPostProcessor(parquetInfo, new JHashMap[Integer, Any](),
+        expectedSchema, shadedSchema, Map(GPU_OUTPUT_BATCH_BYTES -> metric))
+    }
+
+    // Column absent from the file: the input batch has no columns, so every output byte is
+    // fabricated and none of it was seen by the parquet reader.
+    val fabricatedMetric = new LocalGpuMetric
+    val fabricating = processorFor(
+      new ShadedMessageType("test", Seq.empty[ShadedType].asJava), fabricatedMetric)
+    withResource(fabricating.process(
+      new ColumnarBatch(Array.empty[SparkColumnVector], 100))) { outputBatch =>
+      assert(outputBatch.numCols() == 1)
+      assert(fabricatedMetric.value == GpuColumnVector.getTotalDeviceMemoryUsed(outputBatch),
+        "metric must account for the column the parquet reader never decoded")
+    }
+    assert(fabricatedMetric.value > 0)
+
+    // Column present in the file: pass-through, already recorded by the parquet reader.
+    // Recording it again here would double count.
+    val passThroughMetric = new LocalGpuMetric
+    val passingThrough = processorFor(
+      new ShadedMessageType("test", Seq[ShadedType](
+        ShadedTypes.primitive(ShadedPrimitiveTypeName.INT64, ShadedRepetition.OPTIONAL)
+          .id(fieldId).named("long_col")).asJava), passThroughMetric)
+    assert(passingThrough.displayActionPlan() == "PassThrough")
+
+    val schema = StructType(Array(StructField("long_col", LongType, true)))
+    val inputBatch = FuzzerUtils.createColumnarBatch(schema, rowCount = 3, seed = 42)
+    val spillable = closeOnExcept(inputBatch) { batch =>
+      SpillableColumnarBatch(batch, SpillPriorities.ACTIVE_ON_DECK_PRIORITY)
+    }
+    withResource(spillable) { _ =>
+      withResource(passingThrough.process(spillable.getColumnarBatch())) { _ => }
+    }
+    assert(passThroughMetric.value == 0)
+  }
+
 }
