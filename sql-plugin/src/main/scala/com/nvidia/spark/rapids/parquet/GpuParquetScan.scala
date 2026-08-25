@@ -1205,7 +1205,6 @@ abstract class AbstractGpuParquetMultiFilePartitionReaderFactory(
       }.getOrElse(rapidsConf.getMultithreadedReaderKeepOrder)
   protected val compressCfg = CpuCompressionConfig.forParquet(rapidsConf)
   // The chunked reader bounds its own memory usage, so the estimate is never needed there.
-  // Without it the estimate is used only when it has been explicitly asked for.
   protected val skipReadEstimate = useChunkedReader || !useReadEstimateFromSchema
 
   // We can't use the coalescing files reader when InputFileName, InputFileBlockStart,
@@ -1514,8 +1513,6 @@ abstract class GpuParquetPartitionReaderFactoryBase(
   protected val targetSizeBytes = rapidsConf.gpuTargetBatchSizeBytes
   protected val maxGpuColumnSizeBytes = rapidsConf.maxGpuColumnSizeBytes
   protected val useChunkedReader = rapidsConf.chunkedReaderEnabled
-  // The chunked reader bounds its own memory usage, so the estimate is never needed there.
-  // Without it the estimate is used only when it has been explicitly asked for.
   protected val skipReadEstimate = useChunkedReader || !rapidsConf.useReadEstimateFromSchema
   protected val maxChunkedReaderMemoryUsageSizeBytes =
     if(rapidsConf.limitChunkedReaderMemoryUsage) {
@@ -2186,7 +2183,6 @@ trait ParquetPartitionReaderBase extends Logging with ScanWithMetrics
           throw new UnsupportedOperationException("Too many rows in split")
         }
         if (numRows == 0 || numRows + peekedRowGroup.getRowCount <= maxReadBatchSizeRows) {
-          // Without the estimate nothing accumulates, so only the row limit ends a batch.
           val estimatedBytes = if (skipReadEstimate) {
             0L
           } else {

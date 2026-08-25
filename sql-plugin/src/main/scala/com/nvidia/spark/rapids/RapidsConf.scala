@@ -754,12 +754,11 @@ val GPU_COREDUMP_PIPE_PATTERN = conf("spark.rapids.gpu.coreDump.pipePattern")
 
   val READER_USE_READ_ESTIMATE_FROM_SCHEMA =
     conf("spark.rapids.sql.reader.useReadEstimateFromSchema")
-      .doc("Use a schema based estimate of GPU memory to enforce " +
-        s"'${MAX_READER_BATCH_SIZE_BYTES.key}'. The estimate is a worst case guess that can " +
-        "make batches much smaller than requested. This only applies without a chunked " +
-        s"reader, since a chunked reader (see '${CHUNKED_READER.key}') bounds its own memory " +
-        "and never uses the estimate. Turn this on if a non chunked reader runs out of " +
-        "GPU memory.")
+      .doc("Use a schema based estimate of GPU memory to limit a read batch. The estimate is a " +
+        "worst case guess. This only applies without a chunked reader, since a chunked reader " +
+        s"(see '${CHUNKED_READER.key}') sizes its own output to '${GPU_BATCH_SIZE_BYTES.key}' " +
+        s"and never uses the estimate. Turn this on if a non chunked reader exceeds " +
+        s"'${GPU_BATCH_SIZE_BYTES.key}' or runs out of GPU memory.")
       .booleanConf
       .createWithDefault(false)
 

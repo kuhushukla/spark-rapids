@@ -169,7 +169,7 @@ case class GpuAvroPartitionReaderFactory(
   private val maxReadBatchSizeRows = rapidsConf.maxReadBatchSizeRows
   private val maxReadBatchSizeBytes = rapidsConf.maxReadBatchSizeBytes
   private val maxGpuColumnSizeBytes = rapidsConf.maxGpuColumnSizeBytes
-  // Avro has no chunked reader, so the estimate is used only when it is asked for.
+  // Avro has no chunked reader, so the config alone decides.
   private val skipReadEstimate = !rapidsConf.useReadEstimateFromSchema
 
   override def supportColumnarReads(partition: InputPartition): Boolean = true
@@ -216,7 +216,6 @@ case class GpuAvroMultiFilePartitionReaderFactory(
   private val ignoreCorruptFiles = sqlConf.ignoreCorruptFiles
 
   private val maxNumFileProcessed = rapidsConf.maxNumAvroFilesParallel
-  // Avro has no chunked reader, so the estimate is used only when it is asked for.
   private val skipReadEstimate = !useReadEstimateFromSchema
 
   // we can't use the coalescing files reader when InputFileName, InputFileBlockStart,
@@ -425,7 +424,6 @@ trait GpuAvroReaderBase extends Logging { self: FilePartitionReaderBase =>
           throw new UnsupportedOperationException("Too many rows in split")
         }
         if (numRows == 0 || numRows + peekedRowGroup.count <= maxReadBatchSizeRows) {
-          // Without the estimate nothing accumulates, so only the row limit ends a batch.
           val estBytes = if (skipReadEstimate) {
             0L
           } else {

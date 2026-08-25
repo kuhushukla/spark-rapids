@@ -650,8 +650,6 @@ case class GpuOrcMultiFilePartitionReaderFactory(
   private val combineThresholdSize = rapidsConf.getMultithreadedCombineThreshold
   private val combineWaitTime = rapidsConf.getMultithreadedCombineWaitTime
   private val keepReadsInOrder = rapidsConf.getMultithreadedReaderKeepOrder
-  // The chunked reader bounds its own memory usage, so the estimate is never needed there.
-  // Without it the estimate is used only when it has been explicitly asked for.
   private val skipReadEstimate = useChunkedReader || !useReadEstimateFromSchema
 
   // we can't use the coalescing files reader when InputFileName, InputFileBlockStart,
@@ -776,8 +774,6 @@ case class GpuOrcPartitionReaderFactory(
     } else {
       0L
     }
-  // The chunked reader bounds its own memory usage, so the estimate is never needed there.
-  // Without it the estimate is used only when it has been explicitly asked for.
   private val skipReadEstimate = useChunkedReader || !rapidsConf.useReadEstimateFromSchema
   private val filterHandler = GpuOrcFileFilterHandler(sqlConf, metrics, broadcastedConf,
     pushedFilters, rapidsConf.isOrcFloatTypesToStringEnable)
@@ -1159,7 +1155,6 @@ trait OrcPartitionReaderBase extends OrcCommonFunctions with Logging
         }
         if (numRows == 0 ||
           numRows + peekedStripe.infoBuilder.getNumberOfRows <= maxReadBatchSizeRows) {
-          // Without the estimate nothing accumulates, so only the row limit ends a batch.
           val estimatedBytes = if (skipReadEstimate) {
             0L
           } else {

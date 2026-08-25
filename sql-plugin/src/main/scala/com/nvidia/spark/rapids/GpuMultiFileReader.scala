@@ -1069,7 +1069,8 @@ class BatchContext(
  * @param maxReadBatchSizeRows  soft limit on the maximum number of rows the reader reads per batch
  * @param maxReadBatchSizeBytes soft limit on the maximum number of bytes the reader reads per batch
  * @param maxGpuColumnSizeBytes maximum number of bytes for a GPU column
- * @param skipReadEstimate   whether to ignore the estimated GPU memory when sizing a batch
+ * @param skipReadEstimate      whether to ignore the schema based estimated GPU memory when
+ *                              sizing a batch
  * @param poolConf              the thread pool configuration
  * @param execMetrics           metrics
  */
@@ -1582,8 +1583,6 @@ abstract class MultiFileCoalescingPartitionReaderBase(
         }
 
         if (numRows == 0 || numRows + peekedRowCount <= maxReadBatchSizeRows) {
-          // Without the estimate nothing accumulates, so only the row limit and the split
-          // boundary below end a batch.
           val estimatedBytes = if (skipReadEstimate) {
             0L
           } else {
