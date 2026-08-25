@@ -246,9 +246,9 @@ def test_parquet_read_multithread_flow_ctrl_excessive_req(spark_tmp_path, keep_o
     assert_gpu_and_cpu_are_equal_collect(read_parquet_sql(data_path), conf=tiny_pool_conf)
 
 
-def _scan_output_batches(df):
-    """Number of columnar batches the scan produced for an already executed DataFrame."""
-    nodes = [df._jdf.queryExecution().executedPlan()]
+def _scan_output_batches(plan):
+    """Batches the scan produced. Raises if no GPU scan is present, so CPU fallback fails."""
+    nodes = [plan]
     while nodes:
         node = nodes.pop()
         metric = node.metrics().get('numOutputBatches')
@@ -268,22 +268,23 @@ def test_parquet_read_estimate_limits_output_batches(spark_tmp_path):
             .option('parquet.block.size', 4096).parquet(data_path),
         conf=rebase_write_corrected_conf)
 
-    def batches_with_estimate(use_estimate):
-        def read(spark):
-            df = spark.read.parquet(data_path)
-            df.collect()
-            return _scan_output_batches(df)
-        # The estimate is only consulted when there is no chunked reader. AQE is off so that
-        # the executed plan holds the scan metrics.
-        return with_gpu_session(read, conf={
-            'spark.sql.adaptive.enabled': 'false',
-            'spark.rapids.sql.reader.chunked': 'false',
-            'spark.rapids.sql.reader.useReadEstimateFromSchema': use_estimate,
-            'spark.rapids.sql.reader.batchSizeBytes': 4096})
+    batches = {}
 
-    # The estimate stops a batch well before the row limit, so it has to split the read into
-    # more batches than are needed without it.
-    assert batches_with_estimate('true') > batches_with_estimate('false')
+    def read_with_estimate(use_estimate):
+        # The estimate is only consulted when there is no chunked reader.
+        assert_cpu_and_gpu_are_equal_collect_with_capture(
+            lambda spark: spark.read.parquet(data_path),
+            conf={
+                'spark.sql.adaptive.enabled': 'false',
+                'spark.rapids.sql.reader.chunked': 'false',
+                'spark.rapids.sql.reader.useReadEstimateFromSchema': use_estimate,
+                'spark.rapids.sql.reader.batchSizeBytes': 4096},
+            gpu_plan_assertion=lambda plan: batches.update(
+                {use_estimate: _scan_output_batches(plan)}))
+
+    read_with_estimate('true')
+    read_with_estimate('false')
+    assert batches['true'] > batches['false']
 
 
 """
