@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022, NVIDIA CORPORATION.
+ * Copyright (c) 2019-2026, NVIDIA CORPORATION.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -195,5 +195,16 @@ class ParquetScanSuite extends SparkQueryCompareTestSuite {
     // The exception is like "Parquet type not supported: INT32 (UINT_8)"
     assumeCondition = (_ => (VersionUtils.isSpark320OrLater, "Spark version not 3.2.0+"))) {
     frame => frame.select(col("*"))
+  }
+
+  test("gpuOutputBatchBytes metric is recorded for Parquet scan") {
+    withGpuSparkSession({ spark =>
+      val df = frameFromParquet("file-splits.parquet")(spark)
+      df.collect()
+      val scan = df.queryExecution.executedPlan
+        .find(_.metrics.contains(GpuMetric.GPU_OUTPUT_BATCH_BYTES))
+      assert(scan.isDefined)
+      assert(scan.get.metrics(GpuMetric.GPU_OUTPUT_BATCH_BYTES).value > 0)
+    })
   }
 }
