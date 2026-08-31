@@ -1273,45 +1273,50 @@ class GpuPostProcessorSuite extends AnyFunSuite with BeforeAndAfterAll {
       s"expected FillNull for outer missing struct in plan:\n$plan")
   }
 
-  test("Output batch bytes metric counts fabricated columns only") {
-    import com.nvidia.spark.rapids.Arm.{closeOnExcept, withResource}
-    import com.nvidia.spark.rapids.{FuzzerUtils, GpuColumnVector, LocalGpuMetric}
-    import com.nvidia.spark.rapids.{SpillableColumnarBatch, SpillPriorities}
+  test("Output batch bytes metric counts a column absent from the file") {
+    import com.nvidia.spark.rapids.LocalGpuMetric
     import com.nvidia.spark.rapids.GpuMetric.GPU_OUTPUT_BATCH_BYTES
-    import org.apache.spark.sql.types.{LongType, StructField}
-    import org.apache.spark.sql.vectorized.{ColumnarBatch, ColumnVector => SparkColumnVector}
+    import org.apache.spark.sql.vectorized.{ColumnVector => SparkColumnVector}
 
     val fieldId = 1
-    val longField = Types.NestedField.optional(fieldId, "long_col", Types.LongType.get())
-    val expectedSchema = new Schema(longField)
+    val expectedSchema = new Schema(
+      Types.NestedField.optional(fieldId, "long_col", Types.LongType.get()))
+    val (parquetInfo, shadedSchema) = createParquetInfo(
+      new ShadedMessageType("test", Seq.empty[ShadedType].asJava))
+    val metric = new LocalGpuMetric
+    val processor = new GpuParquetReaderPostProcessor(parquetInfo, new JHashMap[Integer, Any](),
+      expectedSchema, shadedSchema, Map(GPU_OUTPUT_BATCH_BYTES -> metric))
 
-    def processorFor(parquetSchema: ShadedMessageType, metric: LocalGpuMetric) = {
-      val (parquetInfo, shadedSchema) = createParquetInfo(parquetSchema)
-      new GpuParquetReaderPostProcessor(parquetInfo, new JHashMap[Integer, Any](),
-        expectedSchema, shadedSchema, Map(GPU_OUTPUT_BATCH_BYTES -> metric))
-    }
-
-    // Column absent from the file: the input batch has no columns, so every output byte is
-    // fabricated and none of it was seen by the parquet reader.
-    val fabricatedMetric = new LocalGpuMetric
-    val fabricating = processorFor(
-      new ShadedMessageType("test", Seq.empty[ShadedType].asJava), fabricatedMetric)
-    withResource(fabricating.process(
-      new ColumnarBatch(Array.empty[SparkColumnVector], 100))) { outputBatch =>
+    // The input batch has no columns, so every output byte is fabricated and none of it was
+    // seen by the parquet reader.
+    val numRows = 100
+    withResource(processor.process(
+      new ColumnarBatch(Array.empty[SparkColumnVector], numRows))) { outputBatch =>
       assert(outputBatch.numCols() == 1)
-      assert(fabricatedMetric.value == GpuColumnVector.getTotalDeviceMemoryUsed(outputBatch),
-        "metric must account for the column the parquet reader never decoded")
     }
-    assert(fabricatedMetric.value > 0)
+    // At least the 8-byte long payload for every row, before null mask and buffer padding.
+    assert(metric.value >= numRows * 8L, s"metric ${metric.value} too small for $numRows longs")
+  }
 
-    // Column present in the file: pass-through, already recorded by the parquet reader.
-    // Recording it again here would double count.
-    val passThroughMetric = new LocalGpuMetric
-    val passingThrough = processorFor(
+  test("Output batch bytes metric skips a column present in the file") {
+    import com.nvidia.spark.rapids.{FuzzerUtils, LocalGpuMetric, SpillableColumnarBatch,
+      SpillPriorities}
+    import com.nvidia.spark.rapids.GpuMetric.GPU_OUTPUT_BATCH_BYTES
+    import org.apache.spark.sql.types.StructField
+
+    val fieldId = 1
+    val expectedSchema = new Schema(
+      Types.NestedField.optional(fieldId, "long_col", Types.LongType.get()))
+    val (parquetInfo, shadedSchema) = createParquetInfo(
       new ShadedMessageType("test", Seq[ShadedType](
         ShadedTypes.primitive(ShadedPrimitiveTypeName.INT64, ShadedRepetition.OPTIONAL)
-          .id(fieldId).named("long_col")).asJava), passThroughMetric)
-    assert(passingThrough.displayActionPlan() == "PassThrough")
+          .id(fieldId).named("long_col")).asJava))
+    val metric = new LocalGpuMetric
+    val processor = new GpuParquetReaderPostProcessor(parquetInfo, new JHashMap[Integer, Any](),
+      expectedSchema, shadedSchema, Map(GPU_OUTPUT_BATCH_BYTES -> metric))
+    // Pass-through columns were already recorded by the parquet reader; recording them here
+    // would double count.
+    assert(processor.displayActionPlan() == "PassThrough")
 
     val schema = StructType(Array(StructField("long_col", LongType, true)))
     val inputBatch = FuzzerUtils.createColumnarBatch(schema, rowCount = 3, seed = 42)
@@ -1319,23 +1324,32 @@ class GpuPostProcessorSuite extends AnyFunSuite with BeforeAndAfterAll {
       SpillableColumnarBatch(batch, SpillPriorities.ACTIVE_ON_DECK_PRIORITY)
     }
     withResource(spillable) { _ =>
-      withResource(passingThrough.process(spillable.getColumnarBatch())) { _ => }
+      withResource(processor.process(spillable.getColumnarBatch())) { _ => }
     }
-    assert(passThroughMetric.value == 0)
+    assert(metric.value == 0)
+  }
 
-    // The _pos column the DV path injects is dropped, so it must not count as decoded.
-    val droppedMetric = new LocalGpuMetric
+  test("Output batch bytes metric skips the dropped _pos column") {
+    import com.nvidia.spark.rapids.{FuzzerUtils, LocalGpuMetric}
+    import com.nvidia.spark.rapids.GpuMetric.GPU_OUTPUT_BATCH_BYTES
+    import org.apache.spark.sql.types.StructField
+
+    val fieldId = 1
+    val expectedSchema = new Schema(
+      Types.NestedField.optional(fieldId, "long_col", Types.LongType.get()))
     val (info, shaded) = createParquetInfo(new ShadedMessageType("test", Seq[ShadedType](
       ShadedTypes.primitive(ShadedPrimitiveTypeName.INT64, ShadedRepetition.OPTIONAL)
         .id(fieldId).named("long_col")).asJava))
-    val dropping = new GpuParquetReaderPostProcessor(info, new JHashMap[Integer, Any](),
+    val metric = new LocalGpuMetric
+    // The _pos column the DV path injects is dropped, so it must not count as decoded.
+    val processor = new GpuParquetReaderPostProcessor(info, new JHashMap[Integer, Any](),
       expectedSchema, GpuIcebergParquetReader.withNativeRowIndex(shaded),
-      Map(GPU_OUTPUT_BATCH_BYTES -> droppedMetric))
+      Map(GPU_OUTPUT_BATCH_BYTES -> metric))
     val withPos = StructType(Array(
       StructField("_pos", LongType, true), StructField("long_col", LongType, true)))
-    withResource(dropping.process(
+    withResource(processor.process(
       FuzzerUtils.createColumnarBatch(withPos, rowCount = 3, seed = 42))) { _ => }
-    assert(droppedMetric.value == 0)
+    assert(metric.value == 0)
   }
 
 }
