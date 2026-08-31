@@ -1322,6 +1322,20 @@ class GpuPostProcessorSuite extends AnyFunSuite with BeforeAndAfterAll {
       withResource(passingThrough.process(spillable.getColumnarBatch())) { _ => }
     }
     assert(passThroughMetric.value == 0)
+
+    // The _pos column the DV path injects is dropped, so it must not count as decoded.
+    val droppedMetric = new LocalGpuMetric
+    val (info, shaded) = createParquetInfo(new ShadedMessageType("test", Seq[ShadedType](
+      ShadedTypes.primitive(ShadedPrimitiveTypeName.INT64, ShadedRepetition.OPTIONAL)
+        .id(fieldId).named("long_col")).asJava))
+    val dropping = new GpuParquetReaderPostProcessor(info, new JHashMap[Integer, Any](),
+      expectedSchema, GpuIcebergParquetReader.withNativeRowIndex(shaded),
+      Map(GPU_OUTPUT_BATCH_BYTES -> droppedMetric))
+    val withPos = StructType(Array(
+      StructField("_pos", LongType, true), StructField("long_col", LongType, true)))
+    withResource(dropping.process(
+      FuzzerUtils.createColumnarBatch(withPos, rowCount = 3, seed = 42))) { _ => }
+    assert(droppedMetric.value == 0)
   }
 
 }
