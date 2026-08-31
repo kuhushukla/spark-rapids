@@ -135,7 +135,10 @@ class CsvScanSuite extends SparkQueryCompareTestSuite {
       val scan = df.queryExecution.executedPlan
         .find(_.metrics.contains(GpuMetric.GPU_OUTPUT_BATCH_BYTES))
       assert(scan.isDefined)
-      val minBytes = rows.length.toLong * df.schema.fields.map(_.dataType.defaultSize).sum
+      // Physical device width per row from cudf; variable-width types report 0.
+      val bytesPerRow = df.schema.fields
+        .map(f => GpuColumnVector.getRapidsType(f.dataType).getSizeInBytes).sum
+      val minBytes = rows.length.toLong * bytesPerRow
       assert(scan.get.metrics(GpuMetric.GPU_OUTPUT_BATCH_BYTES).value >= minBytes)
     })
   }
