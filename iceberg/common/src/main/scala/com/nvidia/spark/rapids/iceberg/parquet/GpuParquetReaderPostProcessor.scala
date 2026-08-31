@@ -745,7 +745,14 @@ class GpuParquetReaderPostProcessor(
       return originalBatch
     }
 
-    val decodedBytes = GpuColumnVector.getTotalDeviceMemoryUsed(originalBatch)
+    // The DV path injects unprojected columns that get dropped below; charging them goes negative.
+    val decodedBytes = rootAction match {
+      case ProcessStruct(_, indices) =>
+        indices.flatten.distinct.map { i =>
+          originalBatch.column(i).asInstanceOf[GpuColumnVector].getBase.getDeviceMemorySize
+        }.sum
+      case _ => GpuColumnVector.getTotalDeviceMemoryUsed(originalBatch)
+    }
 
     val outputBatch = postProcessTimeMetric.ns {
       // Snapshot the _pos counters before withRetryNoSplit. FetchRowPosition.execute commits
