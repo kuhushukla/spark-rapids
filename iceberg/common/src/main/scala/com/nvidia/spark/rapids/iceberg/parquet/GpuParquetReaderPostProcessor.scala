@@ -800,7 +800,8 @@ class GpuParquetReaderPostProcessor(
     }
 
     // Pass-through columns cancel out; getTotalDeviceMemoryUsed dedupes by native view.
-    val fabricatedBytes = GpuColumnVector.getTotalDeviceMemoryUsed(outputBatch) - decodedBytes
+    val fabricatedBytes = math.max(0L,
+      GpuColumnVector.getTotalDeviceMemoryUsed(outputBatch) - decodedBytes)
     outputBatchBytesMetric += fabricatedBytes
     GpuTaskMetrics.get.recordOutputBatchBytes(fabricatedBytes)
     outputBatch

@@ -444,6 +444,10 @@ class GpuTaskMetrics extends Serializable with Logging {
     spillToHostBytes.add(sizeInBytes)
   }
 
+  /**
+   * Sums decoded scan bytes for the task. A task with more than one scan input
+   * (e.g. a broadcast loop join) over-counts relative to the per-node SQL metric.
+   */
   def recordOutputBatchBytes(bytes: Long): Unit = {
     outputBatchBytes.add(bytes)
   }
