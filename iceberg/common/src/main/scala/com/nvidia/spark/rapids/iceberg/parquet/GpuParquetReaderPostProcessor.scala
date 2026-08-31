@@ -256,26 +256,24 @@ private[iceberg] case class ProcessMap(
       val structCol = withResource(col.getChildColumnView(0)) { childView =>
         childView.copyToColumnVector()
       }
-      withResource(structCol) { _ =>
-        val childCols = Seq(0, 1).safeMap { idx =>
+      val transformedCols = withResource(structCol) { _ =>
+        Seq((0, keyAction), (1, valueAction)).safeMap { case (idx, action) =>
           withResource(structCol.getChildColumnView(idx)) { childView =>
-            childView.copyToColumnVector()
+            withResource(childView.copyToColumnVector()) { childCol =>
+              action.execute(ctx.withColumn(childCol))
+            }
           }
         }
-        withResource(childCols) { cols =>
-          val keyCol = cols(0)
-          val valueCol = cols(1)
-          withResource(keyAction.execute(ctx.withColumn(keyCol))) { newKey =>
-            withResource(valueAction.execute(ctx.withColumn(valueCol))) { newValue =>
-              // No validity buffer needed: in Iceberg/cuDF map representation,
-              // key-value struct entries are never null — only individual
-              // keys or values can be null.
-              withResource(CudfColumnVector.makeStruct(newKey, newValue)) { kvStruct =>
-                withResource(col.replaceListChild(kvStruct)) { view =>
-                  view.copyToColumnVector()
-                }
-              }
-            }
+      }
+      withResource(transformedCols) { cols =>
+        val newKey = cols(0)
+        val newValue = cols(1)
+        // No validity buffer needed: in Iceberg/cuDF map representation,
+        // key-value struct entries are never null — only individual
+        // keys or values can be null.
+        withResource(CudfColumnVector.makeStruct(newKey, newValue)) { kvStruct =>
+          withResource(col.replaceListChild(kvStruct)) { view =>
+            view.copyToColumnVector()
           }
         }
       }
@@ -664,16 +662,6 @@ class GpuParquetReaderPostProcessor(
   // Convert shaded parquet schema to Iceberg schema for comparison
   private lazy val fileIcebergSchema: Schema = ParquetSchemaUtil.convert(shadedFileReadSchema)
 
-  // Build field ID to batch index mapping using the UNSHADED schema from parquetInfo.
-  // The parquet reader returns top-level columns in the physical file-read order captured by
-  // parquetInfo.schema, which can differ from the requested Iceberg schema order.
-  // Map field ID to that batch position.
-  private lazy val fieldIdToBatchIndex: Map[Int, Int] = {
-    (0 until fileReadSchema.getFieldCount).flatMap { i =>
-      Option(fileReadSchema.getType(i).getId).map(id => id.intValue() -> i)
-    }.toMap
-  }
-
   // Pre-compute action tree by visiting expected schema with file schema as partner
   private lazy val rootAction: ColumnAction = buildActionTimeMetric.ns {
     val visitor = new ActionBuildingVisitor(idToConstant)
@@ -777,12 +765,10 @@ class GpuParquetReaderPostProcessor(
         withResource(scb.getColumnarBatch()) { batch =>
           currentNumRows = batch.numRows()
 
-          val fields = expectedFields
-
           // Execute actions on batch (rootAction must be ProcessStruct here since
           // PassThrough is handled by canPassThroughBatch early return)
-          val fieldActions = rootAction match {
-            case ProcessStruct(actions, _) => actions
+          val (fieldActions, inputIndices) = rootAction match {
+            case ProcessStruct(actions, indices) => (actions, indices)
             case _ => throw new IllegalStateException(
               s"Root action must be ProcessStruct, but got: ${rootAction.getClass.getSimpleName}")
           }
@@ -790,10 +776,11 @@ class GpuParquetReaderPostProcessor(
           // Root-level columns are not wrapped in a single struct column, so we cannot execute
           // ProcessStruct directly here. Instead we run each field action against the matching
           // batch column (or None for generated fields) and assemble the output batch ourselves.
-          val columns: Seq[ColumnVector] = fieldActions.zip(fields).zipWithIndex.safeMap {
-            case ((action, field), idx) =>
-              val batchIdx = fieldIdToBatchIndex.get(field.fieldId())
-              val col = batchIdx.map(i => batch.column(i).asInstanceOf[GpuColumnVector].getBase)
+          val columns: Seq[ColumnVector] =
+            fieldActions.zip(inputIndices).zipWithIndex.safeMap {
+            case ((action, inputIndex), idx) =>
+              val col = inputIndex.map(i =>
+                batch.column(i).asInstanceOf[GpuColumnVector].getBase)
               val ctx = new ColumnActionContext(this, col, currentNumRows)
               val result = action.execute(ctx)
               closeOnExcept(result) { _ =>
