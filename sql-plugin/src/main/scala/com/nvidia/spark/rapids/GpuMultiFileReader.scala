@@ -303,7 +303,8 @@ abstract class MultiFilePartitionReaderFactoryBase(
   protected val targetBatchSizeBytes: Long = rapidsConf.gpuTargetBatchSizeBytes
   protected val maxGpuColumnSizeBytes: Long = rapidsConf.maxGpuColumnSizeBytes
   protected val useChunkedReader: Boolean = rapidsConf.chunkedReaderEnabled
-  protected val useReadEstimateFromSchema: Boolean = rapidsConf.useReadEstimateFromSchema
+  protected val useReadEstimateFromSchema: Option[Boolean] =
+    rapidsConf.useReadEstimateFromSchema
   protected val maxChunkedReaderMemoryUsageSizeBytes: Long =
     if(rapidsConf.limitChunkedReaderMemoryUsage) {
       (rapidsConf.chunkedReaderMemoryUsageRatio * targetBatchSizeBytes).toLong
