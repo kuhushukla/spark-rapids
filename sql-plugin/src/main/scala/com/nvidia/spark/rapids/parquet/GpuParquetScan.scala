@@ -2184,6 +2184,8 @@ trait ParquetPartitionReaderBase extends Logging with ScanWithMetrics
           throw new UnsupportedOperationException("Too many rows in split")
         }
         if (numRows == 0 || numRows + peekedRowGroup.getRowCount <= maxReadBatchSizeRows) {
+          // A chunked reader bounds its own GPU memory usage, so the estimate is redundant
+          // there. See spark.rapids.sql.reader.useReadEstimateFromSchema.
           val estimatedBytes = if (skipReadEstimate) {
             0L
           } else {
@@ -2345,6 +2347,7 @@ case class ParquetSingleDataBlockMeta(
  * @param maxReadBatchSizeBytes soft limit on the maximum number of bytes the reader reads per batch
  * @param targetBatchSizeBytes the target size of a batch
  * @param maxGpuColumnSizeBytes the maximum size of a GPU column
+ * @param skipReadEstimate whether to ignore the schema based GPU memory estimate for a batch
  * @param execMetrics metrics
  * @param partitionSchema Schema of partitions.
  * @param poolConf thread pool configuration.
@@ -2551,6 +2554,7 @@ abstract class MultiFileCoalescingParquetPartitionReaderBase(
  * @param useChunkedReader whether to read Parquet by chunks or read all at once
  * @param maxChunkedReaderMemoryUsageSizeBytes soft limit on the number of bytes of internal memory
  *                                             usage that the reader will use
+ * @param skipReadEstimate whether to ignore the schema based GPU memory estimate for a batch
  * @param execMetrics metrics
  * @param partitionSchema Schema of partitions.
  * @param poolConf thread pool configuration.

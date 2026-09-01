@@ -1156,6 +1156,8 @@ trait OrcPartitionReaderBase extends OrcCommonFunctions with Logging
         }
         if (numRows == 0 ||
           numRows + peekedStripe.infoBuilder.getNumberOfRows <= maxReadBatchSizeRows) {
+          // A chunked reader bounds its own GPU memory usage, so the estimate is redundant
+          // there. See spark.rapids.sql.reader.useReadEstimateFromSchema.
           val estimatedBytes = if (skipReadEstimate) {
             0L
           } else {
