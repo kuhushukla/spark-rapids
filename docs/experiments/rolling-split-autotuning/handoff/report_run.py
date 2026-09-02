@@ -73,20 +73,32 @@ def scan(path):
     return el, rows
 
 
-def verdict(rows):
-    """Per query: did the split settle after the first execution?"""
+CONVERGE_TOL = 0.01
+
+
+def verdict(rows, tol=CONVERGE_TOL):
+    """Per query: did the split settle after the first execution?
+
+    Within tol rather than exactly: the ratio is recomputed from each run's own decoded bytes, so
+    successive splits land within a few bytes of each other rather than on one integer.
+    """
     by_q = collections.OrderedDict()
     for _, q, sp, _, _ in rows:
         by_q.setdefault(q, []).append(sp)
     out = []
     for q, sps in by_q.items():
-        later = set(sps[1:])
+        later = sps[1:]
         if not later:
             out.append((q, sps[0], "single execution"))
-        elif len(later) == 1:
-            out.append((q, sps[0], "converged" if sps[0] != sps[1] else "no change"))
+            continue
+        lo, hi = min(later), max(later)
+        spread = (hi - lo) / hi if hi else 0.0
+        if spread > tol:
+            out.append((q, sps[0], f"NOT converged: {lo/M:.1f}M..{hi/M:.1f}M"))
+        elif abs(hi - sps[0]) / max(hi, sps[0]) <= tol:
+            out.append((q, sps[0], "no change"))
         else:
-            out.append((q, sps[0], "NOT converged: " + ", ".join(f"{s/M:.1f}M" for s in sorted(later))))
+            out.append((q, sps[0], f"converged to {hi/M:.1f}M"))
     return out
 
 
