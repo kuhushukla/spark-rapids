@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Scan-split benchmark runner (any dataset: clickstream, pageviews, ...).
-# Per query: GPU-fallback smoke check -> OFF split sweep -> split autotuner (strategy=ratio,
-# ratioBasis=listed, ceiling=core1). 16 cores, event logs per arm. Spark scratch on --localdir.
+# Per query: GPU-fallback smoke check -> OFF split sweep -> history-learnt split arm
+# (spark.rapids.sql.historyPath). 16 cores, event logs per arm. Spark scratch on --localdir.
 #
 # Usage: run_scan_bench.sh [--queries="csH3 csH cs03"] [--iters=3] [--data=PARQUET] [--jar=JAR]
 #          [--bench=FILE] [--out=DIR] [--spark-home=PATH] [--gpu=UUID] [--sweep="256m 512m 1g 2g 4g"]
@@ -22,15 +22,15 @@ set -uo pipefail
 HANDOFF="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 QUERIES="csH3 csH cs03"
 ITERS=3
-DATA=/data/wiki-clickstream/parquet
+DATA="${BENCH_DATA:-/data/wiki-clickstream/parquet}"
 JAR="${RAPIDS_JAR:-}"
 BENCH="$HANDOFF/bench_clickstream.scala"
-OUT=/data/scan-split-out
-SPARK_HOME=/home/kuhu/Downloads/spark-3.5.3-bin-hadoop3
-GPU=GPU-1aaa66fd-0c1e-935b-fe65-2c9ca7357504   # A5000 (never the T400)
+OUT="${BENCH_OUT:-/data/scan-split-out}"
+SPARK_HOME="${BENCH_SPARK_HOME:-/home/kuhu/Downloads/spark-3.5.3-bin-hadoop3}"
+GPU="${BENCH_GPU:-GPU-1aaa66fd-0c1e-935b-fe65-2c9ca7357504}"   # A5000 (never the T400)
 SWEEP="256m 512m 1g 2g 4g"
 CEILING=core1
-LOCALDIR=/data/_sparklocal-cs
+LOCALDIR="${BENCH_LOCALDIR:-/data/_sparklocal-cs}"
 TARGET=""    # when set, adds --conf spark.rapids.sql.batchSizeBytes=$TARGET to every arm (also drives the autotuner target)
 ONLY=all     # which stages to run: all | smoke | off | ratio | parts
 XCONF=""     # extra --conf(s) appended to EVERY arm (e.g. "--conf spark.rapids.sql.reader.chunked=false")
@@ -62,6 +62,8 @@ for a in "$@"; do case "$a" in
   --sweep=*)      SWEEP="${a#*=}" ;;
   --ceiling=*)    CEILING="${a#*=}" ;;
   --localdir=*)   LOCALDIR="${a#*=}" ;;
+  --java-home=*)  BENCH_JAVA_HOME="${a#*=}" ;;
+  --cores=*)      BENCH_CORES="${a#*=}" ;;
   --target=*)     TARGET="${a#*=}" ;;
   --only=*)       ONLY="${a#*=}" ;;
   --xconf=*)      XCONF="${a#*=}" ;;
@@ -73,15 +75,20 @@ for a in "$@"; do case "$a" in
   -h|--help)      sed -n '2,14p' "$0"; exit 0 ;;
   *) echo "unknown arg: $a"; exit 2 ;;
 esac; done
-export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64
+export JAVA_HOME="${BENCH_JAVA_HOME:-${JAVA_HOME:-/usr/lib/jvm/java-1.17.0-openjdk-amd64}}"
+[ -x "$JAVA_HOME/bin/java" ] || { echo "!! no java at $JAVA_HOME (set --java-home or BENCH_JAVA_HOME)"; exit 2; }
 export CUDA_VISIBLE_DEVICES="$GPU"
 export HANDOFF_DIR="$HANDOFF"   # off_optimum() loads gen_ratio_report.py from here
 [ -z "$JAR" ] && { echo "!! no plugin jar: pass --jar=PATH or set RAPIDS_JAR"; exit 2; }
 [ -f "$JAR" ] || { echo "!! jar not found: $JAR"; exit 2; }
 mkdir -p "$LOCALDIR"
 [ ${#JOBS[@]} -eq 0 ] && JOBS=("$QUERIES|$DATA|$BENCH")   # default: single dataset from --queries/--data/--bench
-TARGETCONF=""; [ -n "$TARGET" ] && TARGETCONF="--conf spark.rapids.sql.batchSizeBytes=$TARGET"
-AQECONF="--conf spark.sql.adaptive.enabled=$( [ "$AQE" = off ] && echo false || echo true )"
+BENCH_CORES="${BENCH_CORES:-16}"    # --master local[N]; --cores=N
+. "$HANDOFF/bench_common.sh"
+CEILINGCONF="$(ceiling_conf "$CEILING")" || exit 2
+# spark_arm reads AQE, XCONF, NSYS, LOCALDIR, JAR, BENCH, DATA and SPARK_HOME from the environment.
+[ -n "$TARGET" ] && XCONF="--conf spark.rapids.sql.batchSizeBytes=$TARGET $XCONF"
+export BENCH_CORES AQE XCONF NSYS
 RULE="$HANDOFF/partition_rule_full.py"
 # Partition-count rule applied to an arm's OWN prior run (rolling, exactly as the plugin's scan
 # autotuner learns from the previous run). Echoes the partition count to set, or "" to leave alone.
@@ -117,6 +124,10 @@ for m in sweep:
         continue
     try:
         w = gr.parse(d, q)["wall"] / 1000.0
+    except gr.MissingSplitMetric as ex:
+        # Not "sweep incomplete" -- say what actually went wrong instead of letting the caller
+        # blame a missing sweep.
+        sys.stderr.write(f"!! {ex}\n"); sys.exit(3)
     except Exception:
         continue
     if best is None or w < best[1]:
@@ -146,49 +157,25 @@ run () {
   # Idempotent skip -- but ONLY when the existing arm was built with the SAME maxPartitionBytes and
   # the same shuffle.partitions. Skipping on iteration count alone silently reuses an arm produced
   # under different config (this bit us: pbase/pparts built at 128m would have been reused as though
-  # they were at the swept optimum). `grep -ac` exits 1 at count 0, so `|| echo 0` would emit "0\n0"
-  # and break -ge; use a single-line count instead.
-  local NDONE; NDONE=$(grep -acE "ITER $Q [0-9]+ [0-9]+" "$OUTD/run.log" 2>/dev/null; true)
-  NDONE=${NDONE:-0}
-  if [ "${NDONE//[^0-9]/}" -ge "$IT" ] 2>/dev/null; then
+  # they were at the swept optimum).
+  local NDONE; NDONE=$(iters_done "$OUTD/run.log" "$Q")
+  if [ "${NDONE:-0}" -ge "$IT" ] 2>/dev/null; then
     local PREVMPB PREVPARTS WANTPARTS
     PREVMPB=$(grep -ao "spark\.sql\.files\.maxPartitionBytes=[^ ]*" "$OUTD/run.log" 2>/dev/null | head -1 | cut -d= -f2)
     PREVPARTS=$(grep -ao "spark\.sql\.shuffle\.partitions=[0-9]*" "$OUTD/run.log" 2>/dev/null | head -1 | cut -d= -f2)
     WANTPARTS=$(printf '%s' "$XC" | grep -o "spark\.sql\.shuffle\.partitions=[0-9]*" | cut -d= -f2)
     if [ "${PREVMPB:-$MPB}" = "$MPB" ] && [ "${PREVPARTS:-}" = "${WANTPARTS:-}" ]; then
+      assert_split_metric "$OUTD" "$Q" || exit 4   # a reused arm from an older jar is unreportable too
       echo "  skip (done): $OUTD"; return
     fi
     echo "  !! STALE ARM: $OUTD was built with mpb=${PREVMPB:-?} parts=${PREVPARTS:-default}, but this"
     echo "  !! stage wants mpb=$MPB parts=${WANTPARTS:-default}. NOT reusing it. Move it aside and re-run."
     return
   fi
-  local avail; avail=$(df -BG --output=avail /data | tail -1 | tr -dc '0-9')
-  [ "${avail:-0}" -lt 20 ] && { echo "!! /data < 20G free — abort"; exit 3; }
-  mkdir -p "$OUTD/el"
-  local NPRE=""
-  # -s none = no CPU sampling (default, small traces). --nsys-cpu adds CPU sampling + OS runtime,
-  # needed when the GPU is idle most of the wall time and the bottleneck is host-side: measured on
-  # cs01, GPU util median 0% and idle >5% for 72-74% of samples, so cuda/nvtx alone cannot see where
-  # the time goes. Traces are much larger; use few iterations.
-  [ "$NSYS" = yes ] && NPRE="/usr/local/bin/nsys profile -t cuda,nvtx -s none -o $OUTD/prof --force-overwrite true"
-  [ "$NSYS" = cpu ] && NPRE="/usr/local/bin/nsys profile -t cuda,nvtx,osrt -s cpu --cpuctxsw=process-tree -o $OUTD/prof --force-overwrite true"
-  echo "  run $Q mpb=$MPB iters=$IT nsys=$NSYS -> $OUTD  $(date +%T)"
-  $NPRE "$SPARK_HOME/bin/spark-shell" --master 'local[16]' --driver-memory 32G \
-    --conf spark.driver.maxResultSize=2GB --conf spark.local.dir="$LOCALDIR" \
-    --conf spark.plugins=com.nvidia.spark.SQLPlugin --conf spark.rapids.sql.enabled=true \
-    --conf spark.rapids.sql.variableFloatAgg.enabled=false \
-    --conf spark.sql.files.maxPartitionBytes="$MPB" $TARGETCONF $XCONF $AQECONF \
-    --conf spark.rapids.sql.metrics.level=DEBUG --conf spark.rapids.sql.explain=NONE \
-    --conf spark.rapids.filecache.enabled=false --conf spark.rapids.memory.pinnedPool.size=8g \
-    --conf spark.rapids.sql.concurrentGpuTasks=2 \
-    --conf spark.shuffle.manager=com.nvidia.spark.rapids.spark353.RapidsShuffleManager \
-    --conf spark.eventLog.enabled=true --conf "spark.eventLog.dir=file:$OUTD/el" $XC \
-    --driver-java-options "-Dbench.query=$Q -Dbench.iters=$IT -Dbench.base=$DATA $XJ" \
-    --jars "$JAR" --driver-class-path "$JAR" \
-    -i "$BENCH" < /dev/null > "$OUTD/run.log" 2>&1
-  echo "    $Q: $(grep -aoE "ITER $Q [0-9]+ [0-9]+" "$OUTD/run.log" | awk '{print $4}' | tr '\n' ' ')"
-  # spill/disk flag (do NOT delete — just report; Spark cleans its own localdir on clean exit):
-  echo "    disk: localdir=$(du -sh "$LOCALDIR" 2>/dev/null | cut -f1)  /data avail=$(df -BG --output=avail /data | tail -1 | tr -d ' ')"
+  spark_arm "$OUTD" "$Q" "$IT" "$MPB" "$XC" "$XJ"
+  local rc=$?; [ $rc -eq 4 ] && exit 4; [ $rc -eq 3 ] && exit 3
+  # spill/disk flag (do NOT delete -- just report; Spark cleans its own localdir on clean exit):
+  echo "    disk: localdir=$(du -sh "$LOCALDIR" 2>/dev/null | cut -f1)  /data avail=$(df -BG --output=avail "$BENCH_FREE_PATH" | tail -1 | tr -d ' ')"
 }
 
 for JOB in "${JOBS[@]}"; do
@@ -204,11 +191,10 @@ for JOB in "${JOBS[@]}"; do
     # 1) OFF split sweep (autotuner off) — establishes optSplit
     { [ "$ONLY" = all ] || [ "$ONLY" = off ]; } && \
       for m in $SWEEP; do run "$OUT/$Q-off-$m" "$Q" "$ITERS" "$m" "" ""; done
-    # 2) autotuner: ratio strategy, ratioBasis=listed, ceiling=$CEILING, floor=min (start split 256m)
+    # 2) history-learnt split: split = batchSizeBytes / decodeRatio (start split 256m)
     { [ "$ONLY" = all ] || [ "$ONLY" = ratio ]; } && \
       run "$OUT/$Q-ftt-ratio" "$Q" "$ITERS" 256m \
-        "--conf spark.rapids.sql.scan.splitAutotuner.historyPath=$OUT/$Q-ftt-ratio/history.tsv" \
-        "-Drapids.autotuner.strategy=ratio -Drapids.autotuner.ratioBasis=listed -Drapids.autotuner.ceiling=$CEILING -Drapids.autotuner.floor=min"
+        "$(history_conf "$OUT/$Q-ftt-ratio/history.snapshot") $CEILINGCONF" ""
     # 3) partition-count rule, 2x2 with the split autotuner (partition_rule_full.py, applied rolling
     #    from each arm's OWN prior run). dWall must compare SAME-SPLIT, so each -parts arm is paired
     #    with the arm it derived from: pbase<->pparts (autotuner OFF), ftt-ratio<->ratio-parts (ON).
@@ -240,8 +226,7 @@ for JOB in "${JOBS[@]}"; do
         echo "  [rule] $Q autotuner-ON: ${ACTR:-none} -> parts=${PR:-unchanged}  ($WHYR)"
         [ -z "${PR:-}" ] && echo "  !! [rule] $Q: derive_parts produced NOTHING for the ON half -- arm SKIPPED (harness failure)"
         [ -n "${PR:-}" ] && run "$OUT/$Q-ratio-parts" "$Q" "$ITERS" 256m \
-          "--conf spark.rapids.sql.scan.splitAutotuner.historyPath=$OUT/$Q-ratio-parts/history.tsv --conf spark.sql.shuffle.partitions=$PR" \
-          "-Drapids.autotuner.strategy=ratio -Drapids.autotuner.ratioBasis=listed -Drapids.autotuner.ceiling=$CEILING -Drapids.autotuner.floor=min"
+          "$(history_conf "$OUT/$Q-ratio-parts/history.snapshot") --conf spark.sql.shuffle.partitions=$PR $CEILINGCONF" ""
       else
         echo "  [rule] $Q: no $Q-ftt-ratio arm yet -- skipping the autotuner-ON half"
       fi

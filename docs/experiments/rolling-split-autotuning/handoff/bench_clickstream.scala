@@ -12,10 +12,22 @@
 //   csH   — Top-100 target articles by inflow (+ referer-title byte stats). Reads both big string columns.
 //           [scan+shuffle]
 //   csH3  — Link-type totals over a 3x UNION-ALL self-read of both big string columns. [scan-dominated]
+//   cs04  — Which articles draw the most traffic from INTERNAL wiki links rather than external search
+//           referrals? link_type='link' prunes no row groups (identical min AND max in every one), so
+//           it varies selectivity by reading fewer ROWS, not fewer bytes. [scan+shuffle]
+//   cs05  — Which articles are fed by high-volume navigation paths (>1M clicks on one source->target
+//           edge)? The only predicate here that eliminates row groups: `n` has a different max per row
+//           group (3.2M..489M) sharing a min, so `n > 1000000` skips ~30%. [scan+shuffle]
 //   cs01_etl — cs01 aggregation with no ORDER BY/LIMIT, written to parquet (ETL variant).
 val BASE   = sys.props.getOrElse("bench.base",   "/data/wiki-clickstream/parquet")
 val OUTDIR = sys.props.getOrElse("bench.outdir", "/data/wiki-clickstream/etl-out")
-spark.read.parquet(BASE).createOrReplaceTempView("clickstream")
+// Data window applied at view registration, so every query's SQL text stays byte-identical.
+// Via --conf, not -D: --driver-java-options splits on whitespace and "ym < '2022-01'" would arrive
+// as three arguments.
+val WHERE = spark.conf.getOption("spark.bench.where").getOrElse(sys.props.getOrElse("bench.where", "")).trim
+val base = spark.read.parquet(BASE)
+(if (WHERE.nonEmpty) base.where(WHERE) else base).createOrReplaceTempView("clickstream")
+println(s"BENCH_BASE=$BASE  BENCH_WHERE=${if (WHERE.isEmpty) "<none>" else WHERE}")
 
 val AGG = """SELECT previous, current, link_type, SUM(n) AS clicks
              FROM clickstream
@@ -41,6 +53,14 @@ val queries = Map(
                 SUM(length(previous)) AS referer_title_bytes, MAX(length(previous)) AS max_referer_len,
                 ROUND(AVG(length(previous)),1) AS avg_referer_len
               FROM clickstream GROUP BY current ORDER BY inflow_clicks DESC LIMIT 100""",
+  "cs04" -> """SELECT current AS article, COUNT(*) AS in_transitions, SUM(n) AS clicks,
+                ROUND(AVG(length(previous)),1) AS avg_referer_len
+              FROM clickstream WHERE link_type = 'link'
+              GROUP BY current ORDER BY clicks DESC, article LIMIT 100""",
+  "cs05" -> """SELECT current AS article, COUNT(*) AS major_paths, SUM(n) AS clicks,
+                MAX(n) AS biggest_path, ROUND(AVG(length(previous)),1) AS avg_referer_len
+              FROM clickstream WHERE n > 1000000
+              GROUP BY current ORDER BY clicks DESC, article LIMIT 100""",
   "csH3" -> """SELECT link_type, COUNT(*) AS transitions, SUM(n) AS clicks,
                  SUM(length(previous)) AS prev_bytes, SUM(length(current)) AS cur_bytes
                FROM ( SELECT link_type, previous, current, n FROM clickstream

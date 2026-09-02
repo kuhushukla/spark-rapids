@@ -1,0 +1,37 @@
+# PILOT: one cell of the full matrix, to validate the pipeline end to end before committing ~2h.
+# Everything else is identical to windows.yaml.
+dataset: /data/wiki-clickstream/parquet-part
+partition_column: ym
+grid:
+- 128m
+- 256m
+- 384m
+- 512m
+- 768m
+- 1g
+- 2g
+iters: 5
+ceiling: core1
+mpb: 2g
+windows:
+  W1:
+    to: 2020-09
+  W2:
+    from: 2020-09
+    to: 2023-07
+  W3:
+    from: 2023-07
+  ALL: {}
+cover:
+- W1
+- W2
+- W3
+sweep_jobs:
+- query: cs02
+  window: W2
+sequences:
+- q1: cs02
+  w1: W1
+  q2: cs02
+  w2: W2
+  tests: adjacent-window-drift

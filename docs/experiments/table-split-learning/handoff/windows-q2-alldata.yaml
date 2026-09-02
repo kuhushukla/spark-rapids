@@ -1,0 +1,44 @@
+# Q2 on the WHOLE table: does one query's learnt split work for a different query?
+#
+# No windows. Every query runs on all 135.7 GiB, so the QUERY is the only variable. The earlier Q2
+# attempt varied query and window together and most of its cells were scored offline rather than run;
+# here all 6 transfers are executed.
+#
+# Arms trimmed against measured evidence:
+#   no `iso`  - shared-1 runs the source against an EMPTY history, so it learns the same value iso
+#               would. Verified on all 6 measurable jobs of the 20260824 run: shared-1 and iso agree
+#               exactly (477/477, 495/495, 296/296, 308/308, 296/296, 308/308).
+#   no `off`  - the 2g grid point is the same configuration the off arm measured.
+
+dataset: /data/wiki-clickstream/parquet-part
+partition_column: ym
+grid: [128m, 256m, 512m, 1g, 2g]
+iters: 5
+ceiling: core1
+mpb: 2g
+
+windows:
+  ALL: {}
+
+cover: [ALL]
+
+sweep_jobs:
+  - {query: csH3, window: ALL}
+  - {query: cs04, window: ALL}
+  - {query: cs02, window: ALL}
+  # cs05: the only query whose predicate eliminates row groups (n>1e6 skips ~30%), so its selectivity
+  # moves by FILTERING rather than projection - a mechanism no other query here exercises.
+  - {query: cs05, window: ALL}
+
+sequences:
+  - {q1: csH3, w1: ALL, q2: cs04, w2: ALL, tests: cross-query}
+  - {q1: csH3, w1: ALL, q2: cs02, w2: ALL, tests: cross-query}
+  - {q1: cs04, w1: ALL, q2: csH3, w2: ALL, tests: cross-query}
+  - {q1: cs04, w1: ALL, q2: cs02, w2: ALL, tests: cross-query}
+  - {q1: cs02, w1: ALL, q2: csH3, w2: ALL, tests: cross-query}
+  - {q1: cs02, w1: ALL, q2: cs04, w2: ALL, tests: cross-query}
+  # cs05 both ways against each existing query
+  - {q1: cs05, w1: ALL, q2: csH3, w2: ALL, tests: cross-query}
+  - {q1: cs05, w1: ALL, q2: cs02, w2: ALL, tests: cross-query}
+  - {q1: csH3, w1: ALL, q2: cs05, w2: ALL, tests: cross-query}
+  - {q1: cs02, w1: ALL, q2: cs05, w2: ALL, tests: cross-query}

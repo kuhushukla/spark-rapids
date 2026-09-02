@@ -1,0 +1,64 @@
+# Single source of truth for data windows. Sweep and learning runs both read this, so the optimum is
+# always measured on exactly the data the learning run used.
+# Windows are DECLARED, not written as SQL — wincfg.py builds the predicate.
+# Ranges are half-open [from, to), so contiguous windows are disjoint and covering by construction.
+
+dataset: /data/wiki-clickstream/parquet-part
+partition_column: ym
+grid: [128m, 256m, 384m, 512m, 768m, 1g, 2g]   # 128m = Spark's stock default
+iters: 5
+ceiling: core1
+mpb: 2g
+
+windows:
+  W1:  {to: "2020-09"}                  # 34 months, ~35.9 GiB
+  W2:  {from: "2020-09", to: "2023-07"} # 34 months, ~42.7 GiB
+  W3:  {from: "2023-07"}                # 36 months, ~57.1 GiB
+  ALL: {}                               # whole table, ~135.7 GiB
+  # categorical form also supported, e.g.:
+  # EN:    {column: wiki, eq: enwiki}
+  # NONEN: {column: wiki, ne: enwiki}
+
+cover: [W1, W2, W3]        # these must be disjoint and sum to the whole table; precheck asserts it
+
+sweep_jobs:
+  - {query: cs02, window: W1}
+  - {query: cs02, window: W2}
+  - {query: cs02, window: W3}
+  - {query: csH3, window: W1}
+  - {query: csH3, window: W2}
+  - {query: csH3, window: W3}
+  - {query: cs04, window: W1}
+  - {query: cs04, window: W2}
+  - {query: cs04, window: W3}
+
+# step1 writes the record, step2 inherits it in the shared arm.
+# The arm name is DERIVED as "<q1>@<w1>_to_<q2>@<w2>" - no cryptic hand-written labels.
+sequences:
+  - {q1: cs02, w1: W1, q2: cs02, w2: W2, tests: adjacent-window-drift}
+  - {q1: cs02, w1: W2, q2: cs02, w2: W3, tests: adjacent-window-drift}
+  - {q1: cs02, w1: W1, q2: cs02, w2: W3, tests: distant-window-drift}
+  # CONFOUNDED: changes query AND window at once. Kept for comparison, but the clean cross-query
+  # measurement is the same-window pair below.
+  - {q1: csH3, w1: W1, q2: cs02, w2: W2, tests: cross-query-AND-window-confounded}
+  # Clean isolation of the query difference: same window, only the query changes.
+  - {q1: csH3, w1: W1, q2: cs02, w2: W1, tests: cross-query-same-window}
+  # cs04 is the only query with a row predicate, so this pair varies selectivity by FILTERING
+  # rather than by column projection - the mechanism the other sequences cannot reach.
+  - {q1: cs04, w1: W1, q2: cs04, w2: W2, tests: filtered-query-window-drift}
+  - {q1: cs04, w1: W2, q2: cs04, w2: W3, tests: filtered-query-window-drift}
+  - {q1: cs04, w1: W1, q2: cs02, w2: W1, tests: filter-vs-projection-same-window}
+  # csH3 as TARGET, not just donor - the earlier set never measured it.
+  - {q1: csH3, w1: W1, q2: csH3, w2: W2, tests: window-drift-scan-heavy}
+  - {q1: csH3, w1: W2, q2: csH3, w2: W3, tests: window-drift-scan-heavy}
+  # REVERSE direction: low-ratio donor (cs02, 1.94) -> high-ratio target (csH3, 3.13). The failures so
+  # far were all high->low, which under-sizes; this over-sizes instead.
+  - {q1: cs02, w1: W1, q2: csH3, w2: W1, tests: cross-query-reverse-lo-to-hi}
+  # POSITIVE CONTROL: cs04 (3.465) and csH3 (3.126) have nearly the same ratio, so if the failure is
+  # really the ratio gap rather than "cross-query" per se, this pair should PASS.
+  - {q1: cs04, w1: W1, q2: csH3, w2: W1, tests: cross-query-similar-ratio-control}
+  # cs04 as RECIPIENT: it was only ever a donor, so nothing measured how the filtered query responds
+  # to another query's split. Two gaps: near-identical ratio (csH3 3.126 vs cs04 3.465) and a large
+  # gap (cs02 1.939 vs cs04 3.465).
+  - {q1: csH3, w1: W1, q2: cs04, w2: W1, tests: cross-query-similar-ratio-control}
+  - {q1: cs02, w1: W1, q2: cs04, w2: W1, tests: cross-query-same-window}

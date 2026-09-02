@@ -1,72 +1,145 @@
-# Scan-split and partition-count benchmark kit
+# Scan-split benchmark kit
 
-Measures two heuristics against a swept baseline: the scan-split autotuner (`strategy=ratio`) and the
-shuffle partition-count rule. No AI in the loop.
+Measures the history-learnt scan split against a swept baseline, on real analytical queries over
+public datasets.
 
-## Files (everything else in this directory belongs to older experiments)
+The plugin learns one number per scan: `split = batchSizeBytes / decodeRatio`, clamped to
+`[64 MiB, min(4 GiB, listedBytes / minPartitionNum)]`. History is keyed on
+`(table, columns, filters)` and persisted to `spark.rapids.sql.historyPath`.
+
+## The pipeline
+
+```
+download_*.sh ──► /data/<set>/parquet
+                        │
+                        ▼
+        ┌──────── run_scan_bench.sh ────────┐
+        │  smoke  GPU-fallback check        │
+        │  off    sweep maxPartitionBytes ──┼──► baseline = sweep winner
+        │  ratio  history-learnt split   ───┼──► compared against baseline
+        │  parts  2x2 with partition rule   │
+        └───────────────┬───────────────────┘
+                        │  one event log per arm
+                        ▼
+        gen_partition_rule_report.py ─┐
+        gen_ratio_report.py ──────────┴─► gen_clean_2x2_report.py ──► report.html
+
+        run_learning_bench.sh  (vary the query)  ─┐
+        run_window_bench.sh    (vary the window) ─┴─► build_ledger.py ─► gen_*_report.py
+```
+
+Each stage reads the previous stage's event logs; nothing is carried between them by hand. The
+baseline is always the sweep winner, never a value someone picked.
+
+## Requirements
+
+- A RAPIDS jar built from a branch that has the split heuristic. Verify with
+  `unzip -l $JAR | grep ScanSplitHeuristic`.
+- Spark matching the jar's `buildver` (default `spark353`; set `BENCH_SHIM` otherwise).
+- One GPU, pinned by UUID.
+
+```bash
+export RAPIDS_JAR=/path/to/rapids-4-spark_2.12-<ver>-cuda12.jar
+export BENCH_SPARK_HOME=/path/to/spark-3.5.3-bin-hadoop3
+export BENCH_GPU=$(nvidia-smi --query-gpu=uuid --format=csv,noheader | head -1)
+```
+
+Build a jar: `mvn -Dbuildver=353 -DskipTests package -pl dist -am`
+
+## Get data
+
+Each script takes `--out` and downloads a slice; `--max-files=N` keeps a run small.
+
+```bash
+bash download_clickstream.sh --out=/data/clickstream --start-month=2025-01 --end-month=2025-01
+bash download_pageviews.sh   --out=/data/pageviews   --start-month=2025-01 --end-month=2025-01
+bash download_overture.sh    --out=/data/overture
+```
+
+Overture needs `awscli`; the others need `curl`, `wget` and a Spark dist for the parquet conversion.
+`bench_overture.scala` registers all five Overture tables at load, so download all of them.
+
+## Run
+
+`run_scan_bench.sh` is the only runner for this half. Stages run in order and each depends on the
+previous, so `--only` exists to resume, not to skip:
+
+| stage | what it does |
+|---|---|
+| `smoke` | one iteration with `explain=NOT_ON_GPU` — catches CPU fallback |
+| `off` | sweeps `maxPartitionBytes`; the winner is the baseline every comparison uses |
+| `ratio` | history-learnt split, compared against that baseline |
+| `parts` | 2x2 of the shuffle-partition rule against the split heuristic |
+
+```bash
+A="--out=/data/run1 --iters=5 --jar=$RAPIDS_JAR"
+J="--job=cs02 cs03|/data/clickstream/parquet|$PWD/bench_clickstream.scala"
+bash run_scan_bench.sh $A "$J" --only=off
+bash run_scan_bench.sh $A "$J" --only=ratio
+python3 gen_clean_2x2_report.py --run-dir=/data/run1 --queries="cs02 cs03" --force
+```
+
+Repeat `--job='QUERIES|DATA|BENCH'` to cover several datasets in one invocation. `--only=all` is the
+default and runs every stage.
+
+Queries carry their analytical question in each `bench_*.scala` header: clickstream `cs01-cs05 csH
+csH3`, pageviews `pv02 pv03g pv05g pv06 pv09g pvH pvU1 pvU2`, Overture `gf1-3 hs1-3 rw6-9`.
+`pv07g` crashes on iteration 2 and `ovJ1` has never been run.
+
+## Cross-query and data windows
+
+Two further runners live in `../../table-split-learning/handoff`. They ask whether a split learnt by
+one scan reaches a different one:
+
+```bash
+DATASET=clickstream QUERIES="csH3 cs02" OUTROOT=/data/xq bash run_learning_bench.sh
+python3 build_ledger.py /data/xq ../results/ledger-xq.tsv
+python3 gen_learning_report.py --ledger ../results/ledger-xq.tsv --out ../results/report-xq
+```
+
+Arms are `off` / `shared` (one history file) / `iso` (one each). `run_window_bench.sh` does the same
+across data windows of one table, declared in `windows.yaml`; run `check` before a full matrix.
+
+**Status: incomplete.** With the key on `(table, columns, filters)`, two queries projecting different
+columns never share a split, so the `shared` arm currently measures isolation rather than transfer.
+The ledger's `learnt_from` column names the previous *writer* of the history file, which is not
+evidence the scan read it — read the split value instead. Window arms are unaffected: partition
+predicates never enter the key, so windows of one table do share a slot.
+
+## Reading a report
+
+- Baseline is always the sweep winner. `parts` refuses to run without a completed sweep.
+- Iteration 1 is dropped everywhere. It plans at the fallback split because history is empty.
+- Bands (`<=+3%`, `+3..10%`, `>=+10%`) group the gap against the baseline. They are reporting
+  conventions and say nothing about whether a gap exceeds run-to-run noise — compare against the
+  spread of the warm iterations first.
+- Time columns are elapsed time on a shared GPU. Read the byte columns for work.
+- A sweep cannot discriminate on a table small enough that `listedBytes / cores` falls below
+  `maxPartitionBytes`; every point collapses to the same split.
+
+## Layout
 
 | file | role |
 |---|---|
-| `run_scan_bench.sh` | runner, all stages |
-| `bench_clickstream.scala` | cs01, cs02, cs03, csH, csH3 |
-| `bench_pageviews.scala` | pv02, pv03g, pv05g, pv06, pv09g, pvH, pvU1, pvU2 |
-| `bench_overture.scala` | gf1-3, hs1-3, rw6-9 |
-| `partition_rule_full.py` | the partition rule; run standalone for a decision, `--json` for machines |
-| `gen_ratio_report.py` | shared event-log parsing |
-| `gen_partition_rule_report.py` | shared metric extraction |
-| `gen_clean_2x2_report.py` | the report |
-| `download_{clickstream,pageviews,overture}.sh` | data |
+| `bench_common.sh` | the one Spark invocation; every runner sources it |
+| `run_scan_bench.sh` | sweep / ratio / parts |
+| `eventlog_metrics.py` | metric names, shared by every parser |
+| `gen_ratio_report.py` | event-log parsing, ratio-vs-baseline report |
+| `gen_partition_rule_report.py` | scan-stage task metrics |
+| `gen_clean_2x2_report.py` | the combined report |
+| `partition_rule_full.py` | the partition rule; `--json` for machines |
+| `download_*.sh`, `bench_*.scala` | data and queries |
 
-No source dependency: this directory is self-contained and can live in its own repo.
+Configure through the environment rather than editing scripts: `BENCH_JAVA_HOME`, `BENCH_SPARK_HOME`,
+`BENCH_GPU`, `BENCH_CORES`, `BENCH_SHIM`, `BENCH_DRIVER_MEM`, `BENCH_PINNED`, `BENCH_CONC_GPU`,
+`BENCH_FREE_PATH`, `BENCH_LOCALDIR`, `BENCH_DATA`, `BENCH_OUT`.
 
-## Plugin jar
+## Failure modes worth knowing
 
-Supply a built RAPIDS jar matching your Spark version, by flag or environment:
-
-```
-export RAPIDS_JAR=/path/to/rapids-4-spark_2.12-<ver>-cuda12.jar   # or --jar=PATH
-```
-To build one from a spark-rapids checkout: `mvn -Dbuildver=353 -DskipTests package -pl dist -am`
-(use the buildver matching your cluster's Spark).
-
-## Query status
-
-All queries carry their analytical question in the file header. Two are not usable:
-
-- `pv07g` DOES NOT RUN. Crashes on iteration 2 in `RapidsShuffleThreadedWriter.doCommitAllPartitions`,
-  then the JVM aborts.
-- `ovJ1` NEVER RUN. Added as an expand-bucket candidate; its exchange size has not been probed.
-
-## Run one query end to end
-
-```
-Q=cs03; DATA=/data/wiki-clickstream/parquet; OUT=/data/myrun
-A="--out=$OUT --iters=5 --queries=$Q --data=$DATA --bench=$PWD/bench_clickstream.scala"
-./run_scan_bench.sh $A --only=off      # 5-point split sweep, sets the baseline
-./run_scan_bench.sh $A --only=ratio    # split autotuner arm
-./run_scan_bench.sh $A --only=parts    # 2x2: baseline, rule partitions, and both
-python3 gen_clean_2x2_report.py --run-dir=$OUT --queries=$Q --force
-```
-
-Flags: `--jar`, `--spark-home`, `--gpu` (UUID), `--localdir`, `--sweep`, `--aqe=on|off`,
-`--off-iters` (accept a shorter sweep), `--nsys`, `--nsys-cpu`.
-
-## Rules that keep results honest
-
-- The baseline split is always the sweep winner. The `parts` stage refuses to run without a completed
-  sweep rather than substituting a default.
-- Iteration 1 is COLD_START and is dropped. Reports use the median of the warm iterations and print
-  every warm iteration.
-- Each arm is its own Spark session and event log. The runner skips arms that already have enough
-  iterations, so a re-invocation resumes.
-- Partition counts are derived rolling: each arm reads the rule's decision from its own prior run.
-- Time columns are elapsed time on a shared GPU, not work. Read the byte columns for work.
-
-## Known limits
-
-- Queries writing more than about 50 GiB per arm are not repeatable on a single NVMe. Sustained write
-  speed falls from 4.9 to 1.2 GB/s past the drive's SLC cache, so later arms are penalised. Measured:
-  two identical cs01 arms gave 244.7 and 297.1 seconds.
-- cs01 at a 4g split dies with RMM pool exhaustion.
-- No query here exercises parquet schema evolution; all files in each dataset share one schema and
-  `mergeSchema` is never set.
+- Every arm runs with `spark.rapids.sql.metrics.level=DEBUG`; the split metric is DEBUG-only. A run
+  without it aborts at the first arm rather than reporting a blank split column.
+- An arm is reused only when its `maxPartitionBytes` and `shuffle.partitions` match what the stage
+  wants. Mismatches are reported, never silently reused.
+- Queries writing more than ~50 GiB per arm are not repeatable on a single NVMe: sustained write
+  speed falls once past the drive's SLC cache, penalising later arms.
+- No query here exercises parquet schema evolution; all files in each dataset share one schema.

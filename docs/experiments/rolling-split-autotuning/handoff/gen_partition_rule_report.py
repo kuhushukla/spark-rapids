@@ -181,9 +181,12 @@ def scan_metrics(d, iters):
                decode_s=0.0, scan_s=0.0, buffer_s=0.0, concat_s=0.0, batch_bytes=0.0, batches=0.0)
     if not el:
         return out
+    # The decoded-bytes metric was renamed twice ("output batch bytes" in revans2 PR#1,
+    # "decoded batch bytes" in cudf-spark #15584); accept every spelling so old runs keep parsing.
     WANT_SCAN = {"GPU decode time (excl. SemWait)": "decode_s", "scan time (excl. SemWait)": "scan_s",
-                 "buffer time (excl. SemWait)": "buffer_s",
-                 "sum of output GPU batch bytes": "batch_bytes", "output columnar batches": "scan_batches"}
+                 "buffer time (excl. SemWait)": "buffer_s", "output columnar batches": "scan_batches",
+                 "sum of output GPU batch bytes": "batch_bytes",
+                 "output batch bytes": "batch_bytes", "decoded batch bytes": "batch_bytes"}
     WANT_SHUF = {"concat batch time (excl. SemWait)": "concat_s", "output columnar batches": "shuf_batches"}
     acc = {}                                    # accId -> field name
     def walk(n):
