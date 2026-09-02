@@ -73,6 +73,93 @@ def scan(path):
     return el, rows
 
 
+G = 2 ** 30
+
+
+def metrics_by_query(el, rows):
+    """Scan-stage work metrics per query, over that query's warm executions.
+
+    gen_ratio_report.parse aggregates one arm over all its warm executions, which mixes queries when
+    several share an application. Same accumulators, grouped by query and normalised per iteration.
+    """
+    warm, first = collections.defaultdict(set), {}
+    for i, q, _, _, _ in rows:
+        if q not in first:
+            first[q] = i          # each query's own cold execution
+        else:
+            warm[q].add(i)
+    exec_q = {i: q for i, q, _, _, _ in rows}
+
+    sids = gr.scan_batch_accids(el)
+    batch_ids = sids.get("output columnar batches", set())
+    bytes_ids = sids.get(gr.BATCH_BYTES, set())
+    tgt = gr.batch_target_bytes(el)
+
+    acc = collections.defaultdict(lambda: dict(
+        gpu=0.0, sem=0.0, taskT=0.0, scan=0.0, shuf=0.0, batches=0.0, bbytes=0.0, tasks=set()))
+    stage2exec = {}
+    for ln in open(el, errors="ignore"):
+        if '"Event":"SparkListenerJobStart"' in ln:
+            try:
+                e = json.loads(ln)
+                j = int((e.get("Properties", {}) or {}).get("spark.sql.execution.id"))
+            except (ValueError, TypeError):
+                continue
+            for si in e.get("Stage Infos", []) or []:
+                stage2exec[si.get("Stage ID")] = j
+            continue
+        if '"Event":"SparkListenerTaskEnd"' not in ln:
+            continue
+        try:
+            e = json.loads(ln)
+        except ValueError:
+            continue
+        eid = stage2exec.get(e.get("Stage ID"))
+        q = exec_q.get(eid)
+        if q is None or eid not in warm[q]:
+            continue
+        a = acc[q]
+        ti, tm = e.get("Task Info", {}) or {}, e.get("Task Metrics", {}) or {}
+        read = (tm.get("Input Metrics", {}) or {}).get("Bytes Read", 0) or 0
+        a["scan"] += read
+        a["shuf"] += (tm.get("Shuffle Write Metrics", {}) or {}).get("Shuffle Bytes Written", 0) or 0
+        is_scan = read > 0
+        for ac in ti.get("Accumulables", []) or []:
+            aid, nm = ac.get("ID"), ac.get("Name", "")
+            try:
+                v = float(ac.get("Update", 0) or 0)
+            except (TypeError, ValueError):
+                v = 0.0
+            if aid in batch_ids:
+                a["batches"] += v
+                a["tasks"].add((e.get("Stage ID"), ti.get("Task ID")))
+            elif aid in bytes_ids:
+                a["bbytes"] += v
+            if is_scan:
+                if nm == "gpuTime":
+                    a["gpu"] += gr._dur_s(ac.get("Update", 0))
+                elif nm == "gpuSemaphoreWait":
+                    a["sem"] += gr._dur_s(ac.get("Update", 0))
+        if is_scan:
+            a["taskT"] += tm.get("Executor Run Time", 0) or 0
+
+    out = {}
+    for q, a in acc.items():
+        it = len(warm[q]) or 1
+        nt = len(a["tasks"]) or 1
+        out[q] = dict(
+            gpu_s=round(a["gpu"] / it),
+            sem_s=round(a["sem"] / it, 1),
+            effgpu_s=round((a["gpu"] + a["sem"]) / it, 1),
+            taskT_s=round(a["taskT"] / 1e3 / it, 1),
+            scanGiB=round(a["scan"] / G / it, 2),
+            shufGiB=round(a["shuf"] / G / it, 2),
+            bptask=round(a["batches"] / nt, 2),
+            fullpct=round(100 * a["bbytes"] / a["batches"] / tgt) if a["batches"] else 0,
+        )
+    return out, tgt
+
+
 CONVERGE_TOL = 0.01
 
 
@@ -102,7 +189,26 @@ def verdict(rows, tol=CONVERGE_TOL):
     return out
 
 
-def render(el, rows, verdicts):
+def _mtable(mets, tgt, verdicts):
+    if not mets:
+        return ""
+    cols = [("gpu_s", "gpuTime s"), ("sem_s", "semWait s"), ("effgpu_s", "effGPU s"),
+            ("taskT_s", "taskT s"), ("scanGiB", "scan GiB"), ("shufGiB", "shuf GiB"),
+            ("bptask", "batches/task"), ("fullpct", "Full%")]
+    head = "".join(f"<th>{h}</th>" for _, h in cols)
+    body = ""
+    for q, _, _ in verdicts:
+        m = mets.get(q)
+        if not m:
+            continue
+        body += (f"<tr><td>{html.escape(q)}</td>"
+                 + "".join(f"<td>{m[k]}</td>" for k, _ in cols) + "</tr>")
+    return (f"<h2>Scan-stage work</h2><p>Warm iterations only, per iteration. Full% is against this "
+            f"run's batchSizeBytes ({tgt/M:.0f}M).</p>"
+            f"<table><tr><th>query</th>{head}</tr>{body}</table>")
+
+
+def render(el, rows, verdicts, mets=None, tgt=None):
     body = "\n".join(
         f"<tr><td>{i}</td><td>{html.escape(q)}</td><td>{sp/M:.1f}M</td>"
         f"<td>{w:.0f}</td><td>{n}</td></tr>"
@@ -118,9 +224,10 @@ def render(el, rows, verdicts):
             f"<th>scans</th></tr>{body}</table>"
             f"<h2>Per query</h2><table><tr><th>query</th><th>first split</th><th>then</th></tr>"
             f"{vs}</table>"
-            f"<p>A query's first execution plans at Spark's maxSplitBytes because history is empty; "
-            f"later ones use the learnt value. 'scans' is GpuScan nodes in the plan &mdash; the split "
-            f"shown is the largest across them.</p>")
+            + _mtable(mets, tgt, verdicts)
+            + "<p>A query's first execution plans at Spark's maxSplitBytes because history is empty; "
+              "later ones use the learnt value. 'scans' is GpuScan nodes in the plan &mdash; the "
+              "split shown is the largest across them.</p>")
 
 
 def main():
@@ -147,9 +254,24 @@ def main():
     for q, first, v in vs:
         print(f"{q:<34} first={first/M:.1f}M  {v}")
 
+    mets, tgt = metrics_by_query(el, rows)
+    if mets:
+        print(f"\nwarm iterations only, per iteration. Full% is vs this run's "
+              f"batchSizeBytes ({tgt/M:.0f}M).")
+        hdr = ("query", "gpuTime", "semWait", "effGPU", "taskT", "scanGiB", "shufGiB",
+               "B/task", "Full%")
+        print(f"{hdr[0]:<34} " + " ".join(f"{h:>8}" for h in hdr[1:]))
+        for q, _, _ in vs:
+            m = mets.get(q)
+            if not m:
+                continue
+            print(f"{q:<34} {m['gpu_s']:>8} {m['sem_s']:>8} {m['effgpu_s']:>8} "
+                  f"{m['taskT_s']:>8} {m['scanGiB']:>8} {m['shufGiB']:>8} "
+                  f"{m['bptask']:>8} {m['fullpct']:>8}")
+
     if a.html:
         with open(a.html, "w") as f:
-            f.write(render(el, rows, vs))
+            f.write(render(el, rows, vs, mets, tgt))
         print(f"\nwrote {a.html}")
 
 
