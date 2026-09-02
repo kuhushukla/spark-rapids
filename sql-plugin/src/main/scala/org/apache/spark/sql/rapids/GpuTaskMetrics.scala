@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
 
 import ai.rapids.cudf.{NvtxColor, NvtxRange}
-import com.nvidia.spark.rapids.{GpuDeviceManager, NvtxId, NvtxRegistry, PerfIO}
+import com.nvidia.spark.rapids.{NvtxId, NvtxRegistry, PerfIO}
 import com.nvidia.spark.rapids.Arm.withResource
 import com.nvidia.spark.rapids.ScalableTaskCompletion.onTaskCompletion
 import com.nvidia.spark.rapids.jni.RmmSpark
@@ -167,49 +167,6 @@ class HighWatermarkAccumulator extends AccumulatorV2[jl.Long, SizeInBytes] {
   override def value: SizeInBytes = SizeInBytes(_value)
 }
 
-/**
- * Collects one value per task (the task's peak, via add() taking the within-task max) and, across the
- * stage, keeps a bounded sample of those per-task values so the driver can compute a percentile — the
- * decision-metric family the GpuSemaphore uses (percentile of per-task GPU memory -> permits). `value`
- * returns the p90 of the collected samples. Bounded at CAP (keep most-recent, matching the semaphore's
- * StatEstimator) so a huge stage doesn't retain unbounded memory.
- */
-class TaskMemPercentileAccumulator extends AccumulatorV2[jl.Long, jl.Long] {
-  import scala.collection.mutable.ArrayBuffer
-  private val CAP = 200
-  private var taskLocalMax = 0L                 // task-side: this task's peak (single value)
-  private val samples = ArrayBuffer[Long]()     // driver-side: one per merged task
-
-  override def isZero: Boolean = taskLocalMax == 0 && samples.isEmpty
-  override def copy(): TaskMemPercentileAccumulator = {
-    val a = new TaskMemPercentileAccumulator
-    a.taskLocalMax = taskLocalMax; a.samples ++= samples; a
-  }
-  override def reset(): Unit = { taskLocalMax = 0L; samples.clear() }
-  // Task-side updates: keep the task's max as its single contributed sample.
-  override def add(v: jl.Long): Unit = { val x = v.toLong; if (x > taskLocalMax) taskLocalMax = x }
-  private def cap(): Unit = if (samples.length > CAP) samples.remove(0, samples.length - CAP)
-  // Driver merges each task's accumulator: append that task's one value (or its already-merged samples).
-  override def merge(other: AccumulatorV2[jl.Long, jl.Long]): Unit = other match {
-    case o: TaskMemPercentileAccumulator =>
-      if (o.samples.nonEmpty) samples ++= o.samples
-      else if (o.taskLocalMax > 0) samples += o.taskLocalMax
-      cap()
-    case _ => throw new UnsupportedOperationException(
-      s"Cannot merge ${this.getClass.getName} with ${other.getClass.getName}")
-  }
-  /** p90 of the collected per-task values (linear-interp, matching GpuSemaphore.StatEstimator). */
-  override def value: jl.Long = percentile(0.9)
-  def percentile(p: Double): Long = {
-    val v = (if (samples.nonEmpty) samples else ArrayBuffer(taskLocalMax)).filter(_ > 0).sorted
-    if (v.isEmpty) return 0L
-    val n = v.length; val pos = p * (n + 1)
-    if (pos < 1) v.head
-    else if (pos >= n) v.last
-    else { val k = pos.toInt; (v(k - 1) + (pos - k) * (v(k) - v(k - 1))).toLong }
-  }
-}
-
 class MaxLongAccumulator extends AccumulatorV2[jl.Long, jl.Long] {
   private var _v = 0L
 
@@ -321,15 +278,6 @@ class GpuTaskMetrics extends Serializable with Logging {
 
   private val maxGpuFootprint = new SizeInBytesAccumulator
 
-  // Per-task GPU memory samples for the stage, exposed as p90 — the decision-metric family the
-  // GpuSemaphore uses (percentile of per-task GPU memory). Fed the same getMaxGpuTaskMemory value as
-  // the footprint; read driver-side by the scan-split autotuner via getTaskMemP90Bytes.
-  private val taskMemP90 = new TaskMemPercentileAccumulator
-
-  // Usable GPU memory (RMM pool) captured on the EXECUTOR — the driver has no GPU on a cluster, so the
-  // autotuner must read this via getTaskMetrics rather than call GpuDeviceManager driver-side.
-  private val gpuUsableMem = new MaxLongAccumulator
-
   // Disk write savings from SpillablePartialFileHandle
   private val diskWriteSavedBytes = new LongAccumulator
 
@@ -404,8 +352,6 @@ class GpuTaskMetrics extends Serializable with Logging {
     "gpuOnGpuTasksWaitingGPUAvgCount" -> onGpuTasksInWaitingQueueAvgCount,
     "gpuOnGpuTasksWaitingGPUMaxCount" -> onGpuTasksInWaitingQueueMaxCount,
     "gpuMaxTaskFootprint" -> maxGpuFootprint,
-    "gpuScanTaskMemP90" -> taskMemP90,
-    "gpuUsableMemBytes" -> gpuUsableMem,
     "multithreadReaderMaxParallelism" -> multithreadReaderMaxParallelism,
     "gpuMaxConcurrentGpuTasks" -> maxConcurrentGpuTasks,
     "gpuDiskWriteSavedBytes" -> diskWriteSavedBytes,
@@ -549,31 +495,8 @@ class GpuTaskMetrics extends Serializable with Logging {
     val maxFootprint = RmmSpark.getMaxGpuTaskMemory(taskAttemptId)
     if (maxFootprint > 0) {
       maxGpuFootprint.setValue(maxFootprint)
-      // add() keeps this task's max; the stage merge collects one value per task for the percentile.
-      taskMemP90.add(maxFootprint)
     }
-    // Executor RMM pool size — same across tasks; MaxLong keeps it. Driver reads it for the mem budget.
-    val poolBytes = GpuDeviceManager.getMemorySize
-    if (poolBytes > 0) gpuUsableMem.add(poolBytes)
   }
-
-  /** Percentile of the stage's per-task GPU memory samples (p in [0,1]); read driver-side by the
-   * scan-split autotuner. 0 when no task reported memory yet. */
-  def getTaskMemPercentileBytes(p: Double): Long = taskMemP90.percentile(p)
-
-  /** Actual max tasks that concurrently held the GPU on this stage (dynamic, not the config). */
-  def getMaxConcurrentGpuTasks: Long = maxConcurrentGpuTasks.value
-
-  /** Usable GPU memory (RMM pool) measured on the executor; 0 if no task reported it. */
-  def getUsableGpuMemBytes: Long = gpuUsableMem.value
-
-  /** Total GPU-buffer spill bytes (host + disk) over this stage — nonzero means the split was too big for
-   * GPU memory. Read driver-side by the expansion strategy's spill-feedback. 0 = no spill. */
-  def getGpuSpillBytes: Long = spillToHostBytes.value.value + spillToDiskBytes.value.value
-
-  /** Total GPU-semaphore-holding time (ns) summed across this stage's tasks — the scan stage's total
-   * GPU work. Read driver-side by the gputime split strategy (objective = gpuTime/concurrency). */
-  def getGpuTimeNanos: Long = semaphoreHoldingTime.value.value
 
   def recordOnGpuTasksWaitingNumber(num: Int): Unit = {
     onGpuTasksInWaitingQueueAvgCount.add(num)

@@ -577,12 +577,6 @@ class RapidsDriverPlugin extends DriverPlugin with Logging {
 
     FileCacheLocalityManager.init(sc)
 
-    conf.scanSplitAutotunerHistoryPath.foreach { p =>
-      import com.nvidia.spark.rapids.perf.ScanSplitAutotuner
-      ScanSplitAutotuner.init(java.nio.file.Paths.get(p))
-      logWarning(s"[ScanSplitAutotuner] store initialized path=$p")
-    }
-
     logDebug("Loading extra driver plugins: " +
       s"${extraDriverPlugins.map(_.getClass.getName).mkString(",")}")
     extraDriverPlugins.foreach(_.init(sc, pluginContext))
@@ -598,7 +592,6 @@ class RapidsDriverPlugin extends DriverPlugin with Logging {
     RapidsPluginUtils.safeShutdown(
       extraDriverPlugins.map(plugin => () => plugin.shutdown()) ++
         Seq(
-          () => com.nvidia.spark.rapids.perf.ScanSplitAutotuner.close(),
           () => FileCacheLocalityManager.shutdown(),
           // Shutdown listener first to trigger cleanup for any remaining jobs
           () => Option(shuffleCleanupListener).foreach(_.shutdown()),

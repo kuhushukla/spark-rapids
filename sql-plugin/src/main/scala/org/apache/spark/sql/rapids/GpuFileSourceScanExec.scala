@@ -21,8 +21,6 @@ import java.util.concurrent.TimeUnit.NANOSECONDS
 import scala.collection.mutable.HashMap
 
 import com.nvidia.spark.rapids._
-import com.nvidia.spark.rapids.Arm.closeOnExcept
-import com.nvidia.spark.rapids.perf.ScanSplitAutotuner
 import com.nvidia.spark.rapids.filecache.FileCacheLocalityManager
 import com.nvidia.spark.rapids.shims.{GpuDataSourceRDD, PartitionedFileUtilsShim, SparkShimImpl, StaticPartitionShims}
 import org.apache.hadoop.fs.Path
@@ -397,15 +395,9 @@ case class GpuFileSourceScanExec(
     OP_TIME_NEW -> createNanoTimingMetric(MODERATE_LEVEL, DESCRIPTION_OP_TIME_NEW),
     NUM_OUTPUT_ROWS -> createMetric(ESSENTIAL_LEVEL, DESCRIPTION_NUM_OUTPUT_ROWS),
     NUM_OUTPUT_BATCHES -> createMetric(MODERATE_LEVEL, DESCRIPTION_NUM_OUTPUT_BATCHES),
-    OUTPUT_BATCH_BYTES -> createSizeMetric(DEBUG_LEVEL, DESCRIPTION_OUTPUT_BATCH_BYTES),
-    MAX_OUTPUT_BATCH_BYTES ->
-      createSizeMetric(DEBUG_LEVEL, DESCRIPTION_MAX_OUTPUT_BATCH_BYTES),
-    MAX_OUTPUT_BATCH_ROWS -> createMetric(DEBUG_LEVEL, DESCRIPTION_MAX_OUTPUT_BATCH_ROWS),
     "numFiles" -> createMetric(ESSENTIAL_LEVEL, "number of files read"),
     "metadataTime" -> createTimingMetric(ESSENTIAL_LEVEL, "metadata time"),
     "filesSize" -> createSizeMetric(ESSENTIAL_LEVEL, "size of files read"),
-    "scanMaxSplitBytes" -> createSizeMetric(ESSENTIAL_LEVEL, "scan max split bytes (effective)"),
-    "sparkDefaultSplitBytes" -> createSizeMetric(DEBUG_LEVEL, "scan split bytes (spark default)"),
     GPU_DECODE_TIME -> createNanoTimingMetric(MODERATE_LEVEL, DESCRIPTION_GPU_DECODE_TIME),
     BUFFER_TIME -> createNanoTimingMetric(MODERATE_LEVEL, DESCRIPTION_BUFFER_TIME),
     FILTER_TIME -> createNanoTimingMetric(DEBUG_LEVEL, DESCRIPTION_FILTER_TIME),
@@ -430,9 +422,7 @@ case class GpuFileSourceScanExec(
         if (relation.fileFormat.isInstanceOf[GpuReadParquetFileFormat]) {
           // Track the actual data size read from the file system, excluding data being pruned
           // by meta-level pruning.
-          // MODERATE (not DEBUG) so the scan autotuner can read the actual compressed bytes read
-          // (projected columns of surviving row groups) at the default metrics level.
-          bf += "readBufferSize" -> createSizeMetric(MODERATE_LEVEL, "size of read buffer")
+          bf += "readBufferSize" -> createSizeMetric(DEBUG_LEVEL, "size of read buffer")
         }
         if (ExternalSource.isSupportedFormat(relation.fileFormat.getClass)) {
           // This metric is used to post the time spent in generating the `skip_row` column
@@ -479,9 +469,6 @@ case class GpuFileSourceScanExec(
 
   override protected def internalDoExecuteColumnar(): RDD[ColumnarBatch] = {
     val numOutputRows = gpuLongMetric(NUM_OUTPUT_ROWS)
-    val outputBatchBytes = gpuLongMetric(OUTPUT_BATCH_BYTES)
-    val maxOutputBatchBytes = gpuLongMetric(MAX_OUTPUT_BATCH_BYTES)
-    val maxOutputBatchRows = gpuLongMetric(MAX_OUTPUT_BATCH_ROWS)
     val scanTime = gpuLongMetric(SCAN_TIME)
     inputRDD.asInstanceOf[RDD[ColumnarBatch]].mapPartitionsInternal { batches =>
       new Iterator[ColumnarBatch] {
@@ -495,17 +482,9 @@ case class GpuFileSourceScanExec(
         }
 
         override def next(): ColumnarBatch = {
-          closeOnExcept(batches.next()) { batch =>
-            val rows = batch.numRows()
-            numOutputRows += rows
-            maxOutputBatchRows.set(math.max(maxOutputBatchRows.value, rows))
-            if ((outputBatchBytes ne NoopMetric) || (maxOutputBatchBytes ne NoopMetric)) {
-              val bytes = GpuColumnVector.getTotalDeviceMemoryUsed(batch)
-              outputBatchBytes += bytes
-              maxOutputBatchBytes.set(math.max(maxOutputBatchBytes.value, bytes))
-            }
-            batch
-          }
+          val batch = batches.next()
+          numOutputRows += batch.numRows()
+          batch
         }
       }
     }
@@ -580,30 +559,8 @@ case class GpuFileSourceScanExec(
       fsRelation: HadoopFsRelation): RDD[InternalRow] = {
     val partitions = StaticPartitionShims.getStaticPartitions(fsRelation).getOrElse {
       val openCostInBytes = fsRelation.sparkSession.sessionState.conf.filesOpenCostInBytes
-      val sparkDefault =
+      val maxSplitBytes =
         FilePartition.maxSplitBytes(fsRelation.sparkSession, dynamicallySelectedPartitions)
-      val label = ScanSplitAutotuner.tableLabel(
-        tableIdentifier.map(_.unquotedString),
-        relation.location.rootPaths.headOption.map(_.toString))
-      val listedBytes = dynamicallySelectedPartitions.flatMap(_.files.map(_.getLen)).sum
-      // Reader-scoped target decoded bytes per task drives the split (split = target / ratio); falls
-      // back to gpuTargetBatchSizeBytes so downstream operators are unaffected.
-      val batchSizeBytes = rapidsConf.scanTargetDecodedBytesPerTask
-      // Spark's own minPartitionNum, for the parcap ceiling A/B (listedBytes/minPartitionNum).
-      val minPartitionNum = fsRelation.sparkSession.sessionState.conf.filesMinPartitionNum
-        .getOrElse(fsRelation.sparkSession.leafNodeDefaultParallelism)
-      val maxSplitBytes = ScanSplitAutotuner.decide(label, listedBytes, sparkDefault,
-        batchSizeBytes, minPartitionNum.toLong)
-      // Debuggability: record the effective split actually used to bin-pack this scan (and the
-      // Spark default it would otherwise have used) as driver metrics, so they land in the event
-      // log next to numPartitions. Previously the autotuner's choice was only in driver log4j.
-      driverMetrics("scanMaxSplitBytes") = maxSplitBytes
-      // sparkDefaultSplitBytes is a DEBUG-level metric, so it is absent from `metrics` at lower
-      // metrics levels; only stash it when registered, else sendDriverMetrics' metrics(key) throws.
-      if (metrics.contains("sparkDefaultSplitBytes")) {
-        driverMetrics("sparkDefaultSplitBytes") = sparkDefault
-      }
-      ScanSplitAutotuner.registerPendingScan(label, listedBytes, maxSplitBytes, this)
       logInfo(s"Planning scan with bin packing, max size: $maxSplitBytes bytes, " +
         s"open cost is considered as scanning $openCostInBytes bytes.")
 
