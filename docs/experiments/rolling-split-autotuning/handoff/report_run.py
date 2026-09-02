@@ -97,6 +97,7 @@ def metrics_by_query(el, rows):
 
     acc = collections.defaultdict(lambda: dict(
         gpu=0.0, sem=0.0, taskT=0.0, scan=0.0, shuf=0.0, batches=0.0, bbytes=0.0, tasks=set()))
+    per_exec_gpu = collections.defaultdict(float)   # (query, exec) -> gpuTime seconds
     stage2exec = {}
     for ln in open(el, errors="ignore"):
         if '"Event":"SparkListenerJobStart"' in ln:
@@ -137,7 +138,9 @@ def metrics_by_query(el, rows):
                 a["bbytes"] += v
             if is_scan:
                 if nm == "gpuTime":
-                    a["gpu"] += gr._dur_s(ac.get("Update", 0))
+                    v_s = gr._dur_s(ac.get("Update", 0))
+                    a["gpu"] += v_s
+                    per_exec_gpu[(q, eid)] += v_s
                 elif nm == "gpuSemaphoreWait":
                     a["sem"] += gr._dur_s(ac.get("Update", 0))
         if is_scan:
@@ -156,8 +159,49 @@ def metrics_by_query(el, rows):
             shufGiB=round(a["shuf"] / G / it, 2),
             bptask=round(a["batches"] / nt, 2),
             fullpct=round(100 * a["bbytes"] / a["batches"] / tgt) if a["batches"] else 0,
+            # per-warm-execution gpuTime, kept unaggregated so a significance test is possible
+            gpu_samples=[per_exec_gpu[(q, e)] for e in sorted(warm[q])],
         )
     return out, tgt
+
+
+CALLOUT_PCT = 15.0
+
+
+def compare(base_path, test_path, tol=CALLOUT_PCT):
+    """Per-query test-vs-baseline on split and gpuTime.
+
+    Wall time is deliberately not compared here: ab's regression_check.py already does it from the
+    time_log CSVs, with a t-test so a difference is only called out when it is significant. Split
+    and gpuTime are only in the event log, which that check never reads.
+
+    Percentages are test relative to baseline; positive means test is larger.
+    """
+    b_el, b_rows = scan(base_path)
+    t_el, t_rows = scan(test_path)
+    b_met, _ = metrics_by_query(b_el, b_rows)
+    t_met, tgt = metrics_by_query(t_el, t_rows)
+
+    def warm_split(rows):
+        by_q = collections.OrderedDict()
+        for _, q, sp, _, _ in rows:
+            by_q.setdefault(q, []).append(sp)
+        return {q: max(v[1:] or v) for q, v in by_q.items()}
+
+    b_split, t_split = warm_split(b_rows), warm_split(t_rows)
+    pct = lambda t, b: None if not b else (t - b) / b * 100.0
+
+    out = []
+    for q in t_split:
+        if q not in b_split:
+            continue
+        bg, tg = b_met.get(q, {}).get("gpu_s"), t_met.get(q, {}).get("gpu_s")
+        dsp, dg = pct(t_split[q], b_split[q]), pct(tg, bg)
+        callout = ", ".join(f"{n} {d:+.0f}%" for n, d in (("split", dsp), ("gpuTime", dg))
+                            if d is not None and abs(d) > tol)
+        out.append(dict(query=q, base_split=b_split[q], test_split=t_split[q], dsplit=dsp,
+                        base_gpu=bg, test_gpu=tg, dgpu=dg, callout=callout))
+    return b_el, t_el, out, tgt
 
 
 CONVERGE_TOL = 0.01
@@ -235,7 +279,33 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("path", help="arm dir, directory of event logs, or one event log")
     ap.add_argument("--html", help="also write an HTML table here")
+    ap.add_argument("--baseline", help="a second run to compare against; reports split and gpuTime "
+                                       "deltas per query. Wall time is left to ab's regression_check.py.")
+    ap.add_argument("--gpu-csv",
+                    help="write per-iteration gpuTime as ms in ab's time_log schema "
+                         "(application_id,query,time/milliseconds), so ab's regression_check.py "
+                         "can t-test it: regression_check.py --baselineTimes A --testTimes B")
+    ap.add_argument("--callout-pct", type=float, default=CALLOUT_PCT,
+                    help=f"flag a query when |delta| exceeds this percent (default {CALLOUT_PCT:g})")
     a = ap.parse_args()
+
+    if a.baseline:
+        try:
+            b_el, t_el, cmps, _ = compare(a.baseline, a.path, a.callout_pct)
+        except gr.MissingSplitMetric as ex:
+            raise SystemExit(f"!! {ex}")
+        print(f"baseline: {b_el}\ntest:     {t_el}\n")
+        print(f"{'query':<34} {'split b->t':>22} {'d%':>7} {'gpuTime b->t':>16} {'d%':>7}  callout")
+        bad = 0
+        for c in cmps:
+            sp = f"{c['base_split']/M:.0f}M -> {c['test_split']/M:.0f}M"
+            gp = f"{c['base_gpu']} -> {c['test_gpu']}"
+            ds = f"{c['dsplit']:+.0f}" if c['dsplit'] is not None else "-"
+            dg = f"{c['dgpu']:+.0f}" if c['dgpu'] is not None else "-"
+            bad += bool(c['callout'])
+            print(f"{c['query']:<34} {sp:>22} {ds:>7} {gp:>16} {dg:>7}  {c['callout']}")
+        print(f"\n{bad} of {len(cmps)} queries flagged at >{a.callout_pct:g}%")
+        raise SystemExit(1 if bad else 0)
 
     try:
         el, rows = scan(a.path)
@@ -268,6 +338,17 @@ def main():
             print(f"{q:<34} {m['gpu_s']:>8} {m['sem_s']:>8} {m['effgpu_s']:>8} "
                   f"{m['taskT_s']:>8} {m['scanGiB']:>8} {m['shufGiB']:>8} "
                   f"{m['bptask']:>8} {m['fullpct']:>8}")
+
+    if a.gpu_csv:
+        import csv as _csv
+        app = os.path.basename(el)
+        with open(a.gpu_csv, "w", newline="") as f:
+            w = _csv.writer(f)
+            w.writerow(["application_id", "query", "time/milliseconds"])
+            for q, m in mets.items():
+                for v in m["gpu_samples"]:
+                    w.writerow([app, q, round(v * 1000)])
+        print(f"wrote {a.gpu_csv}")
 
     if a.html:
         with open(a.html, "w") as f:
