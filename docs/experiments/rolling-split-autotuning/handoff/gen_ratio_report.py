@@ -38,8 +38,16 @@ def bucket(q):
     return "Scan-bound"
 
 def eventlog(d):
-    xs=[e for e in glob.glob(f"{d}/el/*") if "inprogress" not in e]
-    return xs[0] if xs else (glob.glob(f"{d}/el/*")+[None])[0]
+    """The event log for a run. Accepts an arm dir (<d>/el/*), a directory of logs, or a log file,
+    so output from ab / customer_power.py is readable without rearranging it. Completed logs win
+    over .inprogress ones; newest first when several are present."""
+    if os.path.isfile(d): return d
+    for pat in (f"{d}/el/*", f"{d}/*"):
+        xs=[e for e in glob.glob(pat) if os.path.isfile(e)]
+        done=[e for e in xs if "inprogress" not in e]
+        if done: return max(done, key=os.path.getmtime)
+        if xs: return max(xs, key=os.path.getmtime)
+    return None
 
 def scan_batch_accids(el):
     """accumulatorIds emitted by the GpuScan node for batch count / batch bytes."""
