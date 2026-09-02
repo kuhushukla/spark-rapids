@@ -14,7 +14,7 @@ say() { printf "  %-38s %s\n" "$1" "$2"; [ "${2:0:4}" = FAIL ] && fail=1; return
 echo "env:"
 [ -f "$JAR" ] && say jar OK || say jar "FAIL $JAR"
 L="$(unzip -l "$JAR" 2>/dev/null || true)"
-case "$L" in *ScanSplitAutotuner*) say autotuner-in-jar OK;; *) say autotuner-in-jar FAIL;; esac
+case "$L" in *ScanSplitHeuristic*) say split-heuristic-in-jar OK;; *) say split-heuristic-in-jar FAIL;; esac
 case "$L" in *spark353*) say jar-shim-353 OK;; *) say jar-shim-353 FAIL;; esac
 V="$(head -1 "$SPARK_HOME/RELEASE" 2>/dev/null | awk '{print $2}')"
 [ "$V" = 3.5.3 ] && say spark-3.5.3 OK || say spark-3.5.3 "FAIL got ${V:-none}"

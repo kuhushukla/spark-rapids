@@ -251,8 +251,9 @@ def seq_svg(name, q1, w1, q2, w2, tests, rows, perf, cold):
 # Same order as the sequence sections: by scan intensity of the query (bytes read / bytes listed),
 # heaviest first, then window. Alphabetical would put csH3 last while it leads everywhere else.
 QRANK_JOBS = {"csH3": 0, "cs04": 1, "cs02": 2}
-# Median-based candidates. Today's rule is last-writer-wins (ScanSplitAutotuner.scala:130-131);
-# these are order-independent alternatives, scored offline against the same sweeps.
+# Median-based candidates. Today's rule is last-writer-wins (the heuristic reads the single most
+# recent observation for a key); these are order-independent alternatives, scored offline
+# against the same sweeps.
 _own = collections.defaultdict(dict)
 for r in rows:
     if r["learnt_from"] == "own" and r["split_mb"] not in ("-", ""):

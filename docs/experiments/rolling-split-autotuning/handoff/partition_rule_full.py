@@ -16,7 +16,7 @@
 # executions of those stages, each with its own plan, its own stage IDs and its own accumulators —
 # so the rule is evaluated independently for each iteration and applied ROLLING: iteration N runs on
 # what iteration N-1 measured, the same way the scan-split autotuner learns from the previous run
-# (ScanSplitAutotuner.latestFor). Nothing is averaged or maxed across iterations, so one elevated
+# (the heuristic reads the most recent observation). Nothing is averaged or maxed across iterations, so one elevated
 # iteration cannot silently set the answer. `--apply` selects which iteration's decision is reported
 # as the one to use next (default: the last warm one = steady state).
 #
