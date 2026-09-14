@@ -280,8 +280,8 @@ def test_parquet_read_estimate_limits_output_batches(spark_tmp_path):
         assert_cpu_and_gpu_are_equal_collect_with_capture(
             lambda spark: spark.read.parquet(data_path),
             conf=conf,
-            gpu_plan_assertion=lambda plan: captured.update(
-                {'batches': _scan_output_batches(plan)}))
+            gpu_plan_assertion=lambda cpu_plan, gpu_plan: captured.update(
+                {'batches': _scan_output_batches(gpu_plan)}))
         return captured['batches']
 
     # Without a chunked reader the estimate caps a batch before the byte limit is reached.
