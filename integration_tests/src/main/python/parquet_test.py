@@ -272,6 +272,7 @@ def test_parquet_read_estimate_limits_output_batches(spark_tmp_path):
         """Batches the scan produced. use_estimate of None leaves the config unset."""
         conf = {
             'spark.sql.adaptive.enabled': 'false',
+            'spark.rapids.sql.metrics.level': 'DEBUG',
             'spark.rapids.sql.reader.chunked': chunked,
             'spark.rapids.sql.reader.batchSizeBytes': 4096}
         if use_estimate is not None:
