@@ -32,11 +32,13 @@ import org.apache.iceberg.{FileFormat, MetadataColumns}
 import org.apache.spark.sql.catalyst.InternalRow
 import org.apache.spark.sql.connector.read.{InputPartition, PartitionReader, PartitionReaderFactory}
 import org.apache.spark.sql.vectorized.ColumnarBatch
+import org.apache.spark.util.LongAccumulator
 
 
 class GpuReaderFactory(private val metrics: Map[String, GpuMetric],
     @transient rapidsConf: RapidsConf,
-    queryUsesInputFile: Boolean) extends PartitionReaderFactory {
+    queryUsesInputFile: Boolean,
+    splitsRead: LongAccumulator) extends PartitionReaderFactory {
 
   private val allCloudSchemes = rapidsConf.getCloudSchemes.toSet
   private val isParquetPerFileReadEnabled = rapidsConf.isParquetPerFileReadEnabled
@@ -54,6 +56,9 @@ class GpuReaderFactory(private val metrics: Map[String, GpuMetric],
     throw new UnsupportedOperationException("GpuReaderFactory does not support createReader()")
 
   override def createColumnarReader(partition: InputPartition): PartitionReader[ColumnarBatch] = {
+    // One partition == one planned split. Counting here lets the end-of-query observation check
+    // that the scan read everything it planned before it learns a ratio from it.
+    splitsRead.add(1L)
     partition match {
       case gpuPartition: GpuSparkInputPartition =>
         val threadConf = calcThreadConf(gpuPartition)

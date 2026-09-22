@@ -21,13 +21,18 @@ import scala.util.{Failure, Success, Try}
 
 import com.nvidia.spark.rapids._
 import com.nvidia.spark.rapids.iceberg.{IcebergFormatVersionSupport, ShimUtils}
+import com.nvidia.spark.rapids.perf.{ScanContext, ScanSplitHeuristic}
 import org.apache.iceberg.ScanTaskGroup
 import org.apache.iceberg.spark.GpuSparkReadConf
 import org.apache.iceberg.types.Types
 
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.util.LongAccumulator
 import org.apache.spark.sql.connector.metric.{CustomMetric, CustomTaskMetric}
 import org.apache.spark.sql.connector.read.{Batch, Scan, Statistics, SupportsReportStatistics}
 import org.apache.spark.sql.connector.read.streaming.MicroBatchStream
+import org.apache.spark.sql.execution.SQLExecution
 import org.apache.spark.sql.types.StructType
 
 
@@ -44,7 +49,96 @@ abstract class GpuSparkScan(val cpuScan: Scan,
 
   override def estimateStatistics(): Statistics = GpuSparkScanAccess.estimateStatistics(cpuScan)
 
+  /**
+   * Iceberg's fully-qualified table name, matching the identity the split decision was keyed on in
+   * `RapidsSparkTable`. Metadata tables never participate: their decode cost is not a property of
+   * the user's data.
+   */
+  override def historyTable: Option[String] = {
+    if (GpuSparkScanAccess.isMetadataScan(cpuScan)) {
+      None
+    } else {
+      Try(GpuSparkScanAccess.table(cpuScan).name()) match {
+        case Success(name) if name != null && name.nonEmpty => Some(name)
+        case _ => None
+      }
+    }
+  }
+
+  /**
+   * On-disk bytes this scan reads, summed over the planned task groups so it already reflects
+   * pruning. This is the same quantity the v1 path records (`files.map(_.getLen).sum`), which is
+   * what makes `decoded / listed` a real expansion factor.
+   *
+   * `estimateStatistics().sizeInBytes()` was used here before. Iceberg reports that as an
+   * uncompressed estimate - about 15x the on-disk size on the netflix tables - so the ratio came
+   * out near 1.0 for every table whatever its compression, and `batchSizeBytes / ratio` collapsed
+   * to roughly `batchSizeBytes` for all of them.
+   */
+  override def historyListedBytes: Long =
+    Try(GpuSparkScanAccess.taskGroups(cpuScan).asScala.map(_.sizeBytes()).sum).getOrElse(0L)
+
+  /**
+   * Registers this scan so its decode-expansion ratio is recorded when the query ends.
+   *
+   * Registration happens here rather than in the exec because every shim's `inputRDD` forces
+   * `toBatch` through its `lazy val batch`, while several shims (spark340 onward, which is what
+   * Spark 4.0.2 resolves to) override `inputRDD` without calling super - a hook in the exec base
+   * would silently never run on them.
+   *
+   * The decision itself is made in `RapidsSparkTable`, before any scan object exists, so only the
+   * observation belongs here. Both sides key on the table alone: that is all the decision site
+   * has, since columns and filters are pushed down after it runs.
+   *
+   * `metrics` is a var the exec assigns; closing over it rather than reading it now means the
+   * value is picked up at drain time, whatever order assignment and this call happen in.
+   */
+  /**
+   * Splits this scan planned, and splits it actually read.
+   *
+   * The accumulator is created on the driver and handed to `GpuReaderFactory`, which increments it
+   * once per partition on the executors, so at query end the two numbers say whether the scan
+   * finished. Without that, an abandoned scan contributes a fraction of the decoded bytes over the
+   * whole of the listed bytes and poisons the learned ratio - see `ScanSplitHeuristic.observe`.
+   */
+  @transient lazy val splitsRead: LongAccumulator = {
+    val acc = new LongAccumulator
+    SparkContext.getOrCreate().register(acc, "gpuScanSplitsRead")
+    acc
+  }
+
+  private def plannedSplits: Long =
+    Try(GpuSparkScanAccess.taskGroups(cpuScan).size().toLong).getOrElse(0L)
+
+  private def registerHistoryObservation(): Unit = {
+    historyTable.foreach { table =>
+      val listed = historyListedBytes
+      if (listed > 0L) {
+        val ctx = ScanContext(
+          table = table,
+          columns = Nil,
+          filters = Nil,
+          listedBytes = listed,
+          // Decision-only inputs; this context never reaches `decide`.
+          batchSizeBytes = 0L,
+          minPartitionNum = 0L,
+          maxSplitBytes = 0L,
+          decodedBytes = () =>
+            metrics.get(GpuMetric.GPU_OUTPUT_BATCH_BYTES).map(_.value).getOrElse(0L),
+          plannedSplits = plannedSplits,
+          completedSplits = () => splitsRead.value)
+        // Scoped to this SQL execution so only its own end can drain it. A scan planned outside
+        // an execution has no id and is not tracked, because nothing would ever drain it.
+        val executionId = SparkSession.getActiveSession
+          .flatMap(s => Option(s.sparkContext.getLocalProperty(SQLExecution.EXECUTION_ID_KEY)))
+          .flatMap(id => try Some(id.toLong) catch { case _: NumberFormatException => None })
+        ScanSplitHeuristic.register(executionId, ctx)
+      }
+    }
+  }
+
   override def toBatch: Batch = {
+    registerHistoryObservation()
     new GpuSparkBatch(GpuSparkScanAccess.toBatch(cpuScan), this)
   }
 

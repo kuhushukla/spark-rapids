@@ -23,6 +23,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import com.nvidia.spark.rapids.perf.IcebergScanSplit;
+import org.apache.iceberg.Snapshot;
+import org.apache.iceberg.SnapshotSummary;
 import org.apache.iceberg.spark.SparkReadOptions;
 import org.apache.iceberg.spark.source.SparkTable;
 
@@ -177,7 +180,52 @@ public class RapidsSparkTable implements Table,
   public ScanBuilder newScanBuilder(CaseInsensitiveStringMap options) {
     CaseInsensitiveStringMap merged =
         mergeSessionOptions(options, catalogName, namespace, tableName);
-    return delegate.newScanBuilder(merged);
+    return delegate.newScanBuilder(withLearnedSplitSize(merged));
+  }
+
+  /**
+   * Applies the history-learnt split size, if there is one and nothing more specific already set
+   * it.
+   *
+   * <p>Sits at the bottom of the precedence chain deliberately: an explicit DataFrame option or
+   * any {@code spark.rapids.iceberg.*-setting} scope has already populated
+   * {@link SparkReadOptions#SPLIT_SIZE} by the time this runs, and a hand-tuned value must win
+   * over a learnt one. When history has nothing to say the option is left unset, so the table's
+   * own {@code TBLPROPERTIES} and iceberg's default still apply.
+   */
+  private CaseInsensitiveStringMap withLearnedSplitSize(CaseInsensitiveStringMap options) {
+    if (options.containsKey(SparkReadOptions.SPLIT_SIZE)) {
+      return options;
+    }
+    long learned =
+        IcebergScanSplit.learnedSplitBytes(delegate.table().name(), totalFileSizeBytes());
+    if (learned == IcebergScanSplit.NO_DECISION()) {
+      return options;
+    }
+    Map<String, String> merged = new HashMap<>(options.asCaseSensitiveMap());
+    merged.put(SparkReadOptions.SPLIT_SIZE, Long.toString(learned));
+    return new CaseInsensitiveStringMap(merged);
+  }
+
+  /**
+   * Whole-table size from the current snapshot summary, or 0 when unavailable.
+   *
+   * <p>This is not pruned - planning has not run yet, so per-scan sizes do not exist. It only
+   * feeds the parallelism ceiling; the ratio itself is measured against the pruned size the exec
+   * reports once the scan has run.
+   */
+  private long totalFileSizeBytes() {
+    try {
+      Snapshot snapshot = delegate.table().currentSnapshot();
+      if (snapshot == null) {
+        return 0L;
+      }
+      String total = snapshot.summary().get(SnapshotSummary.TOTAL_FILE_SIZE_PROP);
+      return total == null ? 0L : Long.parseLong(total);
+    } catch (RuntimeException e) {
+      // A missing or malformed summary must never fail a scan; it only costs the ceiling.
+      return 0L;
+    }
   }
 
   @Override

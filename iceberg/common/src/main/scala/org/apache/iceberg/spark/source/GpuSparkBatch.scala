@@ -32,7 +32,9 @@ class GpuSparkBatch(
     new GpuReaderFactory(
       parentScan.metrics,
       parentScan.rapidsConf,
-      parentScan.queryUsesInputFile)
+      parentScan.queryUsesInputFile,
+      // Evaluated on the driver, so the accumulator instance is what gets serialized out.
+      parentScan.splitsRead)
   }
 
   override def planInputPartitions(): Array[InputPartition] = {

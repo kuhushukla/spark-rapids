@@ -21,6 +21,16 @@ import org.apache.spark.sql.connector.read.Scan
 trait GpuScan extends Scan with ScanWithMetrics {
   /** Create a version of this scan with input file name support */
   def withInputFile(): GpuScan
+
+  /**
+   * Identity this scan records its decode-expansion ratio under, or None for a scan that does not
+   * participate in history. Lets the batch-scan exec register an observation without depending on
+   * the format module that produced the scan.
+   */
+  def historyTable: Option[String] = None
+
+  /** Bytes this scan will read, after pruning. Only meaningful when `historyTable` is defined. */
+  def historyListedBytes: Long = 0L
 }
 
 // Allows use of GpuScan from Java code

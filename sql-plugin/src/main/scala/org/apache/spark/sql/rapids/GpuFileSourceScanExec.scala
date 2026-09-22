@@ -568,8 +568,11 @@ case class GpuFileSourceScanExec(
     if (!ScanSplitHeuristic.isEnabled) {
       sparkMaxSplitBytes
     } else {
-      val minPartitionNum = fsRelation.sparkSession.sessionState.conf.filesMinPartitionNum
-        .getOrElse(fsRelation.sparkSession.leafNodeDefaultParallelism)
+      // Spelled out rather than SparkSession.leafNodeDefaultParallelism, which Spark 4.0 removed.
+      val sqlConf = fsRelation.sparkSession.sessionState.conf
+      val minPartitionNum = sqlConf.filesMinPartitionNum.getOrElse(
+        sqlConf.getConf(SQLConf.LEAF_NODE_DEFAULT_PARALLELISM)
+          .getOrElse(fsRelation.sparkSession.sparkContext.defaultParallelism))
       // Keyed on table + decoded columns + pushed filters, since all three move the ratio.
       // requiredSchema excludes partition columns, which is right: those are synthesized
       // constants, not decoded.
@@ -583,7 +586,8 @@ case class GpuFileSourceScanExec(
         batchSizeBytes = rapidsConf.gpuTargetBatchSizeBytes,
         minPartitionNum = minPartitionNum.toLong,
         maxSplitBytes = sparkMaxSplitBytes,
-        node = this)
+        decodedBytes = () =>
+          metrics.get(GpuMetric.GPU_OUTPUT_BATCH_BYTES).map(_.value).getOrElse(0L))
       val split = ScanSplitHeuristic.decide(ctx, System.currentTimeMillis())
       if (split == sparkMaxSplitBytes) {
         logDebug(s"Scan split $sparkMaxSplitBytes bytes from maxSplitBytes, no history applied")

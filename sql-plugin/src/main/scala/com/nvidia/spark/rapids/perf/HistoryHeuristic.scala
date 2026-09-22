@@ -23,7 +23,8 @@ import scala.collection.JavaConverters._
 import com.nvidia.spark.history.{MetricStore, MetricStores}
 
 import org.apache.spark.internal.Logging
-import org.apache.spark.scheduler.{SparkListener, SparkListenerEvent}
+import org.apache.spark.scheduler.{SparkListener, SparkListenerEvent, SparkListenerJobStart,
+  SparkListenerStageCompleted}
 import org.apache.spark.sql.execution.ui.SparkListenerSQLExecutionEnd
 
 /**
@@ -156,6 +157,27 @@ object HistoryObservations extends Logging {
   /** Removes one execution's contexts without recording. Used when its query failed. */
   private def discard(executionId: Long): Unit = pending.remove(executionId)
 
+  /**
+   * Which execution each stage belongs to, and which executions lost a stage.
+   *
+   * An execution can end without an error and still not have run everything it planned: AQE
+   * cancels in-flight stages once it can fold a subtree away, and a stage killed for any other
+   * reason leaves its accumulators holding only what the tasks that finished contributed. An
+   * observation taken from those accumulators is a fraction of the work divided by the whole of
+   * what was planned, so it understates the ratio - and, being written to history, pulls the next
+   * decision further off, which pulls the one after that further still.
+   */
+  private val stageOwner = new ConcurrentHashMap[Int, Long]()
+  private val incomplete = ConcurrentHashMap.newKeySet[Long]()
+
+  private def forget(executionId: Long): Unit = {
+    incomplete.remove(executionId)
+    stageOwner.entrySet().removeIf(
+      new java.util.function.Predicate[java.util.Map.Entry[Int, Long]] {
+        override def test(e: java.util.Map.Entry[Int, Long]): Boolean = e.getValue == executionId
+      })
+  }
+
   private def drain(executionId: Long): Unit = {
     val callbacks = pending.remove(executionId)
     if (callbacks == null || !active) {
@@ -173,13 +195,29 @@ object HistoryObservations extends Logging {
   }
 
   private class ObservationListener extends SparkListener {
+    override def onJobStart(e: SparkListenerJobStart): Unit = {
+      if (!active) {
+        return
+      }
+      Option(e.properties).flatMap(p => Option(p.getProperty("spark.sql.execution.id")))
+        .flatMap(id => try Some(id.toLong) catch { case _: NumberFormatException => None })
+        .foreach(id => e.stageIds.foreach(sid => stageOwner.put(sid, id)))
+    }
+
+    override def onStageCompleted(e: SparkListenerStageCompleted): Unit = {
+      if (active && e.stageInfo.failureReason.isDefined) {
+        Option(stageOwner.get(e.stageInfo.stageId)).foreach(incomplete.add(_))
+      }
+    }
+
     override def onOtherEvent(event: SparkListenerEvent): Unit = event match {
       case e: SparkListenerSQLExecutionEnd =>
-        if (e.errorMessage.exists(_.nonEmpty)) {
+        if (e.errorMessage.exists(_.nonEmpty) || incomplete.contains(e.executionId)) {
           discard(e.executionId)
         } else {
           drain(e.executionId)
         }
+        forget(e.executionId)
       case _ => // not ours
     }
   }
