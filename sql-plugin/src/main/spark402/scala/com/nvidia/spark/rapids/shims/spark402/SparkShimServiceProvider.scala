@@ -23,7 +23,8 @@ import com.nvidia.spark.rapids.SparkShimVersion
 
 object SparkShimServiceProvider {
   val VERSION = SparkShimVersion(4, 0, 2)
-  val VERSIONNAMES = Seq(s"$VERSION")
+  // EMR reports its Spark build as "4.0.2-amzn-0", and matchesVersion compares the whole string.
+  val VERSIONNAMES = Seq(s"$VERSION", s"$VERSION-amzn-0")
 }
 
 class SparkShimServiceProvider extends com.nvidia.spark.rapids.SparkShimServiceProvider {
