@@ -180,31 +180,56 @@ public class RapidsSparkTable implements Table,
   public ScanBuilder newScanBuilder(CaseInsensitiveStringMap options) {
     CaseInsensitiveStringMap merged =
         mergeSessionOptions(options, catalogName, namespace, tableName);
-    return delegate.newScanBuilder(withLearnedSplitSize(merged));
+    // `options` is passed alongside `merged` so the heuristic can tell a caller's explicit read
+    // option from one this class synthesised out of a session conf. After the merge the two are
+    // indistinguishable, and treating them alike let our own configuration outrank our own
+    // heuristic.
+    return delegate.newScanBuilder(withLearnedSplitSize(merged, options));
   }
 
   /**
-   * Applies the history-learnt split size, if there is one and nothing more specific already set
-   * it.
+   * Applies the history-learnt split size, if there is one and the query itself has not asked for
+   * a specific one.
    *
-   * <p>Sits at the bottom of the precedence chain deliberately: an explicit DataFrame option or
-   * any {@code spark.rapids.iceberg.*-setting} scope has already populated
-   * {@link SparkReadOptions#SPLIT_SIZE} by the time this runs, and a hand-tuned value must win
-   * over a learnt one. When history has nothing to say the option is left unset, so the table's
-   * own {@code TBLPROPERTIES} and iceberg's default still apply.
+   * <p>Precedence, highest first:
+   *
+   * <pre>
+   *   explicit DataFrame .option(SparkReadOptions.SPLIT_SIZE, ...)
+   *   learnt split                       (whenever the heuristic is enabled and history has a ratio)
+   *   spark.rapids.iceberg.{table,catalog,global}-setting.*.read-split-target-size
+   *   the table's own TBLPROPERTIES
+   *   iceberg's default
+   * </pre>
+   *
+   * <p>The learnt value sits above the {@code *-setting} scopes rather than below them. Those
+   * scopes are configuration that this class turns into {@link SparkReadOptions#SPLIT_SIZE}
+   * itself ({@code SUFFIX_TO_READ_OPTION}), so ranking them above the heuristic meant a conf we
+   * ship silently disabled a heuristic the operator had deliberately switched on - and a
+   * {@code catalog-setting} or {@code global-setting} did it for every table on the cluster at
+   * once, with nothing in the log to say so. An explicit DataFrame option is different in kind:
+   * it is the query stating intent, and it still wins.
+   *
+   * <p>No new conf gates this. {@code historyPath} being set is already the opt-in: without it
+   * {@link IcebergScanSplit#learnedSplitBytes} returns {@code NO_DECISION} and every settings
+   * scope applies exactly as before.
+   *
+   * <p>On {@code NO_DECISION} the option is left untouched, so the settings scopes, the table's
+   * {@code TBLPROPERTIES} and iceberg's default all still apply. Writing a value here would
+   * shadow them.
    */
-  private CaseInsensitiveStringMap withLearnedSplitSize(CaseInsensitiveStringMap options) {
-    if (options.containsKey(SparkReadOptions.SPLIT_SIZE)) {
-      return options;
+  private CaseInsensitiveStringMap withLearnedSplitSize(
+      CaseInsensitiveStringMap merged, CaseInsensitiveStringMap callerOptions) {
+    if (callerOptions.containsKey(SparkReadOptions.SPLIT_SIZE)) {
+      return merged;
     }
     long learned =
         IcebergScanSplit.learnedSplitBytes(delegate.table().name(), totalFileSizeBytes());
     if (learned == IcebergScanSplit.NO_DECISION()) {
-      return options;
+      return merged;
     }
-    Map<String, String> merged = new HashMap<>(options.asCaseSensitiveMap());
-    merged.put(SparkReadOptions.SPLIT_SIZE, Long.toString(learned));
-    return new CaseInsensitiveStringMap(merged);
+    Map<String, String> out = new HashMap<>(merged.asCaseSensitiveMap());
+    out.put(SparkReadOptions.SPLIT_SIZE, Long.toString(learned));
+    return new CaseInsensitiveStringMap(out);
   }
 
   /**

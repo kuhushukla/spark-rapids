@@ -27,6 +27,7 @@ import org.apache.iceberg.spark.GpuSparkReadConf
 import org.apache.iceberg.types.Types
 
 import org.apache.spark.SparkContext
+import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.util.LongAccumulator
 import org.apache.spark.sql.connector.metric.{CustomMetric, CustomTaskMetric}
@@ -39,7 +40,7 @@ import org.apache.spark.sql.types.StructType
 abstract class GpuSparkScan(val cpuScan: Scan,
     val rapidsConf: RapidsConf,
     val queryUsesInputFile: Boolean,
-) extends GpuScan with SupportsReportStatistics {
+) extends GpuScan with SupportsReportStatistics with Logging {
   private val readConf: GpuSparkReadConf = new GpuSparkReadConf(
     GpuSparkScanAccess.readConf(cpuScan))
 
@@ -111,8 +112,26 @@ abstract class GpuSparkScan(val cpuScan: Scan,
     Try(GpuSparkScanAccess.taskGroups(cpuScan).size().toLong).getOrElse(0L)
 
   private def registerHistoryObservation(): Unit = {
+    // DIAGNOSTIC (2026-10-01). Job 16 decides `no history` forever: a GPU scan runs, nothing is
+    // ever recorded, and no existing log fires. Every skip on this path is silent by design -
+    // historyTable is an Option, historyListedBytes swallows exceptions via getOrElse(0L), and a
+    // missing executionId drops the registration - so there is no way to tell which one happened.
+    // These lines name the branch taken. Remove once the cause is fixed.
+    if (historyTable.isEmpty) {
+      logWarning(s"scan.split/diag: no historyTable (metadataScan=" +
+        s"${Try(GpuSparkScanAccess.isMetadataScan(cpuScan)).getOrElse("threw")}, " +
+        s"name=${Try(GpuSparkScanAccess.table(cpuScan).name()).getOrElse("threw")}), " +
+        s"scanClass=${cpuScan.getClass.getName}")
+    }
     historyTable.foreach { table =>
       val listed = historyListedBytes
+      val groupsTry = Try(GpuSparkScanAccess.taskGroups(cpuScan).size())
+      logWarning(s"scan.split/diag: table=$table listed=$listed " +
+        s"taskGroups=${groupsTry.map(_.toString).getOrElse("THREW: " + groupsTry.failed.get)} " +
+        s"scanClass=${cpuScan.getClass.getName} " +
+        s"executionId=${SparkSession.getActiveSession
+          .flatMap(s => Option(s.sparkContext.getLocalProperty(SQLExecution.EXECUTION_ID_KEY)))
+          .getOrElse("NONE")}")
       if (listed > 0L) {
         val ctx = ScanContext(
           table = table,

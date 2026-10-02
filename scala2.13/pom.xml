@@ -1064,7 +1064,12 @@
         <spark.version.classifier>spark${buildver}</spark.version.classifier>
         <cuda.version>cuda12</cuda.version>
         <jni.classifier>${cuda.version}</jni.classifier>
-        <spark-rapids-jni.version>26.10.0-SNAPSHOT</spark-rapids-jni.version>
+        <!-- LOCAL PIN - DO NOT COMMIT.
+             The 26.10.0-20260915.073011-34 nightly dropped a parameter from
+             JoinPrimitives.sortMergeInnerJoin (5 args -> 4), breaking main's
+             GpuHashJoin.scala:417,433. -29 is the last snapshot carrying the 5-arg form and is
+             what the 2026-09-10 build resolved. Remove once jni and main agree again. -->
+        <spark-rapids-jni.version>26.10.0-20260910.043725-29</spark-rapids-jni.version>
         <cudf-spark-private.version>26.10.0-SNAPSHOT</cudf-spark-private.version>
         <cudf-spark-private.artifactId>cudf-spark-private_${scala.binary.version}</cudf-spark-private.artifactId>
         <scala.binary.version>2.13</scala.binary.version>
