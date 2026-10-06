@@ -1961,6 +1961,15 @@ This will force full Scala code rebuild in downstream modules.
                             <property>rapids.delta.artifactId1</property>
                             <regex>^rapids-4-spark-delta-.*</regex>
                         </requireProperty>
+                        <bannedDependencies>
+                            <message>Only the history metrics API may be a dependency, in any scope; history metrics providers are supplied separately at runtime</message>
+                            <excludes>
+                                <exclude>com.nvidia:*history-metrics*</exclude>
+                            </excludes>
+                            <includes>
+                                <include>com.nvidia:cudf-spark-history-metrics-api</include>
+                            </includes>
+                        </bannedDependencies>
                       </rules>
                     </configuration>
                   </execution>

@@ -21,20 +21,25 @@ import scala.util.{Failure, Success, Try}
 
 import com.nvidia.spark.rapids._
 import com.nvidia.spark.rapids.iceberg.{IcebergFormatVersionSupport, ShimUtils}
+import com.nvidia.spark.rapids.perf.{HistoryObservations, MetricHistory, ScanContext,
+  ScanSplitHeuristic}
 import org.apache.iceberg.ScanTaskGroup
 import org.apache.iceberg.spark.GpuSparkReadConf
 import org.apache.iceberg.types.Types
 
+import org.apache.spark.SparkContext
+import org.apache.spark.internal.Logging
 import org.apache.spark.sql.connector.metric.{CustomMetric, CustomTaskMetric}
 import org.apache.spark.sql.connector.read.{Batch, Scan, Statistics, SupportsReportStatistics}
 import org.apache.spark.sql.connector.read.streaming.MicroBatchStream
 import org.apache.spark.sql.types.StructType
+import org.apache.spark.util.LongAccumulator
 
 
 abstract class GpuSparkScan(val cpuScan: Scan,
     val rapidsConf: RapidsConf,
     val queryUsesInputFile: Boolean,
-) extends GpuScan with SupportsReportStatistics {
+) extends GpuScan with SupportsReportStatistics with Logging {
   private val readConf: GpuSparkReadConf = new GpuSparkReadConf(
     GpuSparkScanAccess.readConf(cpuScan))
 
@@ -45,7 +50,60 @@ abstract class GpuSparkScan(val cpuScan: Scan,
   override def estimateStatistics(): Statistics = GpuSparkScanAccess.estimateStatistics(cpuScan)
 
   override def toBatch: Batch = {
+    registerHistoryObservation()
     new GpuSparkBatch(GpuSparkScanAccess.toBatch(cpuScan), this)
+  }
+
+  /**
+   * Splits this scan actually read, counted once per partition reader on the executors so the
+   * end-of-query observation can compare it against the splits planned. Only created while
+   * history-backed split sizing is on. Unnamed, so it stays out of the UI and event logs.
+   */
+  @transient lazy val splitsRead: Option[LongAccumulator] = {
+    if (ScanSplitHeuristic.isEnabled) {
+      val acc = new LongAccumulator
+      SparkContext.getOrCreate().register(acc)
+      Some(acc)
+    } else {
+      None
+    }
+  }
+
+  /**
+   * Registers this scan so its decode-expansion ratio is recorded when the query ends. Here
+   * rather than in the batch-scan exec: Spark 3.4+ shims override `inputRDD` without calling
+   * super, and that exec serves every v2 connector. Keyed by Iceberg's `Table.name()`, as the
+   * decision side is; `metrics` is read when the observation drains, not now.
+   */
+  private def registerHistoryObservation(): Unit = {
+    if (ScanSplitHeuristic.isEnabled) {
+      try {
+        if (!GpuSparkScanAccess.isMetadataScan(cpuScan)) {
+          val table = GpuSparkScanAccess.table(cpuScan).name()
+          val groups = GpuSparkScanAccess.taskGroups(cpuScan)
+          val listed = groups.asScala.map(_.sizeBytes()).sum
+          if (table != null && table.nonEmpty && listed > 0L) {
+            val ctx = ScanContext(
+              table = table,
+              listedBytes = listed,
+              // Decision-only inputs; this context never reaches `decide`.
+              batchSizeBytes = 0L,
+              minPartitionNum = 0L,
+              maxSplitBytes = 0L,
+              decodedBytes = () =>
+                metrics.get(GpuMetric.GPU_OUTPUT_BATCH_BYTES).map(_.value).getOrElse(0L),
+              plannedSplits = groups.size().toLong,
+              completedSplits = () => splitsRead.map(_.value.longValue()).getOrElse(0L))
+            ScanSplitHeuristic.register(
+              HistoryObservations.currentExecutionId(SparkContext.getOrCreate()), ctx)
+          }
+        }
+      } catch {
+        case t: Throwable if MetricHistory.isContained(t) =>
+          // Advisory only: a scan must never fail because it could not be observed.
+          logDebug(s"scan not registered for history: ${t.getClass.getName}")
+      }
+    }
   }
 
   override def toMicroBatchStream(checkpointLocation: String): MicroBatchStream =

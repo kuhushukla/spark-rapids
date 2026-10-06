@@ -22,6 +22,7 @@ import scala.collection.mutable.HashMap
 
 import com.nvidia.spark.rapids._
 import com.nvidia.spark.rapids.filecache.FileCacheLocalityManager
+import com.nvidia.spark.rapids.perf.{HistoryObservations, ScanContext, ScanSplitHeuristic}
 import com.nvidia.spark.rapids.shims.{GpuDataSourceRDD, PartitionedFileUtilsShim, SparkShimImpl, StaticPartitionShims}
 import org.apache.hadoop.fs.Path
 
@@ -560,8 +561,8 @@ case class GpuFileSourceScanExec(
       fsRelation: HadoopFsRelation): RDD[InternalRow] = {
     val partitions = StaticPartitionShims.getStaticPartitions(fsRelation).getOrElse {
       val openCostInBytes = fsRelation.sparkSession.sessionState.conf.filesOpenCostInBytes
-      val maxSplitBytes =
-        FilePartition.maxSplitBytes(fsRelation.sparkSession, dynamicallySelectedPartitions)
+      val maxSplitBytes = historySizedSplit(fsRelation,
+        FilePartition.maxSplitBytes(fsRelation.sparkSession, dynamicallySelectedPartitions))
       logInfo(s"Planning scan with bin packing, max size: $maxSplitBytes bytes, " +
         s"open cost is considered as scanning $openCostInBytes bytes.")
 
@@ -572,6 +573,27 @@ case class GpuFileSourceScanExec(
     }
     getFinalRDD(readFile, partitions)
   }
+
+  /**
+   * Sizes this scan's split from its table's learned decode-expansion ratio, and registers the
+   * scan so its own ratio is recorded once the query succeeds. Returns `sparkMaxSplitBytes`
+   * unchanged whenever history is off, absent, stale or unusable - never a blend. Only catalog
+   * tables participate, keyed by their identifier.
+   */
+  private def historySizedSplit(fsRelation: HadoopFsRelation, sparkMaxSplitBytes: Long): Long =
+    ScanSplitHeuristic.fileSourceSplit(
+      table = tableIdentifier.map(_.unquotedString),
+      sparkMaxSplitBytes = sparkMaxSplitBytes,
+      executionId = HistoryObservations.currentExecutionId(sparkContext),
+      context = table => ScanContext(
+        table = table,
+        listedBytes = dynamicallySelectedPartitions.map(_.files.map(_.getLen).sum).sum,
+        batchSizeBytes = rapidsConf.gpuTargetBatchSizeBytes,
+        minPartitionNum = ScanSplitHeuristic.minPartitionNum(fsRelation.sparkSession),
+        maxSplitBytes = sparkMaxSplitBytes,
+        decodedBytes = () =>
+          metrics.get(GpuMetric.GPU_OUTPUT_BATCH_BYTES).map(_.value).getOrElse(0L)),
+      nowMs = System.currentTimeMillis())
 
   private def getFinalRDD(
       readFile: Option[(PartitionedFile) => Iterator[InternalRow]],
