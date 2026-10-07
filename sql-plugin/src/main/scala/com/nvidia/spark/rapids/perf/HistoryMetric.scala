@@ -18,8 +18,8 @@ package com.nvidia.spark.rapids.perf
 
 import java.util.Collections
 
-import com.nvidia.spark.history.{DimensionSpec, DimValue, MetricSchema, MetricVersionId,
-  Retention}
+import com.nvidia.spark.history.{DimensionSpec, DimValue, HistoryMetricCatalog, MetricSchema,
+  MetricVersionId, Retention}
 
 /**
  * The contract of one governed history metric family at one version: the identity it is
@@ -35,8 +35,15 @@ trait HistoryMetric {
   /** Governed family ID. Must match the history metrics API's production catalog entry. */
   def id: Int
 
-  /** Governed family name. Must match the catalog entry for `id`. */
-  def name: String
+  /**
+   * Governed family name, read from the history metrics API's production catalog entry for `id`
+   * so the ID-to-name association has a single source. A family absent from the catalog, or
+   * retired there, is named by its ID; the store rejects its declaration either way.
+   */
+  final lazy val name: String = {
+    val entry = HistoryMetricCatalog.production().find(id)
+    if (entry.isPresent && !entry.get.retired()) entry.get.name() else s"uncatalogued-metric-$id"
+  }
 
   /** Family-scoped contract version. Any change in meaning needs a new version. */
   def version: Int

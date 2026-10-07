@@ -36,8 +36,6 @@ object ScanExpansionRatio extends HistoryMetric {
   /** Placeholder until the governed allocation is final; must match the API catalog. */
   override val id: Int = 1
 
-  override val name: String = "scan.decode_expansion_ratio"
-
   override val version: Int = 1
 
   override val dimension: String = "table"

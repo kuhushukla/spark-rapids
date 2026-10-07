@@ -28,7 +28,8 @@ class ScanExpansionRatioSuite extends AnyFunSuite {
   test("matches its governed entry in the production catalog") {
     val entry = HistoryMetricCatalog.production().find(ScanExpansionRatio.id)
     assert(entry.isPresent, s"metric ID ${ScanExpansionRatio.id} is not in the catalog")
-    assert(entry.get.name() == ScanExpansionRatio.name)
+    assert(entry.get.name() == "scan.decode_expansion_ratio")
+    assert(ScanExpansionRatio.name == entry.get.name())
     assert(!entry.get.retired())
   }
 
