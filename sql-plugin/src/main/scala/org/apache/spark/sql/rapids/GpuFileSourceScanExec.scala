@@ -44,7 +44,7 @@ import org.apache.spark.sql.execution.rapids.shims.FilePartitionShims
 import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.vectorized.ColumnarBatch
-import org.apache.spark.util.SerializableConfiguration
+import org.apache.spark.util.{CollectionAccumulator, SerializableConfiguration}
 import org.apache.spark.util.collection.BitSet
 
 /**
@@ -400,7 +400,7 @@ case class GpuFileSourceScanExec(
     "metadataTime" -> createTimingMetric(ESSENTIAL_LEVEL, "metadata time"),
     "filesSize" -> createSizeMetric(ESSENTIAL_LEVEL, "size of files read"),
     GPU_DECODE_TIME -> createNanoTimingMetric(MODERATE_LEVEL, DESCRIPTION_GPU_DECODE_TIME),
-    GPU_OUTPUT_BATCH_BYTES -> createSizeMetric(MODERATE_LEVEL, DESCRIPTION_GPU_OUTPUT_BATCH_BYTES),
+    GPU_OUTPUT_BATCH_BYTES -> createSizeMetric(ESSENTIAL_LEVEL, DESCRIPTION_GPU_OUTPUT_BATCH_BYTES),
     BUFFER_TIME -> createNanoTimingMetric(MODERATE_LEVEL, DESCRIPTION_BUFFER_TIME),
     FILTER_TIME -> createNanoTimingMetric(DEBUG_LEVEL, DESCRIPTION_FILTER_TIME),
     SCHEDULE_TIME -> createNanoTimingMetric(DEBUG_LEVEL, DESCRIPTION_SCHEDULE_TIME),
@@ -472,15 +472,22 @@ case class GpuFileSourceScanExec(
   override protected def internalDoExecuteColumnar(): RDD[ColumnarBatch] = {
     val numOutputRows = gpuLongMetric(NUM_OUTPUT_ROWS)
     val scanTime = gpuLongMetric(SCAN_TIME)
-    inputRDD.asInstanceOf[RDD[ColumnarBatch]].mapPartitionsInternal { batches =>
+    val decoded = gpuLongMetric(GPU_OUTPUT_BATCH_BYTES)
+    val rdd = inputRDD.asInstanceOf[RDD[ColumnarBatch]]
+    val splits = splitBytes
+    rdd.mapPartitionsWithIndexInternal { (index, batches) =>
+      // Listed bytes are filled in on the driver.
+      val record = splits.map(
+        ScanSplitHeuristic.recordSplitOnExhaustion(index, 0L, decoded, _))
       new Iterator[ColumnarBatch] {
 
         override def hasNext: Boolean = {
           // The `FileScanRDD` returns an iterator which scans the file during the `hasNext` call.
-          scanTime.ns {
-            val res = batches.hasNext
-            res
+          val res = scanTime.ns {
+            batches.hasNext
           }
+          record.foreach(_(res))
+          res
         }
 
         override def next(): ColumnarBatch = {
@@ -575,25 +582,47 @@ case class GpuFileSourceScanExec(
   }
 
   /**
-   * Sizes this scan's split from its table's learned decode-expansion ratio, and registers the
-   * scan so its own ratio is recorded once the query succeeds. Returns `sparkMaxSplitBytes`
-   * unchanged whenever history is off, absent, stale or unusable - never a blend. Only catalog
-   * tables participate, keyed by their identifier.
+   * Sizes this scan's split from its table's learned decode-expansion ratio. Returns
+   * `sparkMaxSplitBytes` unchanged whenever history is off, absent, stale or unusable - never a
+   * blend. Only catalog tables participate, keyed by their identifier.
    */
   private def historySizedSplit(fsRelation: HadoopFsRelation, sparkMaxSplitBytes: Long): Long =
     ScanSplitHeuristic.fileSourceSplit(
       table = tableIdentifier.map(_.unquotedString),
       sparkMaxSplitBytes = sparkMaxSplitBytes,
-      executionId = HistoryObservations.currentExecutionId(sparkContext),
       context = table => ScanContext(
         table = table,
         listedBytes = dynamicallySelectedPartitions.map(_.files.map(_.getLen).sum).sum,
         batchSizeBytes = rapidsConf.gpuTargetBatchSizeBytes,
         minPartitionNum = ScanSplitHeuristic.minPartitionNum(fsRelation.sparkSession),
-        maxSplitBytes = sparkMaxSplitBytes,
-        decodedBytes = () =>
-          metrics.get(GpuMetric.GPU_OUTPUT_BATCH_BYTES).map(_.value).getOrElse(0L)),
+        maxSplitBytes = sparkMaxSplitBytes),
       nowMs = System.currentTimeMillis())
+
+  /** (partition, decoded, listed) per partition read; catalog tables with history on. Unnamed. */
+  @transient private lazy val splitBytes: Option[CollectionAccumulator[(Int, Long, Long)]] =
+    if (tableIdentifier.isDefined && ScanSplitHeuristic.isEnabled) {
+      Some(sparkContext.collectionAccumulator[(Int, Long, Long)])
+    } else {
+      None
+    }
+
+  /** Registers the scan for observation at query end; RDD partition i reads `partitions(i)`. */
+  private def registerHistoryObservation(partitions: Seq[FilePartition]): Unit =
+    for (table <- tableIdentifier; acc <- splitBytes if partitions.nonEmpty) {
+      val listed = partitions.map(p => FilePartitionShims.getFiles(p).map(_.length).sum).toArray
+      ScanSplitHeuristic.register(HistoryObservations.currentExecutionId(sparkContext),
+        ScanContext(
+          table = table.unquotedString,
+          // Decision-only inputs; this context never reaches `decide`.
+          listedBytes = 0L,
+          batchSizeBytes = 0L,
+          minPartitionNum = 0L,
+          maxSplitBytes = 0L,
+          plannedSplits = partitions.size,
+          drainSplits = () => ScanSplitHeuristic.drainSplits(acc).map {
+            case (i, decoded, _) => (i, decoded, listed.lift(i).getOrElse(0L))
+          }))
+    }
 
   private def getFinalRDD(
       readFile: Option[(PartitionedFile) => Iterator[InternalRow]],
@@ -627,6 +656,7 @@ case class GpuFileSourceScanExec(
       FilePartitionShims.copyWithFiles(partition, newFiles)
     }
 
+    registerHistoryObservation(locatedPartitions)
     if (isPerFileReadEnabled) {
       logInfo("Using the original per file reader")
       SparkShimImpl.getFileScanRDD(relation.sparkSession, readFile.get, locatedPartitions,

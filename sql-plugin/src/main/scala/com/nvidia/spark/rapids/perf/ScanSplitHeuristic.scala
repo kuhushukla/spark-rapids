@@ -16,24 +16,24 @@
 
 package com.nvidia.spark.rapids.perf
 
+import scala.collection.JavaConverters._
 import scala.util.Try
 
 import com.nvidia.spark.history.{MetricStore, MetricStores}
-import com.nvidia.spark.rapids.RapidsConf
+import com.nvidia.spark.rapids.{GpuMetric, RapidsConf}
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.internal.SQLConf
+import org.apache.spark.util.CollectionAccumulator
 
 /**
  * What planning has in hand when it sizes one scan.
  *
- * `decodedBytes` and `completedSplits` are read once the query ends, never at planning time:
- * they close over metrics that stay zero until Spark merges task values back. A context that is
- * only decided on, never observed, passes thunks returning 0.
- *
  * @param table history key: the table name exactly as the planning hook sees it
- * @param listedBytes on-disk bytes the scan lists; the observed ratio's denominator
- * @param plannedSplits splits the scan planned, or 0 when the call site does not track them
+ * @param listedBytes on-disk bytes the scan lists; bounds the decided split
+ * @param plannedSplits splits the scan planned, indices 0..plannedSplits-1
+ * @param drainSplits at query end: returns and clears the (split, decoded, listed) reads
+ * @param isCurrent false once the scan was planned again; only the current planning is drained
  */
 final case class ScanContext(
     table: String,
@@ -41,9 +41,9 @@ final case class ScanContext(
     batchSizeBytes: Long,
     minPartitionNum: Long,
     maxSplitBytes: Long,
-    decodedBytes: () => Long,
-    plannedSplits: Long = 0L,
-    completedSplits: () => Long = () => 0L)
+    plannedSplits: Int = 0,
+    drainSplits: () => Seq[(Int, Long, Long)] = () => Seq.empty,
+    isCurrent: () => Boolean = () => true)
 
 /** Sizes a scan's split from the decode-expansion ratio its table last produced. */
 class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(store) {
@@ -93,9 +93,7 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
       minPartitionNum = minPartitionNum,
       // Threaded through as the static answer: with no usable ratio `bound` returns it
       // unchanged, and with one it is never read.
-      maxSplitBytes = ScanSplitHeuristic.NO_DECISION,
-      // Observed by the scan itself once it runs, never from here.
-      decodedBytes = () => 0L)
+      maxSplitBytes = ScanSplitHeuristic.NO_DECISION)
     val decided = decide(ctx, nowMs)
     if (decided == ScanSplitHeuristic.NO_DECISION) {
       logInfo(s"scan.split: table=$table listed=$listedBytes -> no history, iceberg default")
@@ -106,46 +104,43 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
   }
 
   /**
-   * The file-source decision: decides and registers the scan of catalog table `table`, or
-   * returns `sparkMaxSplitBytes` unchanged for a path-only relation or while history is off.
+   * The file-source decision: the split for catalog table `table`, or `sparkMaxSplitBytes`
+   * unchanged for a path-only relation or while history is off.
    *
    * @param context builds the scan's context for its table; only called when history is used
    */
   def fileSourceSplit(
       table: Option[String],
       sparkMaxSplitBytes: Long,
-      executionId: => Option[Long],
       context: String => ScanContext,
       nowMs: Long): Long = table match {
-    case Some(name) if isEnabled =>
-      val ctx = context(name)
-      val split = decide(ctx, nowMs)
-      register(executionId, ctx)
-      split
+    case Some(name) if isEnabled => decide(context(name), nowMs)
     case _ => sparkMaxSplitBytes
   }
 
-  /**
-   * Records the ratio only from a scan that read every split it planned. One-sided: a scan
-   * executed twice reads more than it planned, which is healthy; only an under-read means it
-   * stopped early and would understate the ratio.
-   */
+  /** Records the current planning's ratio, or logs once why not (superseded: debug only). */
   protected def observe(ctx: ScanContext): Map[HistoryMetric, Double] = {
-    val decoded = ctx.decodedBytes()
-    if (decoded <= 0L) {
-      Map.empty
-    } else if (ctx.plannedSplits > 0L && ctx.completedSplits() < ctx.plannedSplits) {
-      logDebug(s"scan.split: table=${ctx.table} read only ${ctx.completedSplits()} of " +
-        s"${ctx.plannedSplits} planned splits; not recording an expansion ratio from a scan " +
-        "that did not finish")
+    if (!ctx.isCurrent()) {
+      logDebug(s"scan.split: table=${ctx.table} not recorded: superseded planning")
       Map.empty
     } else {
-      Map(ScanExpansionRatio -> decoded.toDouble / ctx.listedBytes.toDouble)
+      val entries = ctx.drainSplits()
+      val result = if (entries.isEmpty) {
+        Left("planned but not executed in this query")
+      } else {
+        ScanSplitHeuristic.ratioFromSplits(ctx.plannedSplits, entries)
+      }
+      result match {
+        case Right(ratio) => Map(ScanExpansionRatio -> ratio)
+        case Left(reason) =>
+          logInfo(s"scan.split: table=${ctx.table} not recorded: $reason")
+          Map.empty
+      }
     }
   }
 
   override protected def shouldObserve(ctx: ScanContext): Boolean =
-    ctx.table != null && ctx.table.nonEmpty && ctx.listedBytes > 0L
+    ctx.table != null && ctx.table.nonEmpty && ctx.plannedSplits > 0
 }
 
 /** The application's scan split heuristic, over the store the driver plugin installed. */
@@ -153,6 +148,56 @@ object ScanSplitHeuristic extends ScanSplitHeuristic(() => MetricStores.current(
 
   /** Returned when history has nothing to say, so Iceberg's own split stands untouched. */
   final val NO_DECISION = -1L
+
+  /**
+   * Create when a split's reader opens; on exhaustion adds (split, growth of `decoded`, listed).
+   * A task's reads run one after another, so the growth is this split's. Sizes may start at -1.
+   */
+  def recordSplitOnExhaustion(
+      split: Int,
+      listed: Long,
+      decoded: GpuMetric,
+      acc: CollectionAccumulator[(Int, Long, Long)]): Boolean => Boolean = {
+    val start = decoded.value.max(0L)
+    hasMore => {
+      if (!hasMore) acc.add((split, decoded.value.max(0L) - start, listed))
+      hasMore
+    }
+  }
+
+  /** Returns and clears `acc` atomically. */
+  def drainSplits(acc: CollectionAccumulator[(Int, Long, Long)]): Seq[(Int, Long, Long)] =
+    acc.synchronized {
+      val entries = acc.value.asScala.toList
+      acc.reset()
+      entries
+    }
+
+  /**
+   * sum(decoded) / sum(listed) over the first read of each split, only if exactly splits
+   * 0..planned-1 were read; otherwise the reason.
+   */
+  def ratioFromSplits(
+      planned: Int,
+      entries: Seq[(Int, Long, Long)]): Either[String, Double] = {
+    val firstReads = entries.groupBy(_._1).map { case (split, reads) => split -> reads.head }
+    val decoded = firstReads.values.map(_._2).sum
+    val listed = firstReads.values.map(_._3).sum
+    val inRange = firstReads.keySet.count(split => split >= 0 && split < planned)
+    if (planned <= 0) {
+      Left("nothing planned")
+    } else if (inRange < firstReads.size) {
+      Left(s"read split indices outside 0..${planned - 1}")
+    } else if (inRange < planned) {
+      Left(s"read $inRange of $planned planned splits to the end")
+    } else if (listed <= 0L) {
+      Left("no listed bytes in the splits read")
+    } else if (decoded <= 0L) {
+      Left("no decoded bytes (decoded-bytes metric off or zero)")
+    } else {
+      Right(decoded.toDouble / listed.toDouble)
+    }
+  }
 
   /**
    * The Iceberg advisor, reached through the root-level Iceberg table wrapper: the learned split

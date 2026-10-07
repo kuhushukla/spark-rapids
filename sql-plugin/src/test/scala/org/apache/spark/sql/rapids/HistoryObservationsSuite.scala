@@ -49,9 +49,9 @@ class HistoryObservationsSuite extends AnyFunSuite with BeforeAndAfterEach {
 
   override def afterEach(): Unit = HistoryObservations.shutdown()
 
-  /** A scan of `cat.ns.events` that decoded 4x its 100 MiB on disk. */
+  /** A one-split scan of `cat.ns.events` that decoded 4x its 100 MiB on disk. */
   private def scan: ScanContext =
-    ScanContext("cat.ns.events", 100 * MiB, 0L, 0L, 0L, () => 400 * MiB)
+    ScanContext("cat.ns.events", 0L, 0L, 0L, 0L, 1, () => Seq((0, 400 * MiB, 100 * MiB)))
 
   private def startJob(jobId: Int, executionId: Long, stages: StageInfo*): Unit = {
     val properties = new Properties()

@@ -39,17 +39,13 @@ package com.nvidia.spark.rapids.iceberg.spark.source
 import java.util.{Collections, HashMap => JHashMap}
 import java.util.function.LongSupplier
 
-import com.nvidia.spark.rapids.RapidsConf
 import com.nvidia.spark.rapids.iceberg.IcebergProbeImpl
 import org.apache.iceberg.SnapshotSummary
 import org.apache.iceberg.spark.SparkReadOptions
-import org.apache.iceberg.spark.source.GpuReaderFactory
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funsuite.AnyFunSuite
 
-import org.apache.spark.sql.connector.read.InputPartition
 import org.apache.spark.sql.util.CaseInsensitiveStringMap
-import org.apache.spark.util.LongAccumulator
 
 /**
  * The hand-off from the plugin to the root-level Iceberg table wrapper, and the pieces around
@@ -136,17 +132,5 @@ class IcebergSplitHandoffSuite extends AnyFunSuite with BeforeAndAfterEach {
     assert(RapidsSparkTable.totalFileSizeBytes(Collections.singletonMap(key, "n/a")) == 0L)
     assert(RapidsSparkTable.totalFileSizeBytes(Collections.emptyMap[String, String]()) == 0L)
     assert(RapidsSparkTable.totalFileSizeBytes(null) == 0L)
-  }
-
-  test("reader factory counts one split per reader only when history asks for it") {
-    val conf = new RapidsConf(Map.empty[String, String])
-    val notOurs = new InputPartition {}
-    val counted = new LongAccumulator
-    val factory = new GpuReaderFactory(Map.empty, conf, false, Some(counted))
-    intercept[IllegalArgumentException](factory.createColumnarReader(notOurs))
-    intercept[IllegalArgumentException](factory.createColumnarReader(notOurs))
-    assert(counted.value == 2L)
-    val uncounted = new GpuReaderFactory(Map.empty, conf, false, None)
-    intercept[IllegalArgumentException](uncounted.createColumnarReader(notOurs))
   }
 }

@@ -33,7 +33,7 @@ import org.apache.spark.sql.connector.metric.{CustomMetric, CustomTaskMetric}
 import org.apache.spark.sql.connector.read.{Batch, Scan, Statistics, SupportsReportStatistics}
 import org.apache.spark.sql.connector.read.streaming.MicroBatchStream
 import org.apache.spark.sql.types.StructType
-import org.apache.spark.util.LongAccumulator
+import org.apache.spark.util.CollectionAccumulator
 
 
 abstract class GpuSparkScan(val cpuScan: Scan,
@@ -50,50 +50,53 @@ abstract class GpuSparkScan(val cpuScan: Scan,
   override def estimateStatistics(): Statistics = GpuSparkScanAccess.estimateStatistics(cpuScan)
 
   override def toBatch: Batch = {
-    registerHistoryObservation()
+    val planning = synchronized {
+      latestPlanning += 1
+      latestPlanning
+    }
+    registerHistoryObservation(planning)
     new GpuSparkBatch(GpuSparkScanAccess.toBatch(cpuScan), this)
   }
 
-  /**
-   * Splits this scan actually read, counted once per partition reader on the executors so the
-   * end-of-query observation can compare it against the splits planned. Only created while
-   * history-backed split sizing is on. Unnamed, so it stays out of the UI and event logs.
-   */
-  @transient lazy val splitsRead: Option[LongAccumulator] = {
+  /** (split, decoded, listed) per split read; only while history is on. Unnamed, so not in UI. */
+  @transient lazy val splitBytes: Option[CollectionAccumulator[(Int, Long, Long)]] = {
     if (ScanSplitHeuristic.isEnabled) {
-      val acc = new LongAccumulator
-      SparkContext.getOrCreate().register(acc)
-      Some(acc)
+      Some(SparkContext.getOrCreate().collectionAccumulator[(Int, Long, Long)])
     } else {
       None
     }
   }
 
   /**
+   * Only the newest planning is read: runtime filtering re-plans via `toBatch`. Exec copies also
+   * call `toBatch` (equals/hashCode) but see the same cached task groups.
+   */
+  @transient @volatile private var latestPlanning = 0
+
+  /**
    * Registers this scan so its decode-expansion ratio is recorded when the query ends. Here
    * rather than in the batch-scan exec: Spark 3.4+ shims override `inputRDD` without calling
    * super, and that exec serves every v2 connector. Keyed by Iceberg's `Table.name()`, as the
-   * decision side is; `metrics` is read when the observation drains, not now.
+   * decision side is.
    */
-  private def registerHistoryObservation(): Unit = {
-    if (ScanSplitHeuristic.isEnabled) {
+  private def registerHistoryObservation(planning: Int): Unit = {
+    val acc = splitBytes // bound now, so the query-end listener never touches the lazy val
+    if (acc.isDefined) {
       try {
         if (!GpuSparkScanAccess.isMetadataScan(cpuScan)) {
           val table = GpuSparkScanAccess.table(cpuScan).name()
           val groups = GpuSparkScanAccess.taskGroups(cpuScan)
-          val listed = groups.asScala.map(_.sizeBytes()).sum
-          if (table != null && table.nonEmpty && listed > 0L) {
+          if (table != null && table.nonEmpty && !groups.isEmpty) {
             val ctx = ScanContext(
               table = table,
-              listedBytes = listed,
               // Decision-only inputs; this context never reaches `decide`.
+              listedBytes = 0L,
               batchSizeBytes = 0L,
               minPartitionNum = 0L,
               maxSplitBytes = 0L,
-              decodedBytes = () =>
-                metrics.get(GpuMetric.GPU_OUTPUT_BATCH_BYTES).map(_.value).getOrElse(0L),
-              plannedSplits = groups.size().toLong,
-              completedSplits = () => splitsRead.map(_.value.longValue()).getOrElse(0L))
+              plannedSplits = groups.size(),
+              drainSplits = () => acc.map(ScanSplitHeuristic.drainSplits).getOrElse(Seq.empty),
+              isCurrent = () => planning == latestPlanning)
             ScanSplitHeuristic.register(
               HistoryObservations.currentExecutionId(SparkContext.getOrCreate()), ctx)
           }

@@ -139,7 +139,7 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
  * own merged accumulators. One registry and one listener serve every heuristic.
  *
  * An execution records nothing if one of its jobs failed or was cancelled (partial
- * accumulators) or one of its stage attempts failed (a retry counts tasks twice).
+ * accumulators) or one of its stage attempts failed (conservative).
  */
 object HistoryObservations extends Logging {
 

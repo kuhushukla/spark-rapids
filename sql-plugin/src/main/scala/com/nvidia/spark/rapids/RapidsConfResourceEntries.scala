@@ -634,7 +634,9 @@ val GPU_COREDUMP_PIPE_PATTERN = conf("spark.rapids.gpu.coreDump.pipePattern")
           "MODERATE which should output enough metrics to understand how long each part of the " +
           "query is taking and how much data is going to each part of the query. " +
           "ESSENTIAL which disables most metrics except those Apache Spark CPU plans will also " +
-          "report or their equivalents.")
+          "report or their equivalents. The GPU scans' decoded batch bytes metric is also " +
+          "collected at ESSENTIAL, though it has no CPU equivalent, because history-backed " +
+          "scan split sizing needs it.")
       .commonlyUsed()
       .stringConf
       .transform(_.toUpperCase(java.util.Locale.ROOT))

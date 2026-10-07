@@ -34,7 +34,7 @@ class GpuSparkBatch(
       parentScan.rapidsConf,
       parentScan.queryUsesInputFile,
       // Evaluated on the driver, so the accumulator instance is what gets serialized out.
-      parentScan.splitsRead)
+      parentScan.splitBytes)
   }
 
   override def planInputPartitions(): Array[InputPartition] = {
@@ -47,11 +47,14 @@ class GpuSparkBatch(
     val hadoopConf = sparkContext.broadcast(
       new SerializableConfiguration(sparkContext.hadoopConfiguration))
 
-    cpuBatch.planInputPartitions().map { partition =>
+    // Partition i is the scan's task group i.
+    cpuBatch.planInputPartitions().zipWithIndex.map { case (partition, splitIndex) =>
       new GpuSparkInputPartition(partition,
         parentScan.rapidsConf,
         hadoopConf,
-        expectedSchemaString)
+        expectedSchemaString,
+        splitIndex,
+        GpuSparkScanAccess.taskGroup(partition).sizeBytes())
     }
   }
 

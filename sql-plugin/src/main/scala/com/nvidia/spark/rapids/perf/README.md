@@ -24,12 +24,13 @@ the compiled classes, keep it that way.
 | Step | Where | What |
 |---|---|---|
 | decide (Iceberg) | `RapidsSparkTable.newScanBuilder` | sets `read.split.target-size` before Iceberg plans tasks |
-| observe (Iceberg) | `GpuSparkScan.toBatch` | registers the scan; records `decoded / listed` at execution end |
-| decide + observe (file source) | `GpuFileSourceScanExec.createNonBucketedReadRDD` | catalog tables only |
+| observe (Iceberg) | `GpuSparkScan.toBatch` | registers each planning; only the latest is read |
+| decide (file source) | `GpuFileSourceScanExec.createNonBucketedReadRDD` | catalog tables only |
+| observe (file source) | `GpuFileSourceScanExec.getFinalRDD` | catalog tables, every reader |
 
 - **Formula**: `split = targetBatchBytes / ratio`, clamped to
   `[64 MiB, min(4 GiB, listedBytes / minPartitionNum)]`.
-- **Ratio**: GPU output batch bytes over the on-disk bytes of the files the scan planned, from the
+- **Ratio**: GPU output batch bytes over on-disk bytes, summed over the splits that ran, from the
   table's most recent observation (`limit(1)`, `Summary.mean` of that one reading) within the
   family's planning age, 7 days. That age is part of the contract's retention, which a store
   fixes at the first declaration, so it is not configurable.
@@ -45,8 +46,11 @@ the compiled classes, keep it that way.
   uses the pruned bytes the scan reports.
 - **Precedence on Iceberg**: explicit DataFrame `split-size` option > learned split >
   `spark.rapids.iceberg.*-setting.*.read-split-target-size` > table properties > Iceberg default.
-- **Observation guard**: a scan that read fewer splits than it planned, or whose execution had a
-  failed or cancelled job or a failed stage attempt, is not recorded.
+- **Per split**: each split read to the end adds (index, decoded bytes, on-disk bytes); the first
+  read of a split wins. Cleared after the query's observation; a re-run of an executed plan is
+  not re-registered, leaving one unread entry per split.
+- **Observation guard**: recorded only if exactly splits 0..planned-1 were read and no job or
+  stage attempt failed; otherwise one INFO `scan.split: table=<t> not recorded: <reason>` line.
 
 The Iceberg table wrapper lives at the distribution root and cannot reference shim-loaded
 classes, so the plugin hands it the decision function through `IcebergSplitAdvisor`.
