@@ -14,7 +14,7 @@ splits for Iceberg and catalog file-source tables.
 
 Planning only uses history once a provider store is actually installed. This package talks to
 the history metrics API (`MetricStores.current()`) only; the driver plugin's
-`HistoryMetricsManager` owns the provider, and an enforcer rule bans provider dependencies.
+`HistoryMetricsManager` owns the provider.
 
 ## How scan splits are sized
 
