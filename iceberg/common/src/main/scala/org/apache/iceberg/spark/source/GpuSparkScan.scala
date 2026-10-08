@@ -58,7 +58,7 @@ abstract class GpuSparkScan(val cpuScan: Scan,
     new GpuSparkBatch(GpuSparkScanAccess.toBatch(cpuScan), this)
   }
 
-  /** (split, decoded, listed) per split read; only while history is on. Unnamed, so not in UI. */
+  /** (split, decoded, listed) per split read; None when history is off. Unnamed: not in UI. */
   @transient lazy val splitBytes: Option[CollectionAccumulator[(Int, Long, Long)]] = {
     if (ScanSplitHeuristic.isEnabled) {
       Some(SparkContext.getOrCreate().collectionAccumulator[(Int, Long, Long)])
@@ -68,19 +68,17 @@ abstract class GpuSparkScan(val cpuScan: Scan,
   }
 
   /**
-   * Only the newest planning is read: runtime filtering re-plans via `toBatch`. Exec copies also
-   * call `toBatch` (equals/hashCode) but see the same cached task groups.
+   * Only the newest planning is recorded: runtime filtering re-plans via `toBatch`. Exec copies'
+   * `toBatch` calls (equals/hashCode) see the same cached task groups.
    */
   @transient @volatile private var latestPlanning = 0
 
   /**
-   * Registers this scan so its decode-expansion ratio is recorded when the query ends. Here
-   * rather than in the batch-scan exec: Spark 3.4+ shims override `inputRDD` without calling
-   * super, and that exec serves every v2 connector. Keyed by Iceberg's `Table.name()`, as the
-   * decision side is.
+   * Registers the scan for recording at query end. Not in the batch-scan exec: Spark 3.4+ shims
+   * override its `inputRDD` without super. Keyed by `Table.name()`, matching the decide side.
    */
   private def registerHistoryObservation(planning: Int): Unit = {
-    val acc = splitBytes // bound now, so the query-end listener never touches the lazy val
+    val acc = splitBytes // bound now so the query-end listener never touches the lazy val
     if (acc.isDefined) {
       try {
         if (!GpuSparkScanAccess.isMetadataScan(cpuScan)) {
@@ -103,7 +101,7 @@ abstract class GpuSparkScan(val cpuScan: Scan,
         }
       } catch {
         case t: Throwable if MetricHistory.isContained(t) =>
-          // Advisory only: a scan must never fail because it could not be observed.
+          // Advisory only; never fail the scan.
           logDebug(s"scan not registered for history: ${t.getClass.getName}")
       }
     }

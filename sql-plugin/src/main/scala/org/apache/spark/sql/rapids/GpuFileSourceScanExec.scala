@@ -582,9 +582,8 @@ case class GpuFileSourceScanExec(
   }
 
   /**
-   * Sizes this scan's split from its table's learned decode-expansion ratio. Returns
-   * `sparkMaxSplitBytes` unchanged whenever history is off, absent, stale or unusable - never a
-   * blend. Only catalog tables participate, keyed by their identifier.
+   * Learned split for catalog tables, else `sparkMaxSplitBytes` (history off, absent, stale or
+   * unusable).
    */
   private def historySizedSplit(fsRelation: HadoopFsRelation, sparkMaxSplitBytes: Long): Long =
     ScanSplitHeuristic.fileSourceSplit(
@@ -598,7 +597,7 @@ case class GpuFileSourceScanExec(
         maxSplitBytes = sparkMaxSplitBytes),
       nowMs = System.currentTimeMillis())
 
-  /** (partition, decoded, listed) per partition read; catalog tables with history on. Unnamed. */
+  /** (partition, decoded, listed) per partition read; catalog tables only. Unnamed: not in UI. */
   @transient private lazy val splitBytes: Option[CollectionAccumulator[(Int, Long, Long)]] =
     if (tableIdentifier.isDefined && ScanSplitHeuristic.isEnabled) {
       Some(sparkContext.collectionAccumulator[(Int, Long, Long)])
@@ -606,7 +605,7 @@ case class GpuFileSourceScanExec(
       None
     }
 
-  /** Registers the scan for observation at query end; RDD partition i reads `partitions(i)`. */
+  /** Registers the scan for recording at query end; RDD partition i reads `partitions(i)`. */
   private def registerHistoryObservation(partitions: Seq[FilePartition]): Unit =
     for (table <- tableIdentifier; acc <- splitBytes if partitions.nonEmpty) {
       val listed = partitions.map(p => FilePartitionShims.getFiles(p).map(_.length).sum).toArray

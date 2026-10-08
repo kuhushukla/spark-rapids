@@ -48,9 +48,8 @@ trait IcebergProbe {
   def getProvider: IcebergProvider
 
   /**
-   * Hands the history-learned split advisor to the root-level Iceberg table wrapper, which
-   * cannot reference shim-loaded classes itself; None removes it. The advisor returns a split
-   * size in bytes, or a non-positive value for no decision.
+   * Installs (None: removes) the split advisor in the root-level Iceberg table wrapper. It
+   * returns split bytes, or <= 0 for no decision.
    */
   def installScanSplitAdvisor(advisor: Option[(String, Long) => Long]): Unit = ()
 }

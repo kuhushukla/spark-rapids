@@ -16,16 +16,13 @@
 
 package com.nvidia.spark.rapids.perf
 
-/** Pure split arithmetic. No state, no store, no Spark. */
+/** Pure split arithmetic. */
 object ScanSplitSizer {
 
   val MAX_SPLIT_BYTES: Long = 4L * 1024 * 1024 * 1024
   val MIN_SPLIT_BYTES: Long = 64L * 1024 * 1024
 
-  /**
-   * The split that decodes to one target batch: `targetBytes / ratio`. Zero means no usable
-   * answer.
-   */
+  /** `targetBytes / ratio`, the split that decodes to one batch; 0 if unusable. */
   def rawSplit(ratio: Double, targetBytes: Long): Long = {
     if (ratio <= 0.0d || ratio.isNaN || ratio.isInfinite || targetBytes <= 0L) {
       0L
@@ -36,13 +33,10 @@ object ScanSplitSizer {
 
   /**
    * Clamps a raw split to `[MIN_SPLIT_BYTES, min(MAX_SPLIT_BYTES, listedBytes / minPartitionNum)]`,
-   * or returns `maxSplitBytes` unchanged when there is no usable raw split.
+   * or `maxSplitBytes` when `raw` is unusable.
    *
-   * The ceiling keeps roughly one task per slot, so a low ratio cannot collapse a table into a
-   * few huge tasks. The floor is absolute, so a high-expansion table can take a smaller split
-   * than Spark would have chosen. Known looseness: on the Iceberg path `listedBytes` is the whole
-   * table from the snapshot summary, before partition pruning, so the ceiling is loose for scans
-   * that read a small slice of a large table.
+   * The ceiling keeps about `minPartitionNum` tasks. On Iceberg `listedBytes` is the unpruned table
+   * size, so the ceiling is loose for scans of a small slice.
    */
   def bound(raw: Long, listedBytes: Long, minPartitionNum: Long, maxSplitBytes: Long): Long = {
     if (raw <= 0L) {
@@ -56,14 +50,9 @@ object ScanSplitSizer {
   }
 
   /**
-   * The parallelism the ceiling divides by. Follows Spark's own resolution for file scans -
-   * `spark.sql.files.minPartitionNum`, then `spark.sql.leafNodeDefaultParallelism`, then
-   * `spark.default.parallelism` - except that when none is set it uses the configured executor
-   * slots, `spark.executor.instances` x `spark.executor.cores`, instead of the cores registered
-   * so far: those depend on how many executors happened to be up when the query was planned, so
-   * the same query could size its splits differently from run to run. The registered cores
-   * remain the last resort when the slots are not configured. Unset or non-positive values are
-   * ignored.
+   * Parallelism for the ceiling, as Spark resolves it for file scans, except configured executor
+   * slots (instances x cores) come before registered cores, which vary with executor startup.
+   * Non-positive values are ignored.
    */
   def minPartitionNum(
       filesMinPartitionNum: Option[Int],

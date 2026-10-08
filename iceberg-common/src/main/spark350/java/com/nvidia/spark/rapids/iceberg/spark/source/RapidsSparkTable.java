@@ -98,9 +98,8 @@ import scala.Option;
  *
  * <p>Explicit DataFrame read options take precedence over all session-level overrides.
  *
- * <p>While history-backed planning is enabled, a split size learned from earlier runs ranks
- * between an explicit DataFrame option and the session-level overrides; see
- * {@code withLearnedSplitSize}.
+ * <p>A split size learned from history ranks between explicit DataFrame options and session
+ * overrides; see {@code withLearnedSplitSize}.
  */
 public class RapidsSparkTable implements Table,
     SupportsRead,
@@ -205,25 +204,19 @@ public class RapidsSparkTable implements Table,
   public ScanBuilder newScanBuilder(CaseInsensitiveStringMap options) {
     CaseInsensitiveStringMap merged =
         mergeSessionOptions(options, catalogName, namespace, tableName);
-    // The caller's own options are passed alongside the merged ones: after the merge an explicit
-    // read option and one synthesized from a session conf are indistinguishable.
+    // Caller options passed too: after merging, explicit and session options look the same.
     return delegate.newScanBuilder(withLearnedSplitSize(
         merged, options, delegate.table().name(), this::currentTotalFileSizeBytes));
   }
 
   /**
-   * Applies the split size learned from history, if there is one and the query has not asked
-   * for a specific one.
+   * Sets the learned split size, if any, before Iceberg plans tasks. Precedence, highest first:
+   * DataFrame {@link SparkReadOptions#SPLIT_SIZE}, learned,
+   * {@code spark.rapids.iceberg.*-setting.*}, table properties, Iceberg default.
    *
-   * <p>Precedence, highest first: an explicit DataFrame {@link SparkReadOptions#SPLIT_SIZE}; the
-   * learned split; the {@code spark.rapids.iceberg.*-setting.*} scopes; table properties;
-   * Iceberg's default. Set here, before Iceberg plans its tasks; with no learned split the
-   * options are returned untouched.
-   *
-   * @param merged the caller's options merged with the session-level overrides
-   * @param callerOptions the caller's own options
+   * @param merged caller options merged with session overrides
    * @param table Iceberg's table name, the history key
-   * @param listedBytes whole-table file bytes; only read when an advisor is installed
+   * @param listedBytes whole-table file bytes; read only when an advisor is installed
    */
   static CaseInsensitiveStringMap withLearnedSplitSize(
       CaseInsensitiveStringMap merged,
@@ -243,23 +236,20 @@ public class RapidsSparkTable implements Table,
     return new CaseInsensitiveStringMap(out);
   }
 
-  /** {@link #totalFileSizeBytes} of the current snapshot, or 0 when there is none. */
+  /** 0 when there is no snapshot. */
   private long currentTotalFileSizeBytes() {
     try {
       Snapshot snapshot = delegate.table().currentSnapshot();
       return snapshot == null ? 0L : totalFileSizeBytes(snapshot.summary());
     } catch (RuntimeException e) {
-      // Reading table metadata must never fail a scan; it only costs the cap.
+      // Never fail the scan; only the cap is lost.
       return 0L;
     }
   }
 
   /**
-   * Whole-table file bytes from a snapshot summary, or 0 when absent or malformed.
-   *
-   * <p>Not pruned: planning has not run yet, so per-scan sizes do not exist. It only feeds the
-   * parallelism cap; the learned ratio is measured against the pruned bytes the scan reports
-   * once it has run.
+   * Whole-table file bytes from a snapshot summary, or 0 when absent or malformed. Unpruned,
+   * since planning has not run; it only feeds the parallelism cap.
    */
   static long totalFileSizeBytes(Map<String, String> summary) {
     String total = summary == null ? null : summary.get(SnapshotSummary.TOTAL_FILE_SIZE_PROP);

@@ -17,18 +17,15 @@
 package com.nvidia.spark.rapids.iceberg.spark.source;
 
 /**
- * Root-safe hand-off for an Iceberg split size learned from history.
- *
- * <p>{@link RapidsSparkTable} lives at the distribution root, so it cannot reference the
- * plugin's shim-loaded classes. The driver plugin installs an {@link Advisor} here while
- * history-backed planning is enabled; with none installed every scan keeps its configured split.
+ * Hand-off of the history-learned split size to {@link RapidsSparkTable}, which lives at the
+ * distribution root and cannot reference shim-loaded classes. With no {@link Advisor} installed
+ * every scan keeps its configured split.
  */
 public final class IcebergSplitAdvisor {
 
   /** No learned split: the caller must leave the read options untouched. */
   public static final long NO_DECISION = -1L;
 
-  /** Supplies the learned split size for one table. */
   public interface Advisor {
     /**
      * @param table Iceberg's fully qualified table name
@@ -55,7 +52,7 @@ public final class IcebergSplitAdvisor {
     return advisor != null;
   }
 
-  /** The learned split size for {@code table}, or {@link #NO_DECISION}. Never throws. */
+  /** Never throws. */
   public static long learnedSplitBytes(String table, long listedBytes) {
     Advisor current = advisor;
     if (current == null) {
@@ -64,7 +61,7 @@ public final class IcebergSplitAdvisor {
     try {
       return current.learnedSplitBytes(table, listedBytes);
     } catch (Exception | LinkageError e) {
-      // Advisory only: a failure here must never fail the scan.
+      // Advisory only; never fail the scan.
       if (e instanceof InterruptedException) {
         Thread.currentThread().interrupt();
       }

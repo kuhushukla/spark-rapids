@@ -34,12 +34,8 @@ import org.apache.spark.sql.execution.SQLExecution
 import org.apache.spark.sql.execution.ui.SparkListenerSQLExecutionEnd
 
 /**
- * One planning decision informed by history: read the families at planning time, observe what
- * actually happened when the query ends.
- *
- * `Ctx` is whatever the planning site has in hand, so heuristics do not share a widening
- * parameter list. `decide` and `register` are final: the fallback path and the execution-id
- * scoping are not a heuristic's business.
+ * A planning decision that reads history at planning time and records what the query did when
+ * it ends. `decide` and `register` are final so fallback and execution-id scoping stay uniform.
  *
  * @param store the installed store; `MetricStores.current()` in production
  */
@@ -50,13 +46,13 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
 
   def name: String
 
-  /** Families this heuristic reads and writes. A formula may take several measured quantities. */
+  /** Families this heuristic reads and writes. */
   def metrics: Seq[HistoryMetric]
 
   private lazy val histories: Map[HistoryMetric, MetricHistory] =
     metrics.map(m => m -> new MetricHistory(m, store)).toMap
 
-  /** Set while history-backed planning is on. Until then the static decision stands. */
+  /** Set while history-backed planning is on; otherwise the static decision stands. */
   @volatile private var active: Option[HistoryPolicy] = None
 
   final def enable(policy: HistoryPolicy): Unit = active = Some(policy)
@@ -65,36 +61,34 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
 
   final def isEnabled: Boolean = active.isDefined
 
-  /** Declares every family now, so the first planning lookup does not pay for it. */
+  /** Declares every family up front so the first planning lookup does not pay for it. */
   final def declare(): Unit = active.foreach { policy =>
     histories.values.foreach(_.declare(policy))
   }
 
-  /** The dimension value this context maps to, per family. */
+  /** Dimension value for `ctx` in `metric`. */
   protected def keyFor(metric: HistoryMetric, ctx: Ctx): String
 
-  /** What planning would have chosen without history. */
+  /** The decision without history. */
   protected def staticDecision(ctx: Ctx): Decision
 
-  /** The formula. Called only when `sufficient` holds. */
+  /** Called only when `sufficient` holds. */
   protected def decideFrom(observed: Map[HistoryMetric, Double], ctx: Ctx): Decision
 
-  /** Bounds on the formula's output. */
   protected def constrain(raw: Decision, ctx: Ctx): Decision = raw
 
-  /** What this query actually did, read after it ran. */
+  /** What the query did; called after it ends. */
   protected def observe(ctx: Ctx): Map[HistoryMetric, Double]
 
-  /** Whether the evidence in hand is enough to decide. Default: every family answered. */
+  /** Default: every family answered. */
   protected def sufficient(observed: Map[HistoryMetric, Double]): Boolean =
     observed.size == metrics.size
 
-  /** Whether this context is worth remembering for observation. */
   protected def shouldObserve(ctx: Ctx): Boolean = true
 
   /**
-   * The planning decision. History or the static answer, never a blend: any family that
-   * abstains is simply absent, and `sufficient` decides whether what remains is enough.
+   * History-based or static, never a blend. Abstaining families are absent from `observed`;
+   * `sufficient` decides whether the rest is enough.
    */
   final def decide(ctx: Ctx, nowMs: Long): Decision = active match {
     case None => staticDecision(ctx)
@@ -106,10 +100,7 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
       else staticDecision(ctx)
   }
 
-  /**
-   * Remembers this context so its query end can observe it. A context planned outside a SQL
-   * execution has no id to drain against and is not tracked.
-   */
+  /** Queues `ctx` for observation at execution end; untracked outside a SQL execution. */
   final def register(executionId: Option[Long], ctx: Ctx): Unit = {
     if (isEnabled && shouldObserve(ctx)) {
       executionId match {
@@ -119,7 +110,7 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
     }
   }
 
-  /** Records what `ctx` observed. Called when its execution ends; directly by tests. */
+  /** Records what `ctx` observed; called at execution end. */
   private[perf] final def recordAll(ctx: Ctx): Unit = active.foreach { policy =>
     val atMs = System.currentTimeMillis()
     observe(ctx).foreach { case (m, value) =>
@@ -127,19 +118,16 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
     }
   }
 
-  /** The access layer for `metric`, for tests. */
+  /** For tests. */
   private[perf] final def historyOf(metric: HistoryMetric): MetricHistory = histories(metric)
 }
 
 /**
- * Holds planned contexts until their query ends, then lets each record what it observed.
+ * Holds planned contexts per SQL execution id and records them when the execution ends, once
+ * accumulators are merged. Shared by all heuristics.
  *
- * Values cannot be read at planning time: they come from accumulators that stay zero until Spark
- * merges task values back. Entries are keyed by SQL execution id so a query only ever reads its
- * own merged accumulators. One registry and one listener serve every heuristic.
- *
- * An execution records nothing if one of its jobs failed or was cancelled (partial
- * accumulators) or one of its stage attempts failed (conservative).
+ * Records nothing for an execution with a failed or cancelled job (partial accumulators) or a
+ * failed stage attempt (a re-run stage can double-count plain accumulators).
  */
 object HistoryObservations extends Logging {
 
@@ -149,12 +137,12 @@ object HistoryObservations extends Logging {
     @volatile var incomplete: Boolean = false
   }
 
-  /** How many ended execution ids are remembered, to drop registrations that arrive late. */
+  /** Ended execution ids remembered, so late registrations are dropped. */
   private val ENDED_MEMORY = 1024
 
   @volatile private var active: Boolean = false
 
-  /** Executions seen running and the jobs and stages they own, dropped when each one ends. */
+  /** Running executions and their jobs and stages; dropped at execution end. */
   private val executions = new ConcurrentHashMap[Long, Execution]()
   private val jobOwner = new ConcurrentHashMap[Int, java.lang.Long]()
   private val stageOwner = new ConcurrentHashMap[Int, java.lang.Long]()
@@ -172,21 +160,21 @@ object HistoryObservations extends Logging {
     ended.clear()
   }
 
-  /** Registered once on the SparkContext, so every session and micro-batch is covered. */
+  /** Register on the SparkContext so every session and micro-batch is covered. */
   def listener: SparkListener = new ObservationListener
 
-  /** Running executions, job owners and stage owners held, for tests. */
+  /** (executions, job owners, stage owners), for tests. */
   private[perf] def trackedCounts: (Int, Int, Int) =
     (executions.size(), jobOwner.size(), stageOwner.size())
 
-  /** The SQL execution the calling thread is running, if any. */
+  /** The calling thread's SQL execution id, if any. */
   def currentExecutionId(sc: SparkContext): Option[Long] =
     Option(sc.getLocalProperty(SQLExecution.EXECUTION_ID_KEY)).flatMap(parseId)
 
   private def parseId(id: String): Option[Long] =
     try Some(id.toLong) catch { case _: NumberFormatException => None }
 
-  /** The running execution `executionId`, created on first sight. Callers hold `this`. */
+  /** Get or create. Callers hold `this`. */
   private def running(executionId: Long): Execution = {
     val known = executions.get(executionId)
     if (known != null) {
@@ -206,8 +194,8 @@ object HistoryObservations extends Logging {
   }
 
   /**
-   * `SparkListenerSQLExecutionEnd.errorMessage` is deliberately not checked: Spark 3.3 lacks it,
-   * and a scan that read every split is a valid observation even if the query failed later.
+   * `errorMessage` is not checked: Spark 3.3 lacks it, and a scan that read every split is valid
+   * even if the query failed later.
    */
   private def executionEnded(executionId: Long): Unit = {
     val state = synchronized {
@@ -217,7 +205,7 @@ object HistoryObservations extends Logging {
       }
       executions.remove(executionId)
     }
-    // Only entries this execution still owns: a stage id reused by a later execution stays.
+    // By owner, so an id reused by a later execution stays.
     jobOwner.values().removeIf(owner => owner.longValue() == executionId)
     stageOwner.values().removeIf(owner => owner.longValue() == executionId)
     if (state != null) {
@@ -235,7 +223,7 @@ object HistoryObservations extends Logging {
     }
   }
 
-  /** Marks the execution owning a job or stage incomplete, if it is still running. */
+  /** Marks `owner` incomplete if still running. */
   private def markIncomplete(owner: java.lang.Long): Unit = {
     if (owner != null) {
       Option(executions.get(owner.longValue())).foreach(_.incomplete = true)
@@ -286,10 +274,8 @@ object HistoryObservations extends Logging {
 }
 
 /**
- * Starts and stops the history-backed heuristics. What it touches outside this package is passed
- * in, so it can be driven without Spark.
+ * Starts and stops the history-backed heuristics. External dependencies are injected for tests.
  *
- * @param heuristics every heuristic that learns from history
  * @param setIcebergAdvisor installs (true) or removes (false) the Iceberg split advisor
  * @param currentStore the installed store; `MetricStores.current()` in production
  */
@@ -298,16 +284,15 @@ private[perf] class HistoryLifecycle(
     setIcebergAdvisor: Boolean => Unit,
     currentStore: () => MetricStore) extends Logging {
 
-  /** The store in place when planning started; None while stopped. */
+  /** Store at `start`; None while stopped. */
   private var storeAtStart: Option[MetricStore] = None
   private var advisorInstalled = false
 
   /**
-   * Enables the heuristics when a history metrics provider is requested. Whatever an earlier
-   * start left behind is stopped first, so nothing leaks from one SparkContext to the next.
+   * Enables the heuristics if a provider is requested. Stops any earlier start first so nothing
+   * leaks across SparkContexts.
    *
-   * @param policy only read once a provider is requested, so a bad setting cannot matter when
-   *               history is off
+   * @param policy by-name: a bad setting is never read while history is off
    * @return whether the heuristics are enabled
    */
   def start(provider: String, policy: => HistoryPolicy, addListener: SparkListener => Unit)
@@ -321,11 +306,10 @@ private[perf] class HistoryLifecycle(
         val resolved = policy
         storeAtStart = Some(currentStore())
         HistoryObservations.start()
-        // On the SparkContext, not a session's listenerManager: this sees every SparkSession
-        // and every Structured Streaming micro-batch.
+        // SparkContext-level: sees every session and streaming micro-batch.
         addListener(HistoryObservations.listener)
         heuristics.foreach(_.enable(resolved))
-        // Loads the Iceberg probe, which may fail on a classpath without Iceberg support.
+        // Loads the Iceberg probe; may fail without Iceberg on the classpath.
         setIcebergAdvisor(true)
         advisorInstalled = true
         logInfo(s"History-backed planning requested for ${heuristics.map(_.name)}; it activates " +
@@ -342,9 +326,8 @@ private[perf] class HistoryLifecycle(
   }
 
   /**
-   * Called once provider selection is over. Planning stays history-backed only if a provider
-   * store replaced the one in place at start; every family is then declared before the first
-   * query plans.
+   * Called after provider selection. Stays on only if a provider store replaced the one seen at
+   * `start`, then declares every family.
    */
   def activate(): Unit = synchronized {
     storeAtStart.foreach { before =>
@@ -379,20 +362,18 @@ private[perf] class HistoryLifecycle(
 object HistoryHeuristics {
 
   private val lifecycle = new HistoryLifecycle(
-    // Every heuristic that learns from history. Add one here to enable it.
     heuristics = Seq(ScanSplitHeuristic),
-    // The Iceberg table wrapper is loaded outside the plugin's shim class loader, so it receives
-    // the split decision through a hand-off rather than calling the heuristic directly.
+    // The Iceberg table wrapper is outside the shim class loader, so it gets a hand-off.
     setIcebergAdvisor = install => IcebergProvider.installScanSplitAdvisor(
       if (install) Some((t: String, l: Long) => ScanSplitHeuristic.learnedSplitBytes(t, l))
       else None),
     currentStore = () => MetricStores.current())
 
-  /** At driver plugin init: enables planning when a provider is requested. */
+  /** At driver plugin init. */
   def start(sc: SparkContext, conf: RapidsConf): Unit =
     lifecycle.start(conf.historyMetricsProvider, HistoryPolicy.fromConf(conf), sc.addSparkListener)
 
-  /** After the provider manager ran: planning stays on only if a provider store is installed. */
+  /** After the provider manager ran. */
   def activate(): Unit = lifecycle.activate()
 
   /** Before the provider shuts down. */

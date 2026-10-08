@@ -16,6 +16,7 @@
 
 package com.nvidia.spark.rapids.perf
 
+import java.time.Duration
 import java.util.{Collections, List => JList}
 import java.util.concurrent.ConcurrentHashMap
 
@@ -23,38 +24,48 @@ import scala.collection.JavaConverters._
 
 import com.nvidia.spark.history.{DimValue, MetricStore, Observation, SchemaStatus, Status,
   SummaryRequest, SummaryResponse}
-import com.nvidia.spark.rapids.HistoryMetricsManager
+import com.nvidia.spark.rapids.{HistoryMetricsManager, RapidsConf}
 
 import org.apache.spark.internal.Logging
 
 /**
- * One metric family over the installed `MetricStore`: declare it once, record into it, and read
- * its most recent value.
+ * Time budgets for store calls; the store never blocks past the budget it is given.
  *
- * The store is whatever the driver plugin installed - `MetricStores.current()` in production -
- * so this class never opens, installs or shuts a provider down. Every failure is an abstention:
- * the caller keeps its static decision. Each distinct reason is logged once per JVM as a status
- * code only: no stack trace, no dimension values, no provider text.
+ * @param planningTimeout budget for one lookup on the planning path
+ * @param declareBudget budget for each family's one declaration per store
+ */
+case class HistoryPolicy(
+    planningTimeout: Duration,
+    declareBudget: Duration = HistoryPolicy.DECLARE_BUDGET)
+
+object HistoryPolicy {
+
+  val DECLARE_BUDGET: Duration = Duration.ofSeconds(5)
+
+  def fromConf(conf: RapidsConf): HistoryPolicy =
+    HistoryPolicy(Duration.ofMillis(conf.historyPlanningTimeoutMs.toLong))
+}
+
+/**
+ * One metric family over the installed `MetricStore`: declare, record, read the latest value.
+ * Never manages the provider.
+ *
+ * Every failure abstains (caller keeps its static decision) and is logged once per JVM per
+ * reason, as a status code only: no stack trace, dimension values or provider text.
  */
 final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) extends Logging {
 
-  /** The store this family was last declared in, and whether it accepted the declaration. */
+  /** Last store declared in, and whether it accepted. */
   private case class Declaration(in: MetricStore, accepted: Boolean)
 
   @volatile private var declaration: Declaration = Declaration(null, accepted = false)
 
   private val reported = ConcurrentHashMap.newKeySet[String]()
 
-  /**
-   * Declares the family in the current store unless that store has already answered. A store
-   * only accepts observations for a family declared in this process, so recording depends on it.
-   */
+  /** Declares once per store; recording requires a declaration in this process. */
   def declare(policy: HistoryPolicy): Boolean = declaredIn(store(), policy)
 
-  /**
-   * The most recent value recorded under `key` within the family's planning age, or None to keep
-   * the static decision: key not trackable, family not accepted, no evidence, or any store error.
-   */
+  /** Latest value for `key` within the planning age, or None (untrackable, no data, error). */
   def latest(key: String, nowMs: Long, policy: HistoryPolicy): Option[Double] = {
     dimValue(key).flatMap { dim =>
       val current = store()
@@ -78,7 +89,7 @@ final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) e
     }
   }
 
-  /** Records one value. Fire-and-forget: the store may still drop it. */
+  /** Fire-and-forget; the store may drop it. */
   def record(key: String, value: Double, atMs: Long, policy: HistoryPolicy): Unit = {
     if (MetricHistory.isUsable(value)) {
       dimValue(key).foreach { dim =>
@@ -96,7 +107,7 @@ final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) e
     }
   }
 
-  /** Reasons already logged, for tests. */
+  /** For tests. */
   private[perf] def reportedReasons: Set[String] = reported.asScala.toSet
 
   private def summarized(responses: JList[SummaryResponse]): Option[Double] = {
@@ -111,9 +122,9 @@ final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) e
         abstain(s"lookup-${status.code()}", s"lookup returned ${status.code()}")
         None
       } else {
-        // OK with no summary is the ordinary absence of evidence, not an error.
+        // OK with no summary means no evidence, not an error.
         Option(response.summary()).filter(_.count() > 0)
-          // limit(1) selected one observation, so the mean is that observation.
+          // limit(1): the mean is the single latest observation.
           .map(_.mean())
           .filter(MetricHistory.isUsable)
       }
@@ -162,7 +173,7 @@ final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) e
     }
   }
 
-  /** Strings that cannot be a dimension value: over the size cap, or not valid UTF-16. */
+  /** None for keys over the size cap or not valid UTF-16. */
   private def dimValue(key: String): Option[DimValue] = {
     if (key == null || key.isEmpty) {
       None
@@ -191,9 +202,9 @@ final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) e
 
 object MetricHistory {
 
-  /** Values worth storing or acting on: finite and positive. */
+  /** Finite and positive. */
   def isUsable(value: Double): Boolean = !value.isNaN && !value.isInfinite && value > 0.0d
 
-  /** Failures history containment covers: the same set the provider manager contains. */
+  /** Same set the provider manager contains. */
   def isContained(t: Throwable): Boolean = HistoryMetricsManager.isContained(t)
 }

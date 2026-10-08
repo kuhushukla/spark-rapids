@@ -16,10 +16,12 @@
 
 package com.nvidia.spark.rapids.perf
 
+import java.time.Duration
+
 import scala.collection.JavaConverters._
 import scala.util.Try
 
-import com.nvidia.spark.history.{MetricStore, MetricStores}
+import com.nvidia.spark.history.{MetricStore, MetricStores, Retention}
 import com.nvidia.spark.rapids.{GpuMetric, RapidsConf}
 
 import org.apache.spark.sql.SparkSession
@@ -27,13 +29,31 @@ import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.util.CollectionAccumulator
 
 /**
- * What planning has in hand when it sizes one scan.
+ * Decode expansion: GPU output batch bytes / on-disk bytes of the scan's planned files. One
+ * observation per completed scan, stamped at SQL execution end.
  *
- * @param table history key: the table name exactly as the planning hook sees it
- * @param listedBytes on-disk bytes the scan lists; bounds the decided split
- * @param plannedSplits splits the scan planned, indices 0..plannedSplits-1
- * @param drainSplits at query end: returns and clears the (split, decoded, listed) reads
- * @param isCurrent false once the scan was planned again; only the current planning is drained
+ * Dimension `table`: Iceberg's `Table.name()`, or the catalog identifier for file-source tables.
+ * Compared as exact bytes, so decide and observe must derive it identically.
+ */
+object ScanExpansionRatio extends HistoryMetric {
+
+  /** `scan.decode_expansion_ratio` in the production catalog. */
+  override val id: Int = 1
+
+  override val version: Int = 1
+
+  override val dimension: String = "table"
+
+  override val retention: Retention = new Retention(Duration.ofDays(7), Duration.ofDays(14))
+}
+
+/**
+ * Inputs for sizing one scan.
+ *
+ * @param table history key
+ * @param listedBytes on-disk bytes the scan lists; bounds the split
+ * @param drainSplits returns and clears the (split, decoded, listed) reads
+ * @param isCurrent false once the scan was re-planned; only the current planning is recorded
  */
 final case class ScanContext(
     table: String,
@@ -45,7 +65,7 @@ final case class ScanContext(
     drainSplits: () => Seq[(Int, Long, Long)] = () => Seq.empty,
     isCurrent: () => Boolean = () => true)
 
-/** Sizes a scan's split from the decode-expansion ratio its table last produced. */
+/** Sizes a scan's split from its table's last decode-expansion ratio. */
 class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(store) {
 
   type Ctx = ScanContext
@@ -64,8 +84,7 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
     observed.get(ScanExpansionRatio)
       .map { ratio =>
         val raw = ScanSplitSizer.rawSplit(ratio, ctx.batchSizeBytes)
-        // The only record of the ratio a decision used, so a finished run can tell a learned
-        // decision from the static fallback.
+        // Only record of the ratio used; distinguishes learned from static decisions.
         logInfo(s"scan.split: table=${ctx.table} ratio=$ratio " +
           s"targetBatch=${ctx.batchSizeBytes} rawSplit=$raw")
         raw
@@ -75,11 +94,7 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
   override protected def constrain(raw: Long, ctx: ScanContext): Long =
     ScanSplitSizer.bound(raw, ctx.listedBytes, ctx.minPartitionNum, ctx.maxSplitBytes)
 
-  /**
-   * The Iceberg decision: the learned split for `table`, or `ScanSplitHeuristic.NO_DECISION` so
-   * Iceberg's own split stands. Logs the outcome, since this is the only place that knows the
-   * split was actually applied to a scan.
-   */
+  /** Learned Iceberg split for `table`, or `NO_DECISION`. Logs the outcome. */
   def decideIcebergSplit(
       table: String,
       listedBytes: Long,
@@ -91,8 +106,7 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
       listedBytes = listedBytes,
       batchSizeBytes = batchSizeBytes,
       minPartitionNum = minPartitionNum,
-      // Threaded through as the static answer: with no usable ratio `bound` returns it
-      // unchanged, and with one it is never read.
+      // Static answer: returned unchanged when there is no usable ratio.
       maxSplitBytes = ScanSplitHeuristic.NO_DECISION)
     val decided = decide(ctx, nowMs)
     if (decided == ScanSplitHeuristic.NO_DECISION) {
@@ -104,10 +118,9 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
   }
 
   /**
-   * The file-source decision: the split for catalog table `table`, or `sparkMaxSplitBytes`
-   * unchanged for a path-only relation or while history is off.
+   * File-source split; `sparkMaxSplitBytes` for path-only relations or while history is off.
    *
-   * @param context builds the scan's context for its table; only called when history is used
+   * @param context only called when history is used
    */
   def fileSourceSplit(
       table: Option[String],
@@ -118,7 +131,7 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
     case _ => sparkMaxSplitBytes
   }
 
-  /** Records the current planning's ratio, or logs once why not (superseded: debug only). */
+  /** The current planning's ratio, or logs why not. */
   protected def observe(ctx: ScanContext): Map[HistoryMetric, Double] = {
     if (!ctx.isCurrent()) {
       logDebug(s"scan.split: table=${ctx.table} not recorded: superseded planning")
@@ -143,15 +156,14 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
     ctx.table != null && ctx.table.nonEmpty && ctx.plannedSplits > 0
 }
 
-/** The application's scan split heuristic, over the store the driver plugin installed. */
 object ScanSplitHeuristic extends ScanSplitHeuristic(() => MetricStores.current()) {
 
-  /** Returned when history has nothing to say, so Iceberg's own split stands untouched. */
+  /** No learned split; Iceberg's own split stands. */
   final val NO_DECISION = -1L
 
   /**
    * Create when a split's reader opens; on exhaustion adds (split, growth of `decoded`, listed).
-   * A task's reads run one after another, so the growth is this split's. Sizes may start at -1.
+   * A task reads splits sequentially, so the growth is this split's. Metrics may start at -1.
    */
   def recordSplitOnExhaustion(
       split: Int,
@@ -173,10 +185,7 @@ object ScanSplitHeuristic extends ScanSplitHeuristic(() => MetricStores.current(
       entries
     }
 
-  /**
-   * sum(decoded) / sum(listed) over the first read of each split, only if exactly splits
-   * 0..planned-1 were read; otherwise the reason.
-   */
+  /** sum(decoded) / sum(listed) over each split's first read if exactly 0..planned-1 were read. */
   def ratioFromSplits(
       planned: Int,
       entries: Seq[(Int, Long, Long)]): Either[String, Double] = {
@@ -200,9 +209,8 @@ object ScanSplitHeuristic extends ScanSplitHeuristic(() => MetricStores.current(
   }
 
   /**
-   * The Iceberg advisor, reached through the root-level Iceberg table wrapper: the learned split
-   * size for `table` in the active session, or `NO_DECISION`. Callers must leave the read option
-   * unset on `NO_DECISION`: writing a value would shadow the table's own properties.
+   * The Iceberg advisor: learned split for `table` in the active session, or `NO_DECISION`. On
+   * `NO_DECISION` callers must leave the read option unset, or it shadows table properties.
    */
   def learnedSplitBytes(table: String, listedBytes: Long): Long = {
     if (!isEnabled || table == null || table.isEmpty) {
@@ -219,14 +227,10 @@ object ScanSplitHeuristic extends ScanSplitHeuristic(() => MetricStores.current(
     }
   }
 
-  /** `ScanSplitSizer.minPartitionNum` over this session's configuration. */
   def minPartitionNum(spark: SparkSession): Long =
     minPartitionNum(spark.sessionState.conf, spark.sparkContext.defaultParallelism)
 
-  /**
-   * `ScanSplitSizer.minPartitionNum` over `sqlConf`, which carries the session's Spark settings
-   * too. `registeredCores` is only read when no parallelism or executor slots are configured.
-   */
+  /** `registeredCores` is read only when no parallelism or executor slots are configured. */
   def minPartitionNum(sqlConf: SQLConf, registeredCores: => Int): Long = {
     def intConf(key: String): Option[Int] =
       Option(sqlConf.getConfString(key, null)).flatMap(v => Try(v.trim.toInt).toOption)

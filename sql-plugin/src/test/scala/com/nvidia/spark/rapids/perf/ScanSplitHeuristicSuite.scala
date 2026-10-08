@@ -21,8 +21,8 @@ import java.util.Collections
 
 import scala.collection.JavaConverters._
 
-import com.nvidia.spark.history.{DimValue, MetricStore, MetricStores, Observation,
-  SchemaStatus, Status, SummaryResponse}
+import com.nvidia.spark.history.{DimValue, HistoryMetricCatalog, MetricStore, MetricStores,
+  Observation, SchemaStatus, Status, SummaryResponse}
 import com.nvidia.spark.rapids.{GpuMetric, LocalGpuMetric}
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -66,6 +66,13 @@ class ScanSplitHeuristicSuite extends AnyFunSuite {
   /** A one-split scan of `table` whose split decoded `decoded` of its `listed` bytes. */
   private def scanContext(decoded: Long, listed: Long = 100 * MiB): ScanContext =
     ScanContext(table, 0L, 0L, 0L, 0L, 1, () => Seq((0, decoded, listed)))
+
+  test("the metric is named from its production catalog entry") {
+    val entry = HistoryMetricCatalog.production().find(ScanExpansionRatio.id)
+    assert(entry.isPresent, s"metric ID ${ScanExpansionRatio.id} is not in the catalog")
+    assert(ScanExpansionRatio.name == "scan.decode_expansion_ratio")
+    assert(!entry.get.retired())
+  }
 
   test("decides from the table's last reading") {
     val store = storeWith(4.0 -> (now - 1000))

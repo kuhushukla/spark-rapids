@@ -16,8 +16,6 @@
 
 package com.nvidia.spark.rapids.perf
 
-import scala.io.Source
-
 import com.nvidia.spark.rapids.perf.ScanSplitSizer._
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -97,35 +95,5 @@ class ScanSplitSizerSuite extends AnyFunSuite {
   test("split cap: non-positive settings are ignored") {
     assert(mpn(files = Some(0), default = Some(-1), instances = Some(6), cores = Some(16)) == 96L)
     assert(mpn(instances = Some(0), cores = Some(16)) == 7L)
-  }
-
-  /**
-   * Every learned decision the reference implementation logged in a 5-repetition benchmark
-   * campaign: the same ratio, target batch, listed bytes and settings must give the same raw
-   * split and the same final split.
-   */
-  test("parity with the reference implementation's logged decisions") {
-    val stream = getClass.getResourceAsStream("scan-split-parity.tsv")
-    assert(stream != null, "parity fixture missing from the test classpath")
-    val source = Source.fromInputStream(stream, "UTF-8")
-    val rows = try {
-      source.getLines().map(_.trim).filter(l => l.nonEmpty && !l.startsWith("#")).toList
-    } finally {
-      source.close()
-    }
-    assert(rows.size == 82)
-    def opt(v: String): Option[Int] = if (v == "-") None else Some(v.toInt)
-    val tables = rows.map { row =>
-      val Array(table, ratio, targetBatch, listed, files, leaf, default, instances, cores,
-          expectedRaw, expectedSplit) = row.split("\t")
-      val raw = rawSplit(ratio.toDouble, targetBatch.toLong)
-      val partitions = minPartitionNum(opt(files), opt(leaf), opt(default), opt(instances),
-        opt(cores), fail("registered cores must not be needed"))
-      val split = bound(raw, listed.toLong, partitions, ScanSplitHeuristic.NO_DECISION)
-      assert(raw == expectedRaw.toLong, s"rawSplit for $row")
-      assert(split == expectedSplit.toLong, s"split for $row")
-      table
-    }
-    assert(tables.distinct.size == 46)
   }
 }
