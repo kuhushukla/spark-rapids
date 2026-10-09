@@ -25,7 +25,7 @@ import org.apache.spark.sql.catalyst.InternalRow
 import org.apache.spark.sql.connector.read.InputPartition
 import org.apache.spark.sql.execution.datasources.{FilePartition, PartitionedFile}
 
-/** Packing needs a local (CPU-only) SparkSession; the pure parts are in ScanSplitHeuristicSuite. */
+/** Needs a local SparkSession. */
 class ScanSplitResizeSuite extends AnyFunSuite {
 
   private def chunk(path: String, start: Long, length: Long): PartitionedFile =

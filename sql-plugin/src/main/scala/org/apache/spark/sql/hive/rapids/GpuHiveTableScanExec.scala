@@ -341,7 +341,7 @@ case class GpuHiveTableScanExec(requestedAttributes: Seq[Attribute],
   @transient private lazy val historyKey: Option[String] = ScanSplitHeuristic.historyKey(
     Some(hiveTableRelation.tableMeta.identifier.unquotedString), Nil, Iterator.empty)
 
-  /** (partition, decoded, listed) per partition read. Unnamed: not in UI. */
+  /** (partition, decoded, listed) per partition read. */
   @transient private lazy val splitBytes: Option[CollectionAccumulator[(Int, Long, Long)]] =
     historyKey.map(_ => sparkContext.collectionAccumulator[(Int, Long, Long)])
 
@@ -390,7 +390,6 @@ case class GpuHiveTableScanExec(requestedAttributes: Seq[Attribute],
     // Per execution: a re-run plan reuses `inputRDD`.
     ScanSplitHeuristic.registerFileScan(historyKey, plannedListed, splits, sparkContext)
     rdd.mapPartitionsWithIndexInternal { (index, batches) =>
-      // Listed bytes are filled in on the driver.
       val record = splits.map(ScanSplitHeuristic.recordSplitOnExhaustion(index, 0L, decoded, _))
       new Iterator[ColumnarBatch] {
 

@@ -391,15 +391,6 @@ val GPU_COREDUMP_PIPE_PATTERN = conf("spark.rapids.gpu.coreDump.pipePattern")
     .checkValue(v => v.trim.nonEmpty, "History metrics provider name must not be empty")
     .createWithDefault("none")
 
-  val HISTORY_PLANNING_TIMEOUT_MS = conf("spark.rapids.sql.history.planningTimeoutMillis")
-    .doc("Budget for one history lookup on the query planning path. A lookup that does not " +
-      "answer within it leaves the static planning decision in place.")
-    .internal()
-    .startupOnly()
-    .integerConf
-    .checkValue(v => v > 0, "History planning timeout must be positive")
-    .createWithDefault(100)
-
   val CHUNKED_READER = conf("spark.rapids.sql.reader.chunked")
     .doc("Enable a chunked reader where possible. A chunked reader allows " +
       "reading highly compressed data that could not be read otherwise, but at the expense " +
@@ -634,9 +625,7 @@ val GPU_COREDUMP_PIPE_PATTERN = conf("spark.rapids.gpu.coreDump.pipePattern")
           "MODERATE which should output enough metrics to understand how long each part of the " +
           "query is taking and how much data is going to each part of the query. " +
           "ESSENTIAL which disables most metrics except those Apache Spark CPU plans will also " +
-          "report or their equivalents. The GPU scans' decoded batch bytes metric is also " +
-          "collected at ESSENTIAL, though it has no CPU equivalent, because history-backed " +
-          "scan split sizing needs it.")
+          "report or their equivalents, plus GPU scan output batch bytes.")
       .commonlyUsed()
       .stringConf
       .transform(_.toUpperCase(java.util.Locale.ROOT))

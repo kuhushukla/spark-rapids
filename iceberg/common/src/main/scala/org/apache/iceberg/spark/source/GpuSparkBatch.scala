@@ -47,7 +47,6 @@ class GpuSparkBatch(
     val hadoopConf = sparkContext.broadcast(
       new SerializableConfiguration(sparkContext.hadoopConfiguration))
 
-    // Partition i is the scan's task group i.
     cpuBatch.planInputPartitions().zipWithIndex.map { case (partition, splitIndex) =>
       new GpuSparkInputPartition(partition,
         parentScan.rapidsConf,

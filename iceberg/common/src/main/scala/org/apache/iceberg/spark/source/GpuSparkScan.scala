@@ -58,7 +58,7 @@ abstract class GpuSparkScan(val cpuScan: Scan,
     new GpuSparkBatch(GpuSparkScanAccess.toBatch(cpuScan), this)
   }
 
-  /** (split, decoded, listed) per split read; None when history is off. Unnamed: not in UI. */
+  /** (split, decoded, listed) per split read; None when history is off. */
   @transient lazy val splitBytes: Option[CollectionAccumulator[(Int, Long, Long)]] = {
     if (ScanSplitHeuristic.isEnabled) {
       Some(SparkContext.getOrCreate().collectionAccumulator[(Int, Long, Long)])
@@ -74,11 +74,10 @@ abstract class GpuSparkScan(val cpuScan: Scan,
   @transient @volatile private var latestPlanning = 0
 
   /**
-   * Registers the scan for recording at query end. Not in the batch-scan exec: Spark 3.4+ shims
-   * override its `inputRDD` without super. Keyed by `Table.name()`, matching the decide side.
+   * Registers the scan for recording at query end, keyed by `Table.name()`.
    */
   private def registerHistoryObservation(planning: Int): Unit = {
-    val acc = splitBytes // bound now so the query-end listener never touches the lazy val
+    val acc = splitBytes
     if (acc.isDefined) {
       try {
         if (!GpuSparkScanAccess.isMetadataScan(cpuScan)) {
@@ -87,7 +86,6 @@ abstract class GpuSparkScan(val cpuScan: Scan,
           if (table != null && table.nonEmpty && !groups.isEmpty) {
             val ctx = ScanContext(
               table = table,
-              // Decision-only inputs; this context never reaches `decide`.
               listedBytes = 0L,
               batchSizeBytes = 0L,
               minPartitionNum = 0L,
@@ -101,7 +99,6 @@ abstract class GpuSparkScan(val cpuScan: Scan,
         }
       } catch {
         case t: Throwable if MetricHistory.isContained(t) =>
-          // Advisory only; never fail the scan.
           logDebug(s"scan not registered for history: ${t.getClass.getName}")
       }
     }

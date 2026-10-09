@@ -89,7 +89,7 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
 
   def metrics: Seq[HistoryMetric] = Seq(ScanExpansionRatio)
 
-  /** Table only: the Iceberg decision runs before columns and filters are pushed down. */
+  /** Keyed by table. */
   protected def keyFor(metric: HistoryMetric, ctx: ScanContext): String =
     ScanSplitHeuristic.capped(ctx.table)
 
@@ -99,7 +99,6 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
     observed.get(ScanExpansionRatio)
       .map { ratio =>
         val raw = ScanSplitSizer.rawSplit(ratio, ctx.batchSizeBytes)
-        // Only record of the ratio used; distinguishes learned from static decisions.
         logInfo(s"scan.split: table=${ctx.table} ratio=$ratio " +
           s"targetBatch=${ctx.batchSizeBytes} rawSplit=$raw")
         raw
@@ -121,7 +120,6 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
       listedBytes = listedBytes,
       batchSizeBytes = batchSizeBytes,
       minPartitionNum = minPartitionNum,
-      // Static answer: returned unchanged when there is no usable ratio.
       maxSplitBytes = ScanSplitHeuristic.NO_DECISION)
     val decided = decide(ctx, nowMs)
     if (decided == ScanSplitHeuristic.NO_DECISION) {
@@ -343,7 +341,6 @@ object ScanSplitHeuristic extends ScanSplitHeuristic(() => MetricStores.current(
     for (name <- key; splits <- acc) {
       register(HistoryObservations.currentExecutionId(sc), ScanContext(
         table = name,
-        // Decision-only inputs; this context never reaches `decide`.
         listedBytes = 0L,
         batchSizeBytes = 0L,
         minPartitionNum = 0L,
@@ -438,7 +435,7 @@ trait HistorySizedFileScan extends FileScan with ScanWithMetrics {
   @transient private lazy val historyKey: Option[String] = ScanSplitHeuristic.historyKey(
     None, fileIndex.rootPaths, fileIndex.allFiles().iterator.map(_.getPath))
 
-  /** (split, decoded, listed) per split read; None while history is off. Unnamed: not in UI. */
+  /** (split, decoded, listed) per split read; None while history is off. */
   @transient private lazy val splitReads: Option[CollectionAccumulator[(Int, Long, Long)]] =
     historyKey.map(_ => sparkSession.sparkContext.collectionAccumulator[(Int, Long, Long)])
 

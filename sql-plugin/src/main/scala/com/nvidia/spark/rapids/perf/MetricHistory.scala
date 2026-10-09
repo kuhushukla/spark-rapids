@@ -24,26 +24,25 @@ import scala.collection.JavaConverters._
 
 import com.nvidia.spark.history.{DimValue, MetricStore, Observation, SchemaStatus, Status,
   SummaryRequest, SummaryResponse}
-import com.nvidia.spark.rapids.{HistoryMetricsManager, RapidsConf}
+import com.nvidia.spark.rapids.HistoryMetricsManager
 
 import org.apache.spark.internal.Logging
 
 /**
- * Time budgets for store calls; the store never blocks past the budget it is given.
+ * Time budgets for store calls.
  *
  * @param planningTimeout budget for one lookup on the planning path
  * @param declareBudget budget for each family's one declaration per store
  */
 case class HistoryPolicy(
-    planningTimeout: Duration,
+    planningTimeout: Duration = HistoryPolicy.PLANNING_TIMEOUT,
     declareBudget: Duration = HistoryPolicy.DECLARE_BUDGET)
 
 object HistoryPolicy {
 
-  val DECLARE_BUDGET: Duration = Duration.ofSeconds(5)
+  val PLANNING_TIMEOUT: Duration = Duration.ofMillis(100)
 
-  def fromConf(conf: RapidsConf): HistoryPolicy =
-    HistoryPolicy(Duration.ofMillis(conf.historyPlanningTimeoutMs.toLong))
+  val DECLARE_BUDGET: Duration = Duration.ofSeconds(5)
 }
 
 /**
@@ -51,7 +50,7 @@ object HistoryPolicy {
  * Never manages the provider.
  *
  * Every failure abstains (caller keeps its static decision) and is logged once per JVM per
- * reason, as a status code only: no stack trace, dimension values or provider text.
+ * reason.
  */
 final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) extends Logging {
 

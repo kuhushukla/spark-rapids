@@ -11,7 +11,6 @@ including Delta), Hive text tables, and DSv2 file scans (Parquet, ORC, CSV, JSON
 | Key | Default | Meaning |
 |---|---|---|
 | `spark.rapids.sql.history.metrics.provider` | `none` | any other value enables history-backed planning |
-| `spark.rapids.sql.history.planningTimeoutMillis` | 100 | budget for one history lookup while planning |
 
 Planning only uses history once a provider store is actually installed. This package talks to
 the history metrics API (`MetricStores.current()`) only; the driver plugin's

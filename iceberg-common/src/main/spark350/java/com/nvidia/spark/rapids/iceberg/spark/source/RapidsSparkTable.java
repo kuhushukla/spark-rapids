@@ -97,9 +97,6 @@ import scala.Option;
  * unambiguous.
  *
  * <p>Explicit DataFrame read options take precedence over all session-level overrides.
- *
- * <p>A split size learned from history ranks between explicit DataFrame options and session
- * overrides; see {@code withLearnedSplitSize}.
  */
 public class RapidsSparkTable implements Table,
     SupportsRead,
@@ -242,14 +239,12 @@ public class RapidsSparkTable implements Table,
       Snapshot snapshot = delegate.table().currentSnapshot();
       return snapshot == null ? 0L : totalFileSizeBytes(snapshot.summary());
     } catch (RuntimeException e) {
-      // Never fail the scan; only the cap is lost.
       return 0L;
     }
   }
 
   /**
-   * Whole-table file bytes from a snapshot summary, or 0 when absent or malformed. Unpruned,
-   * since planning has not run; it only feeds the parallelism cap.
+   * Whole-table file bytes from a snapshot summary, or 0 when absent or malformed.
    */
   static long totalFileSizeBytes(Map<String, String> summary) {
     String total = summary == null ? null : summary.get(SnapshotSummary.TOTAL_FILE_SIZE_PROP);

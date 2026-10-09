@@ -160,7 +160,6 @@ object HistoryObservations extends Logging {
     ended.clear()
   }
 
-  /** Register on the SparkContext so every session and micro-batch is covered. */
   def listener: SparkListener = new ObservationListener
 
   /** (executions, job owners, stage owners), for tests. */
@@ -215,7 +214,6 @@ object HistoryObservations extends Logging {
             record()
           } catch {
             case t: Throwable if MetricHistory.isContained(t) =>
-              // No dimension values or provider text in diagnostics.
               logDebug(s"Observation skipped for execution $executionId: ${t.getClass.getName}")
           }
         }
@@ -292,10 +290,9 @@ private[perf] class HistoryLifecycle(
    * Enables the heuristics if a provider is requested. Stops any earlier start first so nothing
    * leaks across SparkContexts.
    *
-   * @param policy by-name: a bad setting is never read while history is off
    * @return whether the heuristics are enabled
    */
-  def start(provider: String, policy: => HistoryPolicy, addListener: SparkListener => Unit)
+  def start(provider: String, policy: HistoryPolicy, addListener: SparkListener => Unit)
       : Boolean = synchronized {
     stop()
     val requested = Option(provider).map(_.trim.toLowerCase(Locale.ROOT)).getOrElse("")
@@ -303,12 +300,11 @@ private[perf] class HistoryLifecycle(
       false
     } else {
       try {
-        val resolved = policy
         storeAtStart = Some(currentStore())
         HistoryObservations.start()
         // SparkContext-level: sees every session and streaming micro-batch.
         addListener(HistoryObservations.listener)
-        heuristics.foreach(_.enable(resolved))
+        heuristics.foreach(_.enable(policy))
         // Loads the Iceberg probe; may fail without Iceberg on the classpath.
         setIcebergAdvisor(true)
         advisorInstalled = true
@@ -371,7 +367,7 @@ object HistoryHeuristics {
 
   /** At driver plugin init. */
   def start(sc: SparkContext, conf: RapidsConf): Unit =
-    lifecycle.start(conf.historyMetricsProvider, HistoryPolicy.fromConf(conf), sc.addSparkListener)
+    lifecycle.start(conf.historyMetricsProvider, HistoryPolicy(), sc.addSparkListener)
 
   /** After the provider manager ran. */
   def activate(): Unit = lifecycle.activate()

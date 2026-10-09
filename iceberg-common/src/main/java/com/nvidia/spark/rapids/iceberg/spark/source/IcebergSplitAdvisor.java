@@ -61,7 +61,6 @@ public final class IcebergSplitAdvisor {
     try {
       return current.learnedSplitBytes(table, listedBytes);
     } catch (Exception | LinkageError e) {
-      // Advisory only; never fail the scan.
       if (e instanceof InterruptedException) {
         Thread.currentThread().interrupt();
       }

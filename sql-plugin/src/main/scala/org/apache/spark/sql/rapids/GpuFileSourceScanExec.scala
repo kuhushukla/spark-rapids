@@ -478,7 +478,6 @@ case class GpuFileSourceScanExec(
     // Per execution: a re-run plan reuses `inputRDD`.
     ScanSplitHeuristic.registerFileScan(historyKey, plannedListed, splits, sparkContext)
     rdd.mapPartitionsWithIndexInternal { (index, batches) =>
-      // Listed bytes are filled in on the driver.
       val record = splits.map(
         ScanSplitHeuristic.recordSplitOnExhaustion(index, 0L, decoded, _))
       new Iterator[ColumnarBatch] {
@@ -589,7 +588,7 @@ case class GpuFileSourceScanExec(
     tableIdentifier.map(_.unquotedString), relation.location.rootPaths,
     dynamicallySelectedPartitions.iterator.flatMap(_.files.map(_.getPath)))
 
-  /** (partition, decoded, listed) per partition read; keyed scans only. Unnamed: not in UI. */
+  /** (partition, decoded, listed) per partition read; keyed scans only. */
   @transient private lazy val splitBytes: Option[CollectionAccumulator[(Int, Long, Long)]] =
     historyKey.map(_ => sparkContext.collectionAccumulator[(Int, Long, Long)])
 

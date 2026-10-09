@@ -75,18 +75,6 @@ class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
     assert(advisors == Seq(true))
   }
 
-  test("the planning policy is only read once a provider is requested") {
-    val badTimeout = new com.nvidia.spark.rapids.RapidsConf(
-      Map("spark.rapids.sql.history.planningTimeoutMillis" -> "0"))
-    intercept[IllegalArgumentException](HistoryPolicy.fromConf(badTimeout))
-    // Off: the invalid setting is never read, so plugin init cannot fail on it.
-    assert(!lifecycle.start("none", HistoryPolicy.fromConf(badTimeout), l => listeners += l))
-    // On: it is read inside containment, and planning stays static.
-    assert(!lifecycle.start("local", HistoryPolicy.fromConf(badTimeout), l => listeners += l))
-    assert(!heuristic.isEnabled)
-    assert(listeners.isEmpty && advisors.isEmpty)
-  }
-
   test("activation keeps planning only if a provider store was installed") {
     assert(start("local"))
     lifecycle.activate()
