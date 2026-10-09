@@ -16,6 +16,7 @@
 
 package com.nvidia.spark.rapids.perf
 
+import java.nio.charset.StandardCharsets
 import java.time.Duration
 import java.util.Collections
 
@@ -24,8 +25,14 @@ import scala.collection.JavaConverters._
 import com.nvidia.spark.history.{DimValue, HistoryMetricCatalog, MetricStore, MetricStores,
   Observation, SchemaStatus, Status, SummaryResponse}
 import com.nvidia.spark.rapids.{GpuMetric, LocalGpuMetric}
+import com.nvidia.spark.rapids.shims.PartitionedFileUtilsShim
+import org.apache.hadoop.fs.Path
 import org.scalatest.funsuite.AnyFunSuite
 
+import org.apache.spark.sql.catalyst.InternalRow
+import org.apache.spark.sql.connector.read.{InputPartition, PartitionReader}
+import org.apache.spark.sql.execution.datasources.{FilePartition, PartitionedFile}
+import org.apache.spark.sql.vectorized.ColumnarBatch
 import org.apache.spark.util.CollectionAccumulator
 
 /** Decide and observe against an in-memory store. Nothing here starts Spark. */
@@ -191,20 +198,126 @@ class ScanSplitHeuristicSuite extends AnyFunSuite {
       Set("lookup-java.lang.IllegalStateException"))
   }
 
-  test("table names that cannot be a dimension value are not tracked") {
+  test("malformed table names are not tracked") {
     val store = storeWith(4.0 -> (now - 1000))
     val h = heuristic(store)
-    val tooLong = "t" * 254
     val badUtf16 = "db.\ud800"
-    Seq(tooLong, badUtf16).foreach { key =>
-      assert(decide(h, key) == ScanSplitHeuristic.NO_DECISION)
-      h.recordAll(scanContext(400 * MiB).copy(table = key))
-    }
+    assert(decide(h, badUtf16) == ScanSplitHeuristic.NO_DECISION)
+    h.recordAll(scanContext(400 * MiB).copy(table = badUtf16))
     assert(store.summarizeCalls.isEmpty && store.offered.isEmpty)
     assert(h.historyOf(ScanExpansionRatio).reportedReasons == Set("untrackable-key"))
-    // 253 bytes is the largest key the API takes.
-    assert(decide(h, "t" * 253) == ScanSplitHeuristic.NO_DECISION)
-    assert(store.summarizeCalls.size == 1)
+  }
+
+  test("over-long table names are tracked under their capped key") {
+    val store = new FakeMetricStore
+    val h = heuristic(store)
+    val long = "t" * 300
+    h.recordAll(scanContext(400 * MiB).copy(table = long))
+    assert(store.stored.map(_.dimensions().get("table")) ==
+      Seq(DimValue.of(ScanSplitHeuristic.capped(long))))
+    assert(h.decideIcebergSplit(long, 960 * GiB, GiB, 96L, store.stored.head.timestampMs() + 1) ==
+      256 * MiB)
+  }
+
+  private def utf8(s: String): Int = s.getBytes(StandardCharsets.UTF_8).length
+
+  test("capped: keys at the cap are kept, longer ones hashed with a readable prefix") {
+    val limit = ScanSplitHeuristic.MAX_KEY_BYTES
+    assert(limit == 253)
+    val atCap = "k" * limit
+    assert(ScanSplitHeuristic.capped(atCap) eq atCap)
+    val long = "cat.db." + "x" * 400
+    val c = ScanSplitHeuristic.capped(long)
+    assert(c == ScanSplitHeuristic.capped(long), "deterministic")
+    assert(utf8(c) == limit)
+    assert(c.matches("cat\\.db\\.x+#[0-9a-f]{16}"))
+    assert(ScanSplitHeuristic.capped(long + "y") != c)
+    // Never cuts a multi-byte character: 2-byte and 4-byte code points.
+    Seq("\u00e9", "\ud83d\ude00").foreach { ch =>
+      val capped = ScanSplitHeuristic.capped(ch * 200)
+      val prefix = capped.substring(0, capped.indexOf('#'))
+      assert(prefix.codePoints().allMatch(_ == ch.codePointAt(0)))
+      assert(utf8(capped) <= limit)
+      assert(DimValue.of(capped) != null)
+    }
+  }
+
+  private def p(s: String): Path = new Path(s)
+
+  test("scanKey: catalog name, else sorted distinct normalized roots") {
+    assert(ScanSplitHeuristic.scanKey(Some(table), fail("roots read"), fail("files read")) ==
+      Right(table))
+    val key = ScanSplitHeuristic.scanKey(None,
+      Seq(p("s3a://b/t2/"), p("s3a://user:secret@b/t1"), p("s3a://b/t2")),
+      Iterator(p("s3a://b/t1/part-0.parquet")))
+    assert(key == Right("path:s3a://b/t1,s3a://b/t2"))
+    assert(ScanSplitHeuristic.scanKey(None, Seq(p("s3a://b/t1")), Iterator.empty) !=
+      ScanSplitHeuristic.scanKey(None, Seq(p("s3a://b/t1"), p("s3a://b/t3")), Iterator.empty))
+    val roots = (0 until 20).map(i => p(s"hdfs://nn/warehouse/some/long/table/path/dt=$i"))
+    val capped = ScanSplitHeuristic.scanKey(None, roots, Iterator.empty).toOption.get
+    assert(capped.startsWith("path:hdfs://nn/warehouse/") && utf8(capped) <= 253)
+  }
+
+  test("scanKey: no usable key without roots or for an explicit file list") {
+    assert(ScanSplitHeuristic.scanKey(None, Nil, Iterator.empty) == Left("no root paths"))
+    val files = Seq(p("file:/d/a.parquet"), p("file:/d/b.parquet"))
+    assert(ScanSplitHeuristic.scanKey(None, files, files.iterator) ==
+      Left("reads an explicit file list"))
+  }
+
+  private def chunk(path: String, start: Long, length: Long, part: Int = 0): PartitionedFile =
+    PartitionedFileUtilsShim.newPartitionedFile(InternalRow(part), path, start, length)
+
+  private def spans(files: Seq[PartitionedFile]): Seq[(String, Long, Long)] =
+    files.map(f => (f.filePath.toString, f.start, f.length))
+
+  test("resizeSplits: no learned split leaves the planned partitions unchanged") {
+    val planned: Array[InputPartition] = Array(FilePartition(0, Array(chunk("file:/d/a", 0, 10))))
+    assert(ScanSplitHeuristic.resizeSplits(null, planned, 0L, _ => true) eq planned)
+    assert(ScanSplitHeuristic.resizeSplits(null, planned, -1L, _ => true) eq planned)
+  }
+
+  test("recut: re-joins a file's contiguous chunks and cuts it at the learned split") {
+    // Spark's planning sorts by size, so a file's chunks need not be adjacent.
+    val planned = Seq(chunk("file:/d/a", 0, 4), chunk("file:/d/b", 0, 3, part = 1),
+      chunk("file:/d/a", 8, 2), chunk("file:/d/a", 4, 4))
+    val cut = ScanSplitHeuristic.recut(planned, 6L, _ => true)
+    assert(spans(cut) == Seq(("file:/d/a", 0L, 6L), ("file:/d/a", 6L, 4L), ("file:/d/b", 0L, 3L)))
+    assert(cut.map(_.partitionValues.getInt(0)) == Seq(0, 0, 1))
+    val whole = ScanSplitHeuristic.recut(planned, 100L, _ => true)
+    assert(spans(whole) == Seq(("file:/d/a", 0L, 10L), ("file:/d/b", 0L, 3L)))
+  }
+
+  test("recut: unsplitable files are joined but not cut; gaps are not joined") {
+    val planned = Seq(chunk("file:/d/a.gz", 0, 4), chunk("file:/d/a.gz", 4, 4))
+    assert(spans(ScanSplitHeuristic.recut(planned, 2L, _ => false)) ==
+      Seq(("file:/d/a.gz", 0L, 8L)))
+    val gap = Seq(chunk("file:/d/a", 0, 4), chunk("file:/d/a", 6, 4))
+    assert(spans(ScanSplitHeuristic.recut(gap, 100L, _ => true)) ==
+      Seq(("file:/d/a", 0L, 4L), ("file:/d/a", 6L, 4L)))
+  }
+
+  test("observeReader records the split's decoded bytes once the reader is exhausted") {
+    val metric = new LocalGpuMetric
+    val acc = new CollectionAccumulator[(Int, Long, Long)]
+    var closed = false
+    val inner = new PartitionReader[ColumnarBatch] {
+      private var left = 2
+      override def next(): Boolean = {
+        left -= 1
+        if (left >= 0) metric += 5L
+        left >= 0
+      }
+      override def get(): ColumnarBatch = null
+      override def close(): Unit = closed = true
+    }
+    val reader = ScanSplitHeuristic.observeReader(inner, 3, 7L, metric, acc)
+    assert(reader.next() && reader.next())
+    assert(acc.value.isEmpty)
+    assert(!reader.next())
+    reader.close()
+    assert(closed)
+    assert(acc.value.asScala == Seq((3, 10L, 7L)))
   }
 
   test("observe records decoded / listed under the table") {

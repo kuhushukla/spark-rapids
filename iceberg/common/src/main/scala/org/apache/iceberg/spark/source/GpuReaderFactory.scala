@@ -31,7 +31,6 @@ import com.nvidia.spark.rapids.perf.ScanSplitHeuristic
 import org.apache.iceberg.{FileFormat, MetadataColumns}
 
 import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.connector.metric.CustomTaskMetric
 import org.apache.spark.sql.connector.read.{InputPartition, PartitionReader, PartitionReaderFactory}
 import org.apache.spark.sql.vectorized.ColumnarBatch
 import org.apache.spark.util.CollectionAccumulator
@@ -65,16 +64,9 @@ class GpuReaderFactory(private val metrics: Map[String, GpuMetric],
         val threadConf = calcThreadConf(gpuPartition)
         val reader = new GpuIcebergPartitionReader(gpuPartition, threadConf, metrics)
         splitBytes.fold[PartitionReader[ColumnarBatch]](reader) { acc =>
-          val decoded = metrics.getOrElse(GpuMetric.GPU_OUTPUT_BATCH_BYTES, NoopMetric)
-          val record = ScanSplitHeuristic.recordSplitOnExhaustion(
-            gpuPartition.splitIndex, gpuPartition.splitBytes, decoded, acc)
-          new PartitionReader[ColumnarBatch] {
-            override def next(): Boolean = record(reader.next())
-            override def get(): ColumnarBatch = reader.get()
-            override def close(): Unit = reader.close()
-            override def currentMetricsValues(): Array[CustomTaskMetric] =
-              reader.currentMetricsValues()
-          }
+          ScanSplitHeuristic.observeReader(reader, gpuPartition.splitIndex,
+            gpuPartition.splitBytes,
+            metrics.getOrElse(GpuMetric.GPU_OUTPUT_BATCH_BYTES, NoopMetric), acc)
         }
       case _ =>
         throw new IllegalArgumentException(s"Unsupported partition type: ${partition.getClass}")

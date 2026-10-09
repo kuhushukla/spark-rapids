@@ -3,7 +3,8 @@
 Planning decisions that learn from earlier runs. A heuristic reads history when a query plans
 and records what the query did when it ends. If history is off, missing, stale or unusable, the
 static decision is used unchanged; the two are never blended. The one heuristic today sizes scan
-splits for Iceberg and catalog file-source tables.
+splits for every GPU file reader: Iceberg, v1 file sources (catalog tables and path reads,
+including Delta), Hive text tables, and DSv2 file scans (Parquet, ORC, CSV, JSON, Avro).
 
 ## Enabling
 
@@ -19,8 +20,11 @@ the history metrics API (`MetricStores.current()`) only; the driver plugin's
 ## How scan splits are sized
 
 - **Measure**: when a query ends, each scan records its decode-expansion ratio, GPU output batch
-  bytes / on-disk bytes, keyed by table name. It is recorded only if every planned split was read
-  and no job or stage attempt failed.
+  bytes / on-disk bytes. It is recorded only if every planned split was read and no job or stage
+  attempt failed.
+- **Key**: the table name (Iceberg `Table.name()`, catalog or Hive identifier), else `path:` + the
+  sorted root paths (user info and trailing `/` dropped). Keys over 253 UTF-8 bytes become a
+  readable prefix + `#` + 16 hex of their SHA-256. Reads of an explicit file list are not tracked.
 - **Decide**: the next scan of that table reads the latest ratio (at most 7 days old) and sets
   `split = targetBatchBytes / ratio`, clamped to `[64 MiB, min(4 GiB, listedBytes / minPartitionNum)]`.
 - **minPartitionNum**: `spark.sql.files.minPartitionNum`, `spark.sql.leafNodeDefaultParallelism`,
@@ -33,15 +37,18 @@ the history metrics API (`MetricStores.current()`) only; the driver plugin's
 |---|---|
 | decide (Iceberg) | `RapidsSparkTable.newScanBuilder`, via `IcebergSplitAdvisor` |
 | observe (Iceberg) | `GpuSparkScan.toBatch` |
-| decide (file source) | `GpuFileSourceScanExec.createNonBucketedReadRDD` |
-| observe (file source) | `GpuFileSourceScanExec.getFinalRDD` |
+| decide / observe (v1) | `GpuFileSourceScanExec.createNonBucketedReadRDD` / `internalDoExecuteColumnar` |
+| decide / observe (Hive text) | `GpuHiveTableScanExec.createReadRDDForDirectories` / `internalDoExecuteColumnar` |
+| decide / observe (DSv2) | `HistorySizedFileScan.planInputPartitions` / `observed(createReaderFactory)` |
+
+v1 and Hive register once per execution; DSv2 once per reader factory.
 
 Driver log lines, kept stable for tooling:
 
 ```
 scan.split: table=<t> ratio=<r> targetBatch=<b> rawSplit=<s>
 scan.split: table=<t> listed=<l> -> split=<n> bytes
-scan.split: table=<t> listed=<l> -> no history, iceberg default
+scan.split: table=<t> listed=<l> -> no history, iceberg default | spark default
 scan.split: table=<t> not recorded: <reason>
 ```
 
