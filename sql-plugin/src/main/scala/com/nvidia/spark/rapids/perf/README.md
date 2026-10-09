@@ -55,7 +55,7 @@ Store errors are logged once per JVM per status code and the decision falls back
 
 ## Adding a heuristic
 
-Code layers: `HistoryMetric` (family contract) -> `MetricHistory` (store access, `HistoryPolicy`)
+Code layers: `HistoryMetric` (family contract) -> `MetricHistory` (store access)
 -> `HistoryHeuristic` (decide/observe cycle, lifecycle) -> `ScanSplitHeuristic`.
 
 1. Register a family id and name in the API's `HistoryMetricCatalog`.

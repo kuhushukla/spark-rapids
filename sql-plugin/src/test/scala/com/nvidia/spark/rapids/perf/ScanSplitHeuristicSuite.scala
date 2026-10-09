@@ -42,12 +42,11 @@ class ScanSplitHeuristicSuite extends AnyFunSuite {
   private val MiB = 1024L * 1024
   private val table = "cat.db.events"
   private val now = 1790000000000L
-  private val policy = HistoryPolicy(Duration.ofMillis(100))
 
   private def heuristic(store: MetricStore, enabled: Boolean = true): ScanSplitHeuristic = {
     val h = new ScanSplitHeuristic(() => store)
     if (enabled) {
-      h.enable(policy)
+      h.enable()
     }
     h
   }
@@ -97,7 +96,7 @@ class ScanSplitHeuristicSuite extends AnyFunSuite {
     assert(request.fromMs() == now - Duration.ofDays(7).toMillis)
     assert(request.toMs() == now + 1)
     assert(request.limit() == 1)
-    assert(timeout == policy.planningTimeout)
+    assert(timeout == MetricHistory.PLANNING_TIMEOUT)
   }
 
   test("uses the most recent reading, not an average of history") {

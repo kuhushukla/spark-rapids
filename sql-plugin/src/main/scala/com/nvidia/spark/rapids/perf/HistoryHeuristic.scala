@@ -51,18 +51,16 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
     metrics.map(m => m -> new MetricHistory(m, store)).toMap
 
   /** Set while history-backed planning is on; otherwise the static decision stands. */
-  @volatile private var active: Option[HistoryPolicy] = None
+  @volatile private var active: Boolean = false
 
-  final def enable(policy: HistoryPolicy): Unit = active = Some(policy)
+  final def enable(): Unit = active = true
 
-  final def disable(): Unit = active = None
+  final def disable(): Unit = active = false
 
-  final def isEnabled: Boolean = active.isDefined
+  final def isEnabled: Boolean = active
 
   /** Declares every family up front. */
-  final def declare(): Unit = active.foreach { policy =>
-    histories.values.foreach(_.declare(policy))
-  }
+  final def declare(): Unit = if (active) histories.values.foreach(_.declare())
 
   /** Dimension value for `ctx` in `metric`. */
   protected def keyFor(metric: HistoryMetric, ctx: Ctx): String
@@ -88,14 +86,16 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
    * History-based or static, never a blend. Abstaining families are absent from `observed`;
    * `sufficient` decides whether the rest is enough.
    */
-  final def decide(ctx: Ctx, nowMs: Long): Decision = active match {
-    case None => staticDecision(ctx)
-    case Some(policy) =>
+  final def decide(ctx: Ctx, nowMs: Long): Decision = {
+    if (!active) {
+      staticDecision(ctx)
+    } else {
       val observed = metrics.flatMap { m =>
-        histories(m).latest(keyFor(m, ctx), nowMs, policy).map(value => m -> value)
+        histories(m).latest(keyFor(m, ctx), nowMs).map(value => m -> value)
       }.toMap
       if (sufficient(observed)) constrain(decideFrom(observed, ctx), ctx)
       else staticDecision(ctx)
+    }
   }
 
   /** Queues `ctx` for observation at execution end; untracked outside a SQL execution. */
@@ -109,10 +109,10 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
   }
 
   /** Records what `ctx` observed; called at execution end. */
-  private[perf] final def recordAll(ctx: Ctx): Unit = active.foreach { policy =>
+  private[perf] final def recordAll(ctx: Ctx): Unit = if (active) {
     val atMs = System.currentTimeMillis()
     observe(ctx).foreach { case (m, value) =>
-      histories(m).record(keyFor(m, ctx), value, atMs, policy)
+      histories(m).record(keyFor(m, ctx), value, atMs)
     }
   }
 
@@ -212,7 +212,7 @@ private[perf] class HistoryLifecycle(
    *
    * @return whether the heuristics are enabled
    */
-  def start(provider: String, policy: HistoryPolicy, addListener: SparkListener => Unit)
+  def start(provider: String, addListener: SparkListener => Unit)
       : Boolean = synchronized {
     stop()
     val requested = Option(provider).map(_.trim.toLowerCase(Locale.ROOT)).getOrElse("")
@@ -224,7 +224,7 @@ private[perf] class HistoryLifecycle(
         HistoryObservations.start()
         // SparkContext-level: sees every session and streaming micro-batch.
         addListener(HistoryObservations.listener)
-        heuristics.foreach(_.enable(policy))
+        heuristics.foreach(_.enable())
         // Loads the Iceberg probe; may fail without Iceberg on the classpath.
         setIcebergAdvisor(true)
         advisorInstalled = true
@@ -286,7 +286,7 @@ object HistoryHeuristics {
 
   /** At driver plugin init. */
   def start(sc: SparkContext, conf: RapidsConf): Unit =
-    lifecycle.start(conf.historyMetricsProvider, HistoryPolicy(), sc.addSparkListener)
+    lifecycle.start(conf.historyMetricsProvider, sc.addSparkListener)
 
   /** After the provider manager ran. */
   def activate(): Unit = lifecycle.activate()

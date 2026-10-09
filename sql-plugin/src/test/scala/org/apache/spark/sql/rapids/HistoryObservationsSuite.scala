@@ -16,10 +16,8 @@
 
 package org.apache.spark.sql.rapids
 
-import java.time.Duration
-
-import com.nvidia.spark.rapids.perf.{FakeMetricStore, HistoryObservations, HistoryPolicy,
-  ScanContext, ScanSplitHeuristic}
+import com.nvidia.spark.rapids.perf.{FakeMetricStore, HistoryObservations, ScanContext,
+  ScanSplitHeuristic}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funsuite.AnyFunSuite
 
@@ -36,7 +34,7 @@ class HistoryObservationsSuite extends AnyFunSuite with BeforeAndAfterEach {
   override def beforeEach(): Unit = {
     store = new FakeMetricStore
     heuristic = new ScanSplitHeuristic(() => store)
-    heuristic.enable(HistoryPolicy(Duration.ofMillis(100)))
+    heuristic.enable()
     HistoryObservations.start()
   }
 

@@ -16,8 +16,6 @@
 
 package com.nvidia.spark.rapids.perf
 
-import java.time.Duration
-
 import scala.collection.mutable.ArrayBuffer
 
 import com.nvidia.spark.history.MetricStore
@@ -32,8 +30,6 @@ import org.apache.spark.sql.execution.ui.SparkListenerSQLExecutionEnd
  * with everything outside the package injected. Nothing here starts Spark.
  */
 class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
-
-  private val policy = HistoryPolicy(Duration.ofMillis(100))
 
   private var preProvider: FakeMetricStore = _
   private var current: MetricStore = _
@@ -55,7 +51,7 @@ class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
   override def afterEach(): Unit = lifecycle.stop()
 
   private def start(provider: String): Boolean =
-    lifecycle.start(provider, policy, l => listeners += l)
+    lifecycle.start(provider, l => listeners += l)
 
   test("no provider requested: nothing starts") {
     Seq("none", "NONE", " None ", "", "   ", null).foreach { provider =>
@@ -102,7 +98,7 @@ class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
   test("a failing advisor installer leaves planning stopped") {
     val failing = new HistoryLifecycle(Seq(heuristic),
       _ => throw new NoClassDefFoundError("probe"), () => current)
-    assert(!failing.start("local", policy, l => listeners += l))
+    assert(!failing.start("local", l => listeners += l))
     assert(!heuristic.isEnabled)
   }
 

@@ -29,23 +29,6 @@ import com.nvidia.spark.rapids.HistoryMetricsManager
 import org.apache.spark.internal.Logging
 
 /**
- * Time budgets for store calls.
- *
- * @param planningTimeout budget for one lookup on the planning path
- * @param declareBudget budget for each family's one declaration per store
- */
-case class HistoryPolicy(
-    planningTimeout: Duration = HistoryPolicy.PLANNING_TIMEOUT,
-    declareBudget: Duration = HistoryPolicy.DECLARE_BUDGET)
-
-object HistoryPolicy {
-
-  val PLANNING_TIMEOUT: Duration = Duration.ofMillis(100)
-
-  val DECLARE_BUDGET: Duration = Duration.ofSeconds(5)
-}
-
-/**
  * One metric family over the installed `MetricStore`: declare, record, read the latest value.
  * Never manages the provider.
  *
@@ -62,13 +45,13 @@ final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) e
   private val reported = ConcurrentHashMap.newKeySet[String]()
 
   /** Declares once per store; recording requires a declaration in this process. */
-  def declare(policy: HistoryPolicy): Boolean = declaredIn(store(), policy)
+  def declare(): Boolean = declaredIn(store())
 
   /** Latest value for `key` within the planning age, or None (untrackable, no data, error). */
-  def latest(key: String, nowMs: Long, policy: HistoryPolicy): Option[Double] = {
+  def latest(key: String, nowMs: Long): Option[Double] = {
     dimValue(key).flatMap { dim =>
       val current = store()
-      if (!declaredIn(current, policy)) {
+      if (!declaredIn(current)) {
         None
       } else {
         try {
@@ -78,7 +61,7 @@ final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) e
             .limit(1)
             .build()
           summarized(current.summarize(Collections.singletonList(request),
-            policy.planningTimeout))
+            MetricHistory.PLANNING_TIMEOUT))
         } catch {
           case t: Throwable if MetricHistory.isContained(t) =>
             abstain(s"lookup-${t.getClass.getName}", s"lookup failed (${t.getClass.getName})")
@@ -89,11 +72,11 @@ final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) e
   }
 
   /** Fire-and-forget; the store may drop it. */
-  def record(key: String, value: Double, atMs: Long, policy: HistoryPolicy): Unit = {
+  def record(key: String, value: Double, atMs: Long): Unit = {
     if (MetricHistory.isUsable(value)) {
       dimValue(key).foreach { dim =>
         val current = store()
-        if (declaredIn(current, policy)) {
+        if (declaredIn(current)) {
           try {
             current.record(new Observation(family.metric,
               Collections.singletonMap(family.dimension, dim), value, atMs))
@@ -130,24 +113,24 @@ final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) e
     }
   }
 
-  private def declaredIn(current: MetricStore, policy: HistoryPolicy): Boolean = {
+  private def declaredIn(current: MetricStore): Boolean = {
     val known = declaration
     if (known.in eq current) {
       known.accepted
     } else {
       synchronized {
         if (!(declaration.in eq current)) {
-          declaration = Declaration(current, declareNow(current, policy))
+          declaration = Declaration(current, declareNow(current))
         }
         declaration.accepted
       }
     }
   }
 
-  private def declareNow(current: MetricStore, policy: HistoryPolicy): Boolean = {
+  private def declareNow(current: MetricStore): Boolean = {
     try {
       val statuses =
-        current.declare(Collections.singletonList(family.schema), policy.declareBudget)
+        current.declare(Collections.singletonList(family.schema), MetricHistory.DECLARE_TIMEOUT)
       if (statuses == null || statuses.size() != 1 || statuses.get(0) == null) {
         abstain("declare-malformed", "declaration returned a malformed response")
         false
@@ -200,6 +183,12 @@ final class MetricHistory(val family: HistoryMetric, store: () => MetricStore) e
 }
 
 object MetricHistory {
+
+  /** Budget for one lookup on the planning path. */
+  val PLANNING_TIMEOUT: Duration = Duration.ofMillis(100)
+
+  /** Budget for each family's one declaration per store. */
+  val DECLARE_TIMEOUT: Duration = Duration.ofSeconds(5)
 
   /** Finite and positive. */
   def isUsable(value: Double): Boolean = !value.isNaN && !value.isInfinite && value > 0.0d
