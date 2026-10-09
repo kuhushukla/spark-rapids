@@ -19,8 +19,8 @@ the history metrics API (`MetricStores.current()`) only; the driver plugin's
 ## How scan splits are sized
 
 - **Measure**: when a query ends, each scan records its decode-expansion ratio, GPU output batch
-  bytes / on-disk bytes. It is recorded only if every planned split was read and no job or stage
-  attempt failed.
+  bytes / on-disk bytes. It is recorded only if every planned split was read to the end; a split
+  read more than once (task or stage retries) counts once.
 - **Key**: the table name (Iceberg `Table.name()`, catalog or Hive identifier), else `path:` + the
   sorted root paths (user info and trailing `/` dropped). Keys over 253 UTF-8 bytes become a
   readable prefix + `#` + 16 hex of their SHA-256. Reads of an explicit file list are not tracked.

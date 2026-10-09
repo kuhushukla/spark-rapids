@@ -35,8 +35,7 @@ object ScanSplitSizer {
    * Clamps a raw split to `[MIN_SPLIT_BYTES, min(MAX_SPLIT_BYTES, listedBytes / minPartitionNum)]`,
    * or `maxSplitBytes` when `raw` is unusable.
    *
-   * The ceiling keeps about `minPartitionNum` tasks. On Iceberg `listedBytes` is the unpruned table
-   * size, so the ceiling is loose for scans of a small slice.
+   * The ceiling keeps about `minPartitionNum` tasks.
    */
   def bound(raw: Long, listedBytes: Long, minPartitionNum: Long, maxSplitBytes: Long): Long = {
     if (raw <= 0L) {

@@ -611,7 +611,6 @@ class RapidsDriverPlugin extends DriverPlugin with Logging {
           logError("History metrics activation failed; history-backed heuristics remain disabled",
             failure)
       } finally {
-        // Keeps history planning on only if a provider store is installed.
         HistoryHeuristics.activate()
         historyMetricsSparkContext = null
         historyMetricsConfiguration = null

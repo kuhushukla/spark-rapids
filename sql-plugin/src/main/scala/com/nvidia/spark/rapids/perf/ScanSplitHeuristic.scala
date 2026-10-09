@@ -394,8 +394,7 @@ object ScanSplitHeuristic extends ScanSplitHeuristic(() => MetricStores.current(
   }
 
   /**
-   * The Iceberg advisor: learned split for `table` in the active session, or `NO_DECISION`. On
-   * `NO_DECISION` callers must leave the read option unset, or it shadows table properties.
+   * The Iceberg advisor: learned split for `table` in the active session, or `NO_DECISION`.
    */
   def learnedSplitBytes(table: String, listedBytes: Long): Long = {
     if (!isEnabled || table == null || table.isEmpty) {

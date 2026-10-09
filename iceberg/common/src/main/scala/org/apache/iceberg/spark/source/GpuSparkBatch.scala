@@ -33,7 +33,6 @@ class GpuSparkBatch(
       parentScan.metrics,
       parentScan.rapidsConf,
       parentScan.queryUsesInputFile,
-      // Read on the driver so the accumulator itself is serialized.
       parentScan.splitBytes)
   }
 

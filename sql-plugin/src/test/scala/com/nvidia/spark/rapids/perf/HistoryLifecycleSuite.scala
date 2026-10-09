@@ -17,7 +17,6 @@
 package com.nvidia.spark.rapids.perf
 
 import java.time.Duration
-import java.util.Properties
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -25,14 +24,12 @@ import com.nvidia.spark.history.MetricStore
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.funsuite.AnyFunSuite
 
-import org.apache.spark.scheduler.{JobSucceeded, SparkListener, SparkListenerJobEnd,
-  SparkListenerJobStart}
-import org.apache.spark.sql.execution.SQLExecution
+import org.apache.spark.scheduler.SparkListener
 import org.apache.spark.sql.execution.ui.SparkListenerSQLExecutionEnd
 
 /**
- * Starting, activating and stopping history-backed planning, and the observation registry's
- * bookkeeping, with everything outside the package injected. Nothing here starts Spark.
+ * Starting, activating and stopping history-backed planning, and the observation registry,
+ * with everything outside the package injected. Nothing here starts Spark.
  */
 class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
 
@@ -93,11 +90,11 @@ class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
   test("a restart resets everything an earlier start left") {
     assert(start("local"))
     HistoryObservations.register(5L, () => ())
-    assert(HistoryObservations.trackedCounts._1 == 1)
+    assert(HistoryObservations.trackedCount == 1)
     assert(!start("none"))
     assert(!heuristic.isEnabled)
     assert(advisors == Seq(true, false))
-    assert(HistoryObservations.trackedCounts == ((0, 0, 0)))
+    assert(HistoryObservations.trackedCount == 0)
     assert(start("local"))
     assert(heuristic.isEnabled && listeners.size == 2)
   }
@@ -109,21 +106,13 @@ class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
     assert(!heuristic.isEnabled)
   }
 
-  test("the registry forgets an execution's jobs, stages and late registrations") {
+  test("the registry forgets an execution at its end and drops late registrations") {
     assert(start("local"))
-    val listener = listeners.head
-    val properties = new Properties()
-    properties.setProperty(SQLExecution.EXECUTION_ID_KEY, "9")
-    // a job that never reports its end
-    listener.onJobStart(SparkListenerJobStart(30, 0L, Seq.empty, properties))
     HistoryObservations.register(9L, () => ())
-    assert(HistoryObservations.trackedCounts == ((1, 1, 0)))
-    listener.onOtherEvent(SparkListenerSQLExecutionEnd(9L, 0L))
-    assert(HistoryObservations.trackedCounts == ((0, 0, 0)))
-    // events and registrations arriving after the end hold nothing
-    listener.onJobStart(SparkListenerJobStart(31, 0L, Seq.empty, properties))
-    listener.onJobEnd(SparkListenerJobEnd(30, 0L, JobSucceeded))
+    assert(HistoryObservations.trackedCount == 1)
+    listeners.head.onOtherEvent(SparkListenerSQLExecutionEnd(9L, 0L))
+    assert(HistoryObservations.trackedCount == 0)
     HistoryObservations.register(9L, () => ())
-    assert(HistoryObservations.trackedCounts == ((0, 0, 0)))
+    assert(HistoryObservations.trackedCount == 0)
   }
 }

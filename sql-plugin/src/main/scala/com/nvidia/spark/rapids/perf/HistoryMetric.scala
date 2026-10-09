@@ -25,8 +25,7 @@ import com.nvidia.spark.history.{DimensionSpec, DimValue, HistoryMetricCatalog, 
  * Contract of one governed history metric family at one version: id, single dimension and
  * retention. No store access.
  *
- * Exactly one STRING dimension: `limit(1)` requires every dimension bound, so adding one is a
- * new version.
+ * Exactly one STRING dimension.
  */
 trait HistoryMetric {
 
@@ -48,8 +47,7 @@ trait HistoryMetric {
   def dimension: String
 
   /**
-   * Fixed by the first accepted declaration, so a constant, not a config. Its planning age bounds
-   * lookups.
+   * Fixed by the first accepted declaration. Its planning age bounds lookups.
    */
   def retention: Retention
 

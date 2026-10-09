@@ -16,11 +16,10 @@
 
 package com.nvidia.spark.rapids.perf
 
-import java.util.{ArrayList => JArrayList, Collections, LinkedHashSet => JLinkedHashSet,
-  List => JList, Locale}
-import java.util.concurrent.ConcurrentHashMap
+import java.util.Locale
 
-import scala.collection.JavaConverters._
+import scala.collection.mutable
+import scala.collection.mutable.ArrayBuffer
 
 import com.nvidia.spark.history.{MetricStore, MetricStores}
 import com.nvidia.spark.rapids.{HistoryMetricsManager, RapidsConf}
@@ -28,14 +27,13 @@ import com.nvidia.spark.rapids.iceberg.IcebergProvider
 
 import org.apache.spark.SparkContext
 import org.apache.spark.internal.Logging
-import org.apache.spark.scheduler.{JobSucceeded, SparkListener, SparkListenerEvent,
-  SparkListenerJobEnd, SparkListenerJobStart, SparkListenerStageCompleted}
+import org.apache.spark.scheduler.{SparkListener, SparkListenerEvent}
 import org.apache.spark.sql.execution.SQLExecution
 import org.apache.spark.sql.execution.ui.SparkListenerSQLExecutionEnd
 
 /**
  * A planning decision that reads history at planning time and records what the query did when
- * it ends. `decide` and `register` are final so fallback and execution-id scoping stay uniform.
+ * it ends.
  *
  * @param store the installed store; `MetricStores.current()` in production
  */
@@ -61,7 +59,7 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
 
   final def isEnabled: Boolean = active.isDefined
 
-  /** Declares every family up front so the first planning lookup does not pay for it. */
+  /** Declares every family up front. */
   final def declare(): Unit = active.foreach { policy =>
     histories.values.foreach(_.declare(policy))
   }
@@ -125,148 +123,70 @@ abstract class HistoryHeuristic(store: () => MetricStore) extends Logging {
 /**
  * Holds planned contexts per SQL execution id and records them when the execution ends, once
  * accumulators are merged. Shared by all heuristics.
- *
- * Records nothing for an execution with a failed or cancelled job (partial accumulators) or a
- * failed stage attempt (a re-run stage can double-count plain accumulators).
  */
 object HistoryObservations extends Logging {
-
-  /** What is known about one running SQL execution. */
-  private final class Execution {
-    val callbacks: JList[() => Unit] = Collections.synchronizedList(new JArrayList[() => Unit]())
-    @volatile var incomplete: Boolean = false
-  }
 
   /** Ended execution ids remembered, so late registrations are dropped. */
   private val ENDED_MEMORY = 1024
 
   @volatile private var active: Boolean = false
 
-  /** Running executions and their jobs and stages; dropped at execution end. */
-  private val executions = new ConcurrentHashMap[Long, Execution]()
-  private val jobOwner = new ConcurrentHashMap[Int, java.lang.Long]()
-  private val stageOwner = new ConcurrentHashMap[Int, java.lang.Long]()
+  /** Callbacks per running execution. Guarded by `this`. */
+  private val executions = mutable.HashMap.empty[Long, ArrayBuffer[() => Unit]]
 
   /** Recently ended executions, oldest first. Guarded by `this`. */
-  private val ended = new JLinkedHashSet[Long]()
+  private val ended = mutable.LinkedHashSet.empty[Long]
 
   def start(): Unit = active = true
 
   def shutdown(): Unit = synchronized {
     active = false
     executions.clear()
-    jobOwner.clear()
-    stageOwner.clear()
     ended.clear()
   }
 
   def listener: SparkListener = new ObservationListener
 
-  /** (executions, job owners, stage owners), for tests. */
-  private[perf] def trackedCounts: (Int, Int, Int) =
-    (executions.size(), jobOwner.size(), stageOwner.size())
+  /** Executions holding callbacks, for tests. */
+  private[perf] def trackedCount: Int = synchronized(executions.size)
 
   /** The calling thread's SQL execution id, if any. */
   def currentExecutionId(sc: SparkContext): Option[Long] =
-    Option(sc.getLocalProperty(SQLExecution.EXECUTION_ID_KEY)).flatMap(parseId)
-
-  private def parseId(id: String): Option[Long] =
-    try Some(id.toLong) catch { case _: NumberFormatException => None }
-
-  /** Get or create. Callers hold `this`. */
-  private def running(executionId: Long): Execution = {
-    val known = executions.get(executionId)
-    if (known != null) {
-      known
-    } else {
-      val created = new Execution
-      executions.put(executionId, created)
-      created
+    Option(sc.getLocalProperty(SQLExecution.EXECUTION_ID_KEY)).flatMap { id =>
+      try Some(id.toLong) catch { case _: NumberFormatException => None }
     }
-  }
 
   private[perf] def register(executionId: Long, record: () => Unit): Unit = synchronized {
     // A registration for an execution that already ended would never drain.
     if (active && !ended.contains(executionId)) {
-      running(executionId).callbacks.add(record)
+      executions.getOrElseUpdate(executionId, ArrayBuffer.empty) += record
     }
   }
 
-  /**
-   * `errorMessage` is not checked: Spark 3.3 lacks it, and a scan that read every split is valid
-   * even if the query failed later.
-   */
   private def executionEnded(executionId: Long): Unit = {
-    val state = synchronized {
-      ended.add(executionId)
-      if (ended.size() > ENDED_MEMORY) {
-        ended.remove(ended.iterator().next())
+    val callbacks = synchronized {
+      ended += executionId
+      if (ended.size > ENDED_MEMORY) {
+        ended -= ended.head
       }
       executions.remove(executionId)
     }
-    // By owner, so an id reused by a later execution stays.
-    jobOwner.values().removeIf(owner => owner.longValue() == executionId)
-    stageOwner.values().removeIf(owner => owner.longValue() == executionId)
-    if (state != null) {
-      if (active && !state.incomplete) {
-        state.callbacks.asScala.foreach { record =>
-          try {
-            record()
-          } catch {
-            case t: Throwable if MetricHistory.isContained(t) =>
-              logDebug(s"Observation skipped for execution $executionId: ${t.getClass.getName}")
-          }
+    if (active) {
+      callbacks.foreach(_.foreach { record =>
+        try {
+          record()
+        } catch {
+          case t: Throwable if MetricHistory.isContained(t) =>
+            logDebug(s"Observation skipped for execution $executionId: ${t.getClass.getName}")
         }
-      }
-    }
-  }
-
-  /** Marks `owner` incomplete if still running. */
-  private def markIncomplete(owner: java.lang.Long): Unit = {
-    if (owner != null) {
-      Option(executions.get(owner.longValue())).foreach(_.incomplete = true)
+      })
     }
   }
 
   private class ObservationListener extends SparkListener {
-    override def onJobStart(e: SparkListenerJobStart): Unit = {
-      if (active) {
-        Option(e.properties)
-          .flatMap(p => Option(p.getProperty(SQLExecution.EXECUTION_ID_KEY)))
-          .flatMap(parseId)
-          .foreach { id =>
-            val tracked = HistoryObservations.synchronized {
-              if (ended.contains(id)) {
-                false
-              } else {
-                running(id)
-                true
-              }
-            }
-            if (tracked) {
-              jobOwner.put(e.jobId, Long.box(id))
-              e.stageIds.foreach(stageId => stageOwner.put(stageId, Long.box(id)))
-            }
-          }
-      }
-    }
-
-    override def onJobEnd(e: SparkListenerJobEnd): Unit = {
-      val owner = jobOwner.remove(e.jobId)
-      if (e.jobResult != JobSucceeded) {
-        markIncomplete(owner)
-      }
-    }
-
-    override def onStageCompleted(e: SparkListenerStageCompleted): Unit = {
-      if (e.stageInfo.failureReason.isDefined) {
-        markIncomplete(stageOwner.get(e.stageInfo.stageId))
-      }
-    }
-
     override def onOtherEvent(event: SparkListenerEvent): Unit = event match {
       case e: SparkListenerSQLExecutionEnd => executionEnded(e.executionId)
-      case _ => // not ours
+      case _ =>
     }
   }
 }
@@ -359,7 +279,6 @@ object HistoryHeuristics {
 
   private val lifecycle = new HistoryLifecycle(
     heuristics = Seq(ScanSplitHeuristic),
-    // The Iceberg table wrapper is outside the shim class loader, so it gets a hand-off.
     setIcebergAdvisor = install => IcebergProvider.installScanSplitAdvisor(
       if (install) Some((t: String, l: Long) => ScanSplitHeuristic.learnedSplitBytes(t, l))
       else None),
