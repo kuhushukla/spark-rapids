@@ -461,4 +461,17 @@ class ScanSplitHeuristicSuite extends AnyFunSuite {
     conf.setConfString("spark.sql.files.minPartitionNum", "500")
     assert(partitions == 500L)
   }
+
+  test("Iceberg split: learned from history, else NO_DECISION") {
+    val h = heuristic(storeWith(4.0 -> (now - 1000)))
+    assert(h.decideIcebergSplit(table, 960 * GiB, GiB, 96L, now) == 256 * MiB)
+    assert(h.decideIcebergSplit("cat.db.other", 960 * GiB, GiB, 96L, now) ==
+      ScanSplitHeuristic.NO_DECISION)
+  }
+
+  test("the application's Iceberg advisor abstains while disabled") {
+    assume(!ScanSplitHeuristic.isEnabled, "history-backed planning is on in this JVM")
+    assert(ScanSplitHeuristic.learnedSplitBytes(table, 960 * GiB) ==
+      ScanSplitHeuristic.NO_DECISION)
+  }
 }

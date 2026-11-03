@@ -45,7 +45,7 @@ import org.apache.spark.util.CollectionAccumulator
  * Decode expansion: GPU output batch bytes / on-disk bytes of the scan's planned files. One
  * observation per completed scan, stamped at SQL execution end.
  *
- * Dimension `table`: the catalog identifier, or "path:" + root paths
+ * Dimension `table`: Iceberg's `Table.name()`, the catalog identifier, or "path:" + root paths
  * (see `ScanSplitHeuristic.scanKey`), capped at the API's key size. Compared as exact bytes, so
  * decide and observe must derive it identically.
  */
@@ -108,6 +108,28 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
   override protected def constrain(raw: Long, ctx: ScanContext): Long =
     ScanSplitSizer.bound(raw, ctx.listedBytes, ctx.minPartitionNum, ctx.maxSplitBytes)
 
+  /** Learned Iceberg split for `table`, or `NO_DECISION`. Logs the outcome. */
+  def decideIcebergSplit(
+      table: String,
+      listedBytes: Long,
+      batchSizeBytes: Long,
+      minPartitionNum: Long,
+      nowMs: Long): Long = {
+    val ctx = ScanContext(
+      table = table,
+      listedBytes = listedBytes,
+      batchSizeBytes = batchSizeBytes,
+      minPartitionNum = minPartitionNum,
+      maxSplitBytes = ScanSplitHeuristic.NO_DECISION)
+    val decided = decide(ctx, nowMs)
+    if (decided == ScanSplitHeuristic.NO_DECISION) {
+      logInfo(s"scan.split: table=$table listed=$listedBytes -> no history, iceberg default")
+    } else {
+      logInfo(s"scan.split: table=$table listed=$listedBytes -> split=$decided bytes")
+    }
+    decided
+  }
+
   /**
    * File-source split; `sparkMaxSplitBytes` for scans without a key or while history is off.
    *
@@ -156,6 +178,9 @@ class ScanSplitHeuristic(store: () => MetricStore) extends HistoryHeuristic(stor
 }
 
 object ScanSplitHeuristic extends ScanSplitHeuristic(() => MetricStores.current()) {
+
+  /** No learned split; Iceberg's own split stands. */
+  final val NO_DECISION = -1L
 
   /** Largest key the history API takes, in UTF-8 bytes. */
   val MAX_KEY_BYTES: Int = DimValue.MAX_CANONICAL_BYTES - 3
@@ -366,6 +391,24 @@ object ScanSplitHeuristic extends ScanSplitHeuristic(() => MetricStores.current(
         Seq(f)
       }
     }.sortBy(_.length)(Ordering[Long].reverse)
+  }
+
+  /**
+   * The Iceberg advisor: learned split for `table` in the active session, or `NO_DECISION`.
+   */
+  def learnedSplitBytes(table: String, listedBytes: Long): Long = {
+    if (!isEnabled || table == null || table.isEmpty) {
+      NO_DECISION
+    } else {
+      SparkSession.getActiveSession.map { spark =>
+        decideIcebergSplit(
+          table = table,
+          listedBytes = listedBytes,
+          batchSizeBytes = new RapidsConf(spark.sessionState.conf).gpuTargetBatchSizeBytes,
+          minPartitionNum = minPartitionNum(spark),
+          nowMs = System.currentTimeMillis())
+      }.getOrElse(NO_DECISION)
+    }
   }
 
   def minPartitionNum(spark: SparkSession): Long =

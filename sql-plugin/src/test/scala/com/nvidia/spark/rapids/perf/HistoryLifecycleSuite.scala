@@ -38,6 +38,8 @@ class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
   private var preProvider: FakeMetricStore = _
   private var current: MetricStore = _
   private var heuristic: ScanSplitHeuristic = _
+  /** Every advisor install (true) and removal (false), in order. */
+  private var advisors: ArrayBuffer[Boolean] = _
   private var listeners: ArrayBuffer[SparkListener] = _
   private var lifecycle: HistoryLifecycle = _
 
@@ -45,8 +47,9 @@ class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
     preProvider = new FakeMetricStore
     current = preProvider
     heuristic = new ScanSplitHeuristic(() => current)
+    advisors = ArrayBuffer.empty
     listeners = ArrayBuffer.empty
-    lifecycle = new HistoryLifecycle(Seq(heuristic), () => current)
+    lifecycle = new HistoryLifecycle(Seq(heuristic), install => advisors += install, () => current)
   }
 
   override def afterEach(): Unit = lifecycle.stop()
@@ -58,26 +61,28 @@ class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
     Seq("none", "NONE", " None ", "", "   ", null).foreach { provider =>
       assert(!start(provider), s"'$provider'")
       assert(!heuristic.isEnabled)
-      assert(listeners.isEmpty, s"'$provider'")
+      assert(listeners.isEmpty && advisors.isEmpty, s"'$provider'")
     }
   }
 
-  test("a named provider enables planning and the listener") {
+  test("a named provider enables planning, the listener and the Iceberg advisor") {
     assert(start("local"))
     assert(heuristic.isEnabled)
     assert(listeners.size == 1)
+    assert(advisors == Seq(true))
   }
 
   test("no heuristic switched on: nothing starts") {
     assert(!lifecycle.start("local", policy, l => listeners += l, _ => false))
     assert(!heuristic.isEnabled)
-    assert(listeners.isEmpty)
+    assert(listeners.isEmpty && advisors.isEmpty)
   }
 
   test("activation keeps planning only if a provider store was installed") {
     assert(start("local"))
     lifecycle.activate()
     assert(!heuristic.isEnabled, "the store did not change: no provider was installed")
+    assert(advisors == Seq(true, false), "the advisor is removed")
 
     assert(start("local"))
     val provided = new FakeMetricStore
@@ -94,9 +99,17 @@ class HistoryLifecycleSuite extends AnyFunSuite with BeforeAndAfterEach {
     assert(HistoryObservations.trackedCount == 1)
     assert(!start("none"))
     assert(!heuristic.isEnabled)
+    assert(advisors == Seq(true, false))
     assert(HistoryObservations.trackedCount == 0)
     assert(start("local"))
     assert(heuristic.isEnabled && listeners.size == 2)
+  }
+
+  test("a failing advisor installer leaves planning stopped") {
+    val failing = new HistoryLifecycle(Seq(heuristic),
+      _ => throw new NoClassDefFoundError("probe"), () => current)
+    assert(!failing.start("local", policy, l => listeners += l))
+    assert(!heuristic.isEnabled)
   }
 
   test("the registry forgets an execution at its end and drops late registrations") {

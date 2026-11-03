@@ -24,6 +24,7 @@ import scala.collection.mutable.ArrayBuffer
 
 import com.nvidia.spark.history.{MetricStore, MetricStores}
 import com.nvidia.spark.rapids.{HistoryMetricsManager, RapidsConf}
+import com.nvidia.spark.rapids.iceberg.IcebergProvider
 
 import org.apache.spark.SparkContext
 import org.apache.spark.internal.Logging
@@ -194,14 +195,17 @@ object HistoryObservations extends Logging {
 /**
  * Starts and stops the history-backed heuristics. External dependencies are injected for tests.
  *
+ * @param setIcebergAdvisor installs (true) or removes (false) the Iceberg split advisor
  * @param currentStore the installed store; `MetricStores.current()` in production
  */
 private[perf] class HistoryLifecycle(
     heuristics: Seq[HistoryHeuristic],
+    setIcebergAdvisor: Boolean => Unit,
     currentStore: () => MetricStore) extends Logging {
 
   /** Store at `start`; None while stopped. */
   private var storeAtStart: Option[MetricStore] = None
+  private var advisorInstalled = false
   /** Heuristics enabled at `start`. */
   private var started: Seq[HistoryHeuristic] = Nil
 
@@ -225,6 +229,9 @@ private[perf] class HistoryLifecycle(
         // SparkContext-level: sees every session and streaming micro-batch.
         addListener(HistoryObservations.listener)
         started.foreach(_.enable(policy))
+        // Loads the Iceberg probe; may fail without Iceberg on the classpath.
+        setIcebergAdvisor(true)
+        advisorInstalled = true
         logInfo(s"History-backed planning requested for ${started.map(_.name)}; it activates " +
           "once a history metrics provider is installed")
         true
@@ -256,6 +263,15 @@ private[perf] class HistoryLifecycle(
   }
 
   def stop(): Unit = synchronized {
+    if (advisorInstalled) {
+      advisorInstalled = false
+      try {
+        setIcebergAdvisor(false)
+      } catch {
+        case t: Throwable if MetricHistory.isContained(t) =>
+          logDebug(s"Iceberg split advisor removal failed: ${t.getClass.getName}")
+      }
+    }
     heuristics.foreach(_.disable())
     HistoryObservations.shutdown()
     storeAtStart = None
@@ -268,6 +284,9 @@ object HistoryHeuristics {
 
   private val lifecycle = new HistoryLifecycle(
     heuristics = Seq(ScanSplitHeuristic),
+    setIcebergAdvisor = install => IcebergProvider.installScanSplitAdvisor(
+      if (install) Some((t: String, l: Long) => ScanSplitHeuristic.learnedSplitBytes(t, l))
+      else None),
     currentStore = () => MetricStores.current())
 
   /** At driver plugin init. */
